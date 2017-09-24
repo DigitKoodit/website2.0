@@ -1,0 +1,53 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb"
+  ],
+  "rules": {
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": 0,
+    "no-use-before-define": [
+      2,
+      {
+        "variables": false,
+        "functions": false
+      }
+    ],
+    "comma-dangle": [
+      2,
+      0
+    ],
+    "semi": [
+      0,
+      "always"
+    ],
+    "object-shorthand": [
+      0
+    ],
+    "no-console": 0,
+    "prefer-template": 0,
+    "array-callback-return": 1,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "no-shadow": 0,
+    "spaced-comment": 0,
+    "arrow-parens": ["error", "as-needed"]
+  }
+}

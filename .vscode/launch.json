@@ -1,0 +1,32 @@
+// Almost working example of node/react/webpack
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "node",
+      "request": "launch",
+      "protocol": "inspector",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/webpack-dev-server",
+      "windows": {
+        "runtimeExetuable": "${workspaceRoot}/node_modules/.bin/webpack-dev-server.cmd"
+      },
+      "runtimeArgs": [
+        "-d",
+        "--config",
+        "webpack.config.js"
+      ],
+      "port": 3000,
+      "outFiles": [
+        "${workspaceRoot}/dist"
+      ],
+      "stopOnEntry": false,
+      "cwd": "${workspaceRoot}",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "console": "internalConsole",
+      "sourceMaps": true
+    }
+  ]
+}
