@@ -5,6 +5,7 @@ import WelcomeView from '../components/WelcomeView';
 import EventView from './EventsView';
 import SponsorsView from './SponsorsView';
 import SocialMediaView from './SocialMediaView';
+import OfficersRenderer from '../components/OfficerRenderer';
 
 const Home = () => {
   return (
@@ -53,8 +54,19 @@ const Home = () => {
           fullSize
           backgroundColor={'#222'}
           textColor={'#f1f1f1'}>
-        >
           <SocialMediaView />
+        </Column>
+      </Row>
+      <Row fullSize>
+        <Column
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          fullSize
+          backgroundColor={'#222'}
+          textColor={'#f1f1f1'}>
+          <OfficersRenderer />
         </Column>
       </Row>
     </div >

@@ -5,7 +5,6 @@ import variables from '../public/styles/variables.scss';
 
 const Column = ({ xs, sm, md, lg, children, backgroundColor, textColor, fullSize }) => (
   <div className={`col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg} ` + (fullSize && 'clear-margin clear-padding')}>
-    {console.log(variables)}
     <div
       style={{ backgroundColor, color: textColor }}
     >
