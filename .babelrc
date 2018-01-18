@@ -1,18 +1,24 @@
-
 {
   "presets": [
-    "react",
-    "es2015",
-    "stage-2"
+    [
+      "env",
+      {
+        "targets": {
+          "browser": [
+            "last 3 versions"
+          ],
+          "modules": false
+        }
+      }
+    ],
+    "react"
   ],
   "plugins": [
-    "transform-object-rest-spread"
+    "react-hot-loader/babel",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    "transform-react-jsx-img-import"
   ],
-  "env": {
-    "development": {
-      // "presets": ["react-hmre"]
-    }
-  },
   "sourceMaps": "inline",
   "retainLines": true
 }

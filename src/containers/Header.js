@@ -94,7 +94,7 @@ const navBarHeader = (
       <Link to="/">
         <img
           className="brand-logo"
-          src="/images/logo.svg"
+          src="../public/images/logo.svg"
         />
       </Link>
     </div>

@@ -1,6 +1,4 @@
 /* eslint-disable*/
-'use strict'
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
@@ -27,12 +25,17 @@ const cssProd = ExtractTextPlugin.extract({
 const cssConfig = isProd ? cssProd : cssDev;
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src', 'index.js'),
-  devtool: 'source-map',
+  entry: [
+    'react-hot-loader/patch',
+    path.resolve(__dirname, 'src', 'index.js')
+  ],
+  devtool: isProd ? 'eval' : 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
+    publicPath: '/'
   },
+  target: 'web',
   module: {
     rules: [
       {
@@ -54,7 +57,7 @@ module.exports = {
       { test: /\.woff$/, loader: 'url-loader?limit=65000&mimetype=application/font-woff&name=fonts/[name].[ext]' },
       { test: /\.woff2$/, loader: 'url-loader?limit=65000&mimetype=application/font-woff2&name=fonts/[name].[ext]' },
       { test: /\.[ot]tf$/, loader: 'url-loader?limit=65000&mimetype=application/octet-stream&name=fonts/[name].[ext]' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=fonts/[name].[ext]' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=fonts/[name].[ext]' }
     ]
   },
   devServer: {
@@ -63,22 +66,24 @@ module.exports = {
     compress: false, // use in prod
     port: 3000,
     stats: 'errors-only',
-    open: true,
-    openPage: '',
     hot: true,
     historyApiFallback: true
   },
   plugins: [
+    new webpack.DefinePlugin({
+      API_URL: JSON.stringify(isProd ? 'https://digit.niemisami.com/api' : 'http://localhost:3037/api'),
+      DEVELOPMENT: JSON.stringify(!isProd)
+    }),
     new HtmlWebpackPlugin({
       title: 'Digit ry',
       minify: {
-        collapseWhitespace: false // use in prod
+        collapseWhitespace: isProd // use in prod
       },
-      hash: false, // use in prod
-      template: './src/index.html'
+      hash: isProd, // use in prod
+      template: path.join(__dirname, 'src', 'index.html')
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
       filename: "styles.css",
       disable: !isProd,
@@ -95,5 +100,4 @@ module.exports = {
     }
   }
 }
-
 /* eslint-enable */
