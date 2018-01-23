@@ -16,7 +16,11 @@ class EventsView extends Component {
       })
   }
   render() {
-    return (<div>Tapahtumakalenteri</div>)
+    return (
+      <div className="site-content">
+        Tapahtumakalenteri
+        </div>
+    )
   }
 }
 
