@@ -8,25 +8,33 @@ import orderBy from 'lodash/orderBy';
  * filled with Digit's profiles/board members etc.
  * Currently used only for
  */
-const ProfilesRenderer = ({ title, baseUrl, dummyImage, profiles }) => (
-  <div>
-    <h1>{title}</h1>
-    <p>&nbsp;</p>
+const ProfilesRenderer = ({ title, baseUrl, dummyImage, data }) => {
 
-    <table border="0">
-      <colgroup>
-        <col width="70" />
-        <col width="180" />
-        <col width="5%" />
-        <col width="160" />
-        <col width="70" />
-      </colgroup>
-      <tbody>
-        {renderProfiles(orderBy(profiles, ['roleId'], ['asc']), baseUrl, dummyImage)}
-      </tbody>
-    </table>
-  </div>
-)
+  if (!data) {
+    return <h1>{title}</h1>
+  }
+
+  return (
+    <div className="site-container">
+      <div className="site-content">
+        <div className="row">
+          <div className="col-xs-12 margin-1">
+            <h1>{title}</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <ul>
+              {data.map(m => (
+                <li className="margin-top-1"><b>{m.role}</b><br />{m.firstname} {m.lastname}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div >
+  )
+}
 
 
 const renderProfiles = (profiles, baseUrl, dummyImage) => {

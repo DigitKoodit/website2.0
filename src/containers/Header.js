@@ -40,36 +40,12 @@ const Header = () => (
       <NavbarItem
         title="Opiskelu"
         path="/opiskelu"
-        subItems={[{
-          title: 'Esittely',
-          path: "/esittely"
-        }, {
-          title: 'Hallitus',
-          path: "/hallitus"
-        }, {
-          title: 'Toimihenkilöt',
-          path: "/toimihenkilot"
-        }, {
-          title: 'Toimikunnat',
-          path: "/toimikunnat"
-        }]}
+        subItems={[]}
       />
       <NavbarItem
         title="Ilmoittaudu"
         path="/ilmo"
-        subItems={[{
-          title: 'Esittely',
-          path: "/esittely"
-        }, {
-          title: 'Hallitus',
-          path: "/hallitus"
-        }, {
-          title: 'Toimihenkilöt',
-          path: "/toimihenkilot"
-        }, {
-          title: 'Toimikunnat',
-          path: "/toimikunnat"
-        }]}
+        subItems={[]}
       />
       <p style={{ display: 'inline', padding: "1.5rem" }}>|</p>
       <NavbarItem

@@ -28,9 +28,9 @@ const socialMediaMediums = [
 ]
 
 const SocialMediaView = () => (
-  <div className="site-content text-center">
+  <div className="text-center padding-top-2 padding-sides-1">
     <h2>Löydät meidät myös somesta</h2>
-    <div className="flex-container margin-1">
+    <div className="flex-container padding-1">
       {socialMediaMediums && (
         socialMediaMediums.map(some => (
           <div
