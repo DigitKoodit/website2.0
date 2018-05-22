@@ -8,7 +8,7 @@ const inputByType = type => {
       return require('./InputSelect').default;
     case 'radio':
       return require('./InputRadio').default;
-    case 'check':
+    case 'checkbox':
       return require('./InputCheck').default;
     default:
       return () => <p>Invalid input type</p>

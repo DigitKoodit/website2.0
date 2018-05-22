@@ -1,31 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputSelect = ({ label, value, handleChange, options, ...inputAttributes }) => (
-  <div className={options.containerClass}>
-    {label && <label className={options.labelClass}>{label}</label>}
-    {(options.lines == null || options.lines <= 1) ? (
-      <input
-        type="text"
-        placeholder={options.placeholder}
-        value={value}
-        maxLength={options.maxLength}
-        onChange={handleChange}
+const InputSelect = ({ label, value, handleChange, options, ...attributes }) => {
+  const selectOptions = value.map(option =>
+    <option
+      key={option.name}
+      value={option.name}>
+      {option.value}
+    </option>
+  )
+  return (
+    <div className={options.containerClass}>
+      {label && <label className={options.labelClass}>{label}</label>}
+      <select
         name={label}
-        {...inputAttributes}
-      />
-    ) : (
-        <textarea
-          type="text"
-          placeholder={options.placeholder}
-          value={value}
-          maxLength={options.maxLength}
-          onChange={handleChange}
-          name={label}
-          {...inputAttributes}
-        />
-      )}
-  </div>
-)
+        onChange={handleChange}
+        value={value[1].name}
+        {...attributes}
+      >
+        {selectOptions}
+      </select>
+
+    </div>
+  )
+}
 
 export default InputSelect;

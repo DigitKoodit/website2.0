@@ -1,31 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputCheck = ({ label, value, handleChange, options, ...inputAttributes }) => (
-  <div className={options.containerClass}>
-    {label && <label className={options.labelClass}>{label}</label>}
-    {(options.lines == null || options.lines <= 1) ? (
+const InputCheck = ({ label, value, handleChange, options, ...inputAttributes }) => {
+  const inputs = value.map((input, i) =>
+    <div key={input.name}>
       <input
-        type="text"
-        placeholder={options.placeholder}
-        value={value}
-        maxLength={options.maxLength}
+        type="checkbox"
+        name={input.name}
+        checked={input.value}
         onChange={handleChange}
-        name={label}
-        {...inputAttributes}
       />
-    ) : (
-        <textarea
-          type="text"
-          placeholder={options.placeholder}
-          value={value}
-          maxLength={options.maxLength}
-          onChange={handleChange}
-          name={label}
-          {...inputAttributes}
-        />
-      )}
-  </div>
-)
+      <label>{input.label}</label>
+    </div>
+  )
+
+  return (
+    <div className={options.containerClass}>
+      {label && <legend className={options.labelClass}>{label}</legend>}
+      {inputs}
+    </div>
+  )
+}
 
 export default InputCheck;

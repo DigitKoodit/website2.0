@@ -1,31 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputRadio = ({ label, value, handleChange, options, ...inputAttributes }) => (
-  <div className={options.containerClass}>
-    {label && <label className={options.labelClass}>{label}</label>}
-    {(options.lines == null || options.lines <= 1) ? (
+const InputRadio = ({ label, value, handleChange, options, ...inputAttributes }) => {
+
+  const inputs = value.map(input => (
+    <div>
       <input
-        type="text"
+        type="radio"
         placeholder={options.placeholder}
-        value={value}
+        checked={input.value}
         maxLength={options.maxLength}
         onChange={handleChange}
         name={label}
         {...inputAttributes}
       />
-    ) : (
-        <textarea
-          type="text"
-          placeholder={options.placeholder}
-          value={value}
-          maxLength={options.maxLength}
-          onChange={handleChange}
-          name={label}
-          {...inputAttributes}
-        />
-      )}
-  </div>
-)
+      {input.label && <label className={options.labelClass}>{input.label}</label>}
+    </div>
+  ))
+  return (
+    <div className={options.containerClass}>
+      {inputs}
+    </div>
+  )
+}
 
 export default InputRadio;

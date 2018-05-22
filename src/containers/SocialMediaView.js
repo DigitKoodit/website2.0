@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ImageLink from '../components/ImageLink';
 
 
-const socialMediaMediums = [
+const socialMediums = [
   {
     name: 'Facebook',
     link: 'https://www.facebook.com/digitry',
@@ -31,8 +31,8 @@ const SocialMediaView = () => (
   <div className="text-center padding-top-2 padding-sides-1">
     <h2>Löydät meidät myös somesta</h2>
     <div className="flex-container padding-1">
-      {socialMediaMediums && (
-        socialMediaMediums.map(some => (
+      {socialMediums && (
+        socialMediums.map(some => (
           <div
             key={some.name}
             className="flex-item"
@@ -48,7 +48,7 @@ const SocialMediaView = () => (
 )
 
 SocialMediaView.propTypes = {
-  socialMediaMediums: PropTypes.arrayOf(PropTypes.shape({
+  socialMediums: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,

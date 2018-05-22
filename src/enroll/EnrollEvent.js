@@ -107,7 +107,7 @@ EnrollEvent.defaultProps = {
   <strong>Pääruoka</strong>:<br>Kievin kanaa, aurinkokuivatuilla tomaateilla maustettua riisiä<br>ja kauden kasviksia<br><strong>TAI</strong><br>Quarn-filettä, aurinkokuivatuilla tomaateilla maustettua riisiä<br>ja kauden kasviksia</p><p>
   <strong>Jälkiruoka</strong>:<br>Pannukakku</p><p>
   Lisäksi kahvi/tee + Jallu + ruokajuomat</p><p>
-  <b font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, ">Lisätiedot:</b><span font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, ">0-kerho@utu.fi</span></p></div>`,
+  <b font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, ">Lisätiedot:</b><span font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, "><a href="mailto:0-kerho@utu.fi">0-kerho@utu.fi</a></span></p></div>`,
 
   // TODO: prevent field with name "id"
   fields: [
@@ -120,14 +120,16 @@ EnrollEvent.defaultProps = {
       options: {},
       value: [
         {
+          name: 'radio1',
           label: 'Alkoholiton',
           default: false,
-          value: null
+          value: false
         },
         {
+          name: 'radio2',
           label: 'Alkoholillinen',
           default: true,
-          value: null
+          value: true
         }
       ]
     },
@@ -140,19 +142,22 @@ EnrollEvent.defaultProps = {
       options: {},
       value: [
         {
+          name: 'check1',
           label: 'Yksi',
           default: false,
-          value: null
+          value: false
         },
         {
+          name: 'check2',
           label: 'Kaksi',
           default: true,
-          value: null
+          value: true
         },
         {
+          name: 'check3',
           label: 'Kolme',
           default: false,
-          value: null
+          value: true
         }
       ]
     },
@@ -165,19 +170,19 @@ EnrollEvent.defaultProps = {
       options: {},
       value: [
         {
-          name: 'juomat',
+          name: 'lista1',
           label: null,
           default: false,
           value: 'Lattialista'
         },
         {
-          name: 'juomat',
+          name: 'lista2',
           label: null,
           default: false,
           value: 'Kattolista'
         },
         {
-          name: 'juomat',
+          name: 'lista3',
           label: null,
           default: true,
           value: 'listalista'

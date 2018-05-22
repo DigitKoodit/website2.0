@@ -64,7 +64,7 @@ module.exports = {
     publicPath: '/',
     contentBase: path.join(__dirname, 'src', 'public'),
     compress: false, // use in prod
-    port: 3000,
+    port: process.env.PORT || 3000,
     stats: 'errors-only',
     hot: true,
     historyApiFallback: true
