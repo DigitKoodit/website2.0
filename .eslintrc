@@ -1,53 +1,65 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "node": true
-  },
+  "plugins": [
+    "lodash",
+    "lodash-fp"
+  ],
   "extends": [
-    "airbnb"
+    "standard",
+    "standard-react",
+    "react-app",
+    "plugin:lodash/recommended",
+    "plugin:lodash-fp/recommended"
   ],
   "rules": {
-    "indent": [
-      2,
-      2,
+    "keyword-spacing": [
+      "error",
       {
-        "SwitchCase": 1
+        "after": true,
+        "before": true,
+        "overrides": {
+          "if": {
+            "after": false
+          },
+          "for": {
+            "after": false
+          },
+          "while": {
+            "after": false
+          },
+          "switch": {
+            "after": false
+          },
+          "catch": {
+            "after": false
+          }
+        }
       }
     ],
-    "linebreak-style": 0,
-    "no-use-before-define": [
-      2,
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "generator-star-spacing": [
+      "error",
       {
-        "variables": false,
-        "functions": false
+        "before": false,
+        "after": true
       }
     ],
-    "comma-dangle": [
-      2,
-      0
-    ],
-    "semi": [
-      0,
+    "object-curly-spacing": [
+      "error",
       "always"
     ],
-    "object-shorthand": [
-      0
-    ],
-    "no-console": 0,
-    "prefer-template": 0,
-    "array-callback-return": 1,
-    "react/jsx-filename-extension": [
-      1,
+    "no-unused-vars": [
+      "warn",
       {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+        "args": "none",
+        "ignoreRestSiblings": true
       }
     ],
-    "no-shadow": 0,
-    "spaced-comment": 0,
-    "arrow-parens": ["error", "as-needed"]
+    "lodash/prefer-lodash-method": 0,
+    "lodash/import-scope": 0,
+    "lodash-fp/use-fp": 0,
+    "lodash-fp/prefer-get": 0
   }
 }

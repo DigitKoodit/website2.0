@@ -1,24 +1,5 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browser": [
-            "last 3 versions"
-          ],
-          "modules": false
-        }
-      }
-    ],
-    "react"
-  ],
-  "plugins": [
-    "react-hot-loader/babel",
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-react-jsx-img-import"
-  ],
-  "sourceMaps": "inline",
-  "retainLines": true
+    "react-app"
+  ]
 }
