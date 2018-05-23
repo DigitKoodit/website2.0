@@ -6,8 +6,6 @@ import BigCalendar from 'react-big-calendar'
 
 import { getCalendarEvents } from '../lib/googleUtils';
 
-import 'reactBigCalendar';
-
 // a localizer for BigCalendar
 
 

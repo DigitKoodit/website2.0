@@ -37,7 +37,7 @@ const SocialMediaView = () => (
             key={some.name}
             className="flex-item"
           >
-            <a href={some.link}>
+            <a href={some.link} target='_blank'>
               <i className={`fa ${some.faIcon} link`} />
             </a>
           </div>

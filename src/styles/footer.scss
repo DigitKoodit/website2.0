@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'variables.scss';
 
 .footer {
     -moz-box-sizing: border-box;
@@ -11,5 +11,5 @@
 .footer-container {
     background-color: $background-dark;
     padding: 2rem 1rem;
-    color: $light-text;
+    color: $light-text; 
 }

@@ -18,14 +18,12 @@ const AppRoutes = () => (
       <Route path="/toiminta/tapahtumat" component={CalendarSite} />
       <Route path="/viralliset/hallitus" component={BoardComponent} />
       <Route path="/ilmo/:id" component={EnrollEvent} />
+      <Route path="/intra" component={EnrollEvent} />
       <Route status={404} component={NotFound} />
     </Switch>
     <Route path="/" component={Footer} />
   </App >
 );
-
-
-
 
 const BoardSite = props => (
   <ProfilesRenderer
@@ -33,9 +31,8 @@ const BoardSite = props => (
     {...props}
   />
 )
-const apiUrl = 'http://localhost:3037/api/intra/board/2018';
+const apiUrl = '/api/intra/board/2018';
 const buildBoard = url => fetch(url)(BoardSite);
 const BoardComponent = buildBoard(apiUrl);
-
 
 export default AppRoutes;

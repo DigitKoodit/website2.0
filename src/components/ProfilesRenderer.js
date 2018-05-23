@@ -25,7 +25,7 @@ const ProfilesRenderer = ({ title, baseUrl, dummyImage, data }) => {
         <div className="row">
           <div className="col-xs-12">
             <ul>
-              {data.map(m => (
+              {data.map && data.map(m => (
                 <li className="margin-top-1"><b>{m.role}</b><br />{m.firstname} {m.lastname}</li>
               ))}
             </ul>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import NavbarItem from '../components/NavbarItem';
+import brandLogo from '../public/images/logo.svg'
 
 const Header = () => (
   <div className="header">
@@ -56,7 +57,7 @@ const Header = () => (
       </NavbarItem>
       <NavbarItem
         title="Intra"
-        path="www.intra.digit.fi"
+        path="/intra"
       >
         <i className="fa fa-user-o site-icon action" aria-hidden="true"></i>
       </NavbarItem>
@@ -70,7 +71,7 @@ const navBarHeader = (
       <Link to="/">
         <img
           className="brand-logo"
-          src="../public/images/logo.svg"
+          src={brandLogo}
         />
       </Link>
     </div>
