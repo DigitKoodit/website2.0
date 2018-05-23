@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { getCalendarEventsShort } from '../lib/googleUtils';
 
 class EventsView extends Component {
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
     getCalendarEventsShort()
       .then(events => {

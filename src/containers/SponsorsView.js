@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ImageLink from '../components/ImageLink';
 
@@ -9,17 +8,20 @@ const sponsorList = [
   {
     name: 'Futurice',
     link: 'http://futurice.com/',
+    alt: 'sponsor',
     imageUrl: 'http://static.flockler.com/assets/futurice/images/futurice-logo--green-03a1500828cda47cf3a221faeea0937c5634986c37049f83d3d464dc6c82cec3.svg',
     weight: 2
   },
   {
     name: 'Wapice',
     link: 'https://www.wapice.com/fi/?landing=0',
+    alt: 'sponsor',
     imageUrl: 'http://vaasanseutu.fi/app/uploads/2016/08/Wapice_Logo-1024x254.jpg'
   },
   {
     name: 'Reaktor',
     link: 'https://www.reaktor.com/',
+    alt: 'sponsor',
     imageUrl: 'http://www.koodikoulu.fi/static/media/logo-reaktor.png'
   }
 ]
@@ -38,6 +40,7 @@ const SponsorsView = () => (
               name={sponsor.name}
               link={sponsor.link}
               imageUrl={sponsor.imageUrl}
+              alt={sponsor.alt}
             />
           </div>
         ))

@@ -72,6 +72,7 @@ const navBarHeader = (
         <img
           className="brand-logo"
           src={brandLogo}
+          alt={'Digit ry'}
         />
       </Link>
     </div>

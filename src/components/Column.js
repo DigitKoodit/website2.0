@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import variables from '../styles/variables.scss';
-
 const Column = ({ xs, sm, md, lg, children, backgroundColor, textColor, fullSize }) => (
   <div className={`col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg} ` + (fullSize && 'clear-margin clear-padding')}>
     <div

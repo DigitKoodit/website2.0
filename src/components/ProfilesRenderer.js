@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { profiles, board, representatives } from '../store/localDatabase';
-import orderBy from 'lodash/orderBy';
 
 /**
  * Simple snippet which accepts a json 7
@@ -10,7 +8,7 @@ import orderBy from 'lodash/orderBy';
  */
 const ProfilesRenderer = ({ title, baseUrl, dummyImage, data }) => {
 
-  if (!data) {
+  if(!data) {
     return <h1>{title}</h1>
   }
 
@@ -62,7 +60,7 @@ const renderTableRow = Profile1 => Profile2 => {
   return (
     <tr>
       <td height="130" valign="top">
-        <img height="120" src={Profile1 && Profile1.image} />
+        <img height="120" src={Profile1 && Profile1.image} alt={Profile2.name} />
       </td>
       <td valign="top">
         <b>
@@ -80,21 +78,21 @@ const renderTableRow = Profile1 => Profile2 => {
         <br />{Profile2 && Profile2.email}
       </td>
       <td height="130" valign="top">
-        <img height="120" src={Profile2 && Profile2.image} />
+        <img height="120" src={Profile2 && Profile2.image} alt={Profile2.name} />
       </td>
     </tr>
   )
 }
 
 const renderTableItem = (Profile, alignLeft) => {
-  if (!Profile) {
+  if(!Profile) {
     return;
   }
-  if (alignLeft) {
+  if(alignLeft) {
     return (
       <div>
         <td height="130" valign="top">
-          <img height="120" src={Profile.image} />
+          <img height="120" src={Profile.image} alt={Profile.name} />
         </td>
         <td valign="top">
           <b>
@@ -116,7 +114,7 @@ const renderTableItem = (Profile, alignLeft) => {
         <br />{Profile.email}
       </td>
       <td height="130" valign="top">
-        <img height="120" src={Profile.image} />
+        <img height="120" src={Profile.image} alt={Profile.name} />
       </td>
     </div>
   )
