@@ -5,7 +5,7 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory';
 import thunk from 'redux-thunk';
 
-import AppRoutes from './routes';
+import App from './containers/App';
 import configureStore from './store/configureStore';
 
 import 'flexboxgrid';
@@ -23,7 +23,7 @@ const store = configureStore(middlewares);
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <AppRoutes />
+      <App />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
