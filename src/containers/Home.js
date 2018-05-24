@@ -1,6 +1,5 @@
 import React from 'react';
-import Row from '../components/Row';
-import Column from '../components/Column'
+import { Row, Column } from '../components/Layout';
 import WelcomeView from '../components/WelcomeView';
 import EventView from './EventsView';
 import SponsorsView from './SponsorsView';

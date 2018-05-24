@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Column = ({ xs, sm, md, lg, children, backgroundColor, textColor, fullSize }) => (
-  <div className={`col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg} ` + (fullSize && 'clear-margin clear-padding')}>
-    <div
-      style={{ backgroundColor, color: textColor }}
-    >
+  <div className={`col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg}  ${fullSize && 'clear-margin clear-padding'}`}>
+    <div style={{ backgroundColor, color: textColor }}>
       {children}
     </div>
   </div >

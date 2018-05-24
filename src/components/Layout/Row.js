@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 const Row = ({ children, fullSize }) => (
   <div
-    className={'row ' + (fullSize && 'clear-padding clear-margin')}
-  >
+    className={'row ' + (fullSize && 'clear-padding clear-margin')}>
     {children}
   </div >
 )
@@ -12,6 +11,7 @@ const Row = ({ children, fullSize }) => (
 Row.defaultProps = {
   fullSize: false
 }
+
 Row.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
