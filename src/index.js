@@ -8,10 +8,7 @@ import thunk from 'redux-thunk';
 import App from './containers/App';
 import configureStore from './store/configureStore';
 
-import 'flexboxgrid';
 import './styles/index.css';
-import './styles/navbar.css';
-import './styles/footer.css';
 
 const history = createHistory();
 const middlewares = [routerMiddleware(history), thunk];
