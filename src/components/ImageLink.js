@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
 
-const ImageLink = ({ name, link, imageUrl, }) => (
+const ImageLink = ({ name, link, imageUrl }) => (
   <a href={link} alt={name}>
     <img src={imageUrl} alt={name} />
   </a>
@@ -13,4 +13,4 @@ ImageLink.propTypes = {
   imageUrl: PropTypes.string.isRequired
 }
 
-export default ImageLink;
+export default ImageLink

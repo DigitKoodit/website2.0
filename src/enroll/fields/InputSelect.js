@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const InputSelect = ({ label, value, handleChange, options, ...attributes }) => {
   const selectOptions = value.map(option =>
@@ -25,4 +25,11 @@ const InputSelect = ({ label, value, handleChange, options, ...attributes }) => 
   )
 }
 
-export default InputSelect;
+InputSelect.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  handleChange: PropTypes.func,
+  options: PropTypes.object
+}
+
+export default InputSelect

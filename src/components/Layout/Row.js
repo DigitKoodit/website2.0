@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Row = ({ children, fullSize }) => (
   <div
@@ -20,4 +20,4 @@ Row.propTypes = {
   fullSize: PropTypes.bool
 }
 
-export default Row;
+export default Row

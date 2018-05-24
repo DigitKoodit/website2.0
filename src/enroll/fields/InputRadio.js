@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const InputRadio = ({ label, value, handleChange, options, ...inputAttributes }) => {
-
   const inputs = value.map(input => (
     <div>
       <input
-        type="radio"
+        type='radio'
         placeholder={options.placeholder}
         checked={input.value}
         maxLength={options.maxLength}
@@ -24,4 +23,11 @@ const InputRadio = ({ label, value, handleChange, options, ...inputAttributes })
   )
 }
 
-export default InputRadio;
+InputRadio.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  handleChange: PropTypes.func,
+  options: PropTypes.object
+}
+
+export default InputRadio

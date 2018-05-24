@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Column = ({ xs, sm, md, lg, children, backgroundColor, textColor, fullSize }) => (
   <div className={`col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg}  ${fullSize && 'clear-margin clear-padding'}`}>
@@ -33,4 +33,4 @@ Column.propTypes = {
   fullSize: PropTypes.bool
 }
 
-export default Column;
+export default Column

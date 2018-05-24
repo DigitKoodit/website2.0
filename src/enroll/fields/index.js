@@ -1,18 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 const inputByType = type => {
-  switch (type) {
+  switch(type) {
     case 'text':
-      return require('./InputText').default;
+      return require('./InputText').default
     case 'select':
-      return require('./InputSelect').default;
+      return require('./InputSelect').default
     case 'radio':
-      return require('./InputRadio').default;
+      return require('./InputRadio').default
     case 'checkbox':
-      return require('./InputCheck').default;
+      return require('./InputCheck').default
     default:
       return () => <p>Invalid input type</p>
   }
 }
 
-export default inputByType;
+export default inputByType

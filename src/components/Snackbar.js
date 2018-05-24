@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
-//TODO: add position parameter which lets user decide where does the snackbar pop up
+// TODO: add position parameter which lets user decide where does the snackbar pop up
 
 const Snackbar = ({ displaySnackbar, snackbarMessage }) => (
-  <div id="snackbar" className={(displaySnackbar ? 'show' : '')}>{snackbarMessage}</div>
+  <div id='snackbar' className={(displaySnackbar ? 'show' : '')}>{snackbarMessage}</div>
 )
 
 Snackbar.defaultProps = {
@@ -23,4 +23,4 @@ const mapStateToProps = state => ({
   snackbarMessage: state.ui.snackbarMessage
 })
 
-export default connect(mapStateToProps)(Snackbar);
+export default connect(mapStateToProps)(Snackbar)

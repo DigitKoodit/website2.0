@@ -1,14 +1,12 @@
 {
   "plugins": [
-    "lodash",
-    "lodash-fp"
+    "lodash"
   ],
   "extends": [
     "standard",
     "standard-react",
     "react-app",
-    "plugin:lodash/recommended",
-    "plugin:lodash-fp/recommended"
+    "plugin:lodash/recommended"
   ],
   "rules": {
     "keyword-spacing": [

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Row, Column } from '../components/Layout';
-import WelcomeView from '../components/WelcomeView';
-import EventView from './EventsView';
-import SponsorsView from './SponsorsView';
-import SocialMediaView from './SocialMediaView';
+import React from 'react'
+import { Row, Column } from '../components/Layout'
+import WelcomeView from '../components/WelcomeView'
+import EventView from './EventsView'
+import SponsorsView from './SponsorsView'
+import SocialMediaView from './SocialMediaView'
 import heroImage from '../public/images/niklas3.jpg'
 
 const Home = () => {
   return (
-    <div className="site-container">
-      <div className="hero">
-        <img className="hero-image" src={heroImage} alt="digit-hero" />
+    <div className='site-container'>
+      <div className='hero'>
+        <img className='hero-image' src={heroImage} alt='digit-hero' />
       </div>
       <Row fullSize>
         <Column
@@ -64,8 +64,7 @@ const Home = () => {
           lg={12}
           fullSize
           backgroundColor={'#222'}
-          textColor={'#f1f1f1'}>
-        </Column>
+          textColor={'#f1f1f1'} />
       </Row>
     </div >
   )

@@ -1,4 +1,4 @@
-import * as types from '../actions/actionTypes';
+import * as types from '../actions/actionTypes'
 
 const initialState = {
   displaySnackbar: false,
@@ -6,15 +6,14 @@ const initialState = {
 }
 
 export default function uiReducer(state = initialState, action) {
-  switch (action.type) {
-
+  switch(action.type) {
     case types.TOGGLE_SNACKBAR:
       return {
         ...state,
         displaySnackbar: !state.displaySnackbar,
         snackbarMessage: action.snackbarMessage
-      };
+      }
     default:
-      return state;
+      return state
   }
 }

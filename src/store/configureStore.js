@@ -1,7 +1,6 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import rootReducer from '../reducers';
-
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { routerReducer } from 'react-router-redux'
+import rootReducer from '../reducers'
 
 const configureStore = middlewares => {
   const store = createStore(
@@ -11,7 +10,7 @@ const configureStore = middlewares => {
     }),
     applyMiddleware(...middlewares)
   )
-  return store;
+  return store
 }
 
-export default configureStore;
+export default configureStore

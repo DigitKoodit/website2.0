@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import ImageLink from '../components/ImageLink';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import ImageLink from '../components/ImageLink'
 
-
-const sponsorList = [
+const sponsorListDefault = [
   {
     name: 'Futurice',
     link: 'http://futurice.com/',
@@ -26,31 +25,36 @@ const sponsorList = [
   }
 ]
 
-const SponsorsView = () => (
-  <div className="site-content text-center">
-    <h2>Yhteistyössä</h2>
-    <div className="flex-container margin-1">
-      {sponsorList && (
-        sponsorList.map(sponsor => (
-          <div
-            key={sponsor.name}
-            className="flex-item sponsor-logo"
-          >
-            <ImageLink
-              name={sponsor.name}
-              link={sponsor.link}
-              imageUrl={sponsor.imageUrl}
-              alt={sponsor.alt}
-            />
-          </div>
-        ))
-      )}
+const SponsorsView = () => {
+  const { sponsorList } = this.props
+
+  return (
+    <div className='site-content text-center'>
+      <h2>Yhteistyössä</h2>
+      <div className='flex-container margin-1'>
+        {sponsorList && (
+          sponsorList.map(sponsor => (
+            <div
+              key={sponsor.name}
+              className='flex-item sponsor-logo'
+            >
+              <ImageLink
+                name={sponsor.name}
+                link={sponsor.link}
+                imageUrl={sponsor.imageUrl}
+                alt={sponsor.alt}
+              />
+            </div>
+          ))
+        )}
+      </div>
+      <Link className='link margin-1' to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
     </div>
-    <Link className="link margin-1" to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
-  </div>
-)
+  )
+}
 
 SponsorsView.propTypes = {
+  // eslint-disable-next-line
   sponsorList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
@@ -59,6 +63,8 @@ SponsorsView.propTypes = {
   }))
 }
 
+SponsorsView.defaultProps = {
+  sponsorList: sponsorListDefault
+}
 
-
-export default SponsorsView;
+export default SponsorsView

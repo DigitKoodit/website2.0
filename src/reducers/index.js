@@ -1,9 +1,9 @@
 
-import ui from './uiReducer';
+import ui from './uiReducer'
 
 const rootReducer =
   {
     ui
   }
 
-export default rootReducer;
+export default rootReducer

@@ -1,10 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom';
-import fetch from 'fetch-hoc';
+import React, { Component, Fragment } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import fetch from 'fetch-hoc'
 import asyncComponent from '../components/AsyncComponent'
-import ProfilesRenderer from '../components/ProfilesRenderer';
-
+import ProfilesRenderer from '../components/ProfilesRenderer'
 
 const AsyncHeader = asyncComponent(() => import('./Header'))
 const AsyncHome = asyncComponent(() => import('./Home'))
@@ -27,16 +25,16 @@ class Main extends Component {
   getRouter() {
     return (
       <Fragment>
-        <Route path="/" component={AsyncHeader} />
+        <Route path='/' component={AsyncHeader} />
         <Switch>
-          <Route path="/" exact component={AsyncHome} />
-          <Route path="/toiminta/tapahtumat" component={AsyncCalendarSite} />
-          <Route path="/viralliset/hallitus" component={AsyncBoardComponent} />
-          <Route path="/ilmo/:id" component={AsyncEnrollEvent} />
-          <Route path="/intra" component={AsyncEnrollEvent} />
+          <Route path='/' exact component={AsyncHome} />
+          <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
+          <Route path='/viralliset/hallitus' component={AsyncBoardComponent} />
+          <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
+          <Route path='/intra' component={AsyncEnrollEvent} />
           <Route status={AsyncNotFound} component={AsyncNotFound} />
         </Switch>
-        <Route path="/" component={AsyncFooter} />
+        <Route path='/' component={AsyncFooter} />
       </Fragment>
     )
   }
@@ -44,13 +42,12 @@ class Main extends Component {
 
 const BoardSite = props => (
   <ProfilesRenderer
-    title="Hallitus"
+    title='Hallitus'
     {...props}
   />
 )
-const apiUrl = '/api/intra/board/2018';
-const buildBoard = url => fetch(url)(BoardSite);
-const BoardComponent = buildBoard(apiUrl);
-
+const apiUrl = '/api/intra/board/2018'
+const buildBoard = url => fetch(url)(BoardSite)
+const BoardComponent = buildBoard(apiUrl)
 
 export default Main

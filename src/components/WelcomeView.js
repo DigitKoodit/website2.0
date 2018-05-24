@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Column } from './Layout';
+import React from 'react'
+import { Column } from './Layout'
 
 const WelcomeView = () => (
   <Column
     sm={12}
     md={8}
     lg={6}
-    textColor="#f1f1f1">
-    <div className="site-content">
+    textColor='#f1f1f1'>
+    <div className='site-content'>
       <h2>Digit ry?</h2>
       <p>Digit ry on Turun yliopiston tietotekniikan, tietoliikennetekniikan ja elektroniikan diplomi-insinööriopiskelijoiden ainejärjestö, perustettu syksyllä 1999 ja se on edelleen yksi Suomen nuorimmista teekkarikilloista.</p>
       <p>Jäseniä meillä on tällä hetkellä jo pitkälti kolmatta sataa ja kasvaneen aloituspaikkamäärän myötä tulemme kasvamaan nopeasti myös jatkossa.</p>
@@ -17,11 +16,4 @@ const WelcomeView = () => (
   </Column>
 )
 
-WelcomeView.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
-}
-
-export default WelcomeView;
+export default WelcomeView

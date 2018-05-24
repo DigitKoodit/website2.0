@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const socialMediums = [
+const socialMediumsDefault = [
   {
     name: 'Facebook',
     link: 'https://www.facebook.com/digitry',
@@ -23,27 +23,32 @@ const socialMediums = [
   }
 ]
 
-const SocialMediaView = () => (
-  <div className="text-center padding-top-2 padding-sides-1">
-    <h2>Löydät meidät myös somesta</h2>
-    <div className="flex-container padding-1">
-      {socialMediums && (
-        socialMediums.map(some => (
-          <div
-            key={some.name}
-            className="flex-item"
-          >
-            <a href={some.link} target='_blank'>
-              <i className={`fa ${some.faIcon} link`} />
-            </a>
-          </div>
-        ))
-      )}
+const SocialMediaView = () => {
+  const { socialMediums } = this.props
+
+  return (
+    <div className='text-center padding-top-2 padding-sides-1'>
+      <h2>Löydät meidät myös somesta</h2>
+      <div className='flex-container padding-1'>
+        {socialMediums && (
+          socialMediums.map(some => (
+            <div
+              key={some.name}
+              className='flex-item'
+            >
+              <a href={some.link} target='_blank'>
+                <i className={`fa ${some.faIcon} link`} />
+              </a>
+            </div>
+          ))
+        )}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 SocialMediaView.propTypes = {
+  // eslint-disable-next-line
   socialMediums: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
@@ -52,6 +57,8 @@ SocialMediaView.propTypes = {
   }))
 }
 
+SocialMediaView.defaultProps = {
+  socialMediums: socialMediumsDefault
+}
 
-
-export default SocialMediaView;
+export default SocialMediaView

@@ -1,17 +1,16 @@
-import React from 'react';
-import mapValues from 'lodash/mapValues';
-import find from 'lodash/find';
-import inputByType from './fields';
-import { removeDuplicates } from '../lib/utils';
+import React from 'react'
+import PropTypes from 'prop-types'
+import find from 'lodash/find'
+import inputByType from './fields'
 
 const EnrollEvent = ({ name, description, visibleFields, participants, fields, match: { params } }) => {
-  const { id } = params;
-  if (!name || !id) {
+  const { id } = params
+  if(!name || !id) {
     return (
-      <div className="site-container">
-        <div className="site-content">
-          <div className="row">
-            <div className="col-xs-12 margin-1">
+      <div className='site-container'>
+        <div className='site-content'>
+          <div className='row'>
+            <div className='col-xs-12 margin-1'>
               <h1>Tapahtumaa ei löytynyt!</h1>
             </div>
           </div>
@@ -20,19 +19,19 @@ const EnrollEvent = ({ name, description, visibleFields, participants, fields, m
     )
   }
 
-  // Filter unneccessary fields 
-  const participantFields = visibleFields.map(visibleField => find(fields, { name: visibleField }));
+  // Filter unneccessary fields
+  const participantFields = visibleFields.map(visibleField => find(fields, { name: visibleField }))
 
   return (
-    <div className="site-container">
-      <div className="site-content">
-        <div className="row">
-          <div className="col-xs-12 margin-1">
+    <div className='site-container'>
+      <div className='site-content'>
+        <div className='row'>
+          <div className='col-xs-12 margin-1'>
             <h1>{name}</h1>
           </div>
         </div>
-        <div className="row">
-          <div className="col-xs-12">
+        <div className='row'>
+          <div className='col-xs-12'>
             {sanityzeMarkup(description)}
             {renderFields(fields)}
             {renderParticipants(participantFields, participants)}
@@ -43,33 +42,32 @@ const EnrollEvent = ({ name, description, visibleFields, participants, fields, m
   )
 }
 
-
-// TOOD: Remove unwanted tags (e.g. scripts)  
-const sanityzeMarkup = html => <div dangerouslySetInnerHTML={{ __html: html }} />;
+// TOOD: Remove unwanted tags (e.g. scripts)
+const sanityzeMarkup = html => <div dangerouslySetInnerHTML={{ __html: html }} />
 
 // These functions could be used if require in fields/index.js is consuming resources
-// const requiredFields = parseFieldTypes(fields).map(fieldType => inputByType(fieldType));
+// const requiredFields = parseFieldTypes(fields).map(fieldType => inputByType(fieldType))
 // const parseFieldTypes = fields => removeDuplicates(fields.map(field => field.type))
 
 const renderFields = fields => {
   return fields.map(field => {
-    const FieldComponent = inputByType(field.type);
+    const FieldComponent = inputByType(field.type)
     return <FieldComponent
       key={field.name}
       {...field}
     />
-  });
+  })
 }
 
 const renderParticipants = (fields, participants) => {
-  if (!isValidArray(fields)) {
+  if(!isValidArray(fields)) {
     return <div className='enroll-results-container'><p>Ei sarakkeita</p></div>
   }
-  if (!isValidArray(participants)) {
+  if(!isValidArray(participants)) {
     return <div className='enroll-results-container'><p>Ei osallistujia</p></div>
   }
 
-  const tableHeader = fields.map(field => <th key={field.label}>{field.label}</th>);
+  const tableHeader = fields.map(field => <th key={field.label}>{field.label}</th>)
   const participantList = participants.map(participant => (
     <tr key={participant.id}>
       {fields.map(field => (
@@ -78,7 +76,7 @@ const renderParticipants = (fields, participants) => {
         </td>
       ))}
     </tr>
-  ));
+  ))
   return (
     <div className='enroll-results-container'>
       <table>
@@ -94,22 +92,22 @@ const renderParticipants = (fields, participants) => {
     </div>)
 }
 
-const isValidArray = array => array && Array.isArray(array) && array.length > 0;
+const isValidArray = array => array && Array.isArray(array) && array.length > 0
 
 EnrollEvent.defaultProps = {
   name: 'Testieventti',
-  description: `<div style="font-family: inherit; white-space: normal;"><h2>Jääräsitsit 2018</h2><p>
-  Vanhat kunnon, kunnon hyvät Jääräsitsit saapuvat jälleen hyvän kunnon sitsikansan iloksi! Sitsit ovat tänä vuonna <span style="color: rgb(29, 33, 41); font-family: Helvetica, Arial, sans-serif; font-size: 14px;"><strong>17.2.2018</strong>.</span></p><p>
+  description: `<div style='font-family: inherit white-space: normal'><h2>Jääräsitsit 2018</h2><p>
+  Vanhat kunnon, kunnon hyvät Jääräsitsit saapuvat jälleen hyvän kunnon sitsikansan iloksi! Sitsit ovat tänä vuonna <span style='color: rgb(29, 33, 41) font-family: Helvetica, Arial, sans-serif font-size: 14px'><strong>17.2.2018</strong>.</span></p><p>
   Juhlapaikkana toimii tänäkin vuonna Yo-talo B:ssä sijaitseva Osakuntasali, jossa sitsit aloitetaan klo 18.00. Sitsien dresscodena toimii smart casual ja lakkioikeuden ansainneilla teekkarilakki. Varsinainen lysti kustantaa 20 euroa, joka maksetaan paikan päällä.</p><p>
   Vaikka sitsit ovatkin ensisijaisesti vanhemmille opiskelijoille suunnatut, ei varsinaista akateemista alaikärajaa ole. Ilmoittautumislomake kuitenkin suosii aiemmin aloittaneita ja jo tutkintonsa suorittaneita, joten pelkkä ilmoittautumisnopeus ei ratkaise järjestystä. Järjestys saattaakin muuttua ilmojen karttuessa, joten kannattaa tarkistaa oma sijoittuminen ilmon sulkeutuessa.</p><p>
-  <strong>TL;DR</strong><br><strong>MITÄ</strong>: Jääräsitsit 2018<br><strong>MISSÄ</strong>: Osakuntasali, Yo-talo B (Rehtorinpellonkatu 4)<br><strong>KOSKA</strong>: 17.2. klo 18.00<br><strong>HINTA</strong>: 20€<br><strong>DRESSCODE</strong>: Smart casual, lakillisilla teekkarilakki</p><h4><strong>Menu</strong>:</h4><p>
-  <strong>Alkuruoka</strong>:<br><span style="color: rgb(29, 33, 41); font-family: Helvetica, Arial, sans-serif;">Gazpacho</span>-keittoa</p><p>
+  <strong>TLDR</strong><br><strong>MITÄ</strong>: Jääräsitsit 2018<br><strong>MISSÄ</strong>: Osakuntasali, Yo-talo B (Rehtorinpellonkatu 4)<br><strong>KOSKA</strong>: 17.2. klo 18.00<br><strong>HINTA</strong>: 20€<br><strong>DRESSCODE</strong>: Smart casual, lakillisilla teekkarilakki</p><h4><strong>Menu</strong>:</h4><p>
+  <strong>Alkuruoka</strong>:<br><span style='color: rgb(29, 33, 41) font-family: Helvetica, Arial, sans-serif'>Gazpacho</span>-keittoa</p><p>
   <strong>Pääruoka</strong>:<br>Kievin kanaa, aurinkokuivatuilla tomaateilla maustettua riisiä<br>ja kauden kasviksia<br><strong>TAI</strong><br>Quarn-filettä, aurinkokuivatuilla tomaateilla maustettua riisiä<br>ja kauden kasviksia</p><p>
   <strong>Jälkiruoka</strong>:<br>Pannukakku</p><p>
   Lisäksi kahvi/tee + Jallu + ruokajuomat</p><p>
-  <b font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, ">Lisätiedot:</b><span font-size:="" lucida="" sans="" style="color: rgb(95, 95, 95); font-family: Helvetica, Arial, "><a href="mailto:0-kerho@utu.fi">0-kerho@utu.fi</a></span></p></div>`,
+  <b font-size:='' lucida='' sans='' style='color: rgb(95, 95, 95) font-family: Helvetica, Arial, '>Lisätiedot:</b><span font-size:='' lucida='' sans='' style='color: rgb(95, 95, 95) font-family: Helvetica, Arial, '><a href='mailto:0-kerho@utu.fi'>0-kerho@utu.fi</a></span></p></div>`,
 
-  // TODO: prevent field with name "id"
+  // TODO: prevent field with name 'id'
   fields: [
     {
       type: 'radio',
@@ -186,7 +184,7 @@ EnrollEvent.defaultProps = {
           label: null,
           default: true,
           value: 'listalista'
-        },
+        }
       ]
     },
     {
@@ -234,4 +232,12 @@ EnrollEvent.defaultProps = {
   ]
 }
 
-export default EnrollEvent;
+EnrollEvent.propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  visibleFields: PropTypes.array,
+  participants: PropTypes.array,
+  fields: PropTypes.array,
+  match: PropTypes.shape({ params: PropTypes.func })
+}
+export default EnrollEvent
