@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import fetch from 'fetch-hoc'
 import asyncComponent from '../components/AsyncComponent'
 import ProfilesRenderer from '../components/ProfilesRenderer'
+import PrivateRoute from '../components/PrivateRoute'
 
 const AsyncHeader = asyncComponent(() => import('./Header'))
 const AsyncHome = asyncComponent(() => import('./Home'))
@@ -11,10 +12,11 @@ const AsyncBoardComponent = asyncComponent(() => BoardComponent)
 const AsyncEnrollEvent = asyncComponent(() => import('../enroll/EnrollEvent'))
 const AsyncNotFound = asyncComponent(() => import('./NotFound'))
 const AsyncFooter = asyncComponent(() => import('./Footer'))
+const AsyncIntraPage = asyncComponent(() => BoardComponent)
+const AsyncLoginPage = asyncComponent(() => import('./Auth/LoginPage'))
+const AsyncRegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
 
 class Main extends Component {
-  state = {}
-
   render() {
     return (
       <Fragment>
@@ -31,7 +33,9 @@ class Main extends Component {
           <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
           <Route path='/viralliset/hallitus' component={AsyncBoardComponent} />
           <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
-          <Route path='/intra' component={AsyncEnrollEvent} />
+          <Route exact path='/register' component={AsyncRegistrationPage} />
+          <Route exact path='/login' component={AsyncLoginPage} />
+          <PrivateRoute exact path='/intra' component={AsyncIntraPage} />
           <Route status={AsyncNotFound} component={AsyncNotFound} />
         </Switch>
         <Route path='/' component={AsyncFooter} />

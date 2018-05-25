@@ -25,9 +25,7 @@ const sponsorListDefault = [
   }
 ]
 
-const SponsorsView = () => {
-  const { sponsorList } = this.props
-
+const SponsorsView = ({ sponsorList }) => {
   return (
     <div className='site-content text-center'>
       <h2>Yhteistyössä</h2>
@@ -54,7 +52,6 @@ const SponsorsView = () => {
 }
 
 SponsorsView.propTypes = {
-  // eslint-disable-next-line
   sponsorList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,

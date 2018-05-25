@@ -23,9 +23,7 @@ const socialMediumsDefault = [
   }
 ]
 
-const SocialMediaView = () => {
-  const { socialMediums } = this.props
-
+const SocialMediaView = ({ socialMediums }) => {
   return (
     <div className='text-center padding-top-2 padding-sides-1'>
       <h2>Löydät meidät myös somesta</h2>
@@ -48,11 +46,10 @@ const SocialMediaView = () => {
 }
 
 SocialMediaView.propTypes = {
-  // eslint-disable-next-line
   socialMediums: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
+    faIcon: PropTypes.string.isRequired,
     weight: PropTypes.number
   }))
 }
