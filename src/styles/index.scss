@@ -159,6 +159,15 @@ a {
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
+
+  .input-group {
+    margin: 1rem 0;
+    .input-icon {
+      position: absolute;
+      margin-top: 1rem;
+      margin-left: -2rem;
+    }
+  }
     .form {
         position: relative;
         z-index: 1;
@@ -336,10 +345,6 @@ a {
 .sponsor-logo {
     max-width: 20rem;
     max-height: 15rem;
-}
-
-.input-group {
-  margin: 1rem 0.8rem;
 }
 
 label {

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
-import Form from '../../components/Form'
-import Input from '../../components/Form/Input'
+import Form, { Input, PasswordInput } from '../../components/Form'
+import { Link } from 'react-router-dom'
 
 const RegistrationPage = () => {
   const model = {
@@ -20,14 +20,14 @@ const RegistrationPage = () => {
           }}>
           {inputProps => (
             <Fragment>
-              <h3>Rekisteröidy</h3>
               <Input type='text' placeholder='Käyttäjänimi' field='username' {...inputProps} />
               <Input type='email' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
-              <Input type='text' placeholder='Salasana' field='password' {...inputProps} />
-              <button type='submit' className='btn btn-primary'>Valmis</button>
+              <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
+              <button type='submit' className='btn btn-primary'>Rekisteröidy</button>
             </Fragment>
           )}
         </Form>
+        <Link to='/login' className='btn btn-link'>Kirjaudu</Link>
       </div>
     </div>
   )

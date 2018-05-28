@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-const Input = ({ field, label, type, step, validationErrors, model, onChange, ...rest }) => {
+const Input = ({ field, label, type, step, validationErrors, model, onChange, children, ...rest }) => {
   const handleOnChange = (event) => {
     let value = event.target.value
     return onChange({ [field]: value })
@@ -18,6 +18,7 @@ const Input = ({ field, label, type, step, validationErrors, model, onChange, ..
         value={model[field]}
         onChange={handleOnChange}
         {...rest} />
+      {children}
       {!isEmpty(validationErrors) && <p>{validationErrors[field]}</p>}
     </div>
   )
@@ -30,13 +31,15 @@ Input.propTypes = {
   step: PropTypes.string,
   validationErrors: PropTypes.object,
   model: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  children: PropTypes.node
 }
 
 Input.defaultProps = {
   validationErrors: {},
   type: 'text',
-  label: null
+  label: null,
+  children: null
 }
 
 const Label = ({ name, label }) => {

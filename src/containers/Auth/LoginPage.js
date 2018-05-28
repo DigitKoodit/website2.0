@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Form, { Input } from '../../components/Form'
+import Form, { Input, PasswordInput } from '../../components/Form'
 
 const model = {
   username: '',
-  email: '',
   password: ''
 }
 
@@ -44,7 +43,7 @@ class LoginPage extends Component {
             {inputProps => (
               <Fragment>
                 <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
-                <Input type='text' placeholder='Salasana' field='password' {...inputProps} />
+                <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
                 <button type='submit' className='btn btn-primary'>Kirjaudu</button>
               </Fragment>
             )}

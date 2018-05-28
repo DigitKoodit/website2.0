@@ -34,7 +34,7 @@ const Header = () => (
         title='Toiminta'
         path='/toiminta'
         subItems={[{
-          title: 'Tapahtumat',
+          title: 'Tapahtut',
           path: '/tapahtumat'
         }]}
       />
