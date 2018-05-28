@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { Link } from 'react-router-dom'
+import { registrationActions } from '../../actions'
 
 const initalFormModel = {
   username: '',
@@ -42,14 +43,14 @@ RegistrationPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  registrationPending: false,
-  model: initalFormModel
+  registrationPending: state.registration.loading,
+  model: state.registration
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     startRegistration: ({ username, email, password }) => {
-      console.log(username, email, password)
+      dispatch(registrationActions.startRegistration(username, email, password))
     }
   }
 }

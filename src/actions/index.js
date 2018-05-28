@@ -1,7 +1,12 @@
 import LOGIN, { loginActions } from './loginActions'
+import REGISTRATION, { registrationActions } from './registrationActions'
 
 export const types = {
-  LOGIN
+  LOGIN,
+  REGISTRATION
 }
 
-export { loginActions }
+export {
+  loginActions,
+  registrationActions
+}
