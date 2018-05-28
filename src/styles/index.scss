@@ -222,6 +222,11 @@ a {
     }
 }
 
+.button-icon {
+  position: absolute;
+  margin-left: .2rem;
+}
+
 // SNACKBAR. Inspired by https://www.w3schools.com/howto/howto_js_snackbar.asp
 // to change the position of the snackbar change every bottom to right|left|top and 
 // from base left: 50% to match wanted position e.g. 

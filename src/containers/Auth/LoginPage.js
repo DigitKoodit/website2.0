@@ -1,68 +1,57 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Form, { Input, PasswordInput } from '../../components/Form'
+import { loginActions } from '../../actions'
 
-const model = {
+const initalFormModel = {
   username: '',
   password: ''
 }
 
-class LoginPage extends Component {
-  constructor(props) {
-    super(props)
-    // props.dispatch(userActions.logout())
-    this.state = {
-      submitted: false
-    }
-  }
-
-  handleSubmit = data => {
-    this.setState({ submitted: true })
-    const { username, password } = data
-    // const { dispatch } = this.props
-    // if(username && password) {
-    //   dispatch(userActions.login(username, password))
-    // }
-    console.log(username, password)
-    return Promise.resolve()
-  }
-
-  render() {
-    const { loggingIn } = this.props
-    return (
-      <div className='site-container'>
-        <div className='form-page'>
-          <Form
-            model={model}
-            handleSubmit={data => {
-              console.log('submit', data)
-              return Promise.resolve()
-            }}>
-            {inputProps => (
-              <Fragment>
-                <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
-                <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
-                <button type='submit' className='btn btn-primary'>Kirjaudu</button>
-              </Fragment>
-            )}
-          </Form>
-          <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
-        </div>
+const LoginPage = ({ loggingIn, model, startLogin }) => {
+  const spinner = loggingIn && <i className='fas fa-circle-notch fa-spin button-icon' />
+  return (
+    <div className='site-container'>
+      <div className='form-page'>
+        <Form
+          model={initalFormModel}
+          validationErrors={model.error}
+          handleSubmit={startLogin}>
+          {inputProps => (
+            <Fragment>
+              <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
+              <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
+              <button type='submit' className='btn btn-primary'>Kirjaudu {spinner}</button>
+            </Fragment>
+          )}
+        </Form>
+        <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 LoginPage.propTypes = {
-  loggingIn: PropTypes.bool.isRequired
+  model: PropTypes.object.isRequired,
+  loggingIn: PropTypes.bool.isRequired,
+  startLogin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
   return {
-    loggingIn: true
+    model: state.login,
+    loggingIn: state.login.loading
   }
 }
 
-export default connect(mapStateToProps)(LoginPage)
+const mapDispatchToProps = dispatch => {
+  return {
+    startLogin: ({ username, password }) => {
+      dispatch(loginActions.startLogin(username, password))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

@@ -6,7 +6,6 @@ class Form extends Component {
     super(props)
     this.state = {
       model: { ...props.model },
-      validationErrors: {},
       isDirty: false
     }
   }
@@ -29,37 +28,17 @@ class Form extends Component {
   onSubmit = event => {
     event.preventDefault()
     const { handleSubmit } = this.props
-
-    this.setState({ validationErrors: {}, isDirty: false })
-    return handleSubmit(this.state.model)
-      .then(data => {
-        if(!data) {
-          return null
-        }
-        this.setState({ model: data, isDirty: false })
-        return data
-      }).catch(err => {
-        this.setState({ isDirty: true })
-        return err.response.json()
-          .then(jsonError => {
-            if(err.response.status === 400) {
-              const errors = jsonError.validationErrors.reduce((acc, error) => {
-                acc[error.param] = error
-                return acc
-              }, {})
-              return this.setState({ validationErrors: errors })
-            } else {
-              return this.setState({ error: jsonError })
-            }
-          })
-      })
+    this.setState({ isDirty: false })
+    handleSubmit(this.state.model)
   }
 
   render() {
     const inputProps = {
+      validationErrors: this.props.validationErrors,
       model: this.state.model,
       onChange: this.handleChange
     }
+
     return (
       <form onSubmit={this.onSubmit} className='form' >
         {this.props.children(inputProps)}
@@ -71,7 +50,12 @@ class Form extends Component {
 Form.propTypes = {
   model: PropTypes.object.isRequired,
   children: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  validationErrors: PropTypes.object
+}
+
+Form.defaultProps = {
+  validationErrors: {}
 }
 
 export default Form

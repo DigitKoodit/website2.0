@@ -1,9 +1,11 @@
 
 import ui from './uiReducer'
+import login from './loginReducers'
 
 const rootReducer =
   {
-    ui
+    ui,
+    login
   }
 
 export default rootReducer
