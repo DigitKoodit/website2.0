@@ -40,7 +40,7 @@ class Calendar extends React.Component {
           {calendarEvents}
         </ul>
         <div className='text-center'>
-          <a href='http://digit.fi/toiminta.php?s=1035' type='button' className='btn btn-primary btn-sharp'>Lisää tapahtumia</a>
+          <a href='http://digit.fi/toiminta.php?s=1035' type='button' className='button'>Lisää tapahtumia</a>
         </div>
 
       </div>

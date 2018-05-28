@@ -1,65 +1,56 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Form, { Input } from '../../components/Form'
+
+const model = {
+  username: '',
+  email: '',
+  password: ''
+}
 
 class LoginPage extends Component {
   constructor(props) {
     super(props)
-
     // props.dispatch(userActions.logout())
-
     this.state = {
-      username: '',
-      password: '',
       submitted: false
     }
   }
 
-  handleChange = event => {
-    const { name, value } = event.target
-    this.setState({ [name]: value })
-  }
-
-  handleSubmit = event => {
-    event.preventDefault()
-
+  handleSubmit = data => {
     this.setState({ submitted: true })
-    const { username, password } = this.state
+    const { username, password } = data
     // const { dispatch } = this.props
     // if(username && password) {
     //   dispatch(userActions.login(username, password))
     // }
     console.log(username, password)
+    return Promise.resolve()
   }
 
   render() {
     const { loggingIn } = this.props
-    const { username, password, submitted } = this.state
     return (
-      <div className='col-md-6 col-md-offset-3'>
-        <h2>Kirjaudu</h2>
-        <form name='form' onSubmit={this.handleSubmit}>
-          <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-            <label htmlFor='username'>Käyttäjänimi tai sähköposti</label>
-            <input
-              type='text' className='form-control' name='username' value={username} onChange={this.handleChange} />
-            {submitted && !username &&
-              <div className='help-block'>Syötä käyttäjänimi tai sähköposti</div>
-            }
-          </div>
-          <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-            <label htmlFor='password'>Salasana</label>
-            <input type='password' className='form-control' name='password' value={password} onChange={this.handleChange} />
-            {submitted && !password &&
-              <div className='help-block'>Syötä salasana</div>
-            }
-          </div>
-          <div className='form-group'>
-            <button className='btn btn-primary'>Kirjaudu</button>
-            <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
-          </div>
-        </form>
+      <div className='site-container'>
+        <div className='form-page'>
+          <Form
+            model={model}
+            handleSubmit={data => {
+              console.log('submit', data)
+              return Promise.resolve()
+            }}>
+            {inputProps => (
+              <Fragment>
+                <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
+                <Input type='text' placeholder='Salasana' field='password' {...inputProps} />
+                <button type='submit' className='btn btn-primary'>Kirjaudu</button>
+              </Fragment>
+            )}
+          </Form>
+          <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
+        </div>
       </div>
     )
   }

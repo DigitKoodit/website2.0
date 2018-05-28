@@ -4,9 +4,11 @@ import { Route, Redirect } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => {
-    console.log(props)
+    // TODO: more robust token validation
+    const user = JSON.parse(localStorage.getItem('user'))
+    const token = user && user.token
     return (
-      localStorage.getItem('user')
+      token
         ? <Component {...props} />
         : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
     )

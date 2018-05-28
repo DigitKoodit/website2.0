@@ -33,9 +33,9 @@ class Main extends Component {
           <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
           <Route path='/viralliset/hallitus' component={AsyncBoardComponent} />
           <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
-          <Route exact path='/register' component={AsyncRegistrationPage} />
-          <Route exact path='/login' component={AsyncLoginPage} />
-          <PrivateRoute exact path='/intra' component={AsyncIntraPage} />
+          <Route path='/register' exact component={AsyncRegistrationPage} />
+          <Route path='/login' exact component={AsyncLoginPage} />
+          <PrivateRoute path='/intra' exact component={AsyncNotFound} />
           <Route status={AsyncNotFound} component={AsyncNotFound} />
         </Switch>
         <Route path='/' component={AsyncFooter} />
