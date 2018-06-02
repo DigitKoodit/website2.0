@@ -15,8 +15,6 @@ const middlewares = [routerMiddleware(history), thunk]
 
 const store = configureStore(middlewares)
 
-// store.dispatch(hasUserAuthenticated())
-
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
