@@ -59,7 +59,7 @@ const Header = () => (
         title='Intra'
         path='/intra'
       >
-        <i className='fa fa-user-o site-icon action' aria-hidden='true' />
+        <i className='fa fa-user site-icon action' aria-hidden='true' />
       </NavbarItem>
     </Navbar>
   </div >

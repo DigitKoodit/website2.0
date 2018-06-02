@@ -4,14 +4,15 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { loginActions } from '../../actions'
+import withLoader from '../../components/Helpers/withLoader'
 
 const initalFormModel = {
   username: '',
   password: ''
 }
 
-const LoginPage = ({ loggingIn, model, startLogin }) => {
-  const spinner = loggingIn && <i className='fas fa-circle-notch fa-spin button-icon' />
+const LoginPage = ({ isLoading, model, startLogin }) => {
+  const Spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
   return (
     <div className='site-container'>
       <div className='form-page'>
@@ -23,7 +24,8 @@ const LoginPage = ({ loggingIn, model, startLogin }) => {
             <Fragment>
               <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
               <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
-              <button type='submit' className='btn btn-primary'>Kirjaudu {spinner}</button>
+              {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
+              <button type='submit' className='btn btn-primary'>Kirjaudu {Spinner}</button>
             </Fragment>
           )}
         </Form>
@@ -35,14 +37,15 @@ const LoginPage = ({ loggingIn, model, startLogin }) => {
 
 LoginPage.propTypes = {
   model: PropTypes.object.isRequired,
-  loggingIn: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
   startLogin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
   return {
     model: state.login,
-    loggingIn: state.login.loading
+    loading: state.login.loading
   }
 }
 
@@ -54,4 +57,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withLoader(LoginPage))
