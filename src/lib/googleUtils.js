@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import { get } from '../api/apiHelper'
 
 const CALENDAR_ID = '51n4vtv46paes63es2ddea3vgg%40group.calendar.google.com'
 const API_KEY = 'AIzaSyBE5UIEKN3IZQkHwBfpHlCk4EA47BJizPU'
@@ -19,9 +19,7 @@ const allEventsUrl = `https://content.googleapis.com/calendar/v3/calendars/${CAL
 
 export const getCalendarEventsShort = () =>
   new Promise((resolve, reject) => {
-    Axios
-      .get(shortEventsUrl)
-      .then(response => Promise.resolve(response.data))
+    get(shortEventsUrl)
       .then(parseCalendarDataSimple) // parse data received from Axios api call
       .then(events => {
         return resolve(events)
@@ -33,9 +31,7 @@ export const getCalendarEventsShort = () =>
 
 export const getCalendarEvents = () =>
   new Promise((resolve, reject) => {
-    Axios
-      .get(allEventsUrl)
-      .then(response => Promise.resolve(response.data))
+    get(allEventsUrl)
       .then(parseCalendarDataSimple) // parse data received from Axios api call
       .then(events => {
         return resolve(events)
