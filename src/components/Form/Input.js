@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
 
 const Input = ({ field, label, type, step, validationErrors, model, onChange, children, ...rest }) => {
   const handleOnChange = (event) => {
@@ -19,7 +18,7 @@ const Input = ({ field, label, type, step, validationErrors, model, onChange, ch
         onChange={handleOnChange}
         {...rest} />
       {children}
-      {!isEmpty(validationErrors) && <p>{validationErrors[field]}</p>}
+      {validationErrors[field] && <p>{validationErrors[field].msg}</p>}
     </div>
   )
 }

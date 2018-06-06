@@ -5,7 +5,7 @@ const userBaseUrl = '/api/user/{userId}'
 const userTemplate = urlTemplate.parse(userBaseUrl)
 
 const loginUrl = '/api/login'
-const registrationUrl = '/api/register'
+const registrationUrl = '/api/registration'
 
 const addBodyPayload = data => ({
   body: JSON.stringify(data)
