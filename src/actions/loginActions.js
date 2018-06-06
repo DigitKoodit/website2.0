@@ -1,11 +1,11 @@
 import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
-import { login, logout, register, confirmRegistration, update, performDelete } from '../services/userService'
+import { login, logout } from '../services/userService'
 import { replace } from 'react-router-redux'
 
 const LOGIN = createAsyncTypes(actionKeys.login)
 const routeAfterLogout = '/'
-const routeAfterLogin = '/profile'
+const routeAfterLogin = '/intra'
 
 export default LOGIN
 
@@ -21,18 +21,31 @@ export const loginActions = {
   },
   startLogin(username, password) {
     return dispatch => {
+      if(!username || !password) {
+        return dispatch(this.error({
+          common: 'Täytä molemmat kentät'
+        }))
+      }
+
       dispatch(this.pending())
       login({ username, password })
         .then(user => {
           dispatch(this.success(user))
           dispatch(replace(routeAfterLogin))
         })
-        .catch(() => {
-          dispatch(this.error(
-            {
-              common: 'Käyttäjänimi tai salasana väärin'
-            }
-          ))
+        .catch(err => {
+          err.response
+            ? err.response.json()
+              .then(responseBody => {
+                const { message, validationErrors = [] } = responseBody
+                const errors = validationErrors.reduce((acc, error) => {
+                  console.log(error.param)
+                  acc[error.param] = error
+                  return acc
+                }, {})
+                dispatch(this.error({ common: message, ...errors }))
+              }
+              ) : dispatch(this.error({ common: 'Käyttäjänimi tai salasana väärin' }))
         })
     }
   }
