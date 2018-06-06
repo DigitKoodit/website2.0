@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 
 const withLoader = (LoadingComponent, loaderDelay = 500) =>
   class LoaderHoc extends Component {
@@ -46,6 +47,9 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
     static propTypes = {
       loading: PropTypes.bool.isRequired,
       showLoader: PropTypes.func
+    }
+    static defaultProps = {
+      showLoader: noop
     }
 
     render() {

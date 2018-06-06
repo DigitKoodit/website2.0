@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { Link } from 'react-router-dom'
 import { registrationActions } from '../../actions'
+import withLoader from '../../components/Helpers/withLoader'
 
 const initalFormModel = {
   username: '',
@@ -11,8 +12,8 @@ const initalFormModel = {
   password: ''
 }
 
-const RegistrationPage = ({ registrationPending, model, startRegistration }) => {
-  const spinner = registrationPending && <i className='fas fa-circle-notch fa-spin button-icon' />
+const RegistrationPage = ({ isLoading, model, startRegistration }) => {
+  const spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
 
   return (
     <div className='site-container'>
@@ -24,8 +25,9 @@ const RegistrationPage = ({ registrationPending, model, startRegistration }) => 
           {inputProps => (
             <Fragment>
               <Input type='text' placeholder='Käyttäjänimi' field='username' {...inputProps} />
-              <Input type='email' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
+              <Input type='text' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
               <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
+              {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
               <button type='submit' className='btn btn-primary'>Rekisteröidy {spinner}</button>
             </Fragment>
           )}
@@ -38,13 +40,14 @@ const RegistrationPage = ({ registrationPending, model, startRegistration }) => 
 
 RegistrationPage.propTypes = {
   model: PropTypes.object.isRequired,
-  registrationPending: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
   startRegistration: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  registrationPending: state.registration.loading,
-  model: state.registration
+  model: state.registration,
+  loading: state.registration.loading
 })
 
 const mapDispatchToProps = dispatch => {
@@ -55,4 +58,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withLoader(RegistrationPage))
