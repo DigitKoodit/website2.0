@@ -13,5 +13,7 @@ export const LOAD_NAVIGATION_FAIL = 'LOAD_NAVIGATION_FAIL'
 
 export const actionKeys = {
   login: 'LOGIN',
-  registration: 'REGISTRATION'
+  registration: 'REGISTRATION',
+  sitePage: 'SITE_PAGE',
+  siteNavigation: 'SITE_NAVIGATION'
 }
