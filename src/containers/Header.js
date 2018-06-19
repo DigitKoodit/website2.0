@@ -1,69 +1,67 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import find from 'lodash/find'
 import Navbar from './Navbar'
 import NavbarItem from '../components/NavbarItem'
 import brandLogo from '../public/images/logo.svg'
+import { connect } from 'react-redux'
+import { siteNavigationActions } from '../actions'
 
-const Header = () => (
-  <div className='header'>
-    <Navbar
-      header={navBarHeader}
-    >
-      <NavbarItem
-        title='Etusivu'
-        path='/'
-      />
-      <NavbarItem
-        title='Viralliset'
-        path='/viralliset'
-        subItems={[{
-          title: 'Esittely',
-          path: '/esittely'
-        }, {
-          title: 'Hallitus',
-          path: '/hallitus'
-        }, {
-          title: 'Toimihenkilöt',
-          path: '/toimihenkilot'
-        }, {
-          title: 'Toimikunnat',
-          path: '/toimikunnat'
-        }]}
-      />
-      <NavbarItem
-        title='Toiminta'
-        path='/toiminta'
-        subItems={[{
-          title: 'Tapahtut',
-          path: '/tapahtumat'
-        }]}
-      />
-      <NavbarItem
-        title='Opiskelu'
-        path='/opiskelu'
-        subItems={[]}
-      />
-      <NavbarItem
-        title='Ilmoittaudu'
-        path='/ilmo'
-        subItems={[]}
-      />
-      <p style={{ display: 'inline', padding: '1.5rem' }}>|</p>
-      <NavbarItem
-        title='Hae'
-        path='/search'
-      >
-        <i className='fa fa-search site-icon action' aria-hidden='true' />
-      </NavbarItem>
-      <NavbarItem
-        title='Intra'
-        path='/intra'
-      >
-        <i className='fa fa-user site-icon action' aria-hidden='true' />
-      </NavbarItem>
-    </Navbar>
-  </div >
-)
+class Header extends PureComponent {
+  componentDidMount() {
+    this.props.fetchNavigation()
+  }
+  render() {
+    const { navItems } = this.props
+    console.log(navItems)
+
+    return (
+      <div className='header'>
+        <Navbar header={navBarHeader}>
+          {navItems.filter(item => !item.parentId).map(item =>
+            <NavbarItem
+              state={item}
+              title={item.title}
+              key={item.id}
+              path={item.path}
+              subItems={item.subItems.map(itemId => {
+                const subItem = find(navItems, { id: itemId })
+                return subItem && ({
+                  state: subItem,
+                  title: subItem.title,
+                  path: subItem.path
+                })
+              })}
+            />
+          )}
+
+          <p style={{ display: 'inline', padding: '1.5rem' }}>|</p>
+          <NavbarItem
+            title='Hae'
+            path='/search'
+          >
+            <i className='fa fa-search site-icon action' aria-hidden='true' />
+          </NavbarItem>
+          <NavbarItem
+            title='Intra'
+            path='/intra'
+          >
+            <i className='fa fa-user site-icon action' aria-hidden='true' />
+          </NavbarItem>
+        </Navbar>
+      </div >
+    )
+  }
+}
+
+Header.propTypes = {
+  navItems: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    path: PropTypes.string,
+    subItems: PropTypes.array
+  }))
+}
 
 const navBarHeader = (
   <div className='row middle-xs brand'>
@@ -87,4 +85,12 @@ const navBarHeader = (
   </div>
 )
 
-export default Header
+const mapStateToProps = (state) => ({
+  navItems: state.siteNavigation.records
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchNavigation: () => dispatch(siteNavigationActions.fetchNavigation())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

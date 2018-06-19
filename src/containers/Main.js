@@ -1,20 +1,21 @@
 import React, { Component, Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import fetch from 'fetch-hoc'
+// import fetch from 'fetch-hoc'
 import asyncComponent from '../components/AsyncComponent'
-import ProfilesRenderer from '../components/ProfilesRenderer'
+// import ProilesRenderer from '../components/ProfilesRenderer'
 import PrivateRoute from '../components/PrivateRoute'
 
 const AsyncHeader = asyncComponent(() => import('./Header'))
 const AsyncHome = asyncComponent(() => import('./Home'))
 const AsyncCalendarSite = asyncComponent(() => import('./CalendarSite'))
-const AsyncBoardComponent = asyncComponent(() => BoardComponent)
+// const AsyncBoardComponent = asyncComponent(() => BoardComponent)
 const AsyncEnrollEvent = asyncComponent(() => import('../enroll/EnrollEvent'))
-const AsyncNotFound = asyncComponent(() => import('./NotFound'))
 const AsyncFooter = asyncComponent(() => import('./Footer'))
-const AsyncIntraPage = asyncComponent(() => BoardComponent)
+const AsyncIntraPage = asyncComponent(() => import('./Intra'))
+// const AsyncIntraPage = asyncComponent(() => BoardComponent)
 const AsyncLoginPage = asyncComponent(() => import('./Auth/LoginPage'))
 const AsyncRegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
+const AsyncDynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
 
 class Main extends Component {
   render() {
@@ -31,12 +32,12 @@ class Main extends Component {
         <Switch>
           <Route path='/' exact component={AsyncHome} />
           <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
-          <Route path='/viralliset/hallitus' component={AsyncBoardComponent} />
+          {/* <Route path='/viralliset/hallitus' component={AsyncBoardComponent} /> */}
           <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
           <Route path='/register' exact component={AsyncRegistrationPage} />
           <Route path='/login' exact component={AsyncLoginPage} />
-          <PrivateRoute path='/intra' exact component={AsyncNotFound} />
-          <Route status={AsyncNotFound} component={AsyncNotFound} />
+          <PrivateRoute path='/intra' exact component={AsyncIntraPage} />
+          <Route path='*' component={AsyncDynamicPage} />
         </Switch>
         <Route path='/' component={AsyncFooter} />
       </Fragment>
@@ -44,14 +45,14 @@ class Main extends Component {
   }
 }
 
-const BoardSite = props => (
-  <ProfilesRenderer
-    title='Hallitus'
-    {...props}
-  />
-)
-const apiUrl = '/api/intra/board/2018'
-const buildBoard = url => fetch(url)(BoardSite)
-const BoardComponent = buildBoard(apiUrl)
+// const BoardSite = props => (
+//   <ProfilesRenderer
+//     title='Hallitus'
+//     {...props}
+//   />
+// )
+// const apiUrl = '/api/intra/board/2018'
+// const buildBoard = url => fetch(url)(BoardSite)
+// const BoardComponent = buildBoard(apiUrl)
 
 export default Main
