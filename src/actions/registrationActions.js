@@ -2,6 +2,7 @@ import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
 import { replace } from 'react-router-redux'
 import { register, confirmRegistration } from '../services/userService'
+
 const REGISTATION = createAsyncTypes(actionKeys.registration)
 
 export default REGISTATION
@@ -18,7 +19,6 @@ export const registrationActions = {
       if(!username || !email || !password) {
         return dispatch(this.error({ common: 'Kaikki kentät vaaditaan' }))
       }
-      dispatch(this.pending())
       register({ username, email, password })
         .then(user => {
           dispatch(this.success(user))
@@ -30,7 +30,7 @@ export const registrationActions = {
                 const { message, validationErrors } = responseBody
                 if(Array.isArray(validationErrors)) {
                   const errors = validationErrors.reduce((acc, error) => {
-                    console.log(error.param)
+                    console.warn(error.param)
                     acc[error.param] = error
                     return acc
                   }, {})
