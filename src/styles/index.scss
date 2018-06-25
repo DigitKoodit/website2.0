@@ -104,7 +104,7 @@ body {
     background: -moz-linear-gradient(right, #f1f1f1, #d2d2d2);
     background: -o-linear-gradient(right, #f1f1f1, #d2d2d2);
     background: linear-gradient(to left, #f1f1f1, #d2d2d2);
-    background: #f1f1f1;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -123,6 +123,14 @@ a {
 
 .site-content {
     padding: 3rem;
+}
+
+.flex-content {
+  height: 100%;   
+  overflow: hidden;
+  margin: 0px;  
+  display: flex;  
+  box-sizing: border-box;
 }
 
 .hero {
