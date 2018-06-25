@@ -36,7 +36,7 @@ class Main extends Component {
           <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
           <Route path='/register' exact component={AsyncRegistrationPage} />
           <Route path='/login' exact component={AsyncLoginPage} />
-          <PrivateRoute path='/intra' exact component={AsyncIntraPage} />
+          <PrivateRoute path='/intra' component={AsyncIntraPage} />
           <Route path='*' component={AsyncDynamicPage} />
         </Switch>
         <Route path='/' component={AsyncFooter} />

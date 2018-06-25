@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import { Helmet } from 'react-helmet'
 import asyncComponent from '../../components/AsyncComponent'
 
-const AsyncNotFound = asyncComponent(() => import('../NotFound'))
+const NotFound = asyncComponent(() => import('../NotFound'))
 
 const PageContent = ({ siteContent }) => (
   <Fragment>
@@ -46,7 +46,7 @@ DynamicPage.propTypes = {
 // eslint-disable-next-line
 const pageContentLoader = Children => ({ location }) => {
   if(!location.state) {
-    return <Route status={AsyncNotFound} component={AsyncNotFound} />
+    return <Route status={NotFound} component={NotFound} />
   }
   const apiUrl = `/api/content/${location.state.sitePageId}`
   const FetchData = fetch(apiUrl)(Children)
