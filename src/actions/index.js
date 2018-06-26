@@ -1,15 +1,18 @@
-import LOGIN, { loginActions } from './loginActions'
-import REGISTRATION, { registrationActions } from './registrationActions'
-import SITE_NAVIGATION, { siteNavigationActions } from './siteNavigationActions'
-
-export const types = {
-  LOGIN,
-  REGISTRATION,
-  SITE_NAVIGATION
-}
+import loginActions, { LOGIN } from './loginActions'
+import registrationActions, { REGISTRATION } from './registrationActions'
+import siteNavigationActions, { SITE_NAVIGATION } from './siteNavigationActions'
+import siteContentActions, { SITE_PAGE } from './pageContentActions'
 
 export {
   loginActions,
   registrationActions,
-  siteNavigationActions
+  siteNavigationActions,
+  siteContentActions
+}
+
+export const types = {
+  LOGIN,
+  REGISTRATION,
+  SITE_NAVIGATION,
+  SITE_PAGE
 }

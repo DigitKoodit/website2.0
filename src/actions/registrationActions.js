@@ -3,16 +3,12 @@ import { createAsyncTypes, createAction } from '../store/helpers'
 import { replace } from 'react-router-redux'
 import { register, confirmRegistration } from '../services/userService'
 
-const REGISTATION = createAsyncTypes(actionKeys.registration)
-
-export default REGISTATION
-
 const routeAfterRegistration = '/registration/continue'
 
-export const registrationActions = {
-  pending: () => createAction(REGISTATION.PENDING),
-  success: response => createAction(REGISTATION.SUCCESS, { response }),
-  error: error => createAction(REGISTATION.ERROR, { error }),
+const registrationActions = {
+  pending: () => createAction(REGISTRATION.PENDING),
+  success: response => createAction(REGISTRATION.SUCCESS, { response }),
+  error: error => createAction(REGISTRATION.ERROR, { error }),
   startRegistration(username, email, password) {
     return dispatch => {
       dispatch(this.pending())
@@ -43,3 +39,6 @@ export const registrationActions = {
     }
   }
 }
+
+export default registrationActions
+export const REGISTRATION = createAsyncTypes(actionKeys.registration)

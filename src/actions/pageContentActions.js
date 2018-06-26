@@ -1,13 +1,11 @@
 import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
-import { create, update, performDelete, fetchAll, fetchById } from '../services/siteContentService'
-const SITE_PAGE = createAsyncTypes(actionKeys.sitePage)
+import createCrudService from '../services/createCrudService'
 
-export default SITE_PAGE
+const siteContentPublicCrud = createCrudService('/api/content')
+const siteContentCrud = createCrudService('/api/intra/cms/content', true)
 
-const routeAfterRegistration = '/registration/continue'
-
-export const registrationActions = {
+const siteContentActions = {
   pending: () => createAction(SITE_PAGE.PENDING),
   success: response => createAction(SITE_PAGE.SUCCESS, { response }),
   error: error => createAction(SITE_PAGE.ERROR, { error }),
@@ -17,7 +15,7 @@ export const registrationActions = {
       if(!sitePage || !sitePage.id) {
         return dispatch(this.error({ common: 'Sivua ei voida tallentaa' }))
       }
-      update(sitePage)
+      siteContentCrud.update(sitePage)
         .then(result => {
           dispatch(this.success(result))
         }).catch(err => {
@@ -40,3 +38,6 @@ export const registrationActions = {
     }
   }
 }
+
+export default siteContentActions
+export const SITE_PAGE = createAsyncTypes(actionKeys.sitePage)

@@ -3,13 +3,10 @@ import { createAsyncTypes, createAction } from '../store/helpers'
 import { login, logout } from '../services/userService'
 import { replace } from 'react-router-redux'
 
-const LOGIN = createAsyncTypes(actionKeys.login)
 const routeAfterLogout = '/'
 const routeAfterLogin = '/intra'
 
-export default LOGIN
-
-export const loginActions = {
+const loginActions = {
   pending: () => createAction(LOGIN.PENDING),
   success: response => createAction(LOGIN.SUCCESS, { response }),
   error: error => createAction(LOGIN.ERROR, { error }),
@@ -50,3 +47,6 @@ export const loginActions = {
     }
   }
 }
+
+export default loginActions
+export const LOGIN = createAsyncTypes(actionKeys.login)
