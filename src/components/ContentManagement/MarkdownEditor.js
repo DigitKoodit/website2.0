@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactMarkdown from 'react-markdown'
+import Markdown from '../../components/ContentManagement/Markdown'
 import Textarea from './Textarea'
 
 const MarkdownEditor = ({ content, handleTextChange }) => {
@@ -18,11 +18,7 @@ const MarkdownEditor = ({ content, handleTextChange }) => {
         </div>
         <div className=' col-xs-6'>
           <p>Esikatselu</p>
-          <ReactMarkdown
-            className={'markdown-area'}
-            source={decodedContent}
-            escapeHtml={false}
-          />
+          <Markdown source={decodedContent} />
         </div>
       </div>
     </div>
