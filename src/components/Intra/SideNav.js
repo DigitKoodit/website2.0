@@ -1,23 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types' //
+import { VerticalList } from '../../components/Layout/Lists'
 
 const SideNav = ({ items }) =>
   <div className='column' id='left'>
     <div className='bottom'>
-      <VerticalList items={items} />
+      <NavVerticalList items={items} />
     </div>
   </div>
 
-const VerticalList = ({ items, level = 0 }) =>
-  <ul className={`menu vertical ${level > 0 ? `margin-sides-${level}` : null}`}>
-    {items.map(item =>
+const NavVerticalList = ({ items, level = 0 }) =>
+  items.length > 0 && <VerticalList
+    className={`menu vertical ${level > 0 ? `margin-sides-${level}` : null}`}
+    items={items}
+    listItemRenderer={item => (
       <ListItem
         key={item.path}
         item={item}
         level={level} />
     )}
-  </ul>
+  />
 
 const ListItem = ({ item, level }) =>
   <li className='menu-item' >
@@ -29,7 +32,7 @@ const ListItem = ({ item, level }) =>
       </Link>
     ) : <span className={`menu-item-link ${!item.active ? 'disabled' : ''}`}>{item.title}</span>
     }
-    {item.routes && <VerticalList items={item.routes} level={level + 1} />}
+    {item.routes && <NavVerticalList items={item.routes} level={level + 1} />}
   </li>
 
 const routeItemPropType = PropTypes.shape({

@@ -75,7 +75,7 @@ const SideNavVerticalList = ({ items, originalItems, onItemClick, level = 0 }) =
   <VerticalList
     className={`list ${level > 0 ? `sub-${level}` : null}`}
     items={items}
-    listItemRendered={item => (
+    listItemRenderer={item => (
       <NestingListItem
         key={item.id}
         item={item}
