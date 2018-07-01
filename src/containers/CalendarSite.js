@@ -29,8 +29,6 @@ class CalendarSite extends React.Component {
 
   render() {
     return (
-      // React Components in JSX look like HTML tags
-
       <div className='site-container'>
         <div className='site-content'>
           <div className='row'>

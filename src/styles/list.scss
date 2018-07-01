@@ -1,0 +1,40 @@
+@import 'variables.scss';
+@mixin sub-intendation($level) {
+  margin-top: 1rem;
+  margin-left: 1rem * $level;
+}
+
+.list {
+  display: block;
+  &.inline {
+    display: inline-block;
+  }
+  .list-item {
+    cursor: pointer;
+    &:first-child {
+      border-top-left-radius: .25rem;
+      border-top-right-radius: .25rem;
+    }
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom-right-radius: .25rem;
+      border-bottom-left-radius: .25rem;
+    }
+    // Hover handled in js component to prevent hover propagating on parent .list-item
+    &.hover {
+      background-color: #f5f8ff;
+    }
+  }
+  .sub-1 {
+    @include sub-intendation(1);
+  }
+  .sub-2 {
+    @include sub-intendation(2);
+  }
+}
+
+.text-detail {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: darkgray;
+}

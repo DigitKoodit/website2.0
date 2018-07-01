@@ -11,7 +11,6 @@ const MarkdownEditor = ({ content, handleTextChange }) => {
         <div className='col-xs-6'>
           <p>Sisältö</p>
           <Textarea
-            className='text-input'
             onTextChange={handleTextChange}
             value={decodedContent}
           />

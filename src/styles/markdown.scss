@@ -1,19 +1,20 @@
-
 blockquote {
   background: #f9f9f9;
-  border-left: 10px solid rgba(250,211,15,1);
+  border-left: 10px solid rgba(250, 211, 15, 1);
   margin: 1.5em 10px;
   padding: 0.5em 10px;
   quotes: "\201C""\201D""\2018""\2019";
 }
+
 blockquote:before {
-  color: rgba(250,211,15,1);
+  color: rgba(250, 211, 15, 1);
   content: open-quote;
   font-size: 4em;
   line-height: 0.1em;
   margin-right: 0.2em;
   vertical-align: -0.4em;
 }
+
 blockquote p {
   display: inline;
 }
@@ -21,13 +22,15 @@ blockquote p {
 .markdown-area {
   .text-container,
   .text-input {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      resize: vertical;
-      border: 1px solid whitesmoke;
-      min-height: 25rem;
-      padding: 1rem;
-      margin: 0;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+    min-height: 40rem;
+    padding: 1rem;
+    display: block;
+    padding: .75rem 1.25rem;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
   }
 }

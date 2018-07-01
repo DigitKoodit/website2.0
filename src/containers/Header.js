@@ -14,11 +14,10 @@ class Header extends PureComponent {
   }
   render() {
     const { navItems } = this.props
-    console.log(navItems)
 
     return (
       <div className='header'>
-        <Navbar header={navBarHeader}>
+        <Navbar header={NavBarHeader}>
           {navItems.filter(item => !item.parentId).map(item =>
             <NavbarItem
               state={item}
@@ -60,10 +59,11 @@ Header.propTypes = {
     title: PropTypes.string,
     path: PropTypes.string,
     subItems: PropTypes.array
-  }))
+  })),
+  fetchNavigation: PropTypes.func.isRequired
 }
 
-const navBarHeader = (
+const NavBarHeader = (
   <div className='row middle-xs brand'>
     <div className='col-xs-3 end-xs'>
       <Link to='/'>

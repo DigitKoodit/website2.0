@@ -28,7 +28,7 @@ const RegistrationPage = ({ isLoading, model, startRegistration }) => {
               <Input type='text' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
               <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
               {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
-              <button type='submit' className='btn btn-primary'>Rekisteröidy {spinner}</button>
+              <button type='submit' className='btn btn-primary full-width'>Rekisteröidy {spinner}</button>
             </Fragment>
           )}
         </Form>

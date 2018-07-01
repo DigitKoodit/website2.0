@@ -20,7 +20,7 @@ const Textarea = ({ value, onTextChange }) => {
 
   return (
     <textarea
-      className='text-input'
+      className='text-input margin-top-1'
       value={value}
       onChange={e => onTextChange(e.target.value)}
       onKeyDown={handleKeyEvent}

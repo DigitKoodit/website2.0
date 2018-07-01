@@ -25,7 +25,7 @@ const LoginPage = ({ isLoading, model, startLogin }) => {
               <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
               <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
               {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
-              <button type='submit' className='btn btn-primary'>Kirjaudu {Spinner}</button>
+              <button type='submit' className='btn btn-primary full-width'>Kirjaudu {Spinner}</button>
             </Fragment>
           )}
         </Form>
