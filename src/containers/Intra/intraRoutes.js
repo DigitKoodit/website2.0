@@ -1,9 +1,11 @@
 import asyncComponent from '../../components/AsyncComponent'
 const ContentManager = asyncComponent(() => import('./ContentManager'))
+const NavigationManager = asyncComponent(() => import('./NavigationManager'))
 const NotFound = asyncComponent(() => import('../NotFound'))
+const Profile = asyncComponent(() => import('./ProfilePage'))
 
 const routes = [
-  { title: 'Profiili', path: '/intra/profile', component: NotFound, active: false },
+  { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
   { title: 'Ilmo', path: '/intra/enroll', component: NotFound, active: false },
   { title: 'Käyttäjät', path: '/intra/accounts', component: NotFound, active: false },
   {
@@ -13,7 +15,7 @@ const routes = [
     active: false,
     routes: [
       { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
-      { title: 'Navigointi', path: '/intra/cms/navigation', component: null, active: false },
+      { title: 'Navigointi', path: '/intra/cms/navigation', component: NavigationManager, active: true },
       { title: 'Sponsorit', path: '/intra/cms/sponsors', component: null, active: false }
     ]
   },
