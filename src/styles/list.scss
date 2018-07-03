@@ -11,6 +11,7 @@
   }
   .list-item {
     cursor: pointer;
+    transition: margin 0.1s;
     &:first-child {
       border-top-left-radius: .25rem;
       border-top-right-radius: .25rem;
@@ -21,8 +22,8 @@
       border-bottom-left-radius: .25rem;
     }
     // Hover handled in js component to prevent hover propagating on parent .list-item
-    &.hover {
-      background-color: #f5f8ff;
+    &:hover {
+      margin-left: 0.2rem;
     }
   }
   .sub-1 {

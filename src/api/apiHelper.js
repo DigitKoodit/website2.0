@@ -6,7 +6,7 @@ const authorizationHeader = () => {
 }
 
 const commonHeaders = requireAuth => {
-  const authHeader = requireAuth ? authorizationHeader : null
+  const authHeader = requireAuth ? authorizationHeader() : null
   return {
     'Content-Type': 'application/json',
     ...authHeader
