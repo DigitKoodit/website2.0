@@ -1,8 +1,12 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent, Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
 import noop from 'lodash/noop'
+import isNil from 'lodash/isNil'
+import get from 'lodash/get'
+import reduce from 'lodash/reduce'
+import isMatch from 'lodash/isMatch'
 import { siteNavigationActions } from '../../actions'
 import Base from '../../components/Layout/Base'
 import { VerticalList } from '../../components/Layout/Lists'
@@ -22,17 +26,73 @@ const renderNavListItem = item =>
     <p><span className='text-detail'>SIVU </span>{item.isCustom ? 'Custom' : 'Sivu:' + item.sitePageId}</p>
   </Fragment>
 
-const renderDetailedNavItem = item =>
-  <Fragment>
-    <p><span className='text-detail'>NIMI </span><input type='text' value={item.title} /></p>
-    <p><span className='text-detail'>POLKU </span><input type='text' value={item.path} /></p>
-    <p><span className='text-detail'>SIVU </span>{item.isCustom ? 'Custom' : <input type='text' value={item.sitePageId} />}</p>
-    <p><span className='text-detail'>YLÄSIVU </span>{!!item.parentId && item.parentId}</p>
-    <p><span className='text-detail'>ALASIVUT </span>{item.subItems.length > 0 ? <b>{item.subItems.length}</b> : 'Ei alasivuja'}</p>
-    <p><span className='text-detail'>PAINO </span><input type='number' step='1' value={item.weight} /></p>
-    <button className='margin-top-1'>Tallenna</button>
-  </Fragment>
+class NavigationEditor extends Component {
+  state = {
+    navItem: this.props.navItem
+  }
+  static getDerivedStateFromProps(nextProps, state) {
+    // Omitted from: https://medium.com/@ddunderfelt/controlled-forms-with-react-f7ecc1ce6155
+    if(nextProps.loading) {
+      return null
+    }
+    // Required for React 16.4: compare prev props to next props
+    // and don't update if they're the same. Uses lodash methods.
+    const prevProps = get(state, '_prevProps', false)
 
+    if(prevProps && isMatch(nextProps, prevProps)) {
+      return null
+    }
+    const nextState = reduce(
+      state,
+      (returnState, value, prop) => {
+        if(!isNil(nextProps[prop])) {
+          return { ...returnState, [prop]: nextProps[prop] }
+        }
+        return returnState
+      },
+      state
+    )
+    // React 16.4: Save the props in state for the next run.
+    nextState._prevProps = nextProps
+
+    return nextState
+  }
+
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    // Default to null TODO: better solution for checking per parameter
+    this.setState(prevState => ({ navItem: { ...prevState.navItem, [name]: value || null } }))
+  }
+  render() {
+    const { navItem } = this.state
+    const { onSave, onRemove, onCancel } = this.props
+    return <Fragment>
+      <p><span className='text-detail'>NIMI </span><input name='title' type='text' value={!isNil(navItem.title) ? navItem.title : ''} onChange={this.handleChange} /></p>
+      <p><span className='text-detail'>POLKU </span><input name='path' type='text' value={!isNil(navItem.path) ? navItem.path : ''} onChange={this.handleChange} /></p>
+      <p><span className='text-detail'>SIVU </span>{navItem.isCustom ? 'Custom' : <input name='sitePageId' type='number' value={!isNil(navItem.sitePageId) ? navItem.sitePageId : ''} onChange={this.handleChange} />}</p>
+      <p><span className='text-detail'>YLÄSIVU </span><input name='parentId' type='number' value={!isNil(navItem.parentId) ? navItem.parentId : ''} onChange={this.handleChange} /></p>
+      <p><span className='text-detail'>ALASIVUT </span>{navItem.subItems.length > 0 ? <b>{navItem.subItems.length}</b> : 'Ei alasivuja'}</p>
+      <p><span className='text-detail'>PAINO </span><input name='weight' type='number' step='1' value={!isNil(navItem.weight) ? navItem.weight : ''} onChange={this.handleChange} /></p>
+      <button className='margin-top-1' onClick={() => onSave(navItem)}>Tallenna</button>
+      <button className='margin-top-1' onClick={() => onCancel(navItem)}>Peruuta</button>
+      <button className='margin-top-1' onClick={() => onRemove(navItem)}>Poista</button>
+    </Fragment>
+  }
+  static propTypes = {
+    navItem: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+      isCustom: PropTypes.bool.isRequired,
+      weight: PropTypes.number.isRequired,
+      parentId: PropTypes.number,
+      subItems: PropTypes.array
+    }).isRequired,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired
+  }
+}
 class NavigationManager extends PureComponent {
   state = {
     activeItemId: null
@@ -41,6 +101,11 @@ class NavigationManager extends PureComponent {
     this.props.fetchNavigation()
   }
   handleNavItemClick = navItemId => this.setState({ activeItemId: navItemId })
+  renderDetailedNavItem = item => <NavigationEditor
+    navItem={item}
+    onSave={this.props.updateNavigation}
+    onCancel={() => this.setState({ activeItemId: null })}
+    onRemove={this.props.removeNavItem} />
 
   render() {
     const { navItems } = this.props
@@ -60,7 +125,7 @@ class NavigationManager extends PureComponent {
               </div>
               <div className='col-xs-8'>
                 <div className='box'>
-                  {activeItemId ? <Clickable item={find(navItems, { id: activeItemId })} renderItem={renderDetailedNavItem} /> : <p>Valitse muokattava kohde vasemmalta</p>}
+                  {(activeItemId && find(navItems, { id: activeItemId })) ? <Clickable item={find(navItems, { id: activeItemId })} renderItem={this.renderDetailedNavItem} /> : <p>Valitse muokattava kohde listalta</p>}
                 </div>
               </div>
             </div>
@@ -111,7 +176,9 @@ NavigationManager.propTypes = {
     path: PropTypes.string,
     subItems: PropTypes.array
   })),
-  fetchNavigation: PropTypes.func.isRequired
+  fetchNavigation: PropTypes.func.isRequired,
+  updateNavigation: PropTypes.func.isRequired,
+  removeNavItem: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -119,7 +186,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchNavigation: () => dispatch(siteNavigationActions.fetchNavigation())
+  fetchNavigation: () => dispatch(siteNavigationActions.fetchNavigation()),
+  updateNavigation: navItem => dispatch(siteNavigationActions.updateNavigation(navItem)),
+  removeNavItem: navItem => dispatch(siteNavigationActions.removeNavItem(navItem))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationManager)
