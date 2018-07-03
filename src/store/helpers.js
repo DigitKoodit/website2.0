@@ -5,11 +5,24 @@ const asyncTypes = {
   ERROR: 'ERROR'
 }
 
+export const crudTypes = {
+  FETCH: 'FETCH',
+  UPDATE: 'UPDATE',
+  CREATE: 'CREATE',
+  DELETE: 'DELETE'
+}
+
 export const createAsyncTypes = typeString =>
-  Object.values(asyncTypes).reduce((acc, current) => {
-    acc[current] = `${typeString}_${current}`
-    return acc
-  }, {})
+  Object.values(asyncTypes).reduce((acc, current) => ({
+    ...acc,
+    [current]: `${typeString}_${current}`
+  }), {})
+
+export const createCrudTypes = typeString =>
+  Object.values(crudTypes).reduce((acc, current) => ({
+    ...acc,
+    [current]: createAsyncTypes(`${typeString}_${current}`)
+  }), {})
 
 export const createAction = (type, payload = {}) =>
   ({ type, ...payload })

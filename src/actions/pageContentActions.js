@@ -1,17 +1,17 @@
 import { actionKeys } from './actionTypes'
-import { createAsyncTypes, createAction } from '../store/helpers'
+import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 
 const siteContentPublicCrud = createCrudService('/api/content')
 const siteContentCrud = createCrudService('/api/intra/cms/content', true)
 
 const siteContentActions = {
-  pending: () => createAction(SITE_PAGE.PENDING),
-  success: response => createAction(SITE_PAGE.SUCCESS, { response }),
-  error: error => createAction(SITE_PAGE.ERROR, { error }),
+  pending: (crudType) => createAction(SITE_PAGE[crudType] ? SITE_PAGE[crudType].PENDING : SITE_PAGE.PENDING),
+  success: (response, crudType) => createAction(SITE_PAGE[crudType] ? SITE_PAGE[crudType].SUCCESS : SITE_PAGE.SUCCESS, { response }),
+  error: (error, crudType) => createAction(SITE_PAGE[crudType] ? SITE_PAGE[crudType].ERROR : SITE_PAGE.ERROR, { error }),
   savePage(sitePage) {
     return dispatch => {
-      dispatch(this.pending())
+      dispatch(this.pending(crudTypes.CREATE))
       if(!sitePage || !sitePage.id) {
         return dispatch(this.error({ common: 'Sivua ei voida tallentaa' }))
       }
@@ -29,7 +29,7 @@ const siteContentActions = {
                     acc[error.param] = error
                     return acc
                   }, {})
-                  dispatch(this.error({ common: message, ...errors }))
+                  dispatch(this.error({ common: message, ...errors }, crudTypes.CREATE))
                 }
               })
           }
@@ -40,4 +40,4 @@ const siteContentActions = {
 }
 
 export default siteContentActions
-export const SITE_PAGE = createAsyncTypes(actionKeys.sitePage)
+export const SITE_PAGE = createCrudTypes(actionKeys.sitePage)

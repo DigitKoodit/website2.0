@@ -1,27 +1,28 @@
 import { actionKeys } from './actionTypes'
-import { createAsyncTypes, createAction } from '../store/helpers'
+import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 
 const navItemPublicCrud = createCrudService('/api/content/navigation')
-const navItemCrud = createCrudService('/api/intra/cms/content/navigation', true)
+// Private routes require authorization header
+const requireAuth = true
+const navItemCrud = createCrudService('/api/intra/cms/content/navigation', requireAuth)
 
 const siteNavigationActions = {
-  pending: () => createAction(SITE_NAVIGATION.PENDING),
-  success: response => createAction(SITE_NAVIGATION.SUCCESS, { response }),
-  error: error => createAction(SITE_NAVIGATION.ERROR, { error }),
+  pending: (crudType) => createAction(SITE_NAVIGATION[crudType].PENDING),
+  success: (response, crudType) => createAction(SITE_NAVIGATION[crudType].SUCCESS, { response }),
+  error: (error, crudType) => createAction(SITE_NAVIGATION[crudType].ERROR, { error }),
   fetchNavigation() {
     return dispatch => {
-      dispatch(this.pending())
+      dispatch(this.pending(crudTypes.FETCH))
       navItemPublicCrud.fetchAll()
         .then(response => {
-          dispatch(this.success(response))
+          dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
           console.error('Sivun navigointia ei voitu ladata', err)
-          dispatch(this.error({ common: 'Sisältö ei saataville' }))
         })
     }
   }
 }
 
 export default siteNavigationActions
-export const SITE_NAVIGATION = createAsyncTypes(actionKeys.siteNavigation)
+export const SITE_NAVIGATION = createCrudTypes(actionKeys.siteNavigation)
