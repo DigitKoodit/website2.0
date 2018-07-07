@@ -86,7 +86,7 @@ const NavBarHeader = (
 )
 
 const mapStateToProps = (state) => ({
-  navItems: state.siteNavigation.records
+  navItems: state.siteNavigation.records.filter(item => item.isVisible)
 })
 
 const mapDispatchToProps = (dispatch) => ({

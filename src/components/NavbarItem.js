@@ -16,10 +16,11 @@ const NavbarItem = ({ state, title, path, subItems, children }) => (
     {
       subItems && (
         <div className='submenu'>
-          {subItems.map(item => (
+          {subItems.map((item, index) => (
+            item &&
             <NavbarSubmenuItem
               state={item}
-              key={item.path}
+              key={index}
               title={item.title}
               path={path + item.path}
             />
