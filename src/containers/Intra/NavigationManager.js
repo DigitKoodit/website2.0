@@ -59,20 +59,23 @@ class NavigationEditor extends Component {
   }
 
   handleChange = event => {
-    const value = event.target.value
+    const isCheckbox = event.target.type === 'checkbox'
+    const value = isCheckbox ? event.target.checked : event.target.value
     const name = event.target.name
     // Default to null TODO: better solution for checking per parameter
-    this.setState(prevState => ({ navItem: { ...prevState.navItem, [name]: value || null } }))
+    this.setState(prevState => ({ navItem: { ...prevState.navItem, [name]: isCheckbox ? value : (value || null) } }))
   }
   render() {
     const { navItem } = this.state
     const { onSave, onRemove, onCancel } = this.props
     return <Fragment>
+      <p><span className='text-detail'>ID </span>{navItem.id}</p>
       <p><span className='text-detail'>NIMI </span><input name='title' type='text' value={!isNil(navItem.title) ? navItem.title : ''} onChange={this.handleChange} /></p>
       <p><span className='text-detail'>POLKU </span><input name='path' type='text' value={!isNil(navItem.path) ? navItem.path : ''} onChange={this.handleChange} /></p>
       <p><span className='text-detail'>SIVU </span>{navItem.isCustom ? 'Custom' : <input name='sitePageId' type='number' value={!isNil(navItem.sitePageId) ? navItem.sitePageId : ''} onChange={this.handleChange} />}</p>
       <p><span className='text-detail'>YLÄSIVU </span><input name='parentId' type='number' value={!isNil(navItem.parentId) ? navItem.parentId : ''} onChange={this.handleChange} /></p>
       <p><span className='text-detail'>ALASIVUT </span>{navItem.subItems.length > 0 ? <b>{navItem.subItems.length}</b> : 'Ei alasivuja'}</p>
+      <p><span className='text-detail'>JULKAISTU </span><input name='isVisible' type='checkbox' checked={navItem.isVisible} onChange={this.handleChange} /></p>
       <p><span className='text-detail'>PAINO </span><input name='weight' type='number' step='1' value={!isNil(navItem.weight) ? navItem.weight : ''} onChange={this.handleChange} /></p>
       <button className='margin-top-1' onClick={() => onSave(navItem)}>Tallenna</button>
       <button className='margin-top-1' onClick={() => onCancel(navItem)}>Peruuta</button>
@@ -101,14 +104,22 @@ class NavigationManager extends PureComponent {
     this.props.fetchNavigation()
   }
   handleNavItemClick = navItemId => this.setState({ activeItemId: navItemId })
+
+  clearSelection = () => this.setState({ activeItemId: null })
+
   renderDetailedNavItem = item => <NavigationEditor
     navItem={item}
-    onSave={this.props.updateNavigation}
-    onCancel={() => this.setState({ activeItemId: null })}
-    onRemove={this.props.removeNavItem} />
+    onSave={this.state.activeItemId < 0 ? this.props.addNavItem : this.props.updateNavigation}
+    onCancel={this.clearSelection}
+    onRemove={this.removeNavItem} />
+
+  removeNavItem = item => {
+    this.props.removeNavItem(item)
+    this.clearSelection()
+  }
 
   render() {
-    const { navItems } = this.props
+    const { navItems, initNewNavItem } = this.props
     const { activeItemId } = this.state
     return (
       <Base>
@@ -128,6 +139,8 @@ class NavigationManager extends PureComponent {
                   {(activeItemId && find(navItems, { id: activeItemId })) ? <Clickable item={find(navItems, { id: activeItemId })} renderItem={this.renderDetailedNavItem} /> : <p>Valitse muokattava kohde listalta</p>}
                 </div>
               </div>
+              <button className='margin-top-1' onClick={initNewNavItem}>Lisää uusi</button>
+
             </div>
           </div>
         </div>
@@ -153,7 +166,7 @@ const SideNavVerticalList = ({ items, originalItems, onItemClick, level = 0 }) =
 const NestingListItem = ({ item, items, level, onItemClick }) => (
   <li key={item.id} className='list-item box' >
     <Clickable className='nav-item' item={item} onClick={() => onItemClick(item.id)} renderItem={renderNavListItem} />
-    {item.subItems > 0 && (
+    {item.subItems.length > 0 && (
       <SideNavVerticalList
         items={items.filter(i => item.id === i.parentId)}
         originalItems={items}
@@ -177,6 +190,8 @@ NavigationManager.propTypes = {
     subItems: PropTypes.array
   })),
   fetchNavigation: PropTypes.func.isRequired,
+  addNavItem: PropTypes.func.isRequired,
+  initNewNavItem: PropTypes.func.isRequired,
   updateNavigation: PropTypes.func.isRequired,
   removeNavItem: PropTypes.func.isRequired
 }
@@ -187,6 +202,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchNavigation: () => dispatch(siteNavigationActions.fetchNavigation()),
+  initNewNavItem: () => dispatch(siteNavigationActions.prepareNew()),
+  addNavItem: navItem => dispatch(siteNavigationActions.addNavItem(navItem)),
   updateNavigation: navItem => dispatch(siteNavigationActions.updateNavigation(navItem)),
   removeNavItem: navItem => dispatch(siteNavigationActions.removeNavItem(navItem))
 })
