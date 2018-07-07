@@ -32,3 +32,11 @@ export const createReducer = (initialState, handlers) =>
     handlers.hasOwnProperty(action.type)
       ? handlers[action.type](state, action)
       : state
+
+export const arrayToObject = array => array.reduce((acc, item) => ({ ...acc, [item.id]: item }))
+
+export const deleteItem = (object, key) => {
+  const filtered = { ...object }
+  delete filtered[key]
+  return filtered
+}

@@ -18,7 +18,7 @@ const createCrudService = (baseUrl, requireAuth = false) => {
     put(baseUrlTemplate.expand({ id: data.id }), addBodyPayload(data), requireAuth)
 
   const performDelete = data =>
-    del(baseUrlTemplate.expand({ id: data.id }), requireAuth)
+    del(baseUrlTemplate.expand({ id: data.id }), null, requireAuth)
 
   return {
     fetchAll,
