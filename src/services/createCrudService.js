@@ -6,10 +6,10 @@ const addBodyPayload = data => ({ body: JSON.stringify(data) })
 const createCrudService = (baseUrl, requireAuth = false) => {
   const baseUrlTemplate = urlTemplate.parse(`${baseUrl}/{id}`)
   const fetchAll = () =>
-    get(baseUrl, requireAuth)
+    get(baseUrl, null, requireAuth)
 
   const fetchById = id =>
-    get(baseUrlTemplate.expand({ id }), requireAuth)
+    get(baseUrlTemplate.expand({ id }), null, requireAuth)
 
   const create = data =>
     post(baseUrlTemplate.expand({}), addBodyPayload(data), requireAuth)
