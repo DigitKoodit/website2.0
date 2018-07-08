@@ -10,28 +10,27 @@ const initialState = {
   loading: false
 }
 
+const reducerType = types.SITE_NAVIGATION
+
 export default createReducer(initialState, {
-  ...commonCrudReducers(types.SITE_NAVIGATION),
-  [types.SITE_NAVIGATION.FETCH.SUCCESS]: (state, action) => ({
+  ...commonCrudReducers(reducerType),
+  [reducerType.FETCH.SUCCESS]: (state, action) => ({
     ...state,
     records: parseSubItems([...action.response]),
     loading: false
   }),
-  [types.SITE_NAVIGATION.CREATE.SUCCESS]: (state, action) => ({
+  [reducerType.CREATE.SUCCESS]: (state, action) => ({
     ...state,
-    // rough way of copying updated object to records
     records: parseSubItems([...state.records, action.response]),
     loading: false
   }),
-  [types.SITE_NAVIGATION.UPDATE.SUCCESS]: (state, action) => ({
+  [reducerType.UPDATE.SUCCESS]: (state, action) => ({
     ...state,
-    // rough way of copying updated object to records
     records: parseSubItems(state.records.map(item => item.id === action.response.id ? action.response : item)),
     loading: false
   }),
-  [types.SITE_NAVIGATION.DELETE.SUCCESS]: (state, action) => ({
+  [reducerType.DELETE.SUCCESS]: (state, action) => ({
     ...state,
-    // rough way of copying updated object to records
     records: state.records.filter(item => item.id !== action.response.id),
     loading: false
   })

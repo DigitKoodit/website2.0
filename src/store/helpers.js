@@ -43,20 +43,43 @@ export const deleteItem = (object, key) => {
 }
 
 /**
- * Generates PENDING and ERROR reducers for CRUD operations for passed type
+ * Generates reducers for crud operations. Just override function in reducer if custom operations are needed. E.g: * {..., [reducerType.CREATE.SUCCESS]: (state, action) {...},...} Se siteNavigationReducers.js
  *
  * @param {String} type reducer type constant
  */
-export const commonCrudReducers = type => ({
-  ...combineCrudOperationReducers(type, 'PENDING', state => ({
+export const commonCrudReducers = reducerType => ({
+  ...combineCrudOperationReducers(reducerType, 'PENDING', state => ({
     ...state,
     loading: true
   })),
-  ...combineCrudOperationReducers(type, 'ERROR', (state, action) => ({
+  ...combineCrudOperationReducers(reducerType, 'ERROR', (state, action) => ({
     ...state,
     error: action.error,
     loading: false
-  }))
+  })),
+  [reducerType.FETCH.SUCCESS]: (state, action) => ({
+    ...state,
+    records: [...action.response],
+    loading: false
+  }),
+  [reducerType.CREATE.SUCCESS]: (state, action) => ({
+    ...state,
+    // rough way of copying updated object to records
+    records: [...state.records, action.response],
+    loading: false
+  }),
+  [reducerType.UPDATE.SUCCESS]: (state, action) => ({
+    ...state,
+    // rough way of copying updated object to records
+    records: state.records.map(item => item.id === action.response.id ? action.response : item),
+    loading: false
+  }),
+  [reducerType.DELETE.SUCCESS]: (state, action) => ({
+    ...state,
+    // rough way of copying updated object to records
+    records: state.records.filter(item => item.id !== action.response.id),
+    loading: false
+  })
 })
 
 export const combineCrudOperationReducers = (type, actionType, reducerFunc) =>
