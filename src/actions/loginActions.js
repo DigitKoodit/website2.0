@@ -10,10 +10,10 @@ const loginActions = {
   pending: () => createAction(LOGIN.PENDING),
   success: response => createAction(LOGIN.SUCCESS, { response }),
   error: error => createAction(LOGIN.ERROR, { error }),
-  logout() {
+  logout(redirectUrl = routeAfterLogout) {
     return dispatch => {
       logout()
-        .then(() => dispatch(replace(routeAfterLogout)))
+        .then(() => dispatch(replace(redirectUrl)))
     }
   },
   startLogin(username, password) {

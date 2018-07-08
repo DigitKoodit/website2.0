@@ -101,7 +101,7 @@ class NavigationManager extends PureComponent {
     activeItemId: null
   }
   componentDidMount() {
-    this.props.fetchNavigation()
+    this.props.fetchNavigation(true)
   }
   handleNavItemClick = navItemId => this.setState({ activeItemId: navItemId })
 
@@ -201,7 +201,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchNavigation: () => dispatch(siteNavigationActions.fetchNavigation()),
+  fetchNavigation: attemptAuthorizedRoute => dispatch(siteNavigationActions.fetchNavigation(attemptAuthorizedRoute)),
   initNewNavItem: () => dispatch(siteNavigationActions.prepareNew()),
   addNavItem: navItem => dispatch(siteNavigationActions.addNavItem(navItem)),
   updateNavigation: navItem => dispatch(siteNavigationActions.updateNavigation(navItem)),
