@@ -1,9 +1,8 @@
-import { crudTypes, createReducer } from '../store/helpers'
+import { createReducer, commonCrudReducers } from '../store/helpers'
 import { types } from '../actions'
 import toArray from 'lodash/toArray'
 import sortBy from 'lodash/sortBy'
 import includes from 'lodash/includes'
-import mapValues from 'lodash/mapValues'
 
 const initialState = {
   records: [],
@@ -11,21 +10,8 @@ const initialState = {
   loading: false
 }
 
-const combineCrudOperationReducers = (type, actionType, reducerFunc) =>
-  mapValues(crudTypes, crudOperation => ({
-    [type[crudOperation][actionType]]: reducerFunc
-  }))
-
 export default createReducer(initialState, {
-  ...combineCrudOperationReducers(types.SITE_NAVIGATION, 'PENDING', state => ({
-    ...state,
-    loading: true
-  })),
-  ...combineCrudOperationReducers(types.SITE_NAVIGATION, 'ERROR', (state, action) => ({
-    ...state,
-    error: action.error,
-    loading: false
-  })),
+  ...commonCrudReducers(types.SITE_NAVIGATION),
   [types.SITE_NAVIGATION.FETCH.SUCCESS]: (state, action) => ({
     ...state,
     records: parseSubItems([...action.response]),

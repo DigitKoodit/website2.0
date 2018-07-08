@@ -1,3 +1,4 @@
+import mapValues from 'lodash/mapValues'
 
 const asyncTypes = {
   PENDING: 'PENDING',
@@ -40,3 +41,25 @@ export const deleteItem = (object, key) => {
   delete filtered[key]
   return filtered
 }
+
+/**
+ * Generates PENDING and ERROR reducers for CRUD operations for passed type
+ *
+ * @param {String} type reducer type constant
+ */
+export const commonCrudReducers = type => ({
+  ...combineCrudOperationReducers(type, 'PENDING', state => ({
+    ...state,
+    loading: true
+  })),
+  ...combineCrudOperationReducers(type, 'ERROR', (state, action) => ({
+    ...state,
+    error: action.error,
+    loading: false
+  }))
+})
+
+export const combineCrudOperationReducers = (type, actionType, reducerFunc) =>
+  mapValues(crudTypes, crudOperation => ({
+    [type[crudOperation][actionType]]: reducerFunc
+  }))
