@@ -2,7 +2,6 @@ import React, { PureComponent, Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import find from 'lodash/find'
-import noop from 'lodash/noop'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import reduce from 'lodash/reduce'
@@ -10,20 +9,14 @@ import isMatch from 'lodash/isMatch'
 import { siteNavigationActions } from '../../actions'
 import Base from '../../components/Layout/Base'
 import { VerticalList } from '../../components/Layout/Lists'
+import Clickable from '../../components/Event/Clickable'
 import '../../styles/list.css'
-
-const Clickable = ({ item, onClick, className, renderItem }) => {
-  const _onClick = () => onClick ? onClick(item.id) : noop
-  return (<div className={className} onClick={_onClick}>
-    {renderItem(item)}
-  </div>)
-}
 
 const renderNavListItem = item =>
   <Fragment>
-    <p><span className='text-detail'>NIMI </span>{item.title}</p>
-    <p><span className='text-detail'>POLKU </span>{item.path}</p>
-    <p><span className='text-detail'>SIVU </span>{item.isCustom ? 'Custom' : 'Sivu:' + item.sitePageId}</p>
+    <p className='clear-margin'><span className='text-detail'>NIMI </span>{item.title}</p>
+    <p className='clear-margin'><span className='text-detail'>POLKU </span>{item.path}</p>
+    <p className='clear-margin'><span className='text-detail'>SIVU </span>{item.isCustom ? 'Custom' : 'Sivu:' + item.sitePageId}</p>
   </Fragment>
 
 class NavigationEditor extends Component {
