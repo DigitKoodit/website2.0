@@ -1,13 +1,13 @@
 import loginActions, { LOGIN } from './loginActions'
 import registrationActions, { REGISTRATION } from './registrationActions'
 import siteNavigationActions, { SITE_NAVIGATION } from './siteNavigationActions'
-import siteContentActions, { SITE_PAGE } from './pageContentActions'
+import pageContentActions, { SITE_PAGE } from './pageContentActions'
 
 export {
   loginActions,
   registrationActions,
   siteNavigationActions,
-  siteContentActions
+  pageContentActions
 }
 
 export const types = {
