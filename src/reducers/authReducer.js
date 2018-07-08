@@ -3,7 +3,7 @@ import * as types from '../actions/actionTypes'
 const initialState = {
   userId: '',
   userName: ',',
-  authenticated: true
+  isLoggedIn: false
 }
 
 export default function authReducer(state = initialState, action) {
@@ -13,7 +13,7 @@ export default function authReducer(state = initialState, action) {
         ...state,
         userId: action.userId,
         userName: action.userName,
-        authenticated: true
+        isLoggedIn: true
       }
     case types.LOGIN_FAIL:
     case types.REQUEST_LOGOUT:
@@ -22,10 +22,13 @@ export default function authReducer(state = initialState, action) {
         ...state,
         userId: '',
         userName: '',
-        authenticated: false
+        isLoggedIn: false
       }
     case types.REQUEST_LOGIN:
-      return null
+      return {
+        ...state,
+        initialState
+      }
     default:
       return state
   }
