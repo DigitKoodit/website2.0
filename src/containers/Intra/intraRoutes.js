@@ -3,6 +3,7 @@ const ContentManager = asyncComponent(() => import('./ContentManager'))
 const NavigationManager = asyncComponent(() => import('./NavigationManager'))
 const NotFound = asyncComponent(() => import('../NotFound'))
 const Profile = asyncComponent(() => import('./ProfilePage'))
+const SponsorManager = asyncComponent(() => import('./SponsorManager'))
 
 const routes = [
   { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
@@ -16,7 +17,7 @@ const routes = [
     routes: [
       { title: 'Navigointi', path: '/intra/cms/navigation', component: NavigationManager, active: true },
       { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
-      { title: 'Sponsorit', path: '/intra/cms/sponsors', component: null, active: false }
+      { title: 'Sponsorit', path: '/intra/cms/sponsors', component: SponsorManager, active: true }
     ]
   },
   {

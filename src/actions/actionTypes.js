@@ -15,5 +15,6 @@ export const actionKeys = {
   login: 'LOGIN',
   registration: 'REGISTRATION',
   sitePage: 'SITE_PAGE',
-  siteNavigation: 'SITE_NAVIGATION'
+  siteNavigation: 'SITE_NAVIGATION',
+  sponsor: 'SPONSOR'
 }

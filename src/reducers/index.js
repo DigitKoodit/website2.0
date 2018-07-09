@@ -4,6 +4,7 @@ import login from './loginReducers'
 import registration from './registrationReducers'
 import siteNavigation from './siteNavigationReducers'
 import pages from './pageContentReducers'
+import sponsors from './sponsorReducers'
 
 const rootReducer =
   {
@@ -11,7 +12,8 @@ const rootReducer =
     login,
     registration,
     siteNavigation,
-    pages
+    pages,
+    sponsors
   }
 
 export default rootReducer
