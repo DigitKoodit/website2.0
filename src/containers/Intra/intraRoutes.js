@@ -1,11 +1,13 @@
 import asyncComponent from '../../components/AsyncComponent'
 const ContentManager = asyncComponent(() => import('./ContentManager'))
+const IntraPage = asyncComponent(() => import('./IntraPage'))
 const NavigationManager = asyncComponent(() => import('./NavigationManager'))
 const NotFound = asyncComponent(() => import('../NotFound'))
 const Profile = asyncComponent(() => import('./ProfilePage'))
 const SponsorManager = asyncComponent(() => import('./SponsorManager'))
 
 const routes = [
+  { title: 'Intra', path: '/intra', component: IntraPage, active: true, exact: true },
   { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
   { title: 'Ilmo', path: '/intra/enroll', component: NotFound, active: false },
   { title: 'Käyttäjät', path: '/intra/accounts', component: NotFound, active: false },
