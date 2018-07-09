@@ -75,7 +75,7 @@ const pageContentActions = {
         })
     }
   },
-  removeNavItem(pageItem) {
+  removePage(pageItem) {
     return dispatch => {
       const isUnsavedItem = pageItem.id < 0
       if(isUnsavedItem) {

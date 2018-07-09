@@ -12,7 +12,8 @@ const Clickable = ({ item, onClick, className, renderItem }) => {
 Clickable.propTypes = {
   item: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
+    PropTypes.object
   ]).isRequired,
   onClick: PropTypes.func.isRequired,
   renderItem: PropTypes.func.isRequired,

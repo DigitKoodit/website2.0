@@ -126,14 +126,13 @@ class NavigationManager extends PureComponent {
                   onItemClick={this.handleNavItemClick}
                   originalItems={navItems}
                 />
+                <button className='margin-top-1' onClick={initNewNavItem}>Lisää uusi</button>
               </div>
               <div className='col-xs-8'>
                 <div className='box'>
                   {(activeItemId && find(navItems, { id: activeItemId })) ? <Clickable item={find(navItems, { id: activeItemId })} renderItem={this.renderDetailedNavItem} /> : <p>Valitse muokattava kohde listalta</p>}
                 </div>
               </div>
-              <button className='margin-top-1' onClick={initNewNavItem}>Lisää uusi</button>
-
             </div>
           </div>
         </div>

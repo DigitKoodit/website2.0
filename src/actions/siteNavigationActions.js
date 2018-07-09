@@ -18,7 +18,6 @@ const siteNavigationActions = {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
       const api = attemptAuthorizedRoute ? navItemPrivateCrud : navItemPublicCrud
-      console.log(attemptAuthorizedRoute)
       api.fetchAll()
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))

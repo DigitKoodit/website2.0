@@ -58,8 +58,7 @@ PageEditor.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired
-  }).isRequired,
-  onSavePage: PropTypes.func
+  }).isRequired
 }
 
 export default PageEditor

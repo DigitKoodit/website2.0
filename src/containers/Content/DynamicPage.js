@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types' //
 import { withRouter } from 'react-router'
+import isNil from 'lodash/isNil'
 import fetch from 'fetch-hoc'
 import { Route } from 'react-router-dom'
 import Markdown from '../../components/ContentManagement/Markdown'
@@ -44,7 +45,8 @@ DynamicPage.propTypes = {
 
 const pageContentLoader = Children => {
   const Wrapped = ({ location }) => {
-    if(!location.state) {
+    console.log(location)
+    if(!location.state || isNil(location.state.sitePageId)) {
       return <Route status={NotFound} component={NotFound} />
     }
     const apiUrl = `/api/content/${location.state.sitePageId}`

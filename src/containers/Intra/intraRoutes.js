@@ -14,8 +14,8 @@ const routes = [
     component: null,
     active: false,
     routes: [
-      { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
       { title: 'Navigointi', path: '/intra/cms/navigation', component: NavigationManager, active: true },
+      { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
       { title: 'Sponsorit', path: '/intra/cms/sponsors', component: null, active: false }
     ]
   },

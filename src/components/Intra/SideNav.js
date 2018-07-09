@@ -44,11 +44,6 @@ SideNav.propTypes = {
   items: PropTypes.arrayOf(routeItemPropType).isRequired
 }
 
-VerticalList.propTypes = {
-  items: PropTypes.arrayOf(routeItemPropType).isRequired,
-  level: PropTypes.number
-}
-
 ListItem.propTypes = {
   item: routeItemPropType.isRequired,
   level: PropTypes.number

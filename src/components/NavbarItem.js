@@ -7,7 +7,7 @@ const NavbarItem = ({ state, title, path, subItems, children }) => (
     <Link
       to={{
         pathname: path,
-        ...state
+        state
       }}
       className='menu-item-link'
     >
