@@ -16,9 +16,10 @@ const PageContent = ({ siteContent }) => (
       <title>{siteContent.title}</title>
       <meta name='description' content={siteContent.description} />
     </Helmet>
-    <div className='row'>
-      <div className='col-xs-12' />
-      <Markdown source={siteContent.content} />
+    <div className='row center-xs'>
+      <div className='col-xs-12 col-md-6 start-xs' >
+        <Markdown source={siteContent.content} />
+      </div>
     </div>
   </Fragment>
 )

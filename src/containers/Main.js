@@ -9,13 +9,13 @@ const AsyncHeader = asyncComponent(() => import('./Header'))
 const AsyncHome = asyncComponent(() => import('./Home'))
 const AsyncCalendarSite = asyncComponent(() => import('./CalendarSite'))
 // const AsyncBoardComponent = asyncComponent(() => BoardComponent)
-const AsyncEnrollEvent = asyncComponent(() => import('../enroll/EnrollEvent'))
 const AsyncFooter = asyncComponent(() => import('./Footer'))
 const AsyncIntraPage = asyncComponent(() => import('./Intra'))
 // const AsyncIntraPage = asyncComponent(() => BoardComponent)
 const AsyncLoginPage = asyncComponent(() => import('./Auth/LoginPage'))
 const AsyncRegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
 const AsyncDynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
+const AsyncEnrollPage = asyncComponent(() => import('./Enroll/EnrollPage'))
 
 class Main extends Component {
   render() {
@@ -33,10 +33,10 @@ class Main extends Component {
           <Route path='/' exact component={AsyncHome} />
           <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
           {/* <Route path='/viralliset/hallitus' component={AsyncBoardComponent} /> */}
-          <Route path='/ilmo/:id' component={AsyncEnrollEvent} />
           <Route path='/register' exact component={AsyncRegistrationPage} />
           <Route path='/login' exact component={AsyncLoginPage} />
           <PrivateRoute path='/intra' component={AsyncIntraPage} />
+          <Route path='/ilmo/:id' component={AsyncEnrollPage} />
           <Route path='*' component={AsyncDynamicPage} />
         </Switch>
         <Route path='/' component={AsyncFooter} />

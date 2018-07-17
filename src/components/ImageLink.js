@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ImageLink = ({ name, link, imageUrl }) => (
-  <a href={link} alt={name}>
+const ImageLink = ({ name, link, imageUrl, target = '_blank' }) => (
+  <a href={link} alt={name} target={target}>
     <img src={imageUrl} alt={name} />
   </a>
 )
@@ -10,7 +10,8 @@ const ImageLink = ({ name, link, imageUrl }) => (
 ImageLink.propTypes = {
   name: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired
+  imageUrl: PropTypes.string.isRequired,
+  target: PropTypes.string.isRequired
 }
 
 export default ImageLink
