@@ -5,21 +5,25 @@ const socialMediumsDefault = [
   {
     name: 'Facebook',
     link: 'https://www.facebook.com/digitry',
-    faIcon: 'fa-facebook'
+    faIcon: 'fa-facebook',
+    faStyle: 'fab'
   },
   {
     name: 'GitHub',
     link: 'https://github.com/DigitKoodit',
-    faIcon: 'fa-github'
+    faIcon: 'fa-github',
+    faStyle: 'fab'
   },
   {
     name: 'Sähköposti',
     link: 'https://lists.utu.fi/mailman/listinfo/digipiiri',
-    faIcon: 'fa-envelope-o'
+    faIcon: 'fa-envelope',
+    faStyle: 'fas'
   }, {
     name: 'Instagram',
     link: 'https://www.instagram.com/digitteekkari/',
-    faIcon: 'fa-instagram'
+    faIcon: 'fa-instagram',
+    faStyle: 'fab'
   }
 ]
 
@@ -35,7 +39,7 @@ const SocialMediaView = ({ socialMediums }) => {
               className='flex-item'
             >
               <a href={some.link} target='_blank'>
-                <i className={`fa ${some.faIcon} link`} />
+                <i className={`${some.faStyle} ${some.faIcon} link`} />
               </a>
             </div>
           ))
