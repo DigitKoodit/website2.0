@@ -4,6 +4,8 @@ const inputByType = type => {
   switch(type) {
     case 'text':
       return require('./InputText').default
+    case 'number':
+      return require('./InputText').default
     case 'select':
       return require('./InputSelect').default
     case 'radio':
