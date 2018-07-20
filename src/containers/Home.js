@@ -1,72 +1,51 @@
 import React from 'react'
-import { Row, Column } from '../components/Layout'
+// import { Row, Column } from '../components/Layout'
 import WelcomeView from '../components/WelcomeView'
 import EventView from './EventsView'
 import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
 import heroImage from '../public/images/niklas3.jpg'
+import { Hero, HeroBody, Container, HeroHeader, Nav, NavItem, NavLeft, Tile, Columns, Column } from 'bloomer'
 
 const Home = () => {
   return (
-    <div className='site-container'>
-      <div className='hero'>
-        <img className='hero-image' src={heroImage} alt='digit-hero' />
-      </div>
-      <Row fullSize>
-        <Column
-          xs={12}
-          sm={6}
-          md={6}
-          lg={6}
-          fullSize
-        >
+    <Container isFluid>
+      <Hero isSize='large'>
+        <HeroHeader>
+          <Nav>
+            <NavLeft>
+              <NavItem>
+                Digit
+              </NavItem>
+            </NavLeft>
+          </Nav>
+        </HeroHeader>
+        <HeroBody>
+          <Container isFluid>
+            <img className='hero-image' src={heroImage} alt='digit-hero' />
+          </Container>
+        </HeroBody>
+      </Hero>
+
+      <Tile>
+        <Column isSize='1/2'>
           <EventView />
         </Column>
-        <Column
-          xs={12}
-          sm={6}
-          md={6}
-          lg={6}
-          fullSize
-          backgroundColor={'#222'}
-          textColor={'#f1f1f1'}>
+        <Column isSize='1/2'>
           <WelcomeView />
         </Column>
-      </Row>
-      <Row fullSize>
-        <Column
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-          fullSize
-        >
+      </Tile>
+      <Columns>
+        <Column>
           <SponsorsView />
         </Column>
-      </Row>
-      <Row fullSize>
-        <Column
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-          fullSize
-          backgroundColor={'#222'}
-          textColor={'#f1f1f1'}>
+      </Columns>
+      <Columns>
+        <Column>
           <SocialMediaView />
         </Column>
-      </Row>
-      <Row fullSize>
-        <Column
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-          fullSize
-          backgroundColor={'#222'}
-          textColor={'#f1f1f1'} />
-      </Row>
-    </div >
+      </Columns>
+    </Container >
   )
 }
 
