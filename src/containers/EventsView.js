@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { getCalendarEventsShort } from '../lib/googleUtils'
+import { Content } from 'bloomer'
 
 class EventsView extends Component {
   componentDidMount() {
@@ -13,9 +14,9 @@ class EventsView extends Component {
   }
   render() {
     return (
-      <div className='site-content'>
+      <Content>
         Tapahtumakalenteri
-      </div>
+      </Content>
     )
   }
 }

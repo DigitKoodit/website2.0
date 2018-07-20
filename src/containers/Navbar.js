@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Container, Box } from 'bloomer'
 
 const Navbar = ({ header, children }) => (
   <div className='navbar'>
