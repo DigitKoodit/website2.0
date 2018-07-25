@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Columns, Column, Content } from 'bloomer'
 
 const socialMediumsDefault = [
   {
@@ -29,23 +30,24 @@ const socialMediumsDefault = [
 
 const SocialMediaView = ({ socialMediums }) => {
   return (
-    <div className='text-center padding-top-2 padding-sides-1'>
-      <h2>Löydät meidät myös somesta</h2>
-      <div className='flex-container padding-1'>
-        {socialMediums && (
-          socialMediums.map(some => (
-            <div
-              key={some.name}
-              className='flex-item'
-            >
-              <a href={some.link} target='_blank'>
-                <i className={`${some.faStyle} ${some.faIcon} link`} />
-              </a>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+    <Columns isCentered>
+      <Column>
+        <Content>
+          <h2>Löydät meidät myös somesta</h2>
+        </Content>
+        <Columns>
+          {socialMediums && (
+            socialMediums.map(some => (
+              <Column key={some.name}>
+                <a href={some.link} target='_blank'>
+                  <i className={`${some.faStyle} ${some.faIcon} link`} />
+                </a>
+              </Column>
+            ))
+          )}
+        </Columns>
+      </Column>
+    </Columns>
   )
 }
 

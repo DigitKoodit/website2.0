@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ImageLink from '../components/ImageLink'
 import { connect } from 'react-redux'
 import { sponsorActions } from '../actions'
+import { Content, Columns, Column } from 'bloomer'
 
 // const sponsorListDefault = [
 //   {
@@ -35,9 +36,12 @@ class SponsorsView extends PureComponent {
   render() {
     const { sponsorList } = this.props
     return (
-      <div className='site-content text-center'>
-        <h2>Yhteistyössä</h2>
-        <div className='flex-container margin-1'>
+      <Columns isCentered>
+        <Column>
+          <Content>
+            <h2>Yhteistyössä</h2>
+          </Content >
+
           {sponsorList && (
             sponsorList.map(sponsor => (
               <div
@@ -53,9 +57,12 @@ class SponsorsView extends PureComponent {
               </div>
             ))
           )}
-        </div>
-        <Link className='link margin-1' to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
-      </div>
+
+          <Content>
+            <Link className='link margin-1' to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
+          </Content >
+        </Column>
+      </Columns >
     )
   }
 }
