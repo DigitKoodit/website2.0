@@ -7,7 +7,7 @@ import { loginActions } from '../actions'
 const navItemPublicCrud = createCrudService('/api/content/navigation')
 // Private routes require authorization header
 const requireAuth = true
-const navItemPrivateCrud = createCrudService('/api/intra/cms/content/navigation', requireAuth)
+const navItemPrivateCrud = createCrudService('/api/intra/content/navigation', requireAuth)
 const initialItem = { id: -Date.now(), title: '', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, isVisible: false }
 
 const siteNavigationActions = {

@@ -6,7 +6,7 @@ import { displaySnackbar } from '../actions/uiActions'
 import { loginActions } from '../actions'
 
 const sponsorPublicCrud = createCrudService('/api/content/sponsor')
-const sponsorPrivateCrud = createCrudService('/api/intra/cms/sponsor', true)
+const sponsorPrivateCrud = createCrudService('/api/intra/sponsor', true)
 const initialItem = { id: -Date.now(), name: '', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
 
 const SPONSOR = createCrudTypes(actionKeys.sponsor)

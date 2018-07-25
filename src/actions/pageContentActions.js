@@ -5,7 +5,7 @@ import { displaySnackbar } from '../actions/uiActions'
 import { loginActions } from '../actions'
 
 const pageItemPublicCrud = createCrudService('/api/content')
-const pageItemPrivateCrud = createCrudService('/api/intra/cms/content', true)
+const pageItemPrivateCrud = createCrudService('/api/intra/content', true)
 const initialItem = { id: -Date.now(), title: '', description: '', published: false, content: '' }
 
 const pageContentActions = {
