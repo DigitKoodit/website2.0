@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import { Navbar, NavbarMenu, NavbarStart, Columns, Column } from 'bloomer'
 
 const SiteNavbar = ({ header, children }) => (
-  <Navbar style={{ border: 'solid 1px', margin: '0' }}>
-    <Column>
-      {header}
-    </Column>
+  <Navbar>
+    {header}
     <NavbarMenu>
       <NavbarStart>
         {children}
