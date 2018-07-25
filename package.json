@@ -11,6 +11,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "bloomer": "^0.6.3",
+    "bulma": "^0.7.1",
     "fetch-hoc": "^0.3.0",
     "flexboxgrid": "^6.3.1",
     "formik": "^1.0.1",
