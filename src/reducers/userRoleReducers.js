@@ -7,7 +7,7 @@ const initialState = {
   loading: false
 }
 
-const reducerType = types.USER_ACCOUNT
+const reducerType = types.USER_ROLE
 
 export default createReducer(initialState, {
   ...commonCrudReducers(reducerType)
