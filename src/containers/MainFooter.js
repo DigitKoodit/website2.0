@@ -12,7 +12,7 @@ const MainFooter = () => (
         </Content>
       </Columns>
     </Container>
-  </Footer>
+  </Footer >
 )
 
 export default MainFooter

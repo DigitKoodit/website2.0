@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { NavbarItem } from 'bloomer'
 
-const NavbarItem = ({ state, title, path, subItems, children }) => (
-  <div className='menu-item'>
+const SiteNavbarItem = ({ state, title, path, subItems, children }) => (
+  <NavbarItem>
     <Link
       to={{
         pathname: path,
@@ -13,7 +14,7 @@ const NavbarItem = ({ state, title, path, subItems, children }) => (
     >
       {children || title}
     </Link>
-    {
+    {/* {
       subItems && (
         <div className='submenu'>
           {subItems.map((item, index) => (
@@ -27,11 +28,11 @@ const NavbarItem = ({ state, title, path, subItems, children }) => (
           ))}
         </div>
       )
-    }
-  </div >
+    } */}
+  </NavbarItem >
 )
 
-NavbarItem.propTypes = {
+SiteNavbarItem.propTypes = {
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   subItems: PropTypes.arrayOf(PropTypes.shape({
@@ -45,28 +46,28 @@ NavbarItem.propTypes = {
   state: PropTypes.object
 }
 
-NavbarItem.defaultProps = {
+SiteNavbarItem.defaultProps = {
   subItems: null,
   children: null
 }
 
-const NavbarSubmenuItem = ({ state, title, path }) => (
-  <div className='submenu-item'>
-    <Link
-      to={{
-        pathname: path,
-        ...state
-      }}
-      className='submenu-item-link'>
-      {title}
-    </Link>
-  </div>
-)
+// const NavbarSubmenuItem = ({ state, title, path }) => (
+//   <div className='submenu-item'>
+//     <Link
+//       to={{
+//         pathname: path,
+//         ...state
+//       }}
+//       className='submenu-item-link'>
+//       {title}
+//     </Link>
+//   </div>
+// )
 
-NavbarSubmenuItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  state: PropTypes.object
-}
+// NavbarSubmenuItem.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   path: PropTypes.string.isRequired,
+//   state: PropTypes.object
+// }
 
-export default NavbarItem
+export default SiteNavbarItem
