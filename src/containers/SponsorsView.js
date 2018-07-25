@@ -36,33 +36,33 @@ class SponsorsView extends PureComponent {
   render() {
     const { sponsorList } = this.props
     return (
-      <Columns isCentered>
-        <Column>
-          <Content>
-            <h2>Yhteistyössä</h2>
-          </Content >
-
+      <div>
+        <Content hasTextAlign='centered'>
+          <h2>Yhteistyössä</h2>
+        </Content >
+        <Columns isCentered>
           {sponsorList && (
             sponsorList.map(sponsor => (
-              <div
-                key={sponsor.name}
-                className='flex-item sponsor-logo'
-              >
-                <ImageLink
-                  name={sponsor.name}
-                  link={sponsor.link}
-                  imageUrl={sponsor.logo}
-                  alt={sponsor.name}
-                />
-              </div>
+              <Column hasTextAlign='centered'>
+                <div
+                  key={sponsor.name}
+                  className='flex-item sponsor-logo'
+                >
+                  <ImageLink
+                    name={sponsor.name}
+                    link={sponsor.link}
+                    imageUrl={sponsor.logo}
+                    alt={sponsor.name}
+                  />
+                </div>
+              </Column>
             ))
           )}
-
-          <Content>
-            <Link className='link margin-1' to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
-          </Content >
-        </Column>
-      </Columns >
+        </Columns>
+        <Content hasTextAlign='centered'>
+          <Link className='link margin-1' to='sponsors'>Yhteistyöhon Digitin kanssa?</Link>
+        </Content >
+      </div>
     )
   }
 }

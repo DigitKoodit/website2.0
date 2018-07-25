@@ -14,7 +14,7 @@ const SiteNavbarItem = ({ state, title, path, subItems, children }) => (
     >
       {children || title}
     </Link>
-    {/* {
+    {
       subItems && (
         <div className='submenu'>
           {subItems.map((item, index) => (
@@ -28,7 +28,7 @@ const SiteNavbarItem = ({ state, title, path, subItems, children }) => (
           ))}
         </div>
       )
-    } */}
+    }
   </NavbarItem >
 )
 
@@ -51,23 +51,23 @@ SiteNavbarItem.defaultProps = {
   children: null
 }
 
-// const NavbarSubmenuItem = ({ state, title, path }) => (
-//   <div className='submenu-item'>
-//     <Link
-//       to={{
-//         pathname: path,
-//         ...state
-//       }}
-//       className='submenu-item-link'>
-//       {title}
-//     </Link>
-//   </div>
-// )
+const NavbarSubmenuItem = ({ state, title, path }) => (
+  <div className='submenu-item'>
+    <Link
+      to={{
+        pathname: path,
+        ...state
+      }}
+      className='submenu-item-link'>
+      {title}
+    </Link>
+  </div>
+)
 
-// NavbarSubmenuItem.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   path: PropTypes.string.isRequired,
-//   state: PropTypes.object
-// }
+NavbarSubmenuItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  state: PropTypes.object
+}
 
 export default SiteNavbarItem

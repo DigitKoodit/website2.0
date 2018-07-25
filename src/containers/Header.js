@@ -7,7 +7,7 @@ import SiteNavbarItem from '../components/SiteNavbarItem'
 import brandLogo from '../public/images/logo.svg'
 import { connect } from 'react-redux'
 import { siteNavigationActions } from '../actions'
-import { NavbarBrand, NavbarItem, Columns, Column, Content } from 'bloomer'
+import { NavbarBrand, NavbarItem, Columns, Column, Content, Image } from 'bloomer'
 
 class Header extends PureComponent {
   componentDidMount() {
@@ -64,14 +64,9 @@ Header.propTypes = {
 
 const NavBarHeader = (
   <NavbarBrand>
-    <NavbarItem>
-      <Link to='/'>
-        <img
-          src={brandLogo}
-          alt={'Digit ry'}
-        />
-      </Link>
-    </NavbarItem>
+    <Link to='/'>
+      <Image isSize='96x96' src={brandLogo} alt={'Digit ry'} />
+    </Link>
     <NavbarItem>
       <Content>
         <h1>DIGIT ry</h1>

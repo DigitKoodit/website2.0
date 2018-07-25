@@ -5,7 +5,7 @@ import EventView from './EventsView'
 import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
 import heroImage from '../public/images/niklas3.jpg'
-import { Hero, HeroBody, Container, HeroHeader, Nav, NavItem, NavLeft, Tile, Columns, Column, Title } from 'bloomer'
+import { Hero, HeroBody, HeroFooter, Tabs, Tab, TabLink, TabList, Container, HeroHeader, Nav, NavItem, NavLeft, Tile, Columns, Column, Title, NavCenter, Icon, NavRight } from 'bloomer'
 
 const Home = () => {
   return (
@@ -15,18 +15,18 @@ const Home = () => {
       </Hero>
       <Tile>
         <Column isSize='1/2'>
-          <EventView />
+          <WelcomeView />
         </Column>
         <Column isSize='1/2'>
-          <WelcomeView />
+          <EventView />
         </Column>
       </Tile>
       <Columns isCentered>
         <SponsorsView />
       </Columns>
-      <Columns isCentered>
-        <SocialMediaView />
-      </Columns>
+
+      <SocialMediaView />
+
     </div >
   )
 }
