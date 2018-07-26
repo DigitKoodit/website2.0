@@ -1,16 +1,19 @@
 import React from 'react'
-import { Footer, Container, Columns, Content } from 'bloomer'
+import { Footer, Container, Columns, Column, Content, Box } from 'bloomer'
 
 import '../styles/footer.css'
 
 const MainFooter = () => (
   <Footer className='footer-container'>
     <Container>
-      <Columns isCentered>
-        <Content hasTextColor='white'>
-          Digit ry © {new Date().getFullYear()}. Kaikki oikeudet pidätetään.
-        </Content>
-      </Columns>
+      <Content >
+        <Columns>
+          <Column hasTextAlign='centered'>
+            <p>Digit ry © {new Date().getFullYear()}.</p>
+            <p>Kaikki oikeudet pidätetään.</p>
+          </Column>
+        </Columns>
+      </Content>
     </Container>
   </Footer >
 )

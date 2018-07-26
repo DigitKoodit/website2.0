@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Navbar, NavbarMenu, NavbarStart, Columns, Column } from 'bloomer'
+import { Navbar, NavbarMenu, NavbarStart, NavbarEnd, Columns, Column } from 'bloomer'
 
 const SiteNavbar = ({ header, children }) => (
   <Navbar>
     {header}
     <NavbarMenu>
-      <NavbarStart>
+      <NavbarEnd>
         {children}
-      </NavbarStart>
+      </NavbarEnd>
     </NavbarMenu>
-
   </Navbar>
 )
 
