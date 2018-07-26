@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { getCalendarEventsShort } from '../lib/googleUtils'
+import { Content, Tile, Box } from 'bloomer'
 
 class EventsView extends Component {
   componentDidMount() {
@@ -13,9 +14,17 @@ class EventsView extends Component {
   }
   render() {
     return (
-      <div className='site-content'>
-        Tapahtumakalenteri
-      </div>
+      <Tile isParent style={{ padding: 30 }}>
+        <Tile isChild render={
+          props => (
+            <Box {...props}>
+              <Content>
+                Tapahtumakalenteri
+              </Content>
+            </Box>
+          )
+        } />
+      </Tile>
     )
   }
 }

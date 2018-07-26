@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { NavbarItem } from 'bloomer'
 
-const NavbarItem = ({ state, title, path, subItems, children }) => (
-  <div className='menu-item'>
+const SiteNavbarItem = ({ state, title, path, subItems, children }) => (
+  <NavbarItem>
     <Link
       to={{
         pathname: path,
@@ -28,10 +29,10 @@ const NavbarItem = ({ state, title, path, subItems, children }) => (
         </div>
       )
     }
-  </div >
+  </NavbarItem >
 )
 
-NavbarItem.propTypes = {
+SiteNavbarItem.propTypes = {
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   subItems: PropTypes.arrayOf(PropTypes.shape({
@@ -45,7 +46,7 @@ NavbarItem.propTypes = {
   state: PropTypes.object
 }
 
-NavbarItem.defaultProps = {
+SiteNavbarItem.defaultProps = {
   subItems: null,
   children: null
 }
@@ -69,4 +70,4 @@ NavbarSubmenuItem.propTypes = {
   state: PropTypes.object
 }
 
-export default NavbarItem
+export default SiteNavbarItem
