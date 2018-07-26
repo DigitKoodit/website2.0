@@ -63,16 +63,14 @@ Header.propTypes = {
 }
 
 const NavBarHeader = (
-  <NavbarBrand>
+  <NavbarBrand style={{ padding: '1.5rem' }} >
     <Link to='/'>
-      <Image isSize='96x96' src={brandLogo} alt={'Digit ry'} />
+      <img src={brandLogo} style={{ marginRight: 10, height: '100%', maxHeight: '5rem' }} alt={'Digit ry'} />
     </Link>
-    <NavbarItem>
-      <Content>
-        <h1>DIGIT ry</h1>
-        <p>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</p>
-      </Content>
-    </NavbarItem>
+    <Content>
+      <h1>DIGIT ry</h1>
+      <p>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</p>
+    </Content>
   </NavbarBrand>
 )
 

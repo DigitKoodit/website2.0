@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Columns, Column, Content, Title, Box } from 'bloomer'
+import { Columns, Column, Content, Title, Box, Icon, Container } from 'bloomer'
 
 const socialMediumsDefault = [
   {
@@ -30,28 +30,51 @@ const socialMediumsDefault = [
 
 const SocialMediaView = ({ socialMediums }) => {
   return (
-    <div>
-      <Content hasTextAlign='centered'>
-        <h1>Löydät meidät myös somesta</h1>
+    <Container hasTextAlign='centered' style={{ padding: '2rem' }} >
+      <Content>
+        <h2>Löydät meidät myös somesta</h2>
       </Content>
       <Columns isCentered>
         {socialMediums && (
           socialMediums.map(some => (
-            <Column hasTextAlign='centered'>
-              <div
-                key={some.name}
-              >
-                <a href={some.link} target='_blank'>
-                  <i className={`${some.faStyle} ${some.faIcon} link`} />
-                </a>
-              </div>
-            </Column>
+            <div
+              key={some.name}
+
+            >
+              <a href={some.link} target='_blank'>
+                <Icon isSize='large' className={`${some.faStyle} ${some.faIcon} link`} />
+              </a>
+            </div>
           ))
         )}
       </Columns>
-    </div>
+    </Container>
   )
 }
+
+// const SocialMediaView = ({ socialMediums }) => {
+//   return (
+//     <div className='text-center padding-top-2 padding-sides-1'>
+
+//       <h2>Löydät meidät myös somesta</h2>
+
+//       <div className='flex-container padding-1'>
+//         {socialMediums && (
+//           socialMediums.map(some => (
+//             <div
+//               key={some.name}
+//               className='flex-item'
+//             >
+//               <a href={some.link} target='_blank'>
+//                 <i className={`${some.faStyle} ${some.faIcon} link`} />
+//               </a>
+//             </div>
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
 
 SocialMediaView.propTypes = {
   socialMediums: PropTypes.arrayOf(PropTypes.shape({

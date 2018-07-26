@@ -13,20 +13,14 @@ const Home = () => {
       <Hero isSize='large' isHalfHeight>
         <img className='hero-image' src={heroImage} alt='digit-hero' />
       </Hero>
-      <Tile>
-        <Column isSize='1/2'>
-          <WelcomeView />
-        </Column>
-        <Column isSize='1/2'>
-          <EventView />
-        </Column>
+
+      <Tile isAncestor>
+        <WelcomeView />
+        <EventView />
       </Tile>
-      <Columns isCentered>
-        <SponsorsView />
-      </Columns>
 
+      <SponsorsView />
       <SocialMediaView />
-
     </div >
   )
 }
