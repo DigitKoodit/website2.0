@@ -5,17 +5,18 @@ import asyncComponent from '../components/AsyncComponent'
 // import ProilesRenderer from '../components/ProfilesRenderer'
 import PrivateRoute from '../components/PrivateRoute'
 
-const AsyncHeader = asyncComponent(() => import('./Header'))
-const AsyncHome = asyncComponent(() => import('./Home'))
-const AsyncCalendarSite = asyncComponent(() => import('./CalendarSite'))
-// const AsyncBoardComponent = asyncComponent(() => BoardComponent)
-const AsyncFooter = asyncComponent(() => import('./MainFooter'))
-const AsyncIntraPage = asyncComponent(() => import('./Intra'))
-// const AsyncIntraPage = asyncComponent(() => BoardComponent)
-const AsyncLoginPage = asyncComponent(() => import('./Auth/LoginPage'))
-const AsyncRegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
-const AsyncDynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
-const AsyncEnrollPage = asyncComponent(() => import('./Enroll/EnrollPage'))
+const Header = asyncComponent(() => import('./Header'))
+const Home = asyncComponent(() => import('./Home'))
+const CalendarSite = asyncComponent(() => import('./CalendarSite'))
+// const BoardComponent = asyncComponent(() => BoardComponent)
+const Footer = asyncComponent(() => import('./Footer'))
+const IntraPage = asyncComponent(() => import('./Intra'))
+// const IntraPage = asyncComponent(() => BoardComponent)
+const LoginPage = asyncComponent(() => import('./Auth/LoginPage'))
+const RegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
+const RegistrationConfirmation = asyncComponent(() => import('./Auth/RegistrationConfirmation'))
+const DynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
+const EnrollPage = asyncComponent(() => import('./Enroll/EnrollPage'))
 
 class Main extends Component {
   render() {
@@ -28,18 +29,19 @@ class Main extends Component {
   getRouter() {
     return (
       <Fragment>
-        <Route path='/' component={AsyncHeader} />
+        <Route path='/' component={Header} />
         <Switch>
-          <Route path='/' exact component={AsyncHome} />
-          <Route path='/toiminta/tapahtumat' component={AsyncCalendarSite} />
-          {/* <Route path='/viralliset/hallitus' component={AsyncBoardComponent} /> */}
-          <Route path='/register' exact component={AsyncRegistrationPage} />
-          <Route path='/login' exact component={AsyncLoginPage} />
-          <PrivateRoute path='/intra' component={AsyncIntraPage} />
-          <Route path='/ilmo/:id' component={AsyncEnrollPage} />
-          <Route path='*' component={AsyncDynamicPage} />
+          <Route path='/' exact component={Home} />
+          <Route path='/toiminta/tapahtumat' component={CalendarSite} />
+          {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
+          <Route path='/register' exact component={RegistrationPage} />
+          <Route path='/register/:registrationToken' component={RegistrationConfirmation} />
+          <Route path='/login' exact component={LoginPage} />
+          <PrivateRoute path='/intra' component={IntraPage} />
+          <Route path='/ilmo/:id' component={EnrollPage} />
+          <Route path='*' component={DynamicPage} />
         </Switch>
-        <Route path='/' component={AsyncFooter} />
+        <Route path='/' component={Footer} />
       </Fragment>
     )
   }

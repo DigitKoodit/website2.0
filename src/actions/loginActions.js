@@ -2,6 +2,7 @@ import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
 import { login, logout } from '../services/userService'
 import { replace } from 'react-router-redux'
+import { parseResponseError } from './helpers'
 
 const routeAfterLogout = '/'
 const routeAfterLogin = '/intra'
@@ -30,20 +31,7 @@ const loginActions = {
           dispatch(this.success(user))
           dispatch(replace(routeAfterLogin))
         })
-        .catch(err => {
-          err.response
-            ? err.response.json()
-              .then(responseBody => {
-                const { message, validationErrors = [] } = responseBody
-                const errors = validationErrors.reduce((acc, error) => {
-                  console.log(error.param)
-                  acc[error.param] = error
-                  return acc
-                }, {})
-                dispatch(this.error({ common: message, ...errors }))
-              }
-              ) : dispatch(this.error({ common: 'Käyttäjänimi tai salasana väärin' }))
-        })
+        .catch(err => dispatch(this.error(parseResponseError(err, 'Käyttäjänimi tai salasana väärin'))))
     }
   }
 }

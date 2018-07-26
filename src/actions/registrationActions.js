@@ -2,7 +2,7 @@ import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
 import { replace } from 'react-router-redux'
 import { register, confirmRegistration } from '../services/userService'
-
+import { parseResponseError } from './helpers'
 const routeAfterRegistration = '/registration/continue'
 
 const registrationActions = {
@@ -19,23 +19,16 @@ const registrationActions = {
         .then(user => {
           dispatch(this.success(user))
           dispatch(replace(routeAfterRegistration))
-        }).catch(err => {
-          if(err.response) {
-            err.response.json()
-              .then(responseBody => {
-                const { message, validationErrors } = responseBody
-                if(Array.isArray(validationErrors)) {
-                  const errors = validationErrors.reduce((acc, error) => {
-                    console.warn(error.param)
-                    acc[error.param] = error
-                    return acc
-                  }, {})
-                  dispatch(this.error({ common: message, ...errors }))
-                }
-              })
-          }
-          dispatch(this.error({ common: 'Rekisteröityminen ei onnistunut' }))
         })
+        .catch(err => dispatch(parseResponseError(err, 'Rekisteröityminen epäonnistui')))
+    }
+  },
+  confirm(email, registrationToken) {
+    return dispatch => {
+      dispatch(this.pending())
+      confirmRegistration(email, registrationToken)
+        .then(() => dispatch(this.success()))
+        .catch(err => dispatch(this.error(parseResponseError(err, 'Rekisteröityminen epäonnistui'))))
     }
   }
 }
