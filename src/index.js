@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import App from './containers/App'
 import configureStore from './store/configureStore'
 
+import 'bulma/css/bulma.min.css'
 import './styles/index.css'
 
 const history = createHistory()
