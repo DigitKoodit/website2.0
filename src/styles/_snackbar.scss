@@ -1,0 +1,22 @@
+#snackbar {
+  visibility: hidden;
+  min-width: 16rem;
+  -webkit-margin-start: -8rem;
+  margin-left: -8rem;
+  background-color: #222;
+  color: #f1f1f1;
+  text-align: center;
+  -webkit-border-radius: 0.5em;
+  border-radius: 0.2em;
+  border: none;
+  padding: 1rem;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 2rem;
+  &.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+}
