@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import find from 'lodash/find'
@@ -7,48 +7,73 @@ import SiteNavbarItem from '../components/SiteNavbarItem'
 import brandLogo from '../public/images/logo.svg'
 import { connect } from 'react-redux'
 import { siteNavigationActions } from '../actions'
-import { NavbarBrand, NavbarItem, Columns, Column, Content, Image } from 'bloomer'
+import { NavbarBrand, Content, Image } from 'bloomer'
+import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
 
 class Header extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.headerRef = createRef()
+  }
+  state = {
+    isBurgerMenuOpen: false
+  }
+
   componentDidMount() {
+    document.addEventListener('mousedown', this.handleClick, false)
     this.props.fetchNavigation()
   }
+  componentWillUnmount() {
+    document.addEventListener('mousedown', this.handleClick, false)
+  }
+  handleClick = event =>
+    (this.headerRef.current.contains(event.target) || !this.state.isBurgerMenuOpen) ? null : this.handleBurgerClick()
+
+  handleBurgerClick = () => this.setState(prevState => ({ isBurgerMenuOpen: !prevState.isBurgerMenuOpen }))
+
   render() {
     const { navItems } = this.props
+    const { isBurgerMenuOpen } = this.state
 
     return (
-      <SiteNavbar header={NavBarHeader}>
-        {navItems.filter(item => !item.parentId).map(item =>
+      <div ref={this.headerRef}>
+        <SiteNavbar
+          brand={renderBrand(this.handleBurgerClick, isBurgerMenuOpen)}
+          isActive={isBurgerMenuOpen}
+          onNavbarClick={this.handleBurgerClick} >
+          {navItems.filter(item => !item.parentId).map(item =>
+            <SiteNavbarItem
+              state={item}
+              title={item.title}
+              key={item.id}
+              path={item.path}
+              subItems={item.subItems && item.subItems.map(itemId => {
+                const subItem = find(navItems, { id: itemId })
+                return subItem && ({
+                  state: subItem,
+                  title: subItem.title,
+                  path: subItem.path
+                })
+              })}
+            />
+          )}
+          <SiteNavbarItem>
+            |
+          </SiteNavbarItem>
           <SiteNavbarItem
-            state={item}
-            title={item.title}
-            key={item.id}
-            path={item.path}
-            subItems={item.subItems.map(itemId => {
-              const subItem = find(navItems, { id: itemId })
-              return subItem && ({
-                state: subItem,
-                title: subItem.title,
-                path: subItem.path
-              })
-            })}
-          />
-        )}
-
-        <p style={{ display: 'inline', padding: '1.5rem' }}>|</p>
-        <SiteNavbarItem
-          title='Hae'
-          path='/search'
-        >
-          <i className='fa fa-search site-icon action' aria-hidden='true' />
-        </SiteNavbarItem>
-        <SiteNavbarItem
-          title='Intra'
-          path='/intra'
-        >
-          <i className='fa fa-user site-icon action' aria-hidden='true' />
-        </SiteNavbarItem>
-      </SiteNavbar>
+            title='Hae'
+            path='/search'
+          >
+            <i className='fa fa-search site-icon action' aria-hidden='true' />
+          </SiteNavbarItem>
+          <SiteNavbarItem
+            title='Intra'
+            path='/intra'
+          >
+            <i className='fa fa-user site-icon action' aria-hidden='true' />
+          </SiteNavbarItem>
+        </SiteNavbar>
+      </div>
     )
   }
 }
@@ -62,17 +87,17 @@ Header.propTypes = {
   fetchNavigation: PropTypes.func.isRequired
 }
 
-const NavBarHeader = (
+const renderBrand = (onBurgerClick, isActive) =>
   <NavbarBrand style={{ padding: '1.5rem' }} >
-    <Link to='/'>
-      <img src={brandLogo} style={{ marginRight: 10, height: '100%', maxHeight: '5rem' }} alt={'Digit ry'} />
+    <Link to='/' className='mr-2'>
+      <Image isSize='64x64' src={brandLogo} alt='Digit ry' />
     </Link>
     <Content>
-      <h1>DIGIT ry</h1>
-      <p>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</p>
+      <h1 className='is-marginless'>DIGIT ry</h1>
+      Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.
     </Content>
+    <NavbarBurger isActive={isActive} onClick={onBurgerClick} />
   </NavbarBrand>
-)
 
 const mapStateToProps = (state) => ({
   navItems: state.siteNavigation.records.filter(item => item.isVisible)
