@@ -14,7 +14,7 @@ import Base from '../../components/Layout/Base'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import '../../styles/list.css'
+// import '../../styles/list.css'
 
 const renderListItem = item =>
   <Fragment>

@@ -9,7 +9,7 @@ const Header = asyncComponent(() => import('./Header'))
 const Home = asyncComponent(() => import('./Home'))
 const CalendarSite = asyncComponent(() => import('./CalendarSite'))
 // const BoardComponent = asyncComponent(() => BoardComponent)
-const Footer = asyncComponent(() => import('./Footer'))
+const Footer = asyncComponent(() => import('./MainFooter'))
 const IntraPage = asyncComponent(() => import('./Intra'))
 // const IntraPage = asyncComponent(() => BoardComponent)
 const LoginPage = asyncComponent(() => import('./Auth/LoginPage'))
@@ -46,15 +46,5 @@ class Main extends Component {
     )
   }
 }
-
-// const BoardSite = props => (
-//   <ProfilesRenderer
-//     title='Hallitus'
-//     {...props}
-//   />
-// )
-// const apiUrl = '/api/intra/board/2018'
-// const buildBoard = url => fetch(url)(BoardSite)
-// const BoardComponent = buildBoard(apiUrl)
 
 export default Main

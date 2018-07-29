@@ -43,18 +43,15 @@ class SponsorsView extends PureComponent {
         <Columns isCentered>
           {sponsorList && (
             sponsorList.map(sponsor => (
-              <Column hasTextAlign='centered'>
-                <div
-                  key={sponsor.name}
-                  className='flex-item sponsor-logo'
-                >
-                  <ImageLink
-                    name={sponsor.name}
-                    link={sponsor.link}
-                    imageUrl={sponsor.logo}
-                    alt={sponsor.name}
-                  />
-                </div>
+              <Column
+                key={sponsor.name}
+                hasTextAlign='centered'>
+                <ImageLink
+                  name={sponsor.name}
+                  link={sponsor.link}
+                  imageUrl={sponsor.logo}
+                  alt={sponsor.name}
+                />
               </Column>
             ))
           )}

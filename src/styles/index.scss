@@ -1,6 +1,10 @@
 @import './_spacing-helpers';
 @import './_snackbar';
 
+body {
+  background-color: #fbfbfb;
+  min-height: 100vh;
+}
 
 /*Prepare image to be displayed on center*/
 .has-bg-img { 

@@ -10,7 +10,7 @@ import { siteNavigationActions } from '../../actions'
 import Base from '../../components/Layout/Base'
 import { VerticalList } from '../../components/Layout/Lists'
 import Clickable from '../../components/Event/Clickable'
-import '../../styles/list.css'
+// import '../../styles/list.css'
 
 const renderNavListItem = item =>
   <Fragment>

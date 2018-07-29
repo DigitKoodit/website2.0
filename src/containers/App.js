@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Snackbar from '../components/Snackbar'
 import Main from '../containers/Main'
 
 const App = () => (
-  <div>
+  <Fragment>
     <Main />
     <Snackbar />
-  </div>
+  </Fragment>
 )
 
 export default App

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
 
 import { Menu, MenuLabel, MenuList, MenuLink } from 'bloomer'
 import PropTypes from 'prop-types'

@@ -1,6 +1,6 @@
 import React from 'react'
 // import { Column } from './Layout'
-import { Tile, Box, Title, Content, Container } from 'bloomer'
+import { Tile, Box, Title } from 'bloomer'
 
 const WelcomeView = () => (
   // <Container isFluid style={{ marginTop: 10 }}>

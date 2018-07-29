@@ -11,7 +11,7 @@ import isMatch from 'lodash/isMatch'
 import Clickable from '../../components/Event/Clickable'
 import Base from '../../components/Layout/Base'
 import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
-import '../../styles/list.css'
+// import '../../styles/list.css'
 
 const renderListItem = item =>
   <Fragment>

@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Navbar, NavbarMenu, NavbarStart, NavbarEnd, Columns, Column } from 'bloomer'
+import { Navbar, NavbarMenu, NavbarEnd } from 'bloomer'
 
-const SiteNavbar = ({ header, children }) => (
-  <Navbar>
-    {header}
-    <NavbarMenu>
+const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => (
+  <Navbar className='has-shadow'>
+    {brand}
+    <NavbarMenu isActive={isActive} onClick={onNavbarClick}>
       <NavbarEnd>
         {children}
       </NavbarEnd>
@@ -14,15 +14,17 @@ const SiteNavbar = ({ header, children }) => (
 )
 
 SiteNavbar.propTypes = {
-  header: PropTypes.oneOfType([
+  brand: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
     PropTypes.element
   ]).isRequired,
+  isActive: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ]).isRequired
+  ]).isRequired,
+  onNavbarClick: PropTypes.func
 }
 
 export default SiteNavbar

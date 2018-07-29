@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types' //
+import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import SideNav from '../../components/Intra/SideNav'
 import asyncComponent from '../../components/AsyncComponent'
-import '../../styles/intra.css'
+// import '../../styles/intra.css'
 
 import routes from './intraRoutes'
 const NotFound = asyncComponent(() => import('../NotFound'))
@@ -42,10 +41,6 @@ const IntraPage = () => {
       </div>
     </div >
   )
-}
-
-IntraPage.propTypes = {
-  data: PropTypes.object
 }
 
 export default IntraPage
