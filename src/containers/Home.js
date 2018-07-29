@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 // import { Row, Column } from '../components/Layout'
 import WelcomeView from '../components/WelcomeView'
 import EventView from './EventsView'
 import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
-import heroImage from '../public/images/niklas3.jpg'
-import { Hero, HeroBody, HeroFooter, Tabs, Tab, TabLink, TabList, Container, HeroHeader, Nav, NavItem, NavLeft, Tile, Columns, Column, Title, NavCenter, Icon, NavRight } from 'bloomer'
+import heroImage from '../public/images/hero-16x9.jpg'
+import { Hero, HeroBody, Tile } from 'bloomer'
 
+const heroBgStyle = { backgroundImage: `url(${heroImage})` }
 const Home = () => {
   return (
-    <div>
-      <Hero isSize='large' isHalfHeight>
-        <img className='hero-image' src={heroImage} alt='digit-hero' />
+    <Fragment>
+      <Hero isSize='small' className='is-halfheight'>
+        <HeroBody isPaddingless className='has-bg-img' style={heroBgStyle} />
       </Hero>
-
       <Tile isAncestor>
         <WelcomeView />
         <EventView />
@@ -21,7 +21,7 @@ const Home = () => {
 
       <SponsorsView />
       <SocialMediaView />
-    </div >
+    </Fragment >
   )
 }
 
