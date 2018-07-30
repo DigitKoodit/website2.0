@@ -1,0 +1,27 @@
+.list {
+  display: block; }
+  .list.inline {
+    display: inline-block; }
+  .list .list-item {
+    cursor: pointer;
+    transition: margin 0.1s; }
+    .list .list-item:first-child {
+      border-top-left-radius: .25rem;
+      border-top-right-radius: .25rem; }
+    .list .list-item:last-child {
+      margin-bottom: 0;
+      border-bottom-right-radius: .25rem;
+      border-bottom-left-radius: .25rem; }
+    .list .list-item:hover {
+      margin-left: 0.2rem; }
+  .list .sub-1 {
+    margin-top: 1rem;
+    margin-left: 1rem; }
+  .list .sub-2 {
+    margin-top: 1rem;
+    margin-left: 2rem; }
+
+.text-detail {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: darkgray; }

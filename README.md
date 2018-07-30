@@ -4,15 +4,14 @@
 
 ## Installing / Getting started
 
-1. Install/ensure Node/NPM is installed (prefer NVM)
+Install/ensure Node/NPM is installed (prefer NVM)
 
 ```shell
-git clone <your fork url>/website2.0.git
+git clone git@github.com:YOUR-USERNAME/website2.0.git
 cd website2.0
 nvm use
 npm install 
 npm start
-¨
 ```
 
 ### Initial Configuration
@@ -21,7 +20,7 @@ npm start
 
 ## Developing
 
-TODO
+Frontend can be run without backend running but it's highly recommended setting it up. Source code can be found here: [DigitKoodit/digit-backend](https://github.com/DigitKoodit/digit-backend)
 
 
 ### Building
@@ -46,12 +45,12 @@ TODO
 
 ### 1. Clone your fork:
 
-    git clone git@github.com:YOUR-USERNAME/digit-backend.git
+    git clone git@github.com:YOUR-USERNAME/website2.0.git
 
 ### 2. Add remote from original repository in your forked repository: 
 
-    cd into/cloned/fork-repo
-    git remote add upstream git://github.com/digitkoodit/digit-backend.git
+    cd website2.0
+    git remote add upstream git@github.com:DigitKoodit/website2.0.git
     git fetch upstream
 
 ### 3. Updating your fork from original repo to keep up with their changes:
