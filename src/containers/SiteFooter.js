@@ -3,7 +3,7 @@ import { Footer, Container, Columns, Column, Content } from 'bloomer'
 
 // import '../styles/footer.css'
 
-const MainFooter = () => (
+const SiteFooter = () => (
   <Footer className='footer-container'>
     <Container>
       <Content >
@@ -18,4 +18,4 @@ const MainFooter = () => (
   </Footer >
 )
 
-export default MainFooter
+export default SiteFooter

@@ -7,8 +7,7 @@ import SiteNavbarItem from '../components/SiteNavbarItem'
 import brandLogo from '../public/images/logo.svg'
 import { connect } from 'react-redux'
 import { siteNavigationActions } from '../actions'
-import { NavbarBrand, Content, Image } from 'bloomer'
-import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
+import { NavbarBrand, NavbarBurger, Content, Image } from 'bloomer'
 
 class Header extends PureComponent {
   constructor(props) {
@@ -57,6 +56,22 @@ class Header extends PureComponent {
               })}
             />
           )}
+          <SiteNavbarItem
+            title='Toiminta'
+            path='/'
+          />
+          <SiteNavbarItem
+            title='Uudelle opiskelijalle'
+            path='/'
+          />
+          <SiteNavbarItem
+            title='Opinnot'
+            path='/'
+          />
+          <SiteNavbarItem
+            title='Yrityksille'
+            path='/'
+          />
           <SiteNavbarItem>
             |
           </SiteNavbarItem>
