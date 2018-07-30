@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Content, Icon, Container } from 'bloomer'
+import { Content, Icon, Container, Tile, Box, Title } from 'bloomer'
 
 const socialMediumsDefault = [
   {
@@ -46,7 +46,26 @@ const SocialMediaView = ({ socialMediums }) => {
           ))
         )}
       </Content>
-
+      <Tile isAncestor>
+        <Tile isParent isSize={1 / 2} style={{ padding: 30 }}>
+          <Tile isChild render={
+            props => (
+              <Box {...props}>
+                <Title>Facebook feed</Title>
+              </Box>
+            )
+          } />
+        </Tile>
+        <Tile isParent isSize={1 / 2} style={{ padding: 30 }}>
+          <Tile isChild render={
+            props => (
+              <Box {...props}>
+                <Title>Instagram feed</Title>
+              </Box>
+            )
+          } />
+        </Tile>
+      </Tile>
     </Container>
   )
 }
