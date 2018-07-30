@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Content, Icon, Container } from 'bloomer'
+import { Content, Icon, Container, Tile, Box, Title } from 'bloomer'
 
 const socialMediumsDefault = [
   {
@@ -46,10 +46,53 @@ const SocialMediaView = ({ socialMediums }) => {
           ))
         )}
       </Content>
-
+      <Tile isAncestor>
+        <Tile isParent isSize={1 / 2} style={{ padding: 30 }}>
+          <Tile isChild render={
+            props => (
+              <Box {...props}>
+                <Title>Facebook feed</Title>
+              </Box>
+            )
+          } />
+        </Tile>
+        <Tile isParent isSize={1 / 2} style={{ padding: 30 }}>
+          <Tile isChild render={
+            props => (
+              <Box {...props}>
+                <Title>Instagram feed</Title>
+              </Box>
+            )
+          } />
+        </Tile>
+      </Tile>
     </Container>
   )
 }
+
+// const SocialMediaView = ({ socialMediums }) => {
+//   return (
+//     <div className='text-center padding-top-2 padding-sides-1'>
+
+//       <h2>Löydät meidät myös somesta</h2>
+
+//       <div className='flex-container padding-1'>
+//         {socialMediums && (
+//           socialMediums.map(some => (
+//             <div
+//               key={some.name}
+//               className='flex-item'
+//             >
+//               <a href={some.link} target='_blank'>
+//                 <i className={`${some.faStyle} ${some.faIcon} link`} />
+//               </a>
+//             </div>
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
 
 SocialMediaView.propTypes = {
   socialMediums: PropTypes.arrayOf(PropTypes.shape({

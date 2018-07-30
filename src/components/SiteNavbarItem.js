@@ -1,26 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { NavbarItem, NavbarDropdown } from 'bloomer'
+import { NavbarItem } from 'bloomer'
 
-const SiteNavbarItem = ({ state, title, path, subItems = [], children }) => {
-  const hasSubitems = subItems.length > 0
-  const NavItem = hasSubitems ? DropdownNavItem : SimpleNavItem
-  return (
-    path ? <NavItem
-      state={state}
-      title={title}
-      path={path}
-      subItems={subItems} >
+const SiteNavbarItem = ({ state, title, path, subItems, children }) => (
+  <NavbarItem>
+    <Link
+      to={{
+        pathname: path,
+        state
+      }}
+      className='menu-item-link'
+    >
       {children || title}
-    </NavItem>
-      : <NavbarItem isHidden='touch'>{children || title}</NavbarItem>
-  )
-}
+    </Link>
+    {
+      subItems && (
+        <div className='submenu'>
+          {subItems.map((item, index) => (
+            item &&
+            <NavbarSubmenuItem
+              state={item}
+              key={index}
+              title={item.title}
+              path={path + item.path}
+            />
+          ))}
+        </div>
+      )
+    }
+  </NavbarItem >
+)
 
 SiteNavbarItem.propTypes = {
-  title: PropTypes.string,
-  path: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   subItems: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired
@@ -32,48 +46,22 @@ SiteNavbarItem.propTypes = {
   state: PropTypes.object
 }
 
-const DropdownNavItem = ({ state, path, subItems, children }) =>
-  <NavbarItem
-    hasDropdown isHoverable>
-    <NavbarItem
-      tag={Link}
-      to={{ pathname: path, state }} >
-      {children}
-    </NavbarItem>
-    <NavbarDropdown>
-      {subItems.map((item, index) => (
-        <NavbarSubmenuItem
-          state={item}
-          key={index}
-          title={item.title}
-          path={path + item.path}
-        />
-      ))}
-    </NavbarDropdown>
-  </NavbarItem>
-
-DropdownNavItem.propTypes = {
-  path: PropTypes.string,
-  subItems: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired
-  })),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  state: PropTypes.object
+SiteNavbarItem.defaultProps = {
+  subItems: null,
+  children: null
 }
 
 const NavbarSubmenuItem = ({ state, title, path }) => (
-  <NavbarItem
-    tag={Link}
-    to={{
-      pathname: path,
-      ...state
-    }}>
-    {title}
-  </NavbarItem>
+  <div className='submenu-item'>
+    <Link
+      to={{
+        pathname: path,
+        ...state
+      }}
+      className='submenu-item-link'>
+      {title}
+    </Link>
+  </div>
 )
 
 NavbarSubmenuItem.propTypes = {
@@ -82,19 +70,4 @@ NavbarSubmenuItem.propTypes = {
   state: PropTypes.object
 }
 
-const SimpleNavItem = ({ state, path, children }) =>
-  <NavbarItem
-    tag={Link}
-    to={{ pathname: path, state }} >
-    {children}
-  </NavbarItem>
-
-SimpleNavItem.propTypes = {
-  path: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  state: PropTypes.object
-}
 export default SiteNavbarItem
