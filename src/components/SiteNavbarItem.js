@@ -33,15 +33,14 @@ SiteNavbarItem.propTypes = {
 }
 
 const DropdownNavItem = ({ state, path, subItems, children }) =>
-  <NavbarItem
-    hasDropdown isHoverable>
+  <NavbarItem hasDropdown isHoverable>
     <NavbarItem
       tag={Link}
       to={{ pathname: path, state }} >
       {children}
     </NavbarItem>
     <NavbarDropdown>
-      {subItems.map((item, index) => (
+      {subItems.filter(item => !!item).map((item, index) => (
         <NavbarSubmenuItem
           state={item}
           key={index}

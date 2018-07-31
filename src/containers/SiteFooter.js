@@ -3,14 +3,14 @@ import { Footer, Container, Columns, Column, Content } from 'bloomer'
 
 // import '../styles/footer.css'
 
-const MainFooter = () => (
+const SiteFooter = () => (
   <Footer className='footer-container'>
     <Container>
       <Content >
         <Columns>
           <Column hasTextAlign='centered'>
-            <p>Digit ry © {new Date().getFullYear()}.</p>
-            <p>Kaikki oikeudet pidätetään.</p>
+            <p>Digit ry © {new Date().getFullYear()}<br />
+              Vesilinnantie 3, 20500 Turku</p>
           </Column>
         </Columns>
       </Content>
@@ -18,4 +18,4 @@ const MainFooter = () => (
   </Footer >
 )
 
-export default MainFooter
+export default SiteFooter

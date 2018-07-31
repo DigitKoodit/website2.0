@@ -7,7 +7,7 @@ import SiteNavbarItem from '../components/SiteNavbarItem'
 import brandLogo from '../public/images/logo.svg'
 import { connect } from 'react-redux'
 import { siteNavigationActions } from '../actions'
-import { NavbarBrand, Content, Image } from 'bloomer'
+import { NavbarBrand, Image } from 'bloomer'
 import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
 
 class Header extends PureComponent {
@@ -41,7 +41,7 @@ class Header extends PureComponent {
           brand={renderBrand(this.handleBurgerClick, isBurgerMenuOpen)}
           isActive={isBurgerMenuOpen}
           onNavbarClick={this.handleBurgerClick} >
-          {navItems.filter(item => !item.parentId).map(item =>
+          {navItems.filter(item => item && !item.parentId).map(item =>
             <SiteNavbarItem
               state={item}
               title={item.title}
@@ -88,14 +88,11 @@ Header.propTypes = {
 }
 
 const renderBrand = (onBurgerClick, isActive) =>
-  <NavbarBrand style={{ padding: '1.5rem' }} >
+  <NavbarBrand className='pr-1 p-3' >
     <Link to='/' className='mr-2'>
-      <Image isSize='64x64' src={brandLogo} alt='Digit ry' />
+      <Image isSize='32x32' src={brandLogo} alt='Digit ry' />
     </Link>
-    <Content>
-      <h1 className='is-marginless'>DIGIT ry</h1>
-      Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.
-    </Content>
+    <span style={{ fontSize: '.8rem' }}>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</span>
     <NavbarBurger isActive={isActive} onClick={onBurgerClick} />
   </NavbarBrand>
 

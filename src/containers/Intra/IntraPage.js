@@ -1,11 +1,15 @@
 import React from 'react'
 import Base from '../../components/Layout/Base'
+import { Column, Title } from 'bloomer'
 
 const IntraPage = () => {
   return (
-    <Base>
-      <h1>Intra</h1>
-    </Base>
+    <Base
+      htmlTitle='Digit - Intra'>
+      <Column>
+        <Title>Intra</Title>
+      </Column>
+    </Base >
   )
 }
 

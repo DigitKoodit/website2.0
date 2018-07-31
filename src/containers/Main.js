@@ -13,8 +13,8 @@ const Footer = asyncComponent(() => import('./SiteFooter'))
 const IntraPage = asyncComponent(() => import('./Intra'))
 // const IntraPage = asyncComponent(() => BoardComponent)
 const LoginPage = asyncComponent(() => import('./Auth/LoginPage'))
-// const RegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
-const RegistrationConfirmation = asyncComponent(() => import('./Auth/RegistrationConfirmation'))
+const RegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
+// const RegistrationConfirmation = asyncComponent(() => import('./Auth/RegistrationConfirmation'))
 const DynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
 const EnrollPage = asyncComponent(() => import('./Enroll/EnrollPage'))
 
@@ -34,8 +34,8 @@ class Main extends Component {
           <Route path='/' exact component={Home} />
           <Route path='/toiminta/tapahtumat' component={CalendarSite} />
           {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
-          {/* <Route path='/register' exact component={RegistrationPage} /> */}
-          <Route path='/register/:registrationToken' component={RegistrationConfirmation} />
+          <Route path='/register' exact component={RegistrationPage} />
+          {/* <Route path='/register/:registrationToken' component={RegistrationConfirmation} /> */}
           <Route path='/login' exact component={LoginPage} />
           <PrivateRoute path='/intra' component={IntraPage} />
           <Route path='/ilmo/:id' component={EnrollPage} />
