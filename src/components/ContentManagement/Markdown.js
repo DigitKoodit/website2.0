@@ -2,17 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types' //
 import Prism from 'prismjs'
 import 'prismjs/components/prism-jsx'
-import 'prismjs/themes/prism-okaidia.css'
 import ReactMarkdown from 'react-markdown'
+import { Title } from 'bloomer'
+import '../../styles/markdown.css'
 
 const Markdown = ({ source }) => (
   source && <ReactMarkdown
     className={'markdown-area'}
     source={decodeURI(source)}
     escapeHtml={false}
-    renderers={{ code: CodeBlock }}
+    renderers={{ code: CodeBlock, heading: TitleBlock }}
   />
 )
+
+const TitleBlock = ({ level, children }) => <Title isSize={level}>{children}</Title>
+TitleBlock.propTypes = {
+  level: PropTypes.number,
+  children: PropTypes.array
+}
 
 const CodeBlock = ({ language, value }) => {
   const canShowHighlight = Prism.languages[language] && value
