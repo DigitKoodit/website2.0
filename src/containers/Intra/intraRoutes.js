@@ -33,7 +33,6 @@ const routes = [
       { title: 'Toimihenkilöt', path: '/intra/registry/officials', component: null, active: false }
     ]
   },
-  { title: 'MordorMarket', path: '/intra/market', component: NotFound, active: false },
   { title: 'Palaute', path: '/intra/feedback', component: NotFound, active: false }
 
 ]
