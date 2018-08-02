@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { loginActions } from '../../actions'
+import { Base } from '../../components/Layout'
 import withLoader from '../../components/Helpers/withLoader'
 
 const initalFormModel = {
@@ -14,24 +15,22 @@ const initalFormModel = {
 const LoginPage = ({ isLoading, model, startLogin }) => {
   const Spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
   return (
-    <div className='site-container'>
-      <div className='form-page'>
-        <Form
-          model={initalFormModel}
-          validationErrors={model.error}
-          handleSubmit={startLogin}>
-          {inputProps => (
-            <Fragment>
-              <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
-              <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
-              {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
-              <button type='submit' className='btn btn-primary full-width'>Kirjaudu {Spinner}</button>
-            </Fragment>
-          )}
-        </Form>
-        <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
-      </div>
-    </div>
+    <Base>
+      <Form
+        model={initalFormModel}
+        validationErrors={model.error}
+        handleSubmit={startLogin}>
+        {inputProps => (
+          <Fragment>
+            <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
+            <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
+            {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
+            <button type='submit' className='btn btn-primary full-width'>Kirjaudu {Spinner}</button>
+          </Fragment>
+        )}
+      </Form>
+      <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
+    </Base>
   )
 }
 

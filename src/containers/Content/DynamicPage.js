@@ -12,13 +12,9 @@ import Markdown from '../../components/ContentManagement/Markdown'
 const NotFound = asyncComponent(() => import('../NotFound'))
 
 const PageContent = ({ siteContent }) => (
-  <Base
-    htmlTitle={siteContent.title}
-    htmlDescription={siteContent.description} >
-    <Column isSize={baseColumnSize}>
-      <Markdown source={siteContent.content} />
-    </Column>
-  </Base>
+  <Column isSize={baseColumnSize}>
+    <Markdown source={siteContent.content} />
+  </Column>
 )
 
 PageContent.propTypes = {
@@ -27,15 +23,12 @@ PageContent.propTypes = {
   })
 }
 
-const DynamicPage = ({ data: siteContent }) => {
-  return (
-    <div className='site-container'>
-      <div className='site-content'>
-        {siteContent && <PageContent siteContent={siteContent} />}
-      </div>
-    </div >
-  )
-}
+const DynamicPage = ({ data: siteContent = {} }) =>
+  <Base
+    htmlTitle={siteContent.title}
+    htmlDescription={siteContent.description} >
+    {siteContent.content ? <PageContent siteContent={siteContent} /> : null}
+  </Base >
 
 DynamicPage.propTypes = {
   data: PropTypes.object

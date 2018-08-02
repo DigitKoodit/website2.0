@@ -1,14 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Column, Title, Content, Button } from 'bloomer'
 import { loginActions } from '../../actions'
-import Base from '../../components/Layout/Base'
+import { BaseContent } from '../../components/Layout'
 
 const ProfilePage = ({ logout }) => {
   return (
-    <Base>
-      <button onClick={logout} className='btn btn-link'>Kirjaudu ulos</button>
-    </Base>
+    <BaseContent>
+      <Column>
+        <Title>Oma profiili</Title>
+        <Content>
+          <p>Nimi:</p>
+          <p>Sähköposti:</p>
+          <Button isColor='danger' onClick={logout} className='btn btn-link'>Kirjaudu ulos</Button>
+        </Content>
+      </Column>
+    </BaseContent>
   )
 }
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import isNil from 'lodash/isNil'
-import { Base } from '../../../components/Layout'
+import { BaseContent } from '../../../components/Layout'
 import { userAccountActions, userRoleActions } from '../../../actions'
-import { Columns, Column, Box } from 'bloomer'
+import { Column, Title, Columns, Box } from 'bloomer'
 import AccountList from './AccountList'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
 
@@ -27,11 +27,11 @@ class AccountManager extends Component {
     const activeItem = !isNil(activeItemId) && findUserAccountById(userAccounts, activeItemId)
 
     return (
-      <Base>
-        <Columns>
-          <h2>Intra</h2>
+      <BaseContent>
+        <Column>
+          <Title>Käyttäjänhallinta</Title>
           <Columns isMultiline>
-            <Column>
+            <Column isSize='narrow'>
               <AccountList onItemClick={this.handleItemClick} roles={roles} accounts={userAccounts} />
             </Column>
             <Column>
@@ -45,8 +45,8 @@ class AccountManager extends Component {
               </Box>
             </Column>
           </Columns>
-        </Columns>
-      </Base >
+        </Column>
+      </BaseContent >
     )
   }
 }

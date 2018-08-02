@@ -1,12 +1,16 @@
 import React from 'react'
+import { Column, Title } from 'bloomer'
+import { Base } from '../components/Layout'
 import { Link } from 'react-router-dom'
 
-const NotFound = props => (
-  <div className='notFound'>
-    <h1 className='title'>
-      <Link to='/'>404</Link>
-    </h1>
-  </div>
+const NotFound = () => (
+  <Base htmlTitle='Digit - 404'>
+    <Column>
+      <Title hasTextAlign='centered'>
+        <Link to='/'>Tyhjää <br />404</Link>
+      </Title>
+    </Column>
+  </Base>
 )
 
 export default NotFound

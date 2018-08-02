@@ -4,7 +4,7 @@ import { Column } from 'bloomer'
 import { Base } from '../../components/Layout'
 import SideNav from '../../components/Intra/SideNav'
 import asyncComponent from '../../components/AsyncComponent'
-// import '../../styles/intra.css'
+import '../../styles/intra.css'
 
 import routes from './intraRoutes'
 const NotFound = asyncComponent(() => import('../NotFound'))
@@ -27,12 +27,12 @@ const RouteWithSubRoutes = route => (
 const IntraPage = () => {
   return (
     <Base>
-      <Column className='is-flex is-shrink-0'>
+      <Column isSize='narrow'>
         <SideNav
           items={routes}
         />
       </Column>
-      <Column className='is-flex'>
+      <Column>
         <Switch>
           {mapRoutes(routes)}
           <Route status={NotFound} component={NotFound} />

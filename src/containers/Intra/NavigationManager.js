@@ -7,10 +7,9 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import isMatch from 'lodash/isMatch'
 import { siteNavigationActions } from '../../actions'
-import Base from '../../components/Layout/Base'
+import { BaseContent } from '../../components/Layout'
 import { VerticalList } from '../../components/Layout/Lists'
 import Clickable from '../../components/Event/Clickable'
-// import '../../styles/list.css'
 
 const renderNavListItem = item =>
   <Fragment>
@@ -115,7 +114,7 @@ class NavigationManager extends PureComponent {
     const { navItems, initNewNavItem } = this.props
     const { activeItemId } = this.state
     return (
-      <Base>
+      <BaseContent>
         <div className='row'>
           <div className='col-xs-12'>
             <h2>Sivurakenne</h2>
@@ -136,7 +135,7 @@ class NavigationManager extends PureComponent {
             </div>
           </div>
         </div>
-      </Base>
+      </BaseContent>
     )
   }
 }
