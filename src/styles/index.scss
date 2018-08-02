@@ -1,22 +1,27 @@
 @import './_bulma';
-@import './_helpers';
+// @import './_helpers';
 @import './_spacing-helpers';
 @import './_snackbar';
+
 body {
   background-color: #fbfbfb;
   min-height: 100vh;
 }
 
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.is-full-height {
+  flex: 1;
+}
 /*Prepare image to be displayed on center*/
 
 .has-bg-img {
   background: center center;
   background-size: cover;
-}
-
-.is-shrink-0 {
-  flex-shrink: 0;
-  flex-grow: 0;
 }
 
 .disabled {
