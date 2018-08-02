@@ -1,3 +1,5 @@
+@import './_bulma';
+@import './_helpers';
 @import './_spacing-helpers';
 @import './_snackbar';
 body {
@@ -10,4 +12,29 @@ body {
 .has-bg-img {
   background: center center;
   background-size: cover;
+}
+
+.is-shrink-0 {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.disabled {
+  background-color: $grey-lighter !important;
+  color: $grey-light !important;
+  cursor: not-allowed !important;
+  &:hover {
+    background-color: $grey-lighter !important;
+    color: $grey-light !important;
+  }
+}
+
+.nav-active {
+  background-color: $blue;
+  color: $white;  
+  box-shadow: 0 2px 0 0 $blue;
+  &:hover {
+    background-color: $blue !important;
+    color: $white !important;
+  }
 }
