@@ -1,8 +1,8 @@
 import { actionKeys } from './actionTypes'
 import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
-import { displaySnackbar } from '../actions/uiActions'
-import { loginActions } from '../actions'
+import { displaySnackbar } from './uiActions'
+import { loginActions } from '.'
 
 const navItemPublicCrud = createCrudService('/api/content/navigation')
 // Private routes require authorization header

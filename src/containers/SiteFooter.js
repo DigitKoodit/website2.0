@@ -1,7 +1,7 @@
 import React from 'react'
 import { Footer, Container, Columns, Column, Content } from 'bloomer'
 
-// import '../styles/footer.css'
+import '../styles/footer.css'
 
 const SiteFooter = () => (
   <Footer className='footer-container'>

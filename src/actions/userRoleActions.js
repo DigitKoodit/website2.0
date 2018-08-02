@@ -1,7 +1,7 @@
 import { actionKeys } from './actionTypes'
 import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
-import { loginActions } from '../actions'
+import { loginActions } from '.'
 import { displayErrorMessage, isUnauthorized } from './helpers'
 
 const userRoleCrud = createCrudService('/api/intra/account/roles', true)
