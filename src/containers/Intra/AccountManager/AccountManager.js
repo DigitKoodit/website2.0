@@ -7,6 +7,7 @@ import { userAccountActions, userRoleActions } from '../../../actions'
 import { Column, Title, Columns, Box } from 'bloomer'
 import AccountList from './AccountList'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
+import { ChooserModal } from '../../../components/Modal'
 
 class AccountManager extends Component {
   state = {
@@ -37,10 +38,16 @@ class AccountManager extends Component {
             <Column>
               <Box>
                 {activeItem
-                  ? <p>
+                  ? <div>
                     {JSON.stringify(activeItem)}
-                    {JSON.stringify(findUserRoleById(roles, activeItem.roleId))}
-                  </p>
+                    <ChooserModal
+                      title='Valitse rooli'
+                      dataSet={roles}
+                      selectedItem={findUserRoleById(roles, activeItem.roleId)}
+                      listItemFormatter={item => item.name}
+                      onSelect={roleId => console.log('SELECT THING', roleId)}
+                      selectedRenderer={item => <p><b>{item.name}</b> {item.accessLevel}</p>} />
+                  </div>
                   : null}
               </Box>
             </Column>
