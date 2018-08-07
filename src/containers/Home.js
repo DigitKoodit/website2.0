@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-// import { Row, Column } from '../components/Layout'
+import Helmet from 'react-helmet'
 import WelcomeView from '../components/WelcomeView'
 import EventView from './EventsView'
 import SponsorsView from './SponsorsView'
@@ -11,6 +11,9 @@ const heroBgStyle = { backgroundImage: `url(${heroImage})` }
 const Home = () => {
   return (
     <Fragment>
+      <Helmet>
+        <title>Digit ry</title>
+      </Helmet>
       <Hero isSize='small' className='is-halfheight'>
         <HeroBody isPaddingless className='has-bg-img' style={heroBgStyle} />
       </Hero>
