@@ -4,7 +4,6 @@ import { Column } from 'bloomer'
 import { Base } from '../../components/Layout'
 import SideNav from '../../components/Intra/SideNav'
 import asyncComponent from '../../components/AsyncComponent'
-import '../../styles/intra.css'
 
 import routes from './intraRoutes'
 const NotFound = asyncComponent(() => import('../NotFound'))
