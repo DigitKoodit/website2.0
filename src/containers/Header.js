@@ -24,7 +24,7 @@ class Header extends PureComponent {
     this.props.fetchNavigation()
   }
   componentWillUnmount() {
-    document.addEventListener('mousedown', this.handleClick, false)
+    document.removeEventListener('mousedown', this.handleClick, false)
   }
   handleClick = event =>
     (this.headerRef.current.contains(event.target) || !this.state.isBurgerMenuOpen) ? null : this.handleBurgerClick()
