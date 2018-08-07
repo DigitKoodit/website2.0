@@ -1,23 +1,35 @@
 import React, { Fragment } from 'react'
-
-import { Menu, MenuLabel, MenuList, MenuLink } from 'bloomer'
+import { MenuLabel, MenuList, MenuLink } from 'bloomer'
 import PropTypes from 'prop-types'
 import { findUserAccounstByRole } from '../../../selectors/userAccountSelectors'
+import { VerticalList } from '../../../components/Layout'
 
 const AccountList = ({ roles, accounts, onItemClick }) => (
-  <Menu>
-    {roles.map(role =>
+  <VerticalList
+    items={roles}
+    listItemRenderer={role => (
       <Fragment key={`group-${role.id}`}>
         <MenuLabel>{role.name}</MenuLabel>
         {findUserAccounstByRole(accounts, role.id).map(account =>
-          <li key={account.id} onClick={() => onItemClick(account.id)}><MenuLink>{account.username}</MenuLink></li>
+          <AccountItem key={account.id} account={account} onItemClick={onItemClick} />
         )}
         <MenuList />
       </Fragment>
     )}
-  </Menu>
+  />
 )
 
+const AccountItem = ({ account, onItemClick }) =>
+  <li key={account.id} onClick={() => onItemClick(account.id)}>
+    <MenuLink>{account.username}</MenuLink>
+  </li>
+
+AccountItem.propTypes = {
+  account: PropTypes.shape({
+    id: PropTypes.number.isRequired
+  }).isRequired,
+  onItemClick: PropTypes.func
+}
 AccountList.propTypes = {
   roles: PropTypes.array,
   accounts: PropTypes.array,
