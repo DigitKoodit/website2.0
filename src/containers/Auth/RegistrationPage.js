@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { Link } from 'react-router-dom'
 import { registrationActions } from '../../actions'
+import { Base } from '../../components/Layout'
 import withLoader from '../../components/Helpers/withLoader'
 
 const initalFormModel = {
@@ -16,25 +17,23 @@ const RegistrationPage = ({ isLoading, model, startRegistration }) => {
   const spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
 
   return (
-    <div className='site-container'>
-      <div className='form-page'>
-        <Form
-          model={initalFormModel}
-          validationErrors={model.error}
-          handleSubmit={startRegistration}>
-          {inputProps => (
-            <Fragment>
-              <Input type='text' placeholder='Käyttäjänimi' field='username' {...inputProps} />
-              <Input type='text' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
-              <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
-              {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
-              <button type='submit' className='btn btn-primary full-width'>Rekisteröidy {spinner}</button>
-            </Fragment>
-          )}
-        </Form>
-        <Link to='/login' className='btn btn-link'>Kirjaudu</Link>
-      </div>
-    </div>
+    <Base>
+      <Form
+        model={initalFormModel}
+        validationErrors={model.error}
+        handleSubmit={startRegistration}>
+        {inputProps => (
+          <Fragment>
+            <Input type='text' placeholder='Käyttäjänimi' field='username' {...inputProps} />
+            <Input type='text' placeholder='Sähköpostiosoite' field='email' {...inputProps} />
+            <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
+            {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
+            <button type='submit' className='btn btn-primary full-width'>Rekisteröidy {spinner}</button>
+          </Fragment>
+        )}
+      </Form>
+      <Link to='/login' className='btn btn-link'>Kirjaudu</Link>
+    </Base>
   )
 }
 

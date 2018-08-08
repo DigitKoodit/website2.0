@@ -1,9 +1,9 @@
-import Column from './Column'
-import Row from './Row'
 import Base from './Base'
+import BaseContent from './BaseContent'
+import { VerticalList } from './Lists'
 
 export {
-  Column,
-  Row,
-  Base
+  Base,
+  BaseContent,
+  VerticalList
 }

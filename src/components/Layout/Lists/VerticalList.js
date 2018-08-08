@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { MenuList } from 'bloomer'
 
 const VerticalList = ({ className, items, listItemRenderer }) =>
-  <ul className={className}>
+  <MenuList className={className}>
     {items.map(item =>
       listItemRenderer(item)
     )}
-  </ul>
+  </MenuList>
 
 VerticalList.propTypes = {
   className: PropTypes.string,

@@ -1,8 +1,10 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { Column } from 'bloomer'
+import { Base } from '../../components/Layout'
 import SideNav from '../../components/Intra/SideNav'
 import asyncComponent from '../../components/AsyncComponent'
-// import '../../styles/intra.css'
+import '../../styles/intra.css'
 
 import routes from './intraRoutes'
 const NotFound = asyncComponent(() => import('../NotFound'))
@@ -24,22 +26,19 @@ const RouteWithSubRoutes = route => (
 
 const IntraPage = () => {
   return (
-    // React Components in JSX look like HTML tags
-    <div className='site-container'>
-      <div className='flex-content' >
+    <Base>
+      <Column isSize='narrow'>
         <SideNav
           items={routes}
         />
-        <div className='column' id='right'>
-          <div className='bottom'>
-            <Switch>
-              {mapRoutes(routes)}
-              <Route status={NotFound} component={NotFound} />
-            </Switch>
-          </div>
-        </div>
-      </div>
-    </div >
+      </Column>
+      <Column>
+        <Switch>
+          {mapRoutes(routes)}
+          <Route status={NotFound} component={NotFound} />
+        </Switch>
+      </Column>
+    </Base>
   )
 }
 

@@ -1,4 +1,4 @@
-import { displaySnackbar } from '../actions/uiActions'
+import { displaySnackbar } from './uiActions'
 
 export const parseResponseError = (err, fallbackMessage) =>
   err.response

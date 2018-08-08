@@ -1,27 +1,20 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types' //
 import { withRouter } from 'react-router'
 import isNil from 'lodash/isNil'
 import fetch from 'fetch-hoc'
 import { Route } from 'react-router-dom'
-import Markdown from '../../components/ContentManagement/Markdown'
-import { Helmet } from 'react-helmet'
+import Base, { baseColumnSize } from '../../components/Layout/Base'
+import { Column } from 'bloomer'
 import asyncComponent from '../../components/AsyncComponent'
+import Markdown from '../../components/ContentManagement/Markdown'
 
 const NotFound = asyncComponent(() => import('../NotFound'))
 
 const PageContent = ({ siteContent }) => (
-  <Fragment>
-    <Helmet>
-      <title>{siteContent.title}</title>
-      <meta name='description' content={siteContent.description} />
-    </Helmet>
-    <div className='row center-xs'>
-      <div className='col-xs-12 col-md-6 start-xs' >
-        <Markdown source={siteContent.content} />
-      </div>
-    </div>
-  </Fragment>
+  <Column isSize={baseColumnSize}>
+    <Markdown source={siteContent.content} />
+  </Column>
 )
 
 PageContent.propTypes = {
@@ -30,15 +23,12 @@ PageContent.propTypes = {
   })
 }
 
-const DynamicPage = ({ data: siteContent }) => {
-  return (
-    <div className='site-container'>
-      <div className='site-content'>
-        {siteContent && <PageContent siteContent={siteContent} />}
-      </div>
-    </div >
-  )
-}
+const DynamicPage = ({ data: siteContent = {} }) =>
+  <Base
+    htmlTitle={siteContent.title}
+    htmlDescription={siteContent.description} >
+    {siteContent.content ? <PageContent siteContent={siteContent} /> : null}
+  </Base >
 
 DynamicPage.propTypes = {
   data: PropTypes.object
@@ -46,7 +36,6 @@ DynamicPage.propTypes = {
 
 const pageContentLoader = Children => {
   const Wrapped = ({ location }) => {
-    console.log(location)
     if(!location.state || isNil(location.state.sitePageId)) {
       return <Route status={NotFound} component={NotFound} />
     }

@@ -1,3 +1,6 @@
+@import './_bulma';
+@import './_variables';
+// @import './_helpers';
 @import './_spacing-helpers';
 @import './_snackbar';
 
@@ -6,8 +9,38 @@ body {
   min-height: 100vh;
 }
 
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.is-full-height {
+  flex: 1;
+}
 /*Prepare image to be displayed on center*/
-.has-bg-img { 
-  background: center center; 
-  background-size:cover;
+
+.has-bg-img {
+  background: center center;
+  background-size: cover;
+}
+
+.disabled {
+  background-color: $grey-lighter !important;
+  color: $grey-light !important;
+  cursor: not-allowed !important;
+  &:hover {
+    background-color: $grey-lighter !important;
+    color: $grey-light !important;
+  }
+}
+
+.nav-active {
+  background-color: $blue;
+  color: $white;  
+  box-shadow: 0 2px 0 0 $blue;
+  &:hover {
+    background-color: $blue !important;
+    color: $white !important;
+  }
 }

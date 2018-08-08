@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { NavbarItem, NavbarDropdown } from 'bloomer'
 
 const SiteNavbarItem = ({ state, title, path, subItems = [], children }) => {
@@ -32,16 +32,34 @@ SiteNavbarItem.propTypes = {
   state: PropTypes.object
 }
 
-const DropdownNavItem = ({ state, path, subItems, children }) =>
+const SimpleNavItem = ({ state, path, children }) =>
   <NavbarItem
-    hasDropdown isHoverable>
+    tag={NavLink}
+    exact={path === '/'}
+    activeClassName='nav-active'
+    to={{ pathname: path, state }} >
+    {children}
+  </NavbarItem>
+
+SimpleNavItem.propTypes = {
+  path: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+  state: PropTypes.object
+}
+
+const DropdownNavItem = ({ state, path, subItems, children }) =>
+  <NavbarItem hasDropdown isHoverable>
     <NavbarItem
-      tag={Link}
+      tag={NavLink}
+      activeClassName='nav-active'
       to={{ pathname: path, state }} >
       {children}
     </NavbarItem>
     <NavbarDropdown>
-      {subItems.map((item, index) => (
+      {subItems.filter(item => !!item).map((item, index) => (
         <NavbarSubmenuItem
           state={item}
           key={index}
@@ -67,7 +85,8 @@ DropdownNavItem.propTypes = {
 
 const NavbarSubmenuItem = ({ state, title, path }) => (
   <NavbarItem
-    tag={Link}
+    tag={NavLink}
+    activeClassName='nav-active'
     to={{
       pathname: path,
       ...state
@@ -82,19 +101,4 @@ NavbarSubmenuItem.propTypes = {
   state: PropTypes.object
 }
 
-const SimpleNavItem = ({ state, path, children }) =>
-  <NavbarItem
-    tag={Link}
-    to={{ pathname: path, state }} >
-    {children}
-  </NavbarItem>
-
-SimpleNavItem.propTypes = {
-  path: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  state: PropTypes.object
-}
 export default SiteNavbarItem

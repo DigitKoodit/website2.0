@@ -10,11 +10,10 @@ import { VerticalList } from '../../components/Layout/Lists'
 import { sponsorActions } from '../../actions'
 import isMatch from 'lodash/isMatch'
 import Clickable from '../../components/Event/Clickable'
-import Base from '../../components/Layout/Base'
+import { BaseContent } from '../../components/Layout'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-// import '../../styles/list.css'
 
 const renderListItem = item =>
   <Fragment>
@@ -141,7 +140,7 @@ class SponsorManager extends PureComponent {
     const { sponsors, initNewSponsor } = this.props
     const { activeItemId } = this.state
     return (
-      <Base>
+      <BaseContent>
         <div className='row'>
           <div className='col-xs-12'>
             <h2>Intra</h2>
@@ -162,7 +161,7 @@ class SponsorManager extends PureComponent {
             </div>
           </div>
         </div>
-      </Base >
+      </BaseContent >
     )
   }
 }

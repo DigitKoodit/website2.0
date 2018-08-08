@@ -10,14 +10,11 @@ const defaultFields = [
 
 const defaultValues = defaultFields.reduce((acc, field) => ({ ...acc, [field.name]: field.defaultValue }), {})
 
-console.log('mo', defaultValues)
-
 const EnrollPage = () =>
   <Form
     fields={defaultFields}
     defaultValues={defaultValues}
     onSave={values => {
-      console.log(values)
       return Promise.resolve()
     }}
   />

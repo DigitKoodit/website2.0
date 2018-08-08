@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import isNil from 'lodash/isNil'
-import { Base } from '../../../components/Layout'
+import { BaseContent } from '../../../components/Layout'
 import { userAccountActions, userRoleActions } from '../../../actions'
-import { Columns, Column, Box } from 'bloomer'
+import { Column, Title, Columns, Box } from 'bloomer'
 import AccountList from './AccountList'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
+import { ChooserModal } from '../../../components/Modal'
 
 class AccountManager extends Component {
   state = {
@@ -27,26 +28,32 @@ class AccountManager extends Component {
     const activeItem = !isNil(activeItemId) && findUserAccountById(userAccounts, activeItemId)
 
     return (
-      <Base>
-        <Columns>
-          <h2>Intra</h2>
+      <BaseContent>
+        <Column>
+          <Title>Käyttäjänhallinta</Title>
           <Columns isMultiline>
-            <Column>
+            <Column isSize='narrow'>
               <AccountList onItemClick={this.handleItemClick} roles={roles} accounts={userAccounts} />
             </Column>
             <Column>
               <Box>
                 {activeItem
-                  ? <p>
+                  ? <div>
                     {JSON.stringify(activeItem)}
-                    {JSON.stringify(findUserRoleById(roles, activeItem.roleId))}
-                  </p>
+                    <ChooserModal
+                      title='Valitse rooli'
+                      dataSet={roles}
+                      selectedItem={findUserRoleById(roles, activeItem.roleId)}
+                      listItemFormatter={item => item.name}
+                      onSelect={roleId => console.log('SELECT THING', roleId)}
+                      selectedRenderer={item => <p><b>{item.name}</b> {item.accessLevel}</p>} />
+                  </div>
                   : null}
               </Box>
             </Column>
           </Columns>
-        </Columns>
-      </Base >
+        </Column>
+      </BaseContent >
     )
   }
 }

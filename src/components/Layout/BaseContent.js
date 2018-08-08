@@ -1,20 +1,20 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Section, Columns } from 'bloomer'
 import { Helmet } from 'react-helmet'
+import { Columns } from 'bloomer'
 
-const Base = ({ htmlTitle = 'Digit ry', htmlDescription = '', children }) =>
-  <Section className='is-full-height'>
+const BaseContent = ({ htmlTitle = 'Digit ry', htmlDescription = '', children }) =>
+  <Fragment>
     <Helmet>
       <title>{htmlTitle}</title>
       <meta name='description' content={htmlDescription} />
     </Helmet>
-    <Columns isCentered>
+    <Columns>
       {children}
     </Columns>
-  </Section>
+  </Fragment>
 
-Base.propTypes = {
+BaseContent.propTypes = {
   htmlTitle: PropTypes.string,
   htmlDescription: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -22,6 +22,5 @@ Base.propTypes = {
     PropTypes.node
   ])
 }
-export default Base
 
-export const baseColumnSize = { mobile: 12, tablet: '2/3', desktop: '1/2' }
+export default BaseContent
