@@ -8,6 +8,7 @@ export class ChooserModal extends PureComponent {
   state = {
     isOpen: false
   }
+
   closeModal = () => this.setState({ isOpen: false })
   openModal = () => this.setState({ isOpen: true })
   handleSelect = item => {
@@ -16,28 +17,30 @@ export class ChooserModal extends PureComponent {
   render() {
     const { isOpen } = this.state
     const {
-      title,
+      modalTitle,
       dataSet,
       selectedItem,
       listItemFormatter,
-      selectedRenderer
+      selectedRenderer,
+      placeholder = 'Ei valittu',
+      nullable
     } = this.props
     return (
       <Fragment>
         <Button isSize='small' onClick={this.openModal}>
-          {isOpen ? 'Muokataan' : selectedItem ? selectedRenderer(selectedItem) : null}
+          {isOpen ? 'Muokataan' : selectedItem ? selectedRenderer(selectedItem) : placeholder}
         </Button>
         <Modal isOpen={isOpen} handleClickOutside={this.closeModal}>
           <Box>
             <Media>
               <MediaContent>
-                <Title>{title}</Title>
+                <Title>{modalTitle}</Title>
                 <VerticalList
                   items={dataSet}
                   listItemRenderer={item => (
                     <li key={item.id} onClick={() => this.handleSelect(item)}>
                       <MenuLink>
-                        {selectedItem.id === item.id
+                        {selectedItem && selectedItem.id === item.id
                           ? <Icon isSize='small' className='fas fa-check mr-1' />
                           : <Icon isSize='small mr-1' />}
                         {listItemFormatter(item)}
@@ -45,6 +48,7 @@ export class ChooserModal extends PureComponent {
                     </li>
                   )}
                 />
+                {nullable && <Button isSize='small' onClick={() => this.handleSelect(null)}>Poista valinta</Button>}
               </MediaContent>
               <MediaRight>
                 <Delete onClick={this.closeModal} />
@@ -57,14 +61,16 @@ export class ChooserModal extends PureComponent {
     )
   }
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    modalTitle: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     dataSet: PropTypes.array,
     selectedItem: PropTypes.shape({
       id: PropTypes.number.isRequired
-    }).isRequired,
+    }),
     listItemFormatter: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selectedRenderer: PropTypes.func.isRequired
+    selectedRenderer: PropTypes.func.isRequired,
+    nullable: PropTypes.bool
   }
 }
 
