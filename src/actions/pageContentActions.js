@@ -3,10 +3,12 @@ import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
+import { INITIAL_ID } from '../constants'
 
 const pageItemPublicCrud = createCrudService('/api/content')
 const pageItemPrivateCrud = createCrudService('/api/intra/content', true)
-const initialItem = { id: -Date.now(), title: '', description: '', published: false, content: '' }
+
+const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', published: false, content: '' }
 
 const pageContentActions = {
   pending: (crudType) => createAction(SITE_PAGE[crudType].PENDING),
@@ -41,7 +43,7 @@ const pageContentActions = {
     }
   },
   prepareNew() {
-    return dispatch => dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().pages.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addPage(pageItem) {
     return dispatch => {

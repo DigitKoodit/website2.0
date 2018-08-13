@@ -4,10 +4,11 @@ import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
+import { INITIAL_ID } from '../constants'
 
 const sponsorPublicCrud = createCrudService('/api/content/sponsor')
 const sponsorPrivateCrud = createCrudService('/api/intra/sponsor', true)
-const initialItem = { id: -Date.now(), name: '', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
+const initialItem = { id: INITIAL_ID, name: 'Uusi', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
 
 const SPONSOR = createCrudTypes(actionKeys.sponsor)
 
@@ -45,7 +46,7 @@ const sponsorActions = {
     }
   },
   prepareNew() {
-    return dispatch => dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().sponsors.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addSponsor(sponsor) {
     return dispatch => {
