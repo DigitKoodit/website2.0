@@ -6,7 +6,7 @@ import { BaseContent } from '../../../components/Layout'
 import { userAccountActions, userRoleActions } from '../../../actions'
 import { Column, Title, Columns, Box, Input, Checkbox } from 'bloomer'
 import AccountList from './AccountList'
-import ModelEditor, { EditorField } from '../../../components/Intra/ModelEditor'
+import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
 import { ChooserModal } from '../../../components/Modal'
 
@@ -38,26 +38,21 @@ class AccountManager extends PureComponent {
           <Column>
             <EditorField label='Käyttäjänimi'> {item.username}</EditorField>
             <EditorField label='Sähköpostiosoite'>
-              <Input
-                isSize='small'
-                className='is-inline'
-                name='email'
-                type='text'
-                value={!isNil(item.email) ? item.email : ''}
+              <EditorInput
+                field='email'
+                model={item}
                 onChange={handleInputChange} />
             </EditorField>
             <EditorField label='Aktiivinen'>
-              <Checkbox isSize='small'
-                className='is-inline'
-                name='active'
-                type='checkbox'
-                checked={item.active}
+              <EditorCheckbox
+                field='active'
+                model={item}
                 onChange={handleInputChange} />
             </EditorField>
             <EditorField label='Rooli'>
               <ChooserModal
                 ref={this.chooserRef}
-                title='Valitse rooli'
+                modalTitle='Valitse rooli'
                 dataSet={roles}
                 selectedItem={findUserRoleById(roles, item.roleId)}
                 listItemFormatter={item => item.name}

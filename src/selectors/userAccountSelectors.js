@@ -4,10 +4,10 @@ const getUserAccounstFromArguments = arg => arg.userAccounts ? arg.userAccounts.
 const getUserRolesFromAruments = arg => arg.userRoles ? arg.userRoles.records : arg
 
 /**
-|--------------------------------------------------
-| Read re-reselect documentation for better understanding
-| Use either state or passed array as data source, filter and cache selections
-|--------------------------------------------------
+ *--------------------------------------------------
+ * Read re-reselect documentation for better understanding
+ * Use either state or passed array as data source, filter and cache selections
+ *--------------------------------------------------
 */
 export const findUserAccountById = createCachedSelector(
   getUserAccounstFromArguments,

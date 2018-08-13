@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
 import find from 'lodash/find'
-import isNil from 'lodash/isNil'
-import { Column, Title, Columns, Box, Input, Checkbox, Button, MenuLink } from 'bloomer'
+import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
 import { VerticalList } from '../../components/Layout/Lists'
 import { pageContentActions } from '../../actions'
 import { BaseContent } from '../../components/Layout'
-import ModelEditor, { EditorField } from '../../components/Intra/ModelEditor'
+import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
+import { INITIAL_ID } from '../../constants'
 
 class ContentManager extends PureComponent {
   state = {
@@ -22,7 +22,7 @@ class ContentManager extends PureComponent {
 
   clearSelection = () => this.setState({ activeItemId: null })
 
-  renderDetailedNavItem = item => <ModelEditor
+  renderEditor = item => <ModelEditor
     item={item}
     onSave={this.state.activeItemId < 0 ? this.props.addPage : this.props.updatePage}
     onCancel={this.clearSelection}
@@ -34,29 +34,21 @@ class ContentManager extends PureComponent {
           <Column>
             {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'>
-              <Input
-                isSize='small'
-                className='is-inline'
-                name='title'
-                type='text'
-                value={!isNil(item.title) ? item.title : ''}
+              <EditorInput
+                field='title'
+                model={item}
                 onChange={handleInputChange} />
             </EditorField>
             <EditorField label='Kuvaus'>
-              <Input
-                isSize='small'
-                className='is-inline'
-                name='description'
-                type='text'
-                value={!isNil(item.description) ? item.description : ''}
+              <EditorInput
+                field='description'
+                model={item}
                 onChange={handleInputChange} />
             </EditorField>
             <EditorField label='Julkaistu'>
-              <Checkbox isSize='small'
-                className='is-inline'
-                name='active'
-                type='checkbox'
-                checked={item.isVisible}
+              <EditorCheckbox
+                field='isVisible'
+                model={item}
                 onChange={handleInputChange} />
             </EditorField>
             <EditorField label='Luotu'>{parseTime(item.createdAt)}</EditorField>
@@ -97,7 +89,7 @@ class ContentManager extends PureComponent {
               <Button isSize='small' isColor='primary' onClick={initNewPage}>Lisää uusi</Button>
               <Box>
                 {(activeItemId && find(pages, { id: activeItemId }))
-                  ? this.renderDetailedNavItem(find(pages, { id: activeItemId }))
+                  ? this.renderEditor(find(pages, { id: activeItemId }))
                   : <p>Valitse muokattava kohde listalta</p>}
               </Box>
             </Column>
@@ -110,7 +102,7 @@ class ContentManager extends PureComponent {
 
 const parseTime = timeString => timeString && `${new Date(timeString).toLocaleString()}`
 
-const PageList = ({ items, originalItems, onItemClick, level = 0 }) => items.length > 0 &&
+const PageList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
   <VerticalList
     items={items}
     listItemRenderer={item => (
@@ -119,13 +111,12 @@ const PageList = ({ items, originalItems, onItemClick, level = 0 }) => items.len
         item={item}
         items={originalItems}
         onItemClick={onItemClick}
-        level={level}
       />
     )} />
 
 const ListItem = ({ item, onItemClick }) => (
   <li key={item.id} onClick={() => onItemClick(item.id)}>
-    <MenuLink>
+    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
       {item.title}
     </MenuLink>
   </li>
