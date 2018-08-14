@@ -18,5 +18,6 @@ export const actionKeys = {
   siteNavigation: 'SITE_NAVIGATION',
   sponsor: 'SPONSOR',
   userAccount: 'USER_ACCOUNT',
-  userRole: 'USER_ROLE'
+  userRole: 'USER_ROLE',
+  auth: 'AUTH'
 }
