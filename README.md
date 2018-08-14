@@ -58,7 +58,7 @@ TODO
     git pull upstream master
 
 ### 4. Making your own changes
-    git push orign master
+    git push origin master
 
 ### 5. Make a pull request on GitHub 
 

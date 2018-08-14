@@ -1,5 +1,4 @@
 @import './_bulma';
-@import './_variables';
 // @import './_helpers';
 @import './_spacing-helpers';
 @import './_snackbar';
@@ -42,5 +41,11 @@ body {
   &:hover {
     background-color: $blue !important;
     color: $white !important;
+  }
+}
+
+.button {
+  & + & {
+    margin-left: 1rem;
   }
 }

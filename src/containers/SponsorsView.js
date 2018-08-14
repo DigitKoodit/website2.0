@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImageLink from '../components/ImageLink'
-import { connect } from 'react-redux'
 import { sponsorActions } from '../actions'
 import { Content, Columns, Column } from 'bloomer'
 

@@ -3,12 +3,13 @@ import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
+import { INITIAL_ID } from '../constants'
 
 const navItemPublicCrud = createCrudService('/api/content/navigation')
 // Private routes require authorization header
 const requireAuth = true
 const navItemPrivateCrud = createCrudService('/api/intra/content/navigation', requireAuth)
-const initialItem = { id: -Date.now(), title: '', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, isVisible: false }
+const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, isVisible: false }
 
 const siteNavigationActions = {
   pending: (crudType) => createAction(SITE_NAVIGATION[crudType].PENDING),
@@ -30,7 +31,7 @@ const siteNavigationActions = {
     }
   },
   prepareNew() {
-    return dispatch => dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().siteNavigation.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addNavItem(navItem) {
     return dispatch => {
