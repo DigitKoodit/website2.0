@@ -20,7 +20,7 @@ const userAccountActions = {
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
-          const message = 'Käyttäjien noutaminen epäonnistui'
+          const message = 'Käyttäjän noutaminen epäonnistui'
           dispatch(this.error({ common: message }, crudTypes.FETCH))
           dispatch(displayErrorMessage(isUnauthorized(err), message))
           isUnauthorized(err) && dispatch(loginActions.logout('/login'))

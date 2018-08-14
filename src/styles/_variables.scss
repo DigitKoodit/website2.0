@@ -1,12 +1,13 @@
+// Define variables before importing other Bulma styles because some fields might be derived using !default keyword
 @import 'bulma/sass/utilities/initial-variables';
+
+// Add and change colors here by adding variables according to the documentation
+// https://bulma.io/documentation/customize/variables/
+$footer-bg: $grey-darker;
+$modal-background-background-color: rgba($black, .26);
+$radius-large: 0;
+
 @import 'bulma/sass/utilities/functions';
 @import 'bulma/sass/utilities/derived-variables';
 @import 'bulma/sass/utilities/functions';
 @import 'bulma/sass/utilities/mixins';
-
-
-// Add and change colors here by adding variables according to the documentation
-// https://bulma.io/documentation/customize/variables/
-
-$footer-bg: $grey-darker;
-$modal-background-background-color: rgba($black, .26);

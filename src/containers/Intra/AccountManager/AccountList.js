@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { MenuLabel, MenuList, MenuLink } from 'bloomer'
 import PropTypes from 'prop-types'
-import { findUserAccounstByRole } from '../../../selectors/userAccountSelectors'
+import { findUserAccountsByRole } from '../../../selectors/userAccountSelectors'
 import { VerticalList } from '../../../components/Layout'
 
 const AccountList = ({ roles, accounts, onItemClick }) => (
@@ -10,7 +10,7 @@ const AccountList = ({ roles, accounts, onItemClick }) => (
     listItemRenderer={role => (
       <Fragment key={`group-${role.id}`}>
         <MenuLabel>{role.name}</MenuLabel>
-        {findUserAccounstByRole(accounts, role.id).map(account =>
+        {findUserAccountsByRole(accounts, role.id).map(account =>
           <AccountItem key={account.id} account={account} onItemClick={onItemClick} />
         )}
         <MenuList />

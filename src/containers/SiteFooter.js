@@ -10,7 +10,7 @@ const SiteFooter = () => (
         <Columns>
           <Column hasTextAlign='centered'>
             <p>Digit ry © {new Date().getFullYear()}<br />
-              Vesilinnantie 3, 20500 Turku</p>
+              Agora, 20014 Turun yliopisto</p>
           </Column>
         </Columns>
       </Content>

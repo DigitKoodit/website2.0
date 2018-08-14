@@ -8,15 +8,17 @@ const EditorInputPropType = {
   field: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
-const EditorInput = ({ model, field, onChange, isSize = 'small', className = 'is-inline', type = 'text' }) => (
+const EditorInput = ({ model, field, onChange, disabled, isSize = 'small', className = 'is-inline', type = 'text' }) => (
   <Input
     isSize={isSize}
     className={className}
     name={field}
     type={type}
+    disabled={disabled}
     value={!isNil(model[field]) ? model[field] : ''}
     onChange={onChange} />
 )
@@ -26,11 +28,12 @@ EditorInput.propTypes = {
   isSize: PropTypes.string
 }
 
-const EditorCheckbox = ({ model, field, onChange, className = 'is-inline', type = 'checkbox' }) => (
+const EditorCheckbox = ({ model, field, onChange, disabled, className = 'is-inline', type = 'checkbox' }) => (
   <Checkbox
     className={className}
     name={field}
     type={type}
+    disabled={disabled}
     value={!isNil(model[field]) ? model[field] : ''}
     onChange={onChange} />
 )

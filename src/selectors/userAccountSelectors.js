@@ -13,7 +13,7 @@ export const findUserAccountById = createCachedSelector(
   getUserAccounstFromArguments,
   (state, userAccountId) => Number(userAccountId),
   (userAccounts, userAccountId) => {
-    return userAccounts.filter(account => account.id === userAccountId)[0]
+    return userAccounts.find(account => account.id === userAccountId)
   }
 )((state, userAccountId) => userAccountId)
 
@@ -21,11 +21,11 @@ export const findUserRoleById = createCachedSelector(
   getUserRolesFromAruments,
   (state, roleId) => Number(roleId),
   (roles, roleId) => {
-    return roles.filter(role => role.id === roleId)[0]
+    return roles.find(role => role.id === roleId)
   }
 )((state, roleId) => roleId)
 
-export const findUserAccounstByRole = createCachedSelector(
+export const findUserAccountsByRole = createCachedSelector(
   getUserAccounstFromArguments,
   (state, roleId) => Number(roleId),
   (userAccounts, roleId) => {
