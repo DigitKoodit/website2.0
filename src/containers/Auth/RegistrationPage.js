@@ -13,8 +13,8 @@ const initalFormModel = {
   password: ''
 }
 
-const RegistrationPage = ({ isLoading, model, startRegistration }) => {
-  const spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
+const RegistrationPage = ({ loading, model, startRegistration }) => {
+  const spinner = loading && <i className='fas fa-circle-notch fa-spin button-icon' />
 
   return (
     <Base>
@@ -39,7 +39,6 @@ const RegistrationPage = ({ isLoading, model, startRegistration }) => {
 
 RegistrationPage.propTypes = {
   model: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
   startRegistration: PropTypes.func.isRequired
 }
