@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { getCalendarEventsShort } from '../lib/googleUtils'
 import { Box, Column, Columns, Content, Tile, Title, Icon } from 'bloomer'
 import PropTypes from 'prop-types'
@@ -45,7 +45,7 @@ class EventsView extends Component {
 }
 
 const renderDay = (events, index) => (
-  <Column key={index} isSize={{ default: '1/3', mobile: '1' }}>
+  <Column key={index} isSize={{ tablet: '1', default: '1/3' }}>
     <div className='is-size-5 pb-2'>
       {moment(events[0].start).format('dddd DD.MM.')}
     </div>
@@ -59,8 +59,16 @@ const renderEvent = ({ start, end, title, location }) => {
   return (
     <div key={`${start}-${title}`} className='pb-2'>
       <span className='has-text-weight-semibold'>{title}</span><br />
-      <span className='has-text-grey-light has-text-weight-bold'>{`${formattedStart} - ${formattedEnd}`}</span><br />
-      {location && <span className='has-text-grey is-size-6'>{location}</span>}
+      <Icon isSize='small' className='fas fa-clock has-text-info mr-1' />
+      <span className='has-text-grey'>
+        {`${formattedStart} - ${formattedEnd}`}
+      </span><br />
+      {location && (
+        <Fragment>
+          <Icon isSize='small' className='fas fa-map-marker has-text-info mr-1' />
+          <span className='has-text-grey is-size-6'>{location}</span>
+        </Fragment>
+      )}
     </div>
   )
 }
