@@ -1,6 +1,7 @@
 import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/helpers'
 import { login, logout } from '../services/userService'
+import { AUTH } from './authActions'
 import { replace } from 'react-router-redux'
 import { parseResponseError } from './helpers'
 
@@ -11,10 +12,15 @@ const loginActions = {
   pending: () => createAction(LOGIN.PENDING),
   success: response => createAction(LOGIN.SUCCESS, { response }),
   error: error => createAction(LOGIN.ERROR, { error }),
+  reset: () => createAction(LOGIN.RESET),
   logout(redirectUrl = routeAfterLogout) {
     return dispatch => {
       logout()
-        .then(() => dispatch(replace(redirectUrl)))
+        .then(() => {
+          dispatch(createAction(AUTH.RESET))
+          dispatch(this.reset())
+          dispatch(replace(redirectUrl))
+        })
     }
   },
   startLogin(username, password) {
