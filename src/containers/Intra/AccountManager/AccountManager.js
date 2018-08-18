@@ -36,7 +36,7 @@ class AccountManager extends PureComponent {
       return (
         <Columns>
           <Column>
-            <EditorField label='Käyttäjänimi'> {item.username}</EditorField>
+            <EditorField label='Käyttäjänimi'>{item.username}</EditorField>
             <EditorField label='Sähköpostiosoite'>
               <EditorInput
                 field='email'
