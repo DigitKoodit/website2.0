@@ -3,8 +3,9 @@ import { types } from '../actions'
 
 const initialState = {
   profile: {},
+  error: {},
   isLoggedIn: false,
-  loading: false
+  loading: true
 }
 
 export default createReducer(initialState, {
@@ -15,10 +16,13 @@ export default createReducer(initialState, {
   [types.AUTH.SUCCESS]: (state, action) => ({
     ...state,
     profile: action.response,
-    loading: false
+    isLoggedIn: true,
+    loading: false,
+    error: {}
   }),
   [types.AUTH.ERROR]: (state, action) => ({
     ...initialState,
     error: action.error
-  })
+  }),
+  [types.AUTH.RESET]: () => initialState
 })

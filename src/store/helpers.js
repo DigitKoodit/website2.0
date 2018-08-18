@@ -1,9 +1,10 @@
 import mapValues from 'lodash/mapValues'
 
-const asyncTypes = {
+const actionTypes = {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  RESET: 'RESET'
 }
 
 export const crudTypes = {
@@ -14,7 +15,7 @@ export const crudTypes = {
 }
 
 export const createAsyncTypes = typeString =>
-  Object.values(asyncTypes).reduce((acc, current) => ({
+  Object.values(actionTypes).reduce((acc, current) => ({
     ...acc,
     [current]: `${typeString}_${current}`
   }), {})
