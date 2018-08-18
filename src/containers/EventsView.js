@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { getCalendarEventsShort } from '../lib/googleUtils'
-import { Box, Column, Columns, Content, Tile, Title } from 'bloomer'
+import { Box, Column, Columns, Content, Tile, Title, Icon } from 'bloomer'
 import PropTypes from 'prop-types'
-import * as _ from 'lodash'
+import values from 'lodash/values'
+import take from 'lodash/take'
 import moment from 'moment'
 import 'moment/locale/fi'
 
@@ -22,14 +23,10 @@ class EventsView extends Component {
   }
 
   render() {
-    const firstThreeDays = _(this.state.events)
-      .toArray()
-      .take(3)
-      .value()
-
+    const firstThreeDays = take(values(this.state.events), 3)
     // TODO: Add calendar button
     return (
-      <Tile isParent style={{padding: 30}}>
+      <Tile isParent style={{ padding: 30 }}>
         <Tile isChild render={
           props => (
             <Box {...props}>
@@ -47,9 +44,8 @@ class EventsView extends Component {
   }
 }
 
-
-const renderDay = (events) => (
-  <Column isSize={{ default: '1/3', mobile: '1' }}>
+const renderDay = (events, index) => (
+  <Column key={index} isSize={{ default: '1/3', mobile: '1' }}>
     <div className='is-size-5 pb-2'>
       {moment(events[0].start).format('dddd DD.MM.')}
     </div>
@@ -57,12 +53,11 @@ const renderDay = (events) => (
   </Column>
 )
 
-
 const renderEvent = ({ start, end, title, location }) => {
   const formattedStart = moment(start).format('HH:mm')
   const formattedEnd = moment(end).format('HH:mm')
   return (
-    <div className='pb-2'>
+    <div key={`${start}-${title}`} className='pb-2'>
       <span className='has-text-weight-semibold'>{title}</span><br />
       <span className='has-text-grey-light has-text-weight-bold'>{`${formattedStart} - ${formattedEnd}`}</span><br />
       {location && <span className='has-text-grey is-size-6'>{location}</span>}
