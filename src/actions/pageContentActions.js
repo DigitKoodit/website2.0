@@ -4,6 +4,7 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
 const pageItemPublicCrud = createCrudService('/api/content')
 const pageItemPrivateCrud = createCrudService('/api/intra/content', true)
@@ -22,9 +23,11 @@ const pageContentActions = {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
           const message = 'Sivun noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -36,9 +39,11 @@ const pageContentActions = {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
           const message = 'Sivujen noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -56,9 +61,11 @@ const pageContentActions = {
           pageItem.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
         }).catch(err => {
           const message = 'Luominen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.CREATE))
-          pageItem.id < 0 && dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.CREATE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -71,9 +78,11 @@ const pageContentActions = {
           dispatch(displaySnackbar('Tallennus onnistui'))
         }).catch(err => {
           const message = 'Navigaation päivitys epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.UPDATE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.UPDATE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -90,19 +99,14 @@ const pageContentActions = {
           dispatch(displaySnackbar('Poistaminen onnistui'))
         }).catch(err => {
           const message = 'Poistaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.DELETE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.DELETE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   }
-}
-
-const isUnauthorized = err => err.response && err.response.status === 401
-
-const displayErrorMessage = (isUnauthorized, snackbarMessage) => {
-  let message = isUnauthorized ? 'Pääsy kielletty' : snackbarMessage
-  return displaySnackbar(message)
 }
 
 export default pageContentActions

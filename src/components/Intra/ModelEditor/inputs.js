@@ -40,7 +40,7 @@ const EditorCheckbox = ({ model, field, onChange, disabled, validationErrors = {
       name={field}
       type={type}
       disabled={disabled}
-      checked={model[field]}
+      checked={!isNil(model[field]) && model[field]}
       onChange={onChange} />
     {validationErrors[field] && <Help isColor='danger'>{validationErrors[field].msg}</Help>}
   </Fragment>
