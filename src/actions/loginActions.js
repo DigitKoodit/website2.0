@@ -37,7 +37,11 @@ const loginActions = {
           dispatch(this.success(user))
           dispatch(replace(routeAfterLogin))
         })
-        .catch(err => dispatch(this.error(parseResponseError(err, 'Käyttäjänimi tai salasana väärin'))))
+        .catch(err =>
+          parseResponseError(err, 'Käyttäjänimi tai salasana väärin')
+            .then(error =>
+              dispatch(this.error(error)))
+        )
     }
   }
 }

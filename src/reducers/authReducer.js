@@ -2,7 +2,7 @@ import { createReducer } from '../store/helpers'
 import { types } from '../actions'
 
 const initialState = {
-  profile: {},
+  record: {},
   error: {},
   isLoggedIn: false,
   loading: true
@@ -15,7 +15,7 @@ export default createReducer(initialState, {
   }),
   [types.AUTH.SUCCESS]: (state, action) => ({
     ...state,
-    profile: action.response,
+    record: action.response,
     isLoggedIn: true,
     loading: false,
     error: {}

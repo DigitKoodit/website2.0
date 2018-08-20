@@ -24,11 +24,17 @@ class AccountManager extends PureComponent {
     this.props.fetchUserRoles()
   }
 
-  handleItemClick = itemId => this.setState({ activeItemId: itemId })
+  handleItemClick = itemId => {
+    this.setState({ activeItemId: itemId })
+    this.props.clearErrors()
+  }
 
-  clearSelection = () => this.setState({ activeItemId: null })
+  clearSelection = () => {
+    this.setState({ activeItemId: null })
+    this.props.clearErrors()
+  }
 
-  renderDetailedAccount = (item, roles, profile) => <ModelEditor
+  renderDetailedAccount = (item, validationErrors, roles, profile) => <ModelEditor
     item={item}
     onSave={this.props.updateUserAccount}
     onCancel={this.clearSelection}
@@ -41,14 +47,16 @@ class AccountManager extends PureComponent {
               <EditorInput
                 field='email'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Aktiivinen'>
               <EditorCheckbox
                 field='active'
                 disabled={profile.id === item.id}
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Rooli'>
               <ChooserModal
@@ -71,7 +79,7 @@ class AccountManager extends PureComponent {
   />
 
   render = () => {
-    const { userAccounts, roles, profile } = this.props
+    const { userAccounts, validationErrors, roles, profile } = this.props
     const { activeItemId } = this.state
     const activeItem = !isNil(activeItemId) && findUserAccountById(userAccounts, activeItemId)
     return (
@@ -80,12 +88,15 @@ class AccountManager extends PureComponent {
           <Title>Käyttäjänhallinta</Title>
           <Columns isMultiline>
             <Column isSize='narrow'>
-              <AccountList onItemClick={this.handleItemClick} roles={roles} accounts={userAccounts} />
+              <AccountList
+                onItemClick={this.handleItemClick}
+                roles={roles}
+                accounts={userAccounts} />
             </Column>
             <Column>
               <Box>
                 {activeItem
-                  ? this.renderDetailedAccount(activeItem, roles, profile)
+                  ? this.renderDetailedAccount(activeItem, validationErrors, roles, profile.record)
                   : <p>Valitse muokattava kohde listalta</p>}
 
               </Box>
@@ -99,23 +110,30 @@ class AccountManager extends PureComponent {
 
 AccountManager.propTypes = {
   userAccounts: PropTypes.array.isRequired,
+  validationErrors: PropTypes.shape({ msg: PropTypes.string }),
   roles: PropTypes.array.isRequired,
   fetchUserAccounts: PropTypes.func.isRequired,
   fetchUserRoles: PropTypes.func.isRequired,
   updateUserAccount: PropTypes.func.isRequired,
-  profile: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired
+  clearErrors: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    record: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired,
+    validationErrors: PropTypes.shape({ msg: PropTypes.string })
+  })
 }
 
 const mapStateToProps = (state) => ({
-  profile: state.auth.profile,
   userAccounts: state.userAccounts.records,
+  validationErrors: state.userAccounts.error,
+  profile: state.auth,
   roles: state.roles.records
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchUserAccounts: () => dispatch(userAccountActions.fetchUserAccounts(true)),
   fetchUserRoles: () => dispatch(userRoleActions.fetchUserRoles()),
-  updateUserAccount: item => dispatch(userAccountActions.updateUserAccount(item))
+  updateUserAccount: item => dispatch(userAccountActions.updateUserAccount(item)),
+  clearErrors: () => dispatch(userAccountActions.clearErrors())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountManager)

@@ -34,7 +34,7 @@ ProfilePage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  profile: state.auth.profile,
+  profile: state.auth.record,
   loading: state.registration.loading
 })
 
