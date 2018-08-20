@@ -23,11 +23,12 @@ export class ChooserModal extends PureComponent {
       listItemFormatter,
       selectedRenderer,
       placeholder = 'Ei valittu',
-      nullable
+      nullable,
+      disabled
     } = this.props
     return (
       <Fragment>
-        <Button isSize='small' onClick={this.openModal}>
+        <Button isSize='small' onClick={this.openModal} disabled={disabled}>
           {isOpen ? 'Muokataan' : selectedItem ? selectedRenderer(selectedItem) : placeholder}
         </Button>
         <Modal isOpen={isOpen} handleClickOutside={this.closeModal}>
@@ -70,7 +71,8 @@ export class ChooserModal extends PureComponent {
     listItemFormatter: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     selectedRenderer: PropTypes.func.isRequired,
-    nullable: PropTypes.bool
+    nullable: PropTypes.bool,
+    disabled: PropTypes.bool
   }
 }
 

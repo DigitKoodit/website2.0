@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { Column, Title, Content, Button } from 'bloomer'
 import { loginActions } from '../../actions'
 import { BaseContent } from '../../components/Layout'
-import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
+import ModelEditor, { EditorField } from '../../components/Intra/ModelEditor'
 
 const ProfilePage = ({ logout, profile }) => {
   return (
     <BaseContent>
       <Column>
-        <Title>Oma profiili</Title>
+        <Title>Profiili</Title>
         <Content>
           <ModelEditor
             item={profile}

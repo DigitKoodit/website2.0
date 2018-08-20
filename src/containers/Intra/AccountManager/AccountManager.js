@@ -28,7 +28,7 @@ class AccountManager extends PureComponent {
 
   clearSelection = () => this.setState({ activeItemId: null })
 
-  renderDetailedAccount = (item, roles) => <ModelEditor
+  renderDetailedAccount = (item, roles, profile) => <ModelEditor
     item={item}
     onSave={this.props.updateUserAccount}
     onCancel={this.clearSelection}
@@ -46,6 +46,7 @@ class AccountManager extends PureComponent {
             <EditorField label='Aktiivinen'>
               <EditorCheckbox
                 field='active'
+                disabled={profile.id === item.id}
                 model={item}
                 onChange={handleInputChange} />
             </EditorField>
@@ -53,6 +54,7 @@ class AccountManager extends PureComponent {
               <ChooserModal
                 ref={this.chooserRef}
                 modalTitle='Valitse rooli'
+                disabled={profile.id === item.id}
                 dataSet={roles}
                 selectedItem={findUserRoleById(roles, item.roleId)}
                 listItemFormatter={item => item.name}
@@ -69,7 +71,7 @@ class AccountManager extends PureComponent {
   />
 
   render = () => {
-    const { userAccounts, roles } = this.props
+    const { userAccounts, roles, profile } = this.props
     const { activeItemId } = this.state
     const activeItem = !isNil(activeItemId) && findUserAccountById(userAccounts, activeItemId)
     return (
@@ -83,8 +85,9 @@ class AccountManager extends PureComponent {
             <Column>
               <Box>
                 {activeItem
-                  ? this.renderDetailedAccount(activeItem, roles)
-                  : null}
+                  ? this.renderDetailedAccount(activeItem, roles, profile)
+                  : <p>Valitse muokattava kohde listalta</p>}
+
               </Box>
             </Column>
           </Columns>
@@ -99,10 +102,12 @@ AccountManager.propTypes = {
   roles: PropTypes.array.isRequired,
   fetchUserAccounts: PropTypes.func.isRequired,
   fetchUserRoles: PropTypes.func.isRequired,
-  updateUserAccount: PropTypes.func.isRequired
+  updateUserAccount: PropTypes.func.isRequired,
+  profile: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired
 }
 
 const mapStateToProps = (state) => ({
+  profile: state.auth.profile,
   userAccounts: state.userAccounts.records,
   roles: state.roles.records
 })

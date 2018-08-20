@@ -34,7 +34,7 @@ const EditorCheckbox = ({ model, field, onChange, disabled, className = 'is-inli
     name={field}
     type={type}
     disabled={disabled}
-    value={!isNil(model[field]) ? model[field] : ''}
+    checked={model[field]}
     onChange={onChange} />
 )
 
