@@ -1,9 +1,10 @@
-import mapValues from 'lodash/mapValues'
+import reduce from 'lodash/reduce'
 
-const asyncTypes = {
+const actionTypes = {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  RESET: 'RESET'
 }
 
 export const crudTypes = {
@@ -14,7 +15,7 @@ export const crudTypes = {
 }
 
 export const createAsyncTypes = typeString =>
-  Object.values(asyncTypes).reduce((acc, current) => ({
+  Object.values(actionTypes).reduce((acc, current) => ({
     ...acc,
     [current]: `${typeString}_${current}`
   }), {})
@@ -50,39 +51,47 @@ export const deleteItem = (object, key) => {
 export const commonCrudReducers = reducerType => ({
   ...combineCrudOperationReducers(reducerType, 'PENDING', state => ({
     ...state,
-    loading: true
+    loading: true,
+    error: {}
   })),
-  ...combineCrudOperationReducers(reducerType, 'ERROR', (state, action) => ({
-    ...state,
-    error: action.error,
-    loading: false
-  })),
+  ...combineCrudOperationReducers(reducerType, 'ERROR', (state, action) => {
+    return ({
+      ...state,
+      error: action.error,
+      loading: false
+    })
+  }),
   [reducerType.FETCH.SUCCESS]: (state, action) => ({
     ...state,
     records: [...action.response],
-    loading: false
+    loading: false,
+    error: {}
   }),
   [reducerType.CREATE.SUCCESS]: (state, action) => ({
     ...state,
     // rough way of copying updated object to records
     records: [...state.records, action.response],
-    loading: false
+    loading: false,
+    error: {}
   }),
   [reducerType.UPDATE.SUCCESS]: (state, action) => ({
     ...state,
     // rough way of copying updated object to records
     records: state.records.map(item => item.id === action.response.id ? action.response : item),
-    loading: false
+    loading: false,
+    error: {}
   }),
   [reducerType.DELETE.SUCCESS]: (state, action) => ({
     ...state,
     // rough way of copying updated object to records
     records: state.records.filter(item => item.id !== action.response.id),
-    loading: false
+    loading: false,
+    error: {}
   })
 })
 
 export const combineCrudOperationReducers = (type, actionType, reducerFunc) =>
-  mapValues(crudTypes, crudOperation => ({
+  reduce(crudTypes, (crudReducers, crudOperation) => ({
+    ...crudReducers,
     [type[crudOperation][actionType]]: reducerFunc
-  }))
+  }), {})

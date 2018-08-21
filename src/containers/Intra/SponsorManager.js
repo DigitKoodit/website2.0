@@ -82,7 +82,6 @@ class SponsorManager extends Component {
   render = () => {
     const { sponsors, initNewSponsor } = this.props
     const { activeItemId } = this.state
-    console.log(sponsors)
     return (
       <BaseContent>
         <Column>

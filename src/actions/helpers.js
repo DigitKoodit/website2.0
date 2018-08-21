@@ -6,7 +6,6 @@ export const parseResponseError = (err, fallbackMessage) =>
       .then(responseBody => {
         const { message, validationErrors = [] } = responseBody
         const errors = validationErrors.reduce((acc, error) => {
-          console.error(error.param)
           acc[error.param] = error
           return acc
         }, {})

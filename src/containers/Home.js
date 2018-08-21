@@ -24,7 +24,7 @@ const Home = () => {
           <EventView />
         </Tile>
       </Section>
-
+      {/* <SocialMediaFeed /> */}
       <SponsorsView />
       <SocialMediaView />
     </Fragment >

@@ -2,7 +2,7 @@ import { actionKeys } from './actionTypes'
 import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { loginActions } from '.'
-import { displayErrorMessage, isUnauthorized } from './helpers'
+import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
 const userRoleCrud = createCrudService('/api/intra/account/roles', true)
 
@@ -21,9 +21,11 @@ const userRoleActions = {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
           const message = 'Käyttäjäroolien noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   }

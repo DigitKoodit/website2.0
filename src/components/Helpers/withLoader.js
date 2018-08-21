@@ -6,15 +6,25 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
   class LoaderHoc extends Component {
     state = {
       willStartLoading: false,
-      isLoading: false
+      loading: this.props.loading
+    }
+    loadTimeout = noop
+
+    componentDidUpdate(prevProps) {
+      if(prevProps.loading !== this.props.loading) {
+        this.startLoadDelay(this.props.loading)
+      }
+    }
+    componentWillUnmount() {
+      clearTimeout(this.loadTimeout)
     }
 
     showLoader = () => {
       // precaution if component is not mounted anymore
       if(this.state.willStartLoading) {
-        this.setState(prevState => ({
-          isLoading: this.state.willStartLoading
-        }))
+        this.setState({
+          loading: this.state.willStartLoading
+        })
       }
       this.props.showLoader()
     }
@@ -22,8 +32,9 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
     hideLoader = () => {
       this.setState({
         willStartLoading: false,
-        isLoading: false
+        loading: false
       })
+      clearTimeout(this.loadTimeout)
     }
 
     startLoadDelay = loading => {
@@ -31,7 +42,7 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
         this.setState({
           willStartLoading: true
         })
-        setTimeout(() => {
+        this.loadTimeout = setTimeout(() => {
           this.showLoader()
         }, loaderDelay)
       } else {
@@ -39,11 +50,6 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
       }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-      if(prevProps.loading !== this.props.loading) {
-        this.startLoadDelay(this.props.loading)
-      }
-    }
     static propTypes = {
       loading: PropTypes.bool.isRequired,
       showLoader: PropTypes.func
@@ -53,8 +59,9 @@ const withLoader = (LoadingComponent, loaderDelay = 500) =>
     }
 
     render() {
+      const { loading, ...rest } = this.props
       return (
-        <LoadingComponent {...this.props} isLoading={this.state.isLoading} />
+        <LoadingComponent {...rest} loading={this.state.loading} />
       )
     }
   }

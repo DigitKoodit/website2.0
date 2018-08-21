@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import isNil from 'lodash/isNil'
 import { BaseContent } from '../../../components/Layout'
 import { userAccountActions, userRoleActions } from '../../../actions'
-import { Column, Title, Columns, Box, Input, Checkbox } from 'bloomer'
+import { Column, Title, Columns, Box } from 'bloomer'
 import AccountList from './AccountList'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
@@ -24,11 +24,17 @@ class AccountManager extends PureComponent {
     this.props.fetchUserRoles()
   }
 
-  handleItemClick = itemId => this.setState({ activeItemId: itemId })
+  handleItemClick = itemId => {
+    this.setState({ activeItemId: itemId })
+    this.props.clearErrors()
+  }
 
-  clearSelection = () => this.setState({ activeItemId: null })
+  clearSelection = () => {
+    this.setState({ activeItemId: null })
+    this.props.clearErrors()
+  }
 
-  renderDetailedAccount = (item, roles) => <ModelEditor
+  renderDetailedAccount = (item, validationErrors, roles, profile) => <ModelEditor
     item={item}
     onSave={this.props.updateUserAccount}
     onCancel={this.clearSelection}
@@ -36,23 +42,27 @@ class AccountManager extends PureComponent {
       return (
         <Columns>
           <Column>
-            <EditorField label='Käyttäjänimi'> {item.username}</EditorField>
+            <EditorField label='Käyttäjänimi'>{item.username}</EditorField>
             <EditorField label='Sähköpostiosoite'>
               <EditorInput
                 field='email'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Aktiivinen'>
               <EditorCheckbox
                 field='active'
+                disabled={profile.id === item.id}
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Rooli'>
               <ChooserModal
                 ref={this.chooserRef}
                 modalTitle='Valitse rooli'
+                disabled={profile.id === item.id}
                 dataSet={roles}
                 selectedItem={findUserRoleById(roles, item.roleId)}
                 listItemFormatter={item => item.name}
@@ -69,7 +79,7 @@ class AccountManager extends PureComponent {
   />
 
   render = () => {
-    const { userAccounts, roles } = this.props
+    const { userAccounts, validationErrors, roles, profile } = this.props
     const { activeItemId } = this.state
     const activeItem = !isNil(activeItemId) && findUserAccountById(userAccounts, activeItemId)
     return (
@@ -78,13 +88,17 @@ class AccountManager extends PureComponent {
           <Title>Käyttäjänhallinta</Title>
           <Columns isMultiline>
             <Column isSize='narrow'>
-              <AccountList onItemClick={this.handleItemClick} roles={roles} accounts={userAccounts} />
+              <AccountList
+                onItemClick={this.handleItemClick}
+                roles={roles}
+                accounts={userAccounts} />
             </Column>
             <Column>
               <Box>
                 {activeItem
-                  ? this.renderDetailedAccount(activeItem, roles)
-                  : null}
+                  ? this.renderDetailedAccount(activeItem, validationErrors, roles, profile.record)
+                  : <p>Valitse muokattava kohde listalta</p>}
+
               </Box>
             </Column>
           </Columns>
@@ -96,21 +110,30 @@ class AccountManager extends PureComponent {
 
 AccountManager.propTypes = {
   userAccounts: PropTypes.array.isRequired,
+  validationErrors: PropTypes.shape({ msg: PropTypes.string }),
   roles: PropTypes.array.isRequired,
   fetchUserAccounts: PropTypes.func.isRequired,
   fetchUserRoles: PropTypes.func.isRequired,
-  updateUserAccount: PropTypes.func.isRequired
+  updateUserAccount: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    record: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired,
+    validationErrors: PropTypes.shape({ msg: PropTypes.string })
+  })
 }
 
 const mapStateToProps = (state) => ({
   userAccounts: state.userAccounts.records,
+  validationErrors: state.userAccounts.error,
+  profile: state.auth,
   roles: state.roles.records
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchUserAccounts: () => dispatch(userAccountActions.fetchUserAccounts(true)),
   fetchUserRoles: () => dispatch(userRoleActions.fetchUserRoles()),
-  updateUserAccount: item => dispatch(userAccountActions.updateUserAccount(item))
+  updateUserAccount: item => dispatch(userAccountActions.updateUserAccount(item)),
+  clearErrors: () => dispatch(userAccountActions.clearErrors())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountManager)

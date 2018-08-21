@@ -37,7 +37,8 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "url-template": "^2.0.8",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^2.0.4",
+    "prop-types": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.5",

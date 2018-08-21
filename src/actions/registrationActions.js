@@ -20,7 +20,10 @@ const registrationActions = {
           dispatch(this.success(user))
           dispatch(replace(routeAfterRegistration))
         })
-        .catch(err => dispatch(parseResponseError(err, 'Rekisteröityminen epäonnistui')))
+        .catch(err =>
+          parseResponseError(err, 'Rekisteröityminen epäonnistui')
+            .then(error => dispatch(this.error(error)))
+        )
     }
   },
   confirm(email, registrationToken) {
@@ -28,7 +31,10 @@ const registrationActions = {
       dispatch(this.pending())
       confirmRegistration(email, registrationToken)
         .then(() => dispatch(this.success()))
-        .catch(err => dispatch(this.error(parseResponseError(err, 'Rekisteröityminen epäonnistui'))))
+        .catch(err =>
+          parseResponseError(err, 'Rekisteröityminen epäonnistui')
+            .then(error => dispatch(this.error(error)))
+        )
     }
   }
 }

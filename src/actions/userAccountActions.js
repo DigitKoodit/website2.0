@@ -3,7 +3,7 @@ import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
-import { displayErrorMessage, isUnauthorized } from './helpers'
+import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
 const userAccountCrud = createCrudService('/api/intra/account', true)
 
@@ -13,6 +13,7 @@ const userAccountActions = {
   pending: (crudType) => createAction(USER_ACCOUNT[crudType].PENDING),
   success: (response, crudType) => createAction(USER_ACCOUNT[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(USER_ACCOUNT[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchUserAccount(userAccountId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
@@ -20,10 +21,12 @@ const userAccountActions = {
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
-          const message = 'Käyttäjien noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = 'Käyttäjän noutaminen epäonnistui'
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -36,9 +39,11 @@ const userAccountActions = {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
           const message = 'Käyttäjien noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -51,9 +56,11 @@ const userAccountActions = {
           dispatch(displaySnackbar('Tallennus onnistui'))
         }).catch(err => {
           const message = 'Käyttäjän päivitys epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.UPDATE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.UPDATE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
@@ -66,9 +73,11 @@ const userAccountActions = {
           dispatch(displaySnackbar('Poistaminen onnistui'))
         }).catch(err => {
           const message = 'Poistaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.DELETE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.DELETE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   }

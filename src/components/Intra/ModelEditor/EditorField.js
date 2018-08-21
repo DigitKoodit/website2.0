@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import { Field, Label } from 'bloomer'
 const EditorField = ({ label, children }) => (
-  <div className='mt-1'>
-    <span className='has-text-grey-light has-text-weight-semibold'>{label} </span>
+  <Field>
+    <Label className='is-inline has-text-grey-light has-text-weight-semibold'>{label} </Label>
     {children}
-  </div>
+  </Field>
 )
 
 EditorField.propTypes = {

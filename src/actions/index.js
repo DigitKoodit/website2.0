@@ -5,6 +5,7 @@ import pageContentActions, { SITE_PAGE } from './pageContentActions'
 import sponsorActions, { SPONSOR } from './sponsorActions'
 import userAccountActions, { USER_ACCOUNT } from './userAccountActions'
 import userRoleActions, { USER_ROLE } from './userRoleActions'
+import authActions, { AUTH } from './authActions'
 
 export {
   loginActions,
@@ -13,7 +14,8 @@ export {
   pageContentActions,
   sponsorActions,
   userAccountActions,
-  userRoleActions
+  userRoleActions,
+  authActions
 }
 
 export const types = {
@@ -23,5 +25,6 @@ export const types = {
   SITE_PAGE,
   SPONSOR,
   USER_ACCOUNT,
-  USER_ROLE
+  USER_ROLE,
+  AUTH
 }

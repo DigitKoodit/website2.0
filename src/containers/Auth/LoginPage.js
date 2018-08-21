@@ -12,8 +12,8 @@ const initalFormModel = {
   password: ''
 }
 
-const LoginPage = ({ isLoading, model, startLogin }) => {
-  const Spinner = isLoading && <i className='fas fa-circle-notch fa-spin button-icon' />
+const LoginPage = ({ loading, model, startLogin }) => {
+  const Spinner = loading && <i className='fas fa-circle-notch fa-spin button-icon' />
   return (
     <Base>
       <Form
@@ -36,7 +36,6 @@ const LoginPage = ({ isLoading, model, startLogin }) => {
 
 LoginPage.propTypes = {
   model: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool,
   loading: PropTypes.bool.isRequired,
   startLogin: PropTypes.func.isRequired
 }

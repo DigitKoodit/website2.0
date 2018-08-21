@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Column, Title, Content, Button } from 'bloomer'
 import { loginActions } from '../../actions'
 import { BaseContent } from '../../components/Layout'
+import ModelEditor, { EditorField } from '../../components/Intra/ModelEditor'
 
-const ProfilePage = ({ logout }) => {
+const ProfilePage = ({ logout, profile }) => {
   return (
     <BaseContent>
       <Column>
-        <Title>Oma profiili</Title>
+        <Title>Profiili</Title>
         <Content>
-          <p>Nimi:</p>
-          <p>Sähköposti:</p>
-          <Button isColor='danger' onClick={logout} className='btn btn-link'>Kirjaudu ulos</Button>
+          <ModelEditor
+            item={profile}
+            renderFields={(item, handleInputChange, updateStateItem) =>
+              <Fragment>
+                <EditorField label='Käyttäjänimi'>{item.username}</EditorField>
+                <EditorField label='Sähköposti'>{item.email}</EditorField>
+              </Fragment>
+            }
+          />
+          <Button isColor='danger' onClick={logout} className='btn btn-link mt-5'>Kirjaudu ulos</Button>
         </Content>
       </Column>
     </BaseContent>
@@ -21,20 +29,17 @@ const ProfilePage = ({ logout }) => {
 }
 
 ProfilePage.propTypes = {
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  profile: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  profile: {},
+  profile: state.auth.record,
   loading: state.registration.loading
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => {
-      dispatch(loginActions.logout())
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(loginActions.logout())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)

@@ -1,16 +1,39 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { Column } from 'bloomer'
+import { Column, Title } from 'bloomer'
+import withLoader from '../../components/Helpers/withLoader'
 import { Base } from '../../components/Layout'
 import SideNav from '../../components/Intra/SideNav'
 import asyncComponent from '../../components/AsyncComponent'
-
+import authActions from '../../actions/authActions'
 import routes from './intraRoutes'
+
 const NotFound = asyncComponent(() => import('../NotFound'))
 
-const mapRoutes = routes => routes.map((route, i) =>
-  <RouteWithSubRoutes key={i} {...route} />
-)
+class IntraPage extends Component {
+  componentDidMount = () => {
+    this.props.fetchProfile()
+  }
+  render = () => {
+    const { loading, ...rest } = this.props
+    return <IntraPageComponent loading={loading} {...rest} />
+  }
+
+  static propTypes = {
+    fetchProfile: PropTypes.func.isRequired,
+    loading: PropTypes.bool
+  }
+}
+
+const mapIntraPageStateToProps = state => ({
+  loading: state.auth.loading
+})
+
+const mapIntraPageDispatchToProps = dispatch => ({
+  fetchProfile: () => dispatch(authActions.fetchProfile())
+})
 
 const RouteWithSubRoutes = route => (
   <Route
@@ -23,7 +46,18 @@ const RouteWithSubRoutes = route => (
   />
 )
 
-const IntraPage = () => {
+const mapRoutes = routes => routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)
+
+const IntraPageComponent = ({ loading }) => {
+  if(loading) {
+    return (
+      <Base>
+        <Column>
+          <Title size={6}>Ladataan...</Title>
+        </Column>
+      </Base>
+    )
+  }
   return (
     <Base>
       <Column isSize='narrow'>
@@ -41,4 +75,8 @@ const IntraPage = () => {
   )
 }
 
-export default IntraPage
+IntraPageComponent.propTypes = {
+  loading: PropTypes.bool
+}
+
+export default connect(mapIntraPageStateToProps, mapIntraPageDispatchToProps)(withLoader(IntraPage, 1000))
