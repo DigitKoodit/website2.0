@@ -63,7 +63,7 @@ export const commonCrudReducers = reducerType => ({
   }),
   [reducerType.FETCH.SUCCESS]: (state, action) => ({
     ...state,
-    records: [...action.response],
+    records: Array.isArray(action.response) ? [...action.response] : [...state.records, action.response],
     loading: false,
     error: {}
   }),
