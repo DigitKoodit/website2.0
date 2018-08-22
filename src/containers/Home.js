@@ -26,7 +26,7 @@ const Home = () => {
       </Section>
       <Section className="pt-4">
         <Tile isAncestor>
-          <SocialMediaFeed />
+          <SocialMediaFeed fbName="Digit ry" fbAddress="digitry" />
         </Tile>
       </Section>
       <SponsorsView />
