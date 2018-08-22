@@ -77,7 +77,6 @@ const pageContentLoader = Children => {
     const containingNavItem = findSiteNavigationByPath(state, requestedPath)
     const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
     const { loading } = state.pages
-    console.log(sitePageId, findSitePageById(state, sitePageId))
     return {
       sitePageId,
       siteContent: sitePageId ? findSitePageById(state, sitePageId) : null,
