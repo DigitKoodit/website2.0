@@ -46,7 +46,6 @@ const SocialMediaView = ({ socialMediums }) => {
           ))
         )}
       </Content>
-
     </Container>
   )
 }
