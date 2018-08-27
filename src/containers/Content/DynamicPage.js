@@ -1,13 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types' //
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import isNil from 'lodash/isNil'
-import fetch from 'fetch-hoc'
 import { Route } from 'react-router-dom'
 import Base, { baseColumnSize } from '../../components/Layout/Base'
 import { Column } from 'bloomer'
 import asyncComponent from '../../components/AsyncComponent'
 import Markdown from '../../components/ContentManagement/Markdown'
+import { findSitePageById, findSiteNavigationByPath } from '../../selectors/siteContentSelectors'
+import { pageContentActions } from '../../actions'
+import withLoader from '../../components/Helpers/withLoader'
 
 const NotFound = asyncComponent(() => import('../NotFound'))
 
@@ -23,32 +26,67 @@ PageContent.propTypes = {
   })
 }
 
-const DynamicPage = ({ data: siteContent = {} }) =>
-  <Base
+const DynamicPage = ({ siteContent = {} }) => {
+  return <Base
     htmlTitle={siteContent.title}
     htmlDescription={siteContent.description} >
     {siteContent.content ? <PageContent siteContent={siteContent} /> : null}
   </Base >
+}
 
 DynamicPage.propTypes = {
-  data: PropTypes.object
+  siteContent: PropTypes.shape({
+    content: PropTypes.string
+  })
 }
 
 const pageContentLoader = Children => {
-  const Wrapped = ({ location }) => {
-    if(!location.state || isNil(location.state.sitePageId)) {
-      return <Route status={NotFound} component={NotFound} />
+  class Wrapped extends PureComponent {
+    componentDidMount = () => this.fetchPage()
+    componentDidUpdate = () => this.fetchPage()
+
+    fetchPage = () => {
+      const { sitePageId, siteContent, fetchPage, loading } = this.props
+      if(isNil(siteContent) && !loading) {
+        fetchPage(sitePageId)
+      }
     }
-    const apiUrl = `/api/content/${location.state.sitePageId}`
-    const FetchData = fetch(apiUrl)(Children)
-    return <FetchData />
+
+    render() {
+      const { sitePageId, loading } = this.props
+      if(loading) {
+        return null
+      }
+      if(!sitePageId) {
+        return <Route status={NotFound} component={NotFound} />
+      }
+      return <Children {...this.props} />
+    }
   }
   Wrapped.propTypes = {
-    location: PropTypes.shape({
-      state: PropTypes.object
-    })
+    sitePageId: PropTypes.number,
+    siteContent: PropTypes.shape({
+      content: PropTypes.string
+    }),
+    fetchPage: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
   }
-  return Wrapped
+  const mapStateToProps = (state, ownProps) => {
+    const requestedSiteId = ownProps.location.state ? ownProps.location.state.sitePageId : null
+    const requestedPath = ownProps.location.pathname
+    const containingNavItem = findSiteNavigationByPath(state, requestedPath)
+    const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
+    const { loading } = state.pages
+    return {
+      sitePageId,
+      siteContent: sitePageId ? findSitePageById(state, sitePageId) : null,
+      loading
+    }
+  }
+  const mapDispatchToProps = dispatch => ({
+    fetchPage: pageId => dispatch(pageContentActions.fetchPage(pageId))
+  })
+  return connect(mapStateToProps, mapDispatchToProps)(withLoader(Wrapped))
 }
 
-export default withRouter(pageContentLoader(DynamicPage))
+export default withRouter((pageContentLoader(DynamicPage)))
