@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImageLink from '../components/ImageLink'
 import { sponsorActions } from '../actions'
-import { Content, Columns, Column } from 'bloomer'
+import { Content, Columns, Column, Title } from 'bloomer'
 
 class SponsorsView extends PureComponent {
   componentDidMount() {
@@ -16,12 +16,13 @@ class SponsorsView extends PureComponent {
     return (
       <div>
         <Content hasTextAlign='centered'>
-          <h2>Yhteistyössä</h2>
+          <Title>Yhteistyössä</Title>
         </Content >
-        <Columns isCentered>
+        <Columns className='ml-5 mr-5' isCentered isMultiline>
           {sponsorList && (
             sponsorList.map(sponsor => (
               <Column
+                isSize={{ mobile: '1', default: '1/4' }}
                 key={sponsor.name}
                 hasTextAlign='centered'>
                 <ImageLink

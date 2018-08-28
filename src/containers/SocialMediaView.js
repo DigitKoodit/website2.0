@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Content, Icon, Container } from 'bloomer'
+import { Content, Icon, Container, Title } from 'bloomer'
 
 const socialMediumsDefault = [
   {
@@ -32,7 +32,7 @@ const SocialMediaView = ({ socialMediums }) => {
   return (
     <Container hasTextAlign='centered' className='p-6' >
       <Content>
-        <h2>Löydät meidät myös somesta</h2>
+        <Title>Löydät meidät myös somesta</Title>
         {socialMediums && (
           socialMediums.map(some => (
             <a
@@ -46,7 +46,6 @@ const SocialMediaView = ({ socialMediums }) => {
           ))
         )}
       </Content>
-
     </Container>
   )
 }

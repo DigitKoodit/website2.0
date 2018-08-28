@@ -4,6 +4,7 @@ import WelcomeView from '../components/WelcomeView'
 import EventView from './EventsView'
 import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
+import SocialMediaFeed from './SocialMediaFeed'
 import heroImage from '../public/images/hero-16x9.jpg'
 import { Hero, HeroBody, Tile, Section } from 'bloomer'
 
@@ -23,10 +24,10 @@ const Home = () => {
           <EventView />
         </Tile>
       </Section>
-
+      <SocialMediaFeed />
       <SponsorsView />
       <SocialMediaView />
-    </Fragment >
+    </Fragment>
   )
 }
 
