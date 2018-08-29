@@ -6,7 +6,7 @@ import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
 import SocialMediaFeed from './SocialMediaFeed'
 import heroImage from '../public/images/hero-16x9.jpg'
-import { Hero, HeroBody, Tile, Section, Columns } from 'bloomer'
+import { Hero, HeroBody, Tile, Section } from 'bloomer'
 
 const heroBgStyle = { backgroundImage: `url(${heroImage})` }
 const Home = () => {
