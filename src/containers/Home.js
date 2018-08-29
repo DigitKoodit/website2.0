@@ -6,7 +6,7 @@ import SponsorsView from './SponsorsView'
 import SocialMediaView from './SocialMediaView'
 import SocialMediaFeed from './SocialMediaFeed'
 import heroImage from '../public/images/hero-16x9.jpg'
-import { Hero, HeroBody, Tile, Section } from 'bloomer'
+import { Hero, HeroBody, Tile, Section, Columns } from 'bloomer'
 
 const heroBgStyle = { backgroundImage: `url(${heroImage})` }
 const Home = () => {
@@ -24,7 +24,11 @@ const Home = () => {
           <EventView />
         </Tile>
       </Section>
-      <SocialMediaFeed />
+      <Section className='pt-4'>
+        <Tile isAncestor>
+          <SocialMediaFeed />
+        </Tile>
+      </Section>
       <SponsorsView />
       <SocialMediaView />
     </Fragment>
