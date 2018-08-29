@@ -20,7 +20,7 @@ const routes = [
     routes: [
       { title: 'Navigointi', path: '/intra/cms/navigation', component: NavigationManager, active: true },
       { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
-      { title: 'Sponsorit', path: '/intra/cms/sponsors', component: SponsorManager, active: true }
+      { title: 'Yhteistyökumppanit', path: '/intra/cms/sponsors', component: SponsorManager, active: true }
     ]
   },
   {
