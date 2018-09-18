@@ -17,7 +17,8 @@ const rootReducer =
     pages: generateReducer(types.SITE_PAGE),
     roles: generateReducer(types.USER_ROLE),
     sponsors: generateReducer(types.SPONSOR),
-    userAccounts: generateReducer(types.USER_ACCOUNT)
+    userAccounts: generateReducer(types.USER_ACCOUNT),
+    enroll: generateReducer(types.ENROLL)
   }
 
 export default rootReducer

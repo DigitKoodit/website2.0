@@ -33,7 +33,7 @@ class Main extends Component {
             {/* <Route path='/register/:registrationToken' component={RegistrationConfirmation} /> */}
             <Route path='/login' exact component={LoginPage} />
             <PrivateRoute path='/intra' component={IntraPage} />
-            <Route path='/ilmo/:id' component={EnrollPage} />
+            <Route path='/ilmo' component={EnrollPage} />
             <Route path='*' component={DynamicPage} />
           </Switch>
         </div >

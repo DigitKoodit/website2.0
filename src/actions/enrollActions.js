@@ -2,6 +2,9 @@ import { actionKeys } from './actionTypes'
 import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
+import { INITIAL_ID } from '../constants'
+import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
+
 import { loginActions } from '.'
 
 const enrollPublicCrud = createCrudService('/api/enroll')
@@ -146,26 +149,30 @@ const initialItem = {
 }
 
 const ENROLL = createCrudTypes(actionKeys.enroll)
+const singular = 'Tapahtuman'
+const plural = 'Tapahtumien'
 
 const enrollActions = {
   pending: (crudType) => createAction(ENROLL[crudType].PENDING),
   success: (response, crudType) => createAction(ENROLL[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(ENROLL[crudType].ERROR, { error }),
-  fetchEnroll(enrollId) {
+  fetchEvent(eventId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
-      enrollPublicCrud.fetchById(enrollId)
+      enrollPublicCrud.fetchById(eventId)
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
-          const message = 'Sivun noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = `${singular} noutaminen epäonnistui`
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/'))
+          })
         })
     }
   },
-  fetchEnrolls(attemptAuthorizedRoute) {
+  fetchEvents(attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
       const api = attemptAuthorizedRoute ? enrollPrivateCrud : enrollPublicCrud
@@ -173,74 +180,75 @@ const enrollActions = {
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
-          const message = 'Ilmojen noutaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.FETCH))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = `${plural} noutaminen epäonnistui`
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.FETCH))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
   prepareNew() {
-    return dispatch => dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().enroll.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
-  addEnroll(enroll) {
+  addProduct(product) {
     return dispatch => {
       dispatch(this.pending(crudTypes.CREATE))
-      enrollPrivateCrud.create(enroll)
+      enrollPrivateCrud.create(product)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
           // newly added item has to have negative id created in prepareNew()
-          enroll.id < 0 && dispatch(this.success(enroll, crudTypes.DELETE)) // remove temporary item
-          enroll.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          product.id < 0 && dispatch(this.success(product, crudTypes.DELETE)) // remove temporary item
+          product.id < 0 && dispatch(displaySnackbar(`${singular} luominen onnistui`))
         }).catch(err => {
-          const message = 'Luominen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.CREATE))
-          enroll.id < 0 && dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = `${singular} luominen epäonnistui`
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.CREATE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          })
         })
     }
   },
-  updateEnroll(enroll) {
+  updateProduct(product) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
-      enrollPrivateCrud.update(enroll)
+      enrollPrivateCrud.update(product)
         .then(response => {
           dispatch(this.success(response, crudTypes.UPDATE))
-          dispatch(displaySnackbar('Tallennus onnistui'))
+          dispatch(displaySnackbar(`${singular} tallentaminen onnistui`))
         }).catch(err => {
-          const message = 'Navigaation päivitys epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.UPDATE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = `${singular} päivitys epäonnistui`
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.UPDATE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/'))
+          })
         })
     }
   },
-  removeEnroll(enroll) {
+  removeProduct(product) {
     return dispatch => {
-      const isUnsavedItem = enroll.id < 0
+      const isUnsavedItem = product.id < 0
       if(isUnsavedItem) {
-        return dispatch(this.success(enroll, crudTypes.DELETE))
+        return dispatch(this.success(product, crudTypes.DELETE))
       }
       dispatch(this.pending(crudTypes.DELETE))
-      enrollPrivateCrud.performDelete(enroll)
-        .then(response => {
-          dispatch(this.success(enroll, crudTypes.DELETE))
-          dispatch(displaySnackbar('Poistaminen onnistui'))
+      enrollPrivateCrud.performDelete(product)
+        .then(() => {
+          dispatch(this.success(product, crudTypes.DELETE))
+          dispatch(displaySnackbar(`${singular} poistaminen onnistui`))
         }).catch(err => {
-          const message = 'Poistaminen epäonnistui'
-          dispatch(this.error({ common: message }, crudTypes.DELETE))
-          dispatch(displayErrorMessage(isUnauthorized(err), message))
-          isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+          const message = `${singular} poistaminen epäonnistui`
+          parseResponseError(err, message).then(error => {
+            dispatch(this.error(error, crudTypes.DELETE))
+            dispatch(displayErrorMessage(isUnauthorized(err), message))
+            isUnauthorized(err) && dispatch(loginActions.logout('/'))
+          })
         })
     }
   }
-}
-
-const isUnauthorized = err => err.response && err.response.status === 401
-
-const displayErrorMessage = (isUnauthorized, snackbarMessage) => {
-  let message = isUnauthorized ? 'Pääsy kielletty' : snackbarMessage
-  return displaySnackbar(message)
 }
 
 export default enrollActions
