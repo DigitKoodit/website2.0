@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Input as BInput } from 'bloomer'
 
 const Input = ({ field, label, type, step, validationErrors, model, onChange, children, ...rest }) => {
   const handleOnChange = (event) => {
@@ -8,9 +9,9 @@ const Input = ({ field, label, type, step, validationErrors, model, onChange, ch
   }
 
   return (
-    <div className='input-group'>
+    <div className='input-group mb-1'>
       <Label name={field} label={label} />
-      <input
+      <BInput
         type={type}
         step={step}
         name={field}

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { getBrowserInfo } from '../../lib/utils'
-import { Input } from '.'
+import Input from './Input'
 
 class PasswordInput extends Component {
   constructor() {
@@ -12,11 +12,8 @@ class PasswordInput extends Component {
     }
   }
 
-  setPasswordVisibility = isVisible => this.setState(prevState => ({
-    showPassword: isVisible
-  }))
-
   render() {
+    const { togglePasswordVisibility, ...rest } = this.props
     const { showPassword, browser } = this.state
     // Safari doesn't support pointer events
     const isSafari = browser === 'Safari'
@@ -25,17 +22,24 @@ class PasswordInput extends Component {
 
     return (
       <Fragment>
-        <Input type={inputType} {...this.props} >
-          <i className={`${inputIcon} input-icon`}
-            aria-hidden='true'
-            onPointerDown={() => this.setPasswordVisibility(true)}
-            onPointerUp={() => this.setPasswordVisibility(false)}
-            onPointerLeave={() => this.setPasswordVisibility(false)}
-          />
+        <Input type={inputType} {...rest} >
+          {togglePasswordVisibility &&
+            <i className={`${inputIcon} input-icon`}
+              aria-hidden='true'
+              onPointerDown={this.showPassword}
+              onPointerUp={this.hidePassword}
+              onPointerLeave={this.hidePassword}
+            />
+          }
         </Input>
       </Fragment>
     )
   }
+  hidePassword = () => this.setPasswordVisibility(false)
+  showPassword = () => this.setPasswordVisibility(true)
+  setPasswordVisibility = isVisible => this.setState({
+    showPassword: isVisible
+  })
 }
 
 PasswordInput.propTypes = {
@@ -44,7 +48,8 @@ PasswordInput.propTypes = {
   step: PropTypes.string,
   validationErrors: PropTypes.object,
   model: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  togglePasswordVisibility: PropTypes.bool
 }
 
 PasswordInput.defaultProps = {

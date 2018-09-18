@@ -2,11 +2,11 @@
 * Generate margin and padding classes
 */
 
-$spaceamounts: (0.5, 0.75, 1, 1.5, 1.75, 2, 3, 4, 5, 10);
+$spaceamounts: (0, 0.5, 0.75, 1, 1.5, 1.75, 2, 3, 4, 5, 10);
 $sides: (top, bottom, left, right);
 
 @each $space in $spaceamounts {
-  $i: index($spaceamounts, $space);
+  $i: index($spaceamounts, $space)-1;
   .m-#{$i} {
     margin: #{$space}rem !important;
   }
@@ -16,7 +16,7 @@ $sides: (top, bottom, left, right);
 }
 
 @each $space in $spaceamounts {
-  $i: index($spaceamounts, $space);
+  $i: index($spaceamounts, $space)-1;
   @each $side in $sides {
     .m#{str-slice($side, 0, 1)}-#{$i} {
       margin-#{$side}: #{$space}rem !important;

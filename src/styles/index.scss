@@ -2,7 +2,6 @@
 // @import './_helpers';
 @import './_spacing-helpers';
 @import './_snackbar';
-
 body {
   background-color: #fbfbfb;
   min-height: 100vh;
@@ -17,6 +16,7 @@ body {
 .is-full-height {
   flex: 1;
 }
+
 /*Prepare image to be displayed on center*/
 
 .has-bg-img {
@@ -36,7 +36,7 @@ body {
 
 .nav-active {
   background-color: $blue;
-  color: $white;  
+  color: $white;
   box-shadow: 0 2px 0 0 $blue;
   &:hover {
     background-color: $blue !important;
@@ -45,7 +45,18 @@ body {
 }
 
 .button {
-  & + & {
+  &+& {
     margin-left: 1rem;
   }
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.8rem;
 }

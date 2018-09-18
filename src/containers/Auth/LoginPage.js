@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Button } from 'bloomer'
 import Form, { Input, PasswordInput } from '../../components/Form'
 import { loginActions } from '../../actions'
 import { Base } from '../../components/Layout'
@@ -16,20 +17,31 @@ const LoginPage = ({ loading, model, startLogin }) => {
   const Spinner = loading && <i className='fas fa-circle-notch fa-spin button-icon' />
   return (
     <Base>
-      <Form
-        model={initalFormModel}
-        validationErrors={model.error}
-        handleSubmit={startLogin}>
-        {inputProps => (
-          <Fragment>
-            <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
-            <PasswordInput placeholder='Salasana' field='password' {...inputProps} />
-            {model.error.common ? <p className='error margin-1'>{model.error.common}</p> : null}
-            <button type='submit' className='btn btn-primary full-width'>Kirjaudu {Spinner}</button>
-          </Fragment>
-        )}
-      </Form>
-      <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
+      <div >
+        <Form
+          model={initalFormModel}
+          validationErrors={model.error}
+          handleSubmit={startLogin}>
+          {inputProps => (
+            <Fragment>
+              <Input type='text' placeholder='Käyttäjänimi tai sähköposti' field='username' {...inputProps} />
+              <PasswordInput
+                placeholder='Salasana'
+                field='password'
+                {...inputProps} />
+              {
+                model.error.common
+                  ? <p className='error margin-1'>{model.error.common}</p>
+                  : null
+              }
+              <Button type='submit'>Kirjaudu {Spinner}</Button>
+            </Fragment>
+          )}
+        </Form>
+        <div style={{ textAlign: 'right' }}>
+          <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
+        </div>
+      </div>
     </Base>
   )
 }
