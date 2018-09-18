@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import isNil from 'lodash/isNil'
 import { BaseContent } from '../../../components/Layout'
 import { userAccountActions, userRoleActions } from '../../../actions'
-import { Column, Title, Columns, Box } from 'bloomer'
+import { Column, Title, Columns, Box, Table } from 'bloomer'
 import AccountList from './AccountList'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import { findUserAccountById, findUserRoleById } from '../../../selectors/userAccountSelectors'
@@ -40,40 +40,53 @@ class AccountManager extends PureComponent {
     onCancel={this.clearSelection}
     renderFields={(item, handleInputChange, updateStateItem) => {
       return (
-        <Columns>
-          <Column>
-            <EditorField label='Käyttäjänimi'>{item.username}</EditorField>
-            <EditorField label='Sähköpostiosoite'>
-              <EditorInput
-                field='email'
-                model={item}
-                onChange={handleInputChange}
-                validationErrors={validationErrors} />
-            </EditorField>
-            <EditorField label='Aktiivinen'>
-              <EditorCheckbox
-                field='active'
-                disabled={profile.id === item.id}
-                model={item}
-                onChange={handleInputChange}
-                validationErrors={validationErrors} />
-            </EditorField>
-            <EditorField label='Rooli'>
-              <ChooserModal
-                ref={this.chooserRef}
-                modalTitle='Valitse rooli'
-                disabled={profile.id === item.id}
-                dataSet={roles}
-                selectedItem={findUserRoleById(roles, item.roleId)}
-                listItemFormatter={item => item.name}
-                onSelect={role => {
-                  updateStateItem({ roleId: role.id })
-                  this.chooserRef.current && this.chooserRef.current.closeModal()
-                }}
-                selectedRenderer={item => <p><b>{item.name}</b> {item.accessLevel}</p>} />
-            </EditorField>
-          </Column>
-        </Columns>
+        <Table className='table-border-0' isNarrow >
+          <tbody>
+            <tr>
+              <td className='has-text-right'><EditorField label='Käyttäjänimi' /></td>
+              <td>{item.username}</td>
+            </tr>
+            <tr>
+              <td className='has-text-right'><EditorField label='Sähköpostiosoite' /></td>
+              <td>
+                <EditorInput
+                  field='email'
+                  model={item}
+                  onChange={handleInputChange}
+                  validationErrors={validationErrors} />
+              </td>
+            </tr>
+            <tr>
+              <td className='has-text-right'><EditorField label='Aktiivinen' /></td>
+              <td>
+                <EditorCheckbox
+                  field='active'
+                  disabled={profile.id === item.id}
+                  model={item}
+                  onChange={handleInputChange}
+                  validationErrors={validationErrors} />
+              </td>
+            </tr>
+            <tr>
+              <td className='has-text-right'><EditorField label='Rooli' /></td>
+              <td>
+                <ChooserModal
+                  ref={this.chooserRef}
+                  modalTitle='Valitse rooli'
+                  disabled={profile.id === item.id}
+                  dataSet={roles}
+                  selectedItem={findUserRoleById(roles, item.roleId)}
+                  listItemFormatter={item => item.name}
+                  onSelect={role => {
+                    updateStateItem({ roleId: role.id })
+                    this.chooserRef.current && this.chooserRef.current.closeModal()
+                  }}
+                  selectedRenderer={item => <p><b>{item.name}</b> {item.accessLevel}</p>} />
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+
       )
     }}
   />

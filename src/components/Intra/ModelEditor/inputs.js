@@ -13,7 +13,7 @@ const EditorInputPropType = {
   validationErrors: PropTypes.shape({ msg: PropTypes.string })
 }
 
-const EditorInput = ({ model, field, onChange, disabled, validationErrors = {}, isSize = 'small', className = 'is-inline', type = 'text' }) => (
+const EditorInput = ({ model, field, onChange, disabled, validationErrors = {}, isSize = 'small', className = '', type = 'text' }) => (
   <Fragment>
     <Input
       isSize={isSize}

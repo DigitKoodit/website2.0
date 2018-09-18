@@ -9,8 +9,10 @@ const SiteFooter = () => (
       <Content >
         <Columns>
           <Column hasTextAlign='centered'>
-            <p>Digit ry © {new Date().getFullYear()}<br />
-              Agora, 20014 Turun yliopisto</p>
+            <address>
+              <p>Digit ry © {new Date().getFullYear()}<br />
+                Agora, 20014 Turun yliopisto</p>
+            </address>
           </Column>
         </Columns>
       </Content>
