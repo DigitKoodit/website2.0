@@ -6,6 +6,7 @@ import sponsorActions, { SPONSOR } from './sponsorActions'
 import userAccountActions, { USER_ACCOUNT } from './userAccountActions'
 import userRoleActions, { USER_ROLE } from './userRoleActions'
 import authActions, { AUTH } from './authActions'
+import enrollActions, { ENROLL } from './enrollActions'
 
 export {
   loginActions,
@@ -15,7 +16,8 @@ export {
   sponsorActions,
   userAccountActions,
   userRoleActions,
-  authActions
+  authActions,
+  enrollActions
 }
 
 export const types = {
@@ -26,5 +28,6 @@ export const types = {
   SPONSOR,
   USER_ACCOUNT,
   USER_ROLE,
-  AUTH
+  AUTH,
+  ENROLL
 }

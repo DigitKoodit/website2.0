@@ -1,5 +1,6 @@
 import React from 'react'
 import Form from './Form'
+import PropTypes from 'prop-types'
 
 const defaultFields = [
   { name: 'firstName', type: 'text', placeholder: 'Etunimi', defaultValue: null },
@@ -10,7 +11,7 @@ const defaultFields = [
 
 const defaultValues = defaultFields.reduce((acc, field) => ({ ...acc, [field.name]: field.defaultValue }), {})
 
-const EnrollPage = () =>
+const EnrollPage = ({ events, ...rest }) =>
   <Form
     fields={defaultFields}
     defaultValues={defaultValues}
@@ -18,5 +19,9 @@ const EnrollPage = () =>
       return Promise.resolve()
     }}
   />
+
+EnrollPage.propTypes = {
+  events: PropTypes.array
+}
 
 export default EnrollPage

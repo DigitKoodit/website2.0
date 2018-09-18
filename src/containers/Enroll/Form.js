@@ -19,7 +19,7 @@ const InnerForm = ({
   submitRenderer = 'Submit'
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type = 'text', name, label, defaultValue, ...rest }) => {
+    {fields.map(({ type = 'text', name, label, defaultValue, required, ...rest }) => {
       const Input = selectInput(type)
       return (
         <Fragment key={name}>
@@ -28,6 +28,7 @@ const InnerForm = ({
             className='form-input'
             type={type}
             name={name}
+            required={required}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values[name]}

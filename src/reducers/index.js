@@ -1,25 +1,23 @@
+import { types } from '../actions'
 
 import ui from './uiReducer'
+import auth from './authReducer'
 import login from './loginReducers'
 import registration from './registrationReducers'
 import siteNavigation from './siteNavigationReducers'
-import pages from './pageContentReducers'
-import sponsors from './sponsorReducers'
-import userAccounts from './userAccountReducers'
-import roles from './userRoleReducers'
-import auth from './authReducer'
+import generateReducer from './generateReducer'
 
 const rootReducer =
   {
     ui,
+    auth,
     login,
     registration,
     siteNavigation,
-    pages,
-    sponsors,
-    userAccounts,
-    roles,
-    auth
+    pages: generateReducer(types.SITE_PAGE),
+    roles: generateReducer(types.USER_ROLE),
+    sponsors: generateReducer(types.SPONSOR),
+    userAccounts: generateReducer(types.USER_ACCOUNT)
   }
 
 export default rootReducer
