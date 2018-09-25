@@ -18,7 +18,7 @@ const rootReducer =
     roles: generateReducer(types.USER_ROLE),
     sponsors: generateReducer(types.SPONSOR),
     userAccounts: generateReducer(types.USER_ACCOUNT),
-    enroll: generateReducer(types.ENROLL)
+    event: generateReducer(types.EVENT)
   }
 
 export default rootReducer

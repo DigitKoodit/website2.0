@@ -10,7 +10,7 @@ const AccountManager = asyncComponent(() => import('./AccountManager'))
 const routes = [
   { title: 'Intra', path: '/intra', component: IntraPage, active: true, exact: true },
   { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
-  { title: 'Ilmo', path: '/intra/enroll', component: NotFound, active: false },
+  { title: 'Ilmo', path: '/intra/event', component: NotFound, active: false },
   { title: 'Käyttäjät', path: '/intra/accounts', component: AccountManager, active: true },
   {
     title: 'CMS',

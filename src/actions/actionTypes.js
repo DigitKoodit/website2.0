@@ -20,5 +20,5 @@ export const actionKeys = {
   userAccount: 'USER_ACCOUNT',
   userRole: 'USER_ROLE',
   auth: 'AUTH',
-  enroll: 'ENROLL'
+  event: 'EVENT'
 }

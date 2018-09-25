@@ -7,8 +7,8 @@ import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpe
 
 import { loginActions } from '.'
 
-const enrollPublicCrud = createCrudService('/api/enroll')
-const enrollPrivateCrud = createCrudService('/api/intra/enroll', true)
+const eventPublicCrud = createCrudService('/api/event')
+const eventPrivateCrud = createCrudService('/api/intra/event', true)
 const initialItem = {
   id: 'Event1',
   name: 'Testieventti',
@@ -148,18 +148,18 @@ const initialItem = {
   ]
 }
 
-const ENROLL = createCrudTypes(actionKeys.enroll)
+const EVENT = createCrudTypes(actionKeys.event)
 const singular = 'Tapahtuman'
 const plural = 'Tapahtumien'
 
 const enrollActions = {
-  pending: (crudType) => createAction(ENROLL[crudType].PENDING),
-  success: (response, crudType) => createAction(ENROLL[crudType].SUCCESS, { response }),
-  error: (error, crudType) => createAction(ENROLL[crudType].ERROR, { error }),
+  pending: (crudType) => createAction(EVENT[crudType].PENDING),
+  success: (response, crudType) => createAction(EVENT[crudType].SUCCESS, { response }),
+  error: (error, crudType) => createAction(EVENT[crudType].ERROR, { error }),
   fetchEvent(eventId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
-      enrollPublicCrud.fetchById(eventId)
+      eventPublicCrud.fetchById(eventId)
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
@@ -175,7 +175,7 @@ const enrollActions = {
   fetchEvents(attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
-      const api = attemptAuthorizedRoute ? enrollPrivateCrud : enrollPublicCrud
+      const api = attemptAuthorizedRoute ? eventPrivateCrud : eventPublicCrud
       api.fetchAll()
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
@@ -190,12 +190,12 @@ const enrollActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().enroll.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().event.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addProduct(product) {
     return dispatch => {
       dispatch(this.pending(crudTypes.CREATE))
-      enrollPrivateCrud.create(product)
+      eventPrivateCrud.create(product)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
           // newly added item has to have negative id created in prepareNew()
@@ -214,7 +214,7 @@ const enrollActions = {
   updateProduct(product) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
-      enrollPrivateCrud.update(product)
+      eventPrivateCrud.update(product)
         .then(response => {
           dispatch(this.success(response, crudTypes.UPDATE))
           dispatch(displaySnackbar(`${singular} tallentaminen onnistui`))
@@ -235,7 +235,7 @@ const enrollActions = {
         return dispatch(this.success(product, crudTypes.DELETE))
       }
       dispatch(this.pending(crudTypes.DELETE))
-      enrollPrivateCrud.performDelete(product)
+      eventPrivateCrud.performDelete(product)
         .then(() => {
           dispatch(this.success(product, crudTypes.DELETE))
           dispatch(displaySnackbar(`${singular} poistaminen onnistui`))
@@ -252,4 +252,4 @@ const enrollActions = {
 }
 
 export default enrollActions
-export { ENROLL }
+export { EVENT }
