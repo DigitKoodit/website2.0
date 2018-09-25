@@ -4,14 +4,19 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { INITIAL_ID } from '../constants'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
-
+import moment from 'moment'
 import { loginActions } from '.'
 
 const eventPublicCrud = createCrudService('/api/event')
 const eventPrivateCrud = createCrudService('/api/intra/event', true)
 const initialItem = {
-  id: 'Event1',
+  id: INITIAL_ID,
   name: 'Testieventti',
+  activeAt: moment().format(),
+  activeUntil: moment().add(1, 'month').format(),
+  isVisible: true,
+  maxParticipants: 10,
+  reserveCount: 0,
   description: `<div style='font-family: inherit white-space: normal'><h2>Jääräsitsit 2018</h2><p>
   Vanhat kunnon, kunnon hyvät Jääräsitsit saapuvat jälleen hyvän kunnon sitsikansan iloksi! Sitsit ovat tänä vuonna <span style='color: rgb(29, 33, 41) font-family: Helvetica, Arial, sans-serif font-size: 14px'><strong>17.2.2018</strong>.</span></p><p>
   Juhlapaikkana toimii tänäkin vuonna Yo-talo B:ssä sijaitseva Osakuntasali, jossa sitsit aloitetaan klo 18.00. Sitsien dresscodena toimii smart casual ja lakkioikeuden ansainneilla teekkarilakki. Varsinainen lysti kustantaa 20 euroa, joka maksetaan paikan päällä.</p><p>
@@ -30,6 +35,7 @@ const initialItem = {
       name: 'juomat',
       label: 'Juomapuoli',
       required: true,
+      public: true,
       order: 2,
       options: {},
       value: [
@@ -52,6 +58,7 @@ const initialItem = {
       name: 'monivalinta',
       label: 'Monivalinta',
       required: false,
+      public: true,
       order: 4,
       options: {},
       value: [
@@ -108,6 +115,7 @@ const initialItem = {
       name: 'etunimi',
       label: 'Etunimi',
       required: true,
+      public: true,
       order: 0,
       options: {
         placeholder: 'Etunimi',
@@ -130,12 +138,6 @@ const initialItem = {
       value: ''
     }
   ],
-  visibleFields: [
-    'etunimi',
-    'juomat',
-    'lista',
-    'teksti'
-  ],
   participants: [
     {
       id: '11',
@@ -156,6 +158,7 @@ const enrollActions = {
   pending: (crudType) => createAction(EVENT[crudType].PENDING),
   success: (response, crudType) => createAction(EVENT[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(EVENT[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchEvent(eventId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
@@ -190,17 +193,17 @@ const enrollActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().event.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().events.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
-  addProduct(product) {
+  addEvent(item) {
     return dispatch => {
       dispatch(this.pending(crudTypes.CREATE))
-      eventPrivateCrud.create(product)
+      eventPrivateCrud.create(item)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
           // newly added item has to have negative id created in prepareNew()
-          product.id < 0 && dispatch(this.success(product, crudTypes.DELETE)) // remove temporary item
-          product.id < 0 && dispatch(displaySnackbar(`${singular} luominen onnistui`))
+          item.id < 0 && dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
+          item.id < 0 && dispatch(displaySnackbar(`${singular} luominen onnistui`))
         }).catch(err => {
           const message = `${singular} luominen epäonnistui`
           parseResponseError(err, message).then(error => {
@@ -211,10 +214,10 @@ const enrollActions = {
         })
     }
   },
-  updateProduct(product) {
+  updateEvent(item) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
-      eventPrivateCrud.update(product)
+      eventPrivateCrud.update(item)
         .then(response => {
           dispatch(this.success(response, crudTypes.UPDATE))
           dispatch(displaySnackbar(`${singular} tallentaminen onnistui`))
@@ -228,16 +231,16 @@ const enrollActions = {
         })
     }
   },
-  removeProduct(product) {
+  removeEvent(item) {
     return dispatch => {
-      const isUnsavedItem = product.id < 0
+      const isUnsavedItem = item.id < 0
       if(isUnsavedItem) {
-        return dispatch(this.success(product, crudTypes.DELETE))
+        return dispatch(this.success(item, crudTypes.DELETE))
       }
       dispatch(this.pending(crudTypes.DELETE))
-      eventPrivateCrud.performDelete(product)
+      eventPrivateCrud.performDelete(item)
         .then(() => {
-          dispatch(this.success(product, crudTypes.DELETE))
+          dispatch(this.success(item, crudTypes.DELETE))
           dispatch(displaySnackbar(`${singular} poistaminen onnistui`))
         }).catch(err => {
           const message = `${singular} poistaminen epäonnistui`

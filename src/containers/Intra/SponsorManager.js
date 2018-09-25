@@ -125,7 +125,6 @@ const SponsorList = ({ items, originalItems, onItemClick }) => items.length > 0 
       <ListItem
         key={item.id}
         item={item}
-        items={originalItems}
         onItemClick={onItemClick}
       />
     )} />
