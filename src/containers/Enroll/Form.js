@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
 import { withFormik } from 'formik'
-import selectInput from '../../components/enroll/fields'
+import selectInput from '../../components/Enroll/fields'
 
 const InnerForm = ({
   values,
