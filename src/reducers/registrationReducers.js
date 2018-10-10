@@ -1,4 +1,4 @@
-import { createReducer } from '../store/helpers'
+import { createReducer } from '../store/crudHelpers'
 import { types } from '../actions'
 
 const initialState = {

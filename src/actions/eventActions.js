@@ -1,5 +1,5 @@
 import { actionKeys } from './actionTypes'
-import { crudTypes, createCrudTypes, createAction } from '../store/helpers'
+import { crudTypes, createCrudTypes, createAction } from '../store/crudHelpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { INITIAL_ID } from '../constants'

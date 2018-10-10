@@ -46,6 +46,7 @@ export const deleteItem = (object, key) => {
 /**
  * Generates reducers for crud operations. Just override function in reducer if custom operations are needed. E.g: * {..., [reducerType.CREATE.SUCCESS]: (state, action) {...},...} Se siteNavigationReducers.js
  *
+ * // TODO: on fetch success search/replace existing values
  * @param {String} type reducer type constant
  */
 export const commonCrudReducers = reducerType => ({

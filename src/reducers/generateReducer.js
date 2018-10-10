@@ -1,4 +1,4 @@
-import { createReducer, commonCrudReducers } from '../store/helpers'
+import { createReducer, commonCrudReducers } from '../store/crudHelpers'
 
 const initialState = {
   records: [],

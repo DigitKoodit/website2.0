@@ -1,5 +1,5 @@
 import { actionKeys } from './actionTypes'
-import { createAsyncTypes, createAction } from '../store/helpers'
+import { createAsyncTypes, createAction } from '../store/crudHelpers'
 import { replace } from 'react-router-redux'
 import { register, confirmRegistration } from '../services/userService'
 import { parseResponseError } from './helpers'

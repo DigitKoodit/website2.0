@@ -1,5 +1,5 @@
 import { actionKeys } from './actionTypes'
-import { createAsyncTypes, createAction } from '../store/helpers'
+import { createAsyncTypes, createAction } from '../store/crudHelpers'
 import { fetchProfile } from '../services/authService'
 import { displayErrorMessage, isUnauthorized } from './helpers'
 import { loginActions } from '.'

@@ -1,4 +1,4 @@
-import { createReducer, commonCrudReducers } from '../store/helpers'
+import { createReducer, commonCrudReducers } from '../store/crudHelpers'
 import { types } from '../actions'
 import toArray from 'lodash/toArray'
 import sortBy from 'lodash/sortBy'
