@@ -12,6 +12,7 @@ import EventList from './EventList'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../../components/ContentManagement/MarkdownEditor'
 import { findEventById } from '../../../selectors/eventSelectors'
+import EventFieldManager from './EventFieldManager'
 
 class EventManager extends PureComponent {
   state = {
@@ -82,6 +83,7 @@ class EventManager extends PureComponent {
                 <DatePicker
                   selected={moment(item.activeAt)}
                   onChange={date => updateStateItem({ activeAt: date })}
+                  className='input is-small'
                 />
               </td>
             </tr>
@@ -91,6 +93,7 @@ class EventManager extends PureComponent {
                 <DatePicker
                   selected={moment(item.activeUntil)}
                   onChange={date => updateStateItem({ activeUntil: date })}
+                  className='input is-small'
                 />
               </td>
             </tr>
@@ -114,12 +117,11 @@ class EventManager extends PureComponent {
               </td>
             </tr>
             <tr>
-              <td className='has-text-right'><EditorField label='Ilmoittautumisen kentät' /></td>
+              <td className='has-text-right'><EditorField label='Kentät' /></td>
               <td>
-                <EditorInput
-                  field='fields'
-                  model={item}
-                  onChange={handleInputChange}
+                <EventFieldManager
+                  fields={item.fields}
+                  updateFields={updateStateItem}
                   validationErrors={validationErrors} />
               </td>
             </tr>
