@@ -8,7 +8,7 @@ import DatePicker from 'react-datepicker'
 import { sponsorActions } from '../../actions'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
-import 'react-datepicker/dist/react-datepicker.css'
+import '../../styles/datepicker.scss'
 import { INITIAL_ID } from '../../constants'
 
 class SponsorManager extends Component {

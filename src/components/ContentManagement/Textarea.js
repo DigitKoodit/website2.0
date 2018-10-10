@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../../styles/markdown.css'
+import '../../styles/markdown.scss'
 import { Field, Control, TextArea as BTextArea } from 'bloomer'
 
 const Textarea = ({ value, onTextChange }) => {

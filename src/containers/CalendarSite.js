@@ -3,8 +3,7 @@ import moment from 'moment'
 
 // Style. Defined in webpack
 import BigCalendar from 'react-big-calendar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-
+import './calendar.scss'
 import { getCalendarEvents } from '../lib/googleUtils'
 
 // a localizer for BigCalendar

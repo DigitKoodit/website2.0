@@ -4,7 +4,7 @@ import Prism from 'prismjs'
 import 'prismjs/components/prism-jsx'
 import ReactMarkdown from 'react-markdown'
 import { Content } from 'bloomer'
-import '../../styles/markdown.css'
+import '../../styles/markdown.scss'
 
 const Markdown = ({ source }) => (
   source && <Content>
