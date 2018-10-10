@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Columns, Column, Delete, Subtitle, Box, Button } from 'bloomer'
+import { Columns, Column, Subtitle, Button } from 'bloomer'
 import EventFieldEditor from './EventFieldEditor'
-import { INITIAL_ID } from '../../../constants'
+// import { INITIAL_ID } from '../../../constants'
 
 import { eventFieldTypes } from '../../../components/Enroll/fields'
 
