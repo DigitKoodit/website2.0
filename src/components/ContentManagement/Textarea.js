@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import '../../styles/markdown.css'
+import { Field, Control, TextArea as BTextArea } from 'bloomer'
 
 const Textarea = ({ value, onTextChange }) => {
   // FIXME: after tab pressed the cursor moves to the end of the textarea
@@ -19,12 +20,16 @@ const Textarea = ({ value, onTextChange }) => {
   }
 
   return (
-    <textarea
-      className='text-input margin-top-1'
-      value={value}
-      onChange={e => onTextChange(e.target.value)}
-      onKeyDown={handleKeyEvent}
-    />
+    <Field>
+      <Control>
+        <BTextArea
+          className='text-input margin-top-1'
+          value={value}
+          onChange={e => onTextChange(e.target.value)}
+          onKeyDown={handleKeyEvent}
+        />
+      </Control>
+    </Field>
   )
 }
 

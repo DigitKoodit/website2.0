@@ -4,6 +4,7 @@ import { Column, Columns } from 'bloomer'
 import Markdown from '../../components/ContentManagement/Markdown'
 import Textarea from './Textarea'
 
+// TODO: add validation errors
 const MarkdownEditor = ({ content, handleTextChange }) => {
   const decodedContent = decodeURI(content)
   return (

@@ -1,4 +1,5 @@
 import React from 'react'
+import * as eventFieldTypes from './eventFieldTypes'
 
 const inputByType = type => {
   switch(type) {
@@ -13,8 +14,11 @@ const inputByType = type => {
     case 'checkbox':
       return require('./InputCheck').default
     default:
-      return () => <p>Invalid input type</p>
+      return () => <p>Kenttää ei ole olemassa</p>
   }
 }
 
 export default inputByType
+export {
+  eventFieldTypes
+}

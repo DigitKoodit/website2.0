@@ -5,6 +5,7 @@ import noop from 'lodash/noop'
 import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
 import { withFormik } from 'formik'
+import { Button } from 'bloomer'
 import selectInput from '../../components/Enroll/fields'
 
 const InnerForm = ({
@@ -16,10 +17,10 @@ const InnerForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-  submitRenderer = 'Submit'
+  submitRenderer = 'Tallenna'
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type = 'text', name, label, defaultValue, required, ...rest }) => {
+    {fields.map(({ type, name, label, defaultValue, required, readOnly, ...rest }) => {
       const Input = selectInput(type)
       return (
         <Fragment key={name}>
@@ -32,15 +33,16 @@ const InnerForm = ({
             onChange={handleChange}
             onBlur={handleBlur}
             value={values[name]}
+            readOnly={readOnly}
             {...rest}
           />
           {touched[name] && errors[name] && <div className='form-errors'>{errors[name]}</div>}
         </Fragment>
       )
     })}
-    <button type='submit' disabled={isSubmitting}>
+    <Button type='submit' isColor='success' disabled={isSubmitting}>
       {isFunction(submitRenderer) ? submitRenderer() : submitRenderer}
-    </button>
+    </Button>
   </form>
 
 InnerForm.propTypes = {
@@ -88,7 +90,8 @@ Form.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    label: PropTypes.string
+    label: PropTypes.string,
+    options: PropTypes.object
   })),
   validate: PropTypes.func.isRequired
 }

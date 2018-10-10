@@ -60,12 +60,12 @@ class Header extends PureComponent {
           <SiteNavbarItem>
             |
           </SiteNavbarItem>
-          <SiteNavbarItem
+          {/* <SiteNavbarItem
             title='Hae'
             path='/search'
           >
             <i className='fa fa-search site-icon action' aria-hidden='true' />
-          </SiteNavbarItem>
+          </SiteNavbarItem> */}
           <SiteNavbarItem
             title='Intra'
             path='/intra'
