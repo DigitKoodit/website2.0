@@ -2,6 +2,18 @@
 
 # Digit - Frontend
 
+## **IMPORTANT UPDATES!** 
+
+Project is updated to use `create-react-app 2.0` which comes with lot of improvements but also a lot of changes. Please read the [changelog](https://github.com/facebook/create-react-app/blob/master/CHANGELOG.md).
+
+ Shortly:
+ - `webpack` updated to version 4
+ - `Babel` jsx/js-compiler to 7 
+ - built in SASS-support so all styles imported from `node_modules` folder needs to be added within `.scss` file
+ - No need to import `Fragments` use native `<>...</>` tags instead
+- Node version on `.nvmrc` is updated to `10` so if build failes remove `node_modules` and run `npm install`
+- Beta-version of the site has been published on [beta.digit.fi](https://beta.digit.fi)
+
 ## Installing / Getting started
 
 Install/ensure Node/NPM is installed (prefer NVM)
@@ -25,11 +37,13 @@ Frontend can be run without backend running but it's highly recommended setting 
 
 ### Building
 
-TODO
+Build product using: `npm run build`  
+Creates `dist` folder on project root which then can be ran individually. 
 
-### Deploying / Publishing
+### Deploying / Publishing [beta.digit.fi](https://beta.digit.fi)
 
-TODO
+The website is running on DigitalOcean droplet managed by Sami Nieminen. Contact for more information
+
 
 ## Features
 
