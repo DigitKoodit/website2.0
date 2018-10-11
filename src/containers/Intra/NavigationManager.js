@@ -10,7 +10,6 @@ import { VerticalList } from '../../components/Layout/Lists'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import { ChooserModal } from '../../components/Modal'
 import { INITIAL_ID } from '../../constants'
-
 class NavigationManager extends PureComponent {
   constructor(props) {
     super(props)
@@ -42,7 +41,7 @@ class NavigationManager extends PureComponent {
           <Column>
             {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'><EditorInput field='title' model={item} onChange={handleInputChange} /></EditorField>
-            <EditorField label='Polku'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>
+            <EditorField label='Polku' tooltipMessage='Lisää kenoviiva (/) ennen polkua'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>
             <EditorField label='Ylävalikko'>
               <ChooserModal
                 ref={this.chooserRef}
