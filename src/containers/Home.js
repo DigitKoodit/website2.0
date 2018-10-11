@@ -9,6 +9,7 @@ import heroImage from '../public/images/hero-16x9.jpg'
 import { Hero, HeroBody, Tile, Section } from 'bloomer'
 
 const heroBgStyle = { backgroundImage: `url(${heroImage})` }
+const isDev = process.env.NODE_ENV === 'development'
 const Home = () => {
   return (
     <Fragment>
@@ -24,13 +25,16 @@ const Home = () => {
           <EventView />
         </Tile>
       </Section>
-      <Section className='pt-4'>
-        <Tile isAncestor>
-          <SocialMediaFeed />
-        </Tile>
-      </Section>
-      <SponsorsView />
-      <SocialMediaView />
+      {isDev && <>
+        <Section className='pt-4'>
+          <Tile isAncestor>
+            <SocialMediaFeed />
+          </Tile>
+        </Section>
+        <SponsorsView />
+        <SocialMediaView />
+      </>
+      }
     </Fragment>
   )
 }

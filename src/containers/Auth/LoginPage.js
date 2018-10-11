@@ -8,6 +8,8 @@ import { loginActions } from '../../actions'
 import { Base } from '../../components/Layout'
 import withLoader from '../../components/Helpers/withLoader'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 const initalFormModel = {
   username: '',
   password: ''
@@ -34,13 +36,15 @@ const LoginPage = ({ loading, model, startLogin }) => {
                   ? <p className='error margin-1'>{model.error.common}</p>
                   : null
               }
-              <Button type='submit'>Kirjaudu {Spinner}</Button>
+              <Button isColor='success' type='submit'>Kirjaudu {Spinner}</Button>
             </Fragment>
           )}
         </Form>
-        <div style={{ textAlign: 'right' }}>
-          <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
-        </div>
+        {isDev &&
+          <div style={{ textAlign: 'right' }}>
+            <Link to='/register' className='btn btn-link'>Rekisteröidy</Link>
+          </div>
+        }
       </div>
     </Base>
   )

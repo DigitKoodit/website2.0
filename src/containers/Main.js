@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import asyncComponent from '../components/AsyncComponent'
 // import ProilesRenderer from '../components/ProfilesRenderer'
 import PrivateRoute from '../components/PrivateRoute'
+const isDev = process.env.NODE_ENV === 'development'
 
 const Header = asyncComponent(() => import('./Header'))
 const Home = asyncComponent(() => import('./Home'))
@@ -29,7 +30,9 @@ class Main extends Component {
             <Route path='/' exact component={Home} />
             <Route path='/toiminta/tapahtumat' component={CalendarSite} />
             {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
-            <Route path='/register' exact component={RegistrationPage} />
+            {isDev &&
+              <Route path='/register' exact component={RegistrationPage} />
+            }
             {/* <Route path='/register/:registrationToken' component={RegistrationConfirmation} /> */}
             <Route path='/login' exact component={LoginPage} />
             <PrivateRoute path='/intra' component={IntraPage} />
