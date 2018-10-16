@@ -38,7 +38,7 @@ class NavigationManager extends PureComponent {
       const isNewlyCreated = item.id < 0
       return (
         <Columns>
-          <Column>
+          <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
             {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'><EditorInput field='title' model={item} onChange={handleInputChange} /></EditorField>
             <EditorField label='Polku' tooltipMessage='Lisää kenoviiva (/) ennen polkua'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>

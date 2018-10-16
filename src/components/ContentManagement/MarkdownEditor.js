@@ -10,13 +10,13 @@ const MarkdownEditor = ({ content, handleTextChange }) => {
   return (
     <div className='markdown-area margin-top-1'>
       <Columns>
-        <Column>
+        <Column isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
           <Textarea
             onTextChange={handleTextChange}
             value={decodedContent}
           />
         </Column>
-        <Column>
+        <Column isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
           <Markdown source={decodedContent} />
         </Column>
       </Columns>

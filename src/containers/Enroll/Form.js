@@ -5,8 +5,8 @@ import noop from 'lodash/noop'
 import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
 import { withFormik } from 'formik'
-import { Button } from 'bloomer'
 import selectInput from '../../components/Enroll/fields'
+import { Button } from 'bloomer'
 
 const InnerForm = ({
   values,
@@ -24,11 +24,11 @@ const InnerForm = ({
       const Input = selectInput(type)
       return (
         <Fragment key={name}>
-          {label ? <span className='form-label'>{label}</span> : null}
           <Input
             className='form-input'
             type={type}
             name={name}
+            label={label}
             required={required}
             onChange={handleChange}
             onBlur={handleBlur}

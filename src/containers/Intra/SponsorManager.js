@@ -32,7 +32,7 @@ class SponsorManager extends Component {
       const isNewlyCreated = item.id < 0
       return (
         <Columns>
-          <Column>
+          <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
             {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'>
               <EditorInput

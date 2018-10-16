@@ -1,19 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, Label } from 'bloomer'
+import { Field, FieldLabel, FieldBody } from 'bloomer'
 import Tooltip from '../../Tooltip'
 
 const EditorField = ({ label, children, tooltipMessage }) => {
-  const LabelComponent = <Label className='is-inline has-text-grey-light has-text-weight-semibold'>{label} </Label>
+  const LabelComponent = <span className='has-text-grey-light has-text-weight-semibold'>
+    {label}
+  </span>
   return (
-    <Field>
-      {tooltipMessage
-        ? <Tooltip message={tooltipMessage}>
-          {LabelComponent}
-        </Tooltip>
-        : LabelComponent
-      }
-      {children}
+    <Field isHorizontal>
+      <FieldLabel>
+        {tooltipMessage
+          ? <Tooltip message={tooltipMessage}>
+            {LabelComponent}
+          </Tooltip>
+          : LabelComponent
+        }
+      </FieldLabel>
+      <FieldBody>
+        <Field>
+          {children}
+        </Field>
+      </FieldBody>
     </Field>
   )
 }

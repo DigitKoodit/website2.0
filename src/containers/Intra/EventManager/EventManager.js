@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil'
 import moment from 'moment'
 import { BaseContent } from '../../../components/Layout'
 import { eventActions } from '../../../actions'
-import { Column, Title, Columns, Box, Table, Button } from 'bloomer'
+import { Columns, Column, Title, Box, Button } from 'bloomer'
 import DatePicker from 'react-datepicker'
 import '../../../styles/datepicker.scss'
 import EventList from './EventList'
@@ -41,102 +41,74 @@ class EventManager extends PureComponent {
     renderFields={(item, handleInputChange, updateStateItem) => {
       const isNewlyCreated = item.id < 0
       return (
-        <Table className='table-border-0' isNarrow >
-          <tbody>
-            {!isNewlyCreated && <tr>
-              <td className='has-text-right'><EditorField label='Id' /></td>
-              <td>{item.id}</td>
-            </tr>}
-            <tr>
-              <td className='has-text-right'><EditorField label='Nimi' /></td>
-              <td>
-                <EditorInput
-                  field='name'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Osallistujamäärä' /></td>
-              <td>
-                <EditorInput
-                  field='maxParticipants'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Varasijoja' /></td>
-              <td>
-                <EditorInput
-                  field='reserveCount'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Ilmoittautuminen alkaa' /></td>
-              <td>
-                <DatePicker
-                  selected={moment(item.activeAt)}
-                  onChange={date => updateStateItem({ activeAt: date })}
-                  className='input is-small'
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Ilmoittautuminen päättyy' /></td>
-              <td>
-                <DatePicker
-                  selected={moment(item.activeUntil)}
-                  onChange={date => updateStateItem({ activeUntil: date })}
-                  className='input is-small'
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Näytetään listalla' /></td>
-              <td>
-                <EditorCheckbox
-                  field='isVisible'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Kuvaus' /></td>
-              <td>
-                <MarkdownEditor
-                  content={item.description}
-                  handleTextChange={description => updateStateItem({ description: description || '' })}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Kentät' /></td>
-              <td>
-                <EventFieldManager
-                  fields={item.fields}
-                  updateFields={updateStateItem}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-            <tr>
-              <td className='has-text-right'><EditorField label='Osallistujat' /></td>
-              <td>
-                <EditorInput
-                  field='participants'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+        <Columns>
+          <Column>
+            {!isNewlyCreated &&
+              <EditorField label='Id' >
+                {item.id}</EditorField>}
+            <EditorField label='Nimi' >
+              <EditorInput
+                field='name'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Osallistujamäärä' >
+              <EditorInput
+                field='maxParticipants'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Varasijoja' >
+              <EditorInput
+                field='reserveCount'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Ilmoittautuminen alkaa' >
+              <DatePicker
+                selected={moment(item.activeAt)}
+                onChange={date => updateStateItem({ activeAt: date })}
+                className='input is-small'
+              />
+            </EditorField>
+            <EditorField label='Ilmoittautuminen päättyy' >
+              <DatePicker
+                selected={moment(item.activeUntil)}
+                onChange={date => updateStateItem({ activeUntil: date })}
+                className='input is-small'
+              />
+            </EditorField>
+            <EditorField label='Näytetään listalla' >
+              <EditorCheckbox
+                field='isVisible'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Kuvaus' >
+              <MarkdownEditor
+                content={item.description}
+                handleTextChange={description => updateStateItem({ description: description || '' })}
+              />
+            </EditorField>
+            <EditorField label='Kentät' >
+              <EventFieldManager
+                fields={item.fields}
+                updateFields={updateStateItem}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Osallistujat' >
+              <EditorInput
+                field='participants'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+          </Column>
+        </Columns>
 
       )
     }}

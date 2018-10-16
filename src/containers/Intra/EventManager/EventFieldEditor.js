@@ -40,7 +40,6 @@ export default class EventFieldEditor extends PureComponent {
         defaultValues={initialValues || defaultValues}
         validate={values => console.log('VALIDATE', values)}
       />
-
     )
   }
 }
