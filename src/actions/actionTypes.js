@@ -1,10 +1,5 @@
-import { LOCATION_CHANGE } from 'react-router-redux'
-
 // UI
 export const TOGGLE_SNACKBAR = 'TOGGLE_SNACKBAR'
-
-// Location and History api
-export const APP_LOCATION_CHANGE = LOCATION_CHANGE
 
 // Site content
 export const LOAD_NAVIGATION_REQUEST = 'LOAD_NAVIGATION_REQUEST'

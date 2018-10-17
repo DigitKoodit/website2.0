@@ -1,6 +1,6 @@
 import { actionKeys } from './actionTypes'
 import { createAsyncTypes, createAction } from '../store/crudHelpers'
-import { replace } from 'react-router-redux'
+import { replace } from 'connected-react-router'
 import { register, confirmRegistration } from '../services/userService'
 import { parseResponseError } from './helpers'
 const routeAfterRegistration = '/registration/continue'
