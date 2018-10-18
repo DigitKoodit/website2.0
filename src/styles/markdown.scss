@@ -21,6 +21,7 @@ blockquote p {
 }
 
 .markdown-area {
+  word-wrap: break-word;
   .text-container,
   .text-input {
     display: block;

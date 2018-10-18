@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Form from '../../Enroll/Form'
+import { Label } from 'bloomer'
 
 const defaultFields = [
   { name: 'fieldName', type: 'text', label: null, defaultValue: null, readOnly: true, isSize: 'small' },
@@ -15,7 +16,7 @@ const defaultFields = [
   { name: 'reserveEndAt', type: 'text', label: 'Kiintiön päättymisaika', defaultValue: null, isSize: 'small' }
 ]
 
-const textInputOptionFields = [
+const textInputFields = [
   { name: 'maxLength', type: 'text', label: 'Maksimi merkkimäärä', defaultValue: null, isSize: 'small' }
 ]
 
@@ -36,7 +37,7 @@ export default class EventFieldEditor extends PureComponent {
     return (
       <Form
         onSave={values => Promise.resolve(onSave(values))}
-        fields={isTextInput ? [...defaultFields, ...textInputOptionFields] : defaultFields}
+        fields={isTextInput ? [...defaultFields, ...textInputFields] : defaultFields}
         defaultValues={initialValues || defaultValues}
         validate={values => console.log('VALIDATE', values)}
       />

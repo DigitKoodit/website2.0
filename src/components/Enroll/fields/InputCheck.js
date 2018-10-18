@@ -1,31 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, Control, Checkbox, Label } from 'bloomer'
+import { Field, FieldLabel, FieldBody, Control, Checkbox as BCheckbox } from 'bloomer'
 
-const InputCheck = ({ label, value, handleChange, options = {}, ...inputAttributes }) => {
+const InputCheck = ({ label, value, handleChange, options = {}, ...inputProps }) => {
   const inputs = Array.isArray(value)
-    ? value.map((input, i) => checkbox(input))
-    : checkbox(value)
+    ? value.map((input, i) => renderCheckbox(input, handleChange, inputProps))
+    : renderCheckbox(value, handleChange, inputProps)
 
   return (
-    <div className={options.containerClass}>
-      {label && <legend className={options.labelClass}>{label}</legend>}
-      {inputs}
-    </div>
+    <Field isHorizontal>
+      <FieldLabel>
+        <span>{label}</span>
+      </FieldLabel>
+      <FieldBody>
+        {inputs}
+      </FieldBody>
+    </Field>
   )
 }
 
-const checkbox = (input, handleChange) => (
+const renderCheckbox = (input, handleChange, { className }) => (
   <Field key={input.name}>
     <Control>
-      <Checkbox
+      <BCheckbox
         type='checkbox'
+        className={className}
         name={input.name}
         checked={input.value}
-        onChange={handleChange}
-      />
+        onChange={handleChange}>
+        {input.label}
+      </BCheckbox>
     </Control>
-    <Label>{input.label}</Label>
   </Field>
 )
 InputCheck.propTypes = {

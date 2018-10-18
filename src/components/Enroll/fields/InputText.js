@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
-import { Field, FieldLabel, FieldBody, Control, Input, TextArea, Label } from 'bloomer'
+import { Field, FieldLabel, FieldBody, Control, Input, TextArea } from 'bloomer'
 
 // TODO: use horizontal layout
 const InputText = ({ type, label, value, handleChange, options, labelProps, ...inputAttributes }) => {
@@ -9,11 +9,11 @@ const InputText = ({ type, label, value, handleChange, options, labelProps, ...i
 
   return (
     <Field isHorizontal className={containerClass}>
-      {label && (
-        <FieldLabel isNormal>
-          <Label className={labelClass}>{label}</Label>
-        </FieldLabel>
-      )}
+      <FieldLabel>
+        {label && (
+          <span className={labelClass}>{label}</span>
+        )}
+      </FieldLabel>
       <FieldBody>
         <Field>
           <Control isExpanded>

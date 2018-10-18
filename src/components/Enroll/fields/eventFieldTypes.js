@@ -8,7 +8,7 @@ export const types = [
 export const options = {
   text: {
     value: '',
-    fieldName: 'Tekstikenttä',
+    fieldName: 'Teksti',
     type: 'text',
     placeholder: null,
     maxLength: 64,

@@ -24,7 +24,6 @@ class EventFieldManager extends Component {
     const { fields } = this.props
     return (
       <Fragment>
-        <Subtitle isSize='5'>Tapahtuman kentät</Subtitle>
         {fields.map((field, index) =>
           <Columns key={field.name + '' + index}>
             <Column >
@@ -35,6 +34,7 @@ class EventFieldManager extends Component {
             <Column isSize='narrow'>
               <Button
                 isColor='danger'
+                isSize='small'
                 onClick={this.fieldAction(fieldActionTypes.REMOVE, field)} >
                 -
               </Button>
@@ -67,11 +67,12 @@ const FieldSelector = ({ onSelect }) => {
   const { types, options, base } = eventFieldTypes
   return (
     <Fragment>
-      <Subtitle isSize='5'>Valittavat kentät</Subtitle>
+      <Subtitle isSize='6'>Valittavat kentät</Subtitle>
       {types.map(type => {
         const model = { ...base, ...options[type] }
         return <Button
           key={model.fieldName}
+          isSize='small'
           onClick={onSelect(fieldActionTypes.ADD, model)}>
           {model.fieldName}
         </Button>

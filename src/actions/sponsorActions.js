@@ -24,7 +24,7 @@ const sponsorActions = {
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
-          const message = 'Sivun noutaminen epäonnistui'
+          const message = 'Yhteistyökumppaneiden noutaminen epäonnistui'
           parseResponseError(err, message).then(error => {
             dispatch(this.error(error, crudTypes.FETCH))
             dispatch(displayErrorMessage(isUnauthorized(err), message))

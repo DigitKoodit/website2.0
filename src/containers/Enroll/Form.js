@@ -25,7 +25,7 @@ const InnerForm = ({
       return (
         <Fragment key={name}>
           <Input
-            className='form-input'
+            className='mb-3'
             type={type}
             name={name}
             label={label}
@@ -40,7 +40,7 @@ const InnerForm = ({
         </Fragment>
       )
     })}
-    <Button type='submit' isColor='success' disabled={isSubmitting}>
+    <Button type='submit' isSize='small' isColor='success' disabled={isSubmitting}>
       {isFunction(submitRenderer) ? submitRenderer() : submitRenderer}
     </Button>
   </form>
