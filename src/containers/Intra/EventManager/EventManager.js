@@ -13,6 +13,8 @@ import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../
 import MarkdownEditor from '../../../components/ContentManagement/MarkdownEditor'
 import { findEventById } from '../../../selectors/eventSelectors'
 import EventFieldManager from './EventFieldManager'
+import { isNewlyCreated, includesNewlyCreated } from '../../../store/helpers'
+import { INITIAL_ID } from '../../../constants'
 
 class EventManager extends PureComponent {
   state = {
@@ -23,7 +25,14 @@ class EventManager extends PureComponent {
     this.props.fetchEvents()
   }
 
-  handleItemClick = itemId => {
+  componentDidUpdate = prevProps => {
+    const { events } = this.props
+    if(prevProps.events.length < events.length && includesNewlyCreated(events)) {
+      this.handleActiveItemChange(INITIAL_ID)
+    }
+  }
+
+  handleActiveItemChange = itemId => {
     this.setState({ activeItemId: itemId })
     this.props.clearErrors()
   }
@@ -39,13 +48,13 @@ class EventManager extends PureComponent {
     onCancel={this.clearSelection}
     onRemove={this.removeItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
-      const isNewlyCreated = item.id < 0
       return (
         <Columns>
           <Column>
-            {!isNewlyCreated &&
+            {!isNewlyCreated(item) &&
               <EditorField label='Id' >
-                {item.id}</EditorField>}
+                {item.id}
+              </EditorField>}
             <EditorField label='Nimi' >
               <EditorInput
                 field='name'
@@ -122,7 +131,6 @@ class EventManager extends PureComponent {
     const { events, initNewEvent, validationErrors } = this.props
     const { activeItemId } = this.state
     const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
-    console.log(activeItem)
     return (
       <BaseContent>
         <Column>
@@ -130,11 +138,16 @@ class EventManager extends PureComponent {
           <Columns isMultiline>
             <Column isSize='narrow'>
               <EventList
-                onItemClick={this.handleItemClick}
+                onItemClick={this.handleActiveItemChange}
                 events={events} />
             </Column>
             <Column>
-              <Button isSize='small' isColor='primary' onClick={initNewEvent}>Lisää uusi</Button>
+              <Button
+                isSize='small'
+                isColor='primary'
+                onClick={initNewEvent}>
+                Lisää uusi
+              </Button>
               <Box>
                 {activeItem
                   ? this.renderDetailedEvent(activeItem, validationErrors)
