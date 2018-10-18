@@ -20,7 +20,13 @@ const InnerForm = ({
   submitRenderer = 'Tallenna'
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type, name, label, defaultValue, required, readOnly, ...rest }) => {
+    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, ...rest }, index) => {
+      if(customRenderer) {
+        return (
+          <Fragment key={name}>
+            {customRenderer({ name, label, value: values[name], values, handleChange })}
+          </Fragment>)
+      }
       const Input = selectInput(type)
       return (
         <Fragment key={name}>

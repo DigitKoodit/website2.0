@@ -4,7 +4,15 @@ import Form from '../../Enroll/Form'
 import { Label } from 'bloomer'
 
 const defaultFields = [
-  { name: 'fieldName', type: 'text', label: null, defaultValue: null, readOnly: true, isSize: 'small' },
+  {
+    name: 'fieldName',
+    type: 'text',
+    label: null,
+    defaultValue: null,
+    readOnly: true,
+    isSize: 'small',
+    customRenderer: item => <Label>{item.value}</Label>
+  },
   { name: 'label', type: 'text', label: 'Nimi', defaultValue: null, isSize: 'small' },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
   { name: 'required', type: 'checkbox', label: 'Pakollinen', defaultValue: false, isSize: 'small' },
