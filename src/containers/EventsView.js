@@ -25,7 +25,7 @@ class EventsView extends Component {
     const firstThreeDays = take(values(this.state.events), 3)
     // TODO: Add calendar button
     return (
-      <Tile isParent>
+      <Tile isParent id='bulma-override-tile'>
         <Tile isChild render={
           props => (
             <Box {...props}>

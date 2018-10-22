@@ -157,3 +157,26 @@ body {
 .hyphens {
   hyphens: auto;
 }
+
+#bulma-override-section {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  @include until($tablet){
+    padding: 0;
+  }
+}
+
+#bulma-override-tile {
+  @include until($tablet){
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+#bulma-override-box {
+  @include from($tablet) {
+    height: 550px;
+    overflow-y: auto;
+  }
+}
