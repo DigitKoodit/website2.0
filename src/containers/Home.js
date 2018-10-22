@@ -21,26 +21,26 @@ const Home = () => {
       </Hero>
       <Columns isCentered>
         <Column isSize={{ mobile: 'full', desktop: '3/4', widescreen: '2/3' }} >
-          <Section className='p-4'>
-            <Tile isAncestor>
+          <Section className='p-4' id='bulma-override-section'>
+            <Tile isAncestor id='bulma-override-tile'>
               <WelcomeView />
               <EventView />
             </Tile>
           </Section>
           {isDev
-            ? <Section className='p-4 pt-0'>
-              <Tile isAncestor>
+            ? <Section className='p-4 pt-0' id='bulma-override-section'>
+              <Tile isAncestor id='bulma-override-tile'>
                 <SocialMediaFeed />
                 <SponsorsView />
               </Tile>
             </Section>
-            : <Section className='p-4 pt-0'>
-              <Tile isAncestor>
+            : <Section className='p-4 pt-0' id='bulma-override-section'>
+              <Tile isAncestor id='bulma-override-tile'>
                 <SponsorsView />
               </Tile>
             </Section>
           }
-          <Section className='p-4'>
+          <Section className='p-4' id='bulma-override-section'>
             <SocialMediaView />
           </Section>
         </Column>

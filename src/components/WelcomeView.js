@@ -3,7 +3,7 @@ import React from 'react'
 import { Tile, Box, Title } from 'bloomer'
 
 const WelcomeView = () => (
-  <Tile isParent isSize={4}>
+  <Tile isParent isSize={4} id='bulma-override-tile'>
     <Tile isChild render={
       props => (
         <Box {...props} >
