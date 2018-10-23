@@ -7,6 +7,7 @@ import { fileActions } from '../../actions'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
 import { INITIAL_ID } from '../../constants'
+import Dropzone from '../../components/Dropzone'
 
 class FileManager extends Component {
   state = {
@@ -72,7 +73,7 @@ class FileManager extends Component {
     return (
       <BaseContent>
         <Column>
-          <Title>Yhteistyökumppanit</Title>
+          <Title>Tiedostot</Title>
           <Columns>
             <Column isSize='narrow'>
               <FileList
@@ -82,12 +83,13 @@ class FileManager extends Component {
               />
             </Column>
             <Column isFullWidth>
-              <Button isSize='small' isColor='primary' onClick={initNewFile}>Lisää uusi</Button>
-              <Box>
-                {(activeItemId && find(files, { id: activeItemId }))
-                  ? this.renderEditor(find(files, { id: activeItemId }))
-                  : <p>Valitse muokattava kohde listalta</p>}
-              </Box>
+              <Dropzone handleFile={file => console.log(file)}>
+                <Box>
+                  {(activeItemId && find(files, { id: activeItemId }))
+                    ? this.renderEditor(find(files, { id: activeItemId }))
+                    : <p>Valitse muokattava kohde listalta</p>}
+                </Box>
+              </Dropzone>
             </Column>
           </Columns>
         </Column>

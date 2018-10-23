@@ -28,6 +28,7 @@
     "react-big-calendar": "^0.19.2",
     "react-datepicker": "^1.6.0",
     "react-dom": "^16.4.2",
+    "react-dropzone": "^6.2.4",
     "react-facebook": "^5.0.3",
     "react-helmet": "^5.2.0",
     "react-markdown": "^3.4.1",
