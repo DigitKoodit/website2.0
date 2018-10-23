@@ -7,6 +7,7 @@ import userAccountActions, { USER_ACCOUNT } from './userAccountActions'
 import userRoleActions, { USER_ROLE } from './userRoleActions'
 import authActions, { AUTH } from './authActions'
 import eventActions, { EVENT } from './eventActions'
+import fileActions, { FILE } from './fileActions'
 
 export {
   loginActions,
@@ -17,7 +18,8 @@ export {
   userAccountActions,
   userRoleActions,
   authActions,
-  eventActions
+  eventActions,
+  fileActions
 }
 
 export const types = {
@@ -29,5 +31,6 @@ export const types = {
   USER_ACCOUNT,
   USER_ROLE,
   AUTH,
-  EVENT
+  EVENT,
+  FILE
 }

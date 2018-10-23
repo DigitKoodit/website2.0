@@ -7,6 +7,7 @@ const Profile = asyncComponent(() => import('./ProfilePage'))
 const SponsorManager = asyncComponent(() => import('./SponsorManager'))
 const AccountManager = asyncComponent(() => import('./AccountManager'))
 const EventManager = asyncComponent(() => import('./EventManager'))
+const FileManager = asyncComponent(() => import('./FileManager'))
 
 const routes = [
   { title: 'Intra', path: '/intra', component: IntraPage, active: true, exact: true },
@@ -21,7 +22,8 @@ const routes = [
     routes: [
       { title: 'Navigointi', path: '/intra/cms/navigation', component: NavigationManager, active: true },
       { title: 'Sivut', path: '/intra/cms/content', component: ContentManager, active: true },
-      { title: 'Yhteistyökumppanit', path: '/intra/cms/sponsors', component: SponsorManager, active: true }
+      { title: 'Yhteistyökumppanit', path: '/intra/cms/sponsors', component: SponsorManager, active: true },
+      { title: 'Tiedostot', path: '/intra/cms/files', component: FileManager, active: true }
     ]
   },
   {

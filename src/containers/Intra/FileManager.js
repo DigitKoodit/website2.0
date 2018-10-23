@@ -1,0 +1,145 @@
+import React, { Component } from 'react'
+import PropTypes from 'prop-types' //
+import { connect } from 'react-redux'
+import find from 'lodash/find'
+import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
+import { fileActions } from '../../actions'
+import { BaseContent, VerticalList } from '../../components/Layout'
+import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
+import { INITIAL_ID } from '../../constants'
+
+class FileManager extends Component {
+  state = {
+    activeItemId: null
+  }
+  componentDidMount() {
+    this.props.fetchFiles()
+  }
+
+  handleItemClick = itemId => this.setState({ activeItemId: itemId })
+
+  clearSelection = () => this.setState({ activeItemId: null })
+
+  renderEditor = item => <ModelEditor
+    item={item}
+    onSave={this.state.activeItemId < 0 ? this.props.addFile : this.props.updateFile}
+    onCancel={this.clearSelection}
+    onRemove={this.removeNavItem}
+    renderFields={(item, handleInputChange, updateStateItem) => {
+      const isNewlyCreated = item.id < 0
+      return (
+        <Columns>
+          <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
+            {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
+            <EditorField label='Nimi'>
+              <EditorInput
+                field='name'
+                model={item}
+                onChange={handleInputChange} />
+            </EditorField>
+            <EditorField label='Kuvaus'>
+              <EditorInput
+                field='description'
+                model={item}
+                onChange={handleInputChange} />
+            </EditorField>
+            <EditorField label='Linkki'>
+              <EditorInput
+                field='link'
+                model={item}
+                onChange={handleInputChange} />
+            </EditorField>
+            <EditorField label='Logo'>
+              <EditorInput
+                field='logo'
+                model={item}
+                onChange={handleInputChange} />
+            </EditorField>
+          </Column>
+        </Columns>
+      )
+    }}
+  />
+
+  removeItem = item => {
+    this.props.removeFile(item)
+    this.clearSelection()
+  }
+
+  render = () => {
+    const { files, initNewFile } = this.props
+    const { activeItemId } = this.state
+    return (
+      <BaseContent>
+        <Column>
+          <Title>Yhteistyökumppanit</Title>
+          <Columns>
+            <Column isSize='narrow'>
+              <FileList
+                items={files}
+                onItemClick={this.handleItemClick}
+                originalItems={files}
+              />
+            </Column>
+            <Column isFullWidth>
+              <Button isSize='small' isColor='primary' onClick={initNewFile}>Lisää uusi</Button>
+              <Box>
+                {(activeItemId && find(files, { id: activeItemId }))
+                  ? this.renderEditor(find(files, { id: activeItemId }))
+                  : <p>Valitse muokattava kohde listalta</p>}
+              </Box>
+            </Column>
+          </Columns>
+        </Column>
+      </BaseContent >
+    )
+  }
+}
+
+FileManager.propTypes = {
+  files: PropTypes.array.isRequired,
+  fetchFiles: PropTypes.func.isRequired,
+  initNewFile: PropTypes.func.isRequired,
+  addFile: PropTypes.func.isRequired,
+  updateFile: PropTypes.func.isRequired,
+  removeFile: PropTypes.func.isRequired
+}
+
+const FileList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
+  <VerticalList
+    items={items}
+    listItemRenderer={item => (
+      <ListItem
+        key={item.id}
+        item={item}
+        onItemClick={onItemClick}
+      />
+    )} />
+
+const ListItem = ({ item, onItemClick }) => (
+  <li key={item.id} onClick={() => onItemClick(item.id)}>
+    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
+      {item.name}
+    </MenuLink>
+  </li>
+)
+
+ListItem.propTypes = {
+  item: PropTypes.object,
+  onItemClick: PropTypes.func
+}
+
+const mapStateToProps = (state) => ({
+  files: state.files.records
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchFiles: () => dispatch(fileActions.fetchFiles(true)),
+  fetchFile: fileId => dispatch(fileActions.fetchFile(fileId)),
+  initNewFile: () => dispatch(fileActions.prepareNew()),
+  addFile: item => dispatch(fileActions.addFile(item)),
+  updateFile: item => dispatch(fileActions.updateFile(item)),
+  removeFile: item => dispatch(fileActions.removeFile(item))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FileManager)
