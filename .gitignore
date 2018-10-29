@@ -26,5 +26,9 @@ yarn-error.log*
 # VSCode settings
 /.vscode
 
+# vim swap files
 .swp
-.swo
+*.swp
+
+# idea configs
+/.idea
