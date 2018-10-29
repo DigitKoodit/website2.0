@@ -8,7 +8,12 @@ import SocialMediaFeed from './SocialMediaFeed'
 import heroImage from '../public/images/hero-16x9.jpg'
 import { Hero, HeroBody, Tile, Section, Columns, Column } from 'bloomer'
 
-const heroBgStyle = { backgroundImage: `url(${heroImage})` }
+const heroBgStyle = {
+  backgroundImage: `url(${heroImage})`,
+  backgroundSize: '220vh',
+  backgroundPositionX: '47%',
+  backgroundPositionY: '-32vh'
+}
 const isDev = process.env.NODE_ENV === 'development'
 const Home = () => {
   return (
