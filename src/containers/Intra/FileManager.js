@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
 import find from 'lodash/find'
-import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
-import { fileActions } from '../../actions'
+import { Column, Title, Columns, Box, MenuLink } from 'bloomer'
+import { fileActions, fileUploadActions } from '../../actions'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
 import { INITIAL_ID } from '../../constants'
@@ -68,7 +68,7 @@ class FileManager extends Component {
   }
 
   render = () => {
-    const { files, initNewFile } = this.props
+    const { files, fileUploads, prepareUpload } = this.props
     const { activeItemId } = this.state
     return (
       <BaseContent>
@@ -83,11 +83,17 @@ class FileManager extends Component {
               />
             </Column>
             <Column isFullWidth>
-              <Dropzone handleFile={file => console.log(file)}>
+              <Dropzone handleDrop={prepareUpload}>
                 <Box>
                   {(activeItemId && find(files, { id: activeItemId }))
                     ? this.renderEditor(find(files, { id: activeItemId }))
-                    : <p>Valitse muokattava kohde listalta</p>}
+                    : <p>Vedä tiedostoja tähän</p>}
+                  {fileUploads.map(file =>
+                    <Fragment key={file.name}>
+                      <span>{file.name}</span>
+                      <img src={file.preview} width='200' alt='upload preview' />
+                    </Fragment>
+                  )}
                 </Box>
               </Dropzone>
             </Column>
@@ -100,8 +106,10 @@ class FileManager extends Component {
 
 FileManager.propTypes = {
   files: PropTypes.array.isRequired,
+  fileUploads: PropTypes.array.isRequired,
   fetchFiles: PropTypes.func.isRequired,
   initNewFile: PropTypes.func.isRequired,
+  prepareUpload: PropTypes.func.isRequired,
   addFile: PropTypes.func.isRequired,
   updateFile: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired
@@ -132,7 +140,8 @@ ListItem.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  files: state.files.records
+  files: state.files.records,
+  fileUploads: state.fileUploads.records
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -141,7 +150,8 @@ const mapDispatchToProps = (dispatch) => ({
   initNewFile: () => dispatch(fileActions.prepareNew()),
   addFile: item => dispatch(fileActions.addFile(item)),
   updateFile: item => dispatch(fileActions.updateFile(item)),
-  removeFile: item => dispatch(fileActions.removeFile(item))
+  removeFile: item => dispatch(fileActions.removeFile(item)),
+  prepareUpload: files => dispatch(fileUploadActions.uploadFile(files))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileManager)

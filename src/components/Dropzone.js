@@ -20,11 +20,24 @@ class Dropzone extends Component {
   }
 
   onDrop = (files) => {
+    // const nf = []
+    // files.forEach(file => {
+    //   const reader = new FileReader()
+    //   reader.onload = () => {
+    //     const fileAsBinaryString = reader.result
+    //     console.log(fileAsBinaryString)
+    //     // do whatever you want with the file content
+    //   }
+    //   reader.onabort = () => console.log('file reading was aborted')
+    //   reader.onerror = () => console.log('file reading has failed')
+
+    //   nf.push(reader.readAsBinaryString(file))
+    // })
+
     this.setState({
-      files,
       dropzoneActive: false
     })
-    this.props.handleFile(files[0])
+    this.props.handleDrop(files)
   }
 
   render() {
@@ -43,7 +56,7 @@ class Dropzone extends Component {
   }
 
   static propTypes = {
-    handleFile: PropTypes.func.isRequired,
+    handleDrop: PropTypes.func.isRequired,
     children: PropTypes.any.isRequired
   }
 }

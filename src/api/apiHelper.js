@@ -36,46 +36,62 @@ const request = (url, options) => {
 }
 
 export const get = (url, options, requireAuth) => {
+  const { headers, ...rest } = options || {}
   return request(url, {
-    ...options,
-    method: 'GET',
+    ...rest,
     headers: {
       ...commonHeaders(requireAuth),
       'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache'
-    }
+      'Cache-Control': 'no-cache',
+      ...headers
+    },
+    method: 'GET'
   })
 }
 
 export const post = (url, options, requireAuth) => {
+  const { headers, ...rest } = options
   return request(url, {
-    ...options,
-    method: 'POST',
-    headers: commonHeaders(requireAuth)
+    ...rest,
+    headers: { ...commonHeaders(requireAuth), ...headers },
+    method: 'POST'
   })
 }
 
 export const put = (url, options, requireAuth) => {
+  const { headers, ...rest } = options
   return request(url, {
-    ...options,
-    method: 'PUT',
-    headers: commonHeaders(requireAuth)
+    ...rest,
+    headers: { ...commonHeaders(requireAuth), ...headers },
+    method: 'PUT'
   })
 }
 
 export const del = (url, options, requireAuth) => {
+  const { headers, ...rest } = options
   return request(url, {
-    ...options,
-    method: 'DELETE',
-    headers: commonHeaders(requireAuth)
+    ...rest,
+    headers: { ...commonHeaders(requireAuth), ...headers },
+    method: 'DELETE'
   })
 }
 
 export const patch = (url, options, requireAuth) => {
+  const { headers, ...rest } = options
   return request(url, {
-    ...options,
-    method: 'PATCH',
-    headers: commonHeaders(requireAuth)
+    ...rest,
+    headers: { ...commonHeaders(requireAuth), ...headers },
+    method: 'PATCH'
+  })
+}
+
+export const upload = (url, options, requireAuth) => {
+  const { headers, ...rest } = options
+  const authHeader = requireAuth ? authorizationHeader() : null
+  return request(url, {
+    ...rest,
+    headers: { ...authHeader },
+    method: 'POST'
   })
 }
 
