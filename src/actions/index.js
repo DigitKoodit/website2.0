@@ -8,6 +8,7 @@ import userRoleActions, { USER_ROLE } from './userRoleActions'
 import authActions, { AUTH } from './authActions'
 import eventActions, { EVENT } from './eventActions'
 import fileActions, { FILE } from './fileActions'
+import fileUploadActions, { FILE_UPLOAD } from './fileUploadActions'
 
 export {
   loginActions,
@@ -19,7 +20,8 @@ export {
   userRoleActions,
   authActions,
   eventActions,
-  fileActions
+  fileActions,
+  fileUploadActions
 }
 
 export const types = {
@@ -32,5 +34,6 @@ export const types = {
   USER_ROLE,
   AUTH,
   EVENT,
-  FILE
+  FILE,
+  FILE_UPLOAD
 }

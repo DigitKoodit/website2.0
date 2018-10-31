@@ -19,7 +19,8 @@ const rootReducer =
     sponsors: generateReducer(types.SPONSOR),
     userAccounts: generateReducer(types.USER_ACCOUNT),
     events: generateReducer(types.EVENT),
-    files: generateReducer(types.FILE)
+    files: generateReducer(types.FILE),
+    fileUploads: generateReducer(types.FILE_UPLOAD)
   }
 
 export default rootReducer

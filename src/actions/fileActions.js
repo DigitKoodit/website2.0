@@ -7,11 +7,10 @@ import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpe
 import { loginActions } from '.'
 
 const fileCrud = createCrudService('/api/intra/file', true)
-// const uploadCrud = createCrudService('/api/intra/upload', true)
 
 const initialItem = {
   id: INITIAL_ID,
-  name: 'Uusi',
+  name: '',
   filename: ''
 }
 
