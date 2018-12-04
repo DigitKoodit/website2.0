@@ -7,8 +7,8 @@ import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const sponsorPublicCrud = createCrudService('/api/content/sponsor')
-const sponsorPrivateCrud = createCrudService('/api/intra/sponsor', true)
+const sponsorPublicCrud = createCrudService('/api/content/sponsors')
+const sponsorPrivateCrud = createCrudService('/api/intra/sponsors', true)
 const initialItem = { id: INITIAL_ID, name: 'Uusi', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
 
 const SPONSOR = createCrudTypes(actionKeys.sponsor)

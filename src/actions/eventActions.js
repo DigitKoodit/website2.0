@@ -7,8 +7,8 @@ import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpe
 import moment from 'moment'
 import { loginActions } from '.'
 
-const eventPublicCrud = createCrudService('/api/event')
-const eventPrivateCrud = createCrudService('/api/intra/event', true)
+const eventPublicCrud = createCrudService('/api/events')
+const eventPrivateCrud = createCrudService('/api/intra/events', true)
 const initialItem = {
   id: INITIAL_ID,
   name: 'Uusi',

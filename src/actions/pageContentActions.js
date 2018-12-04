@@ -6,8 +6,8 @@ import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const pageItemPublicCrud = createCrudService('/api/content')
-const pageItemPrivateCrud = createCrudService('/api/intra/content', true)
+const pageItemPublicCrud = createCrudService('/api/contents')
+const pageItemPrivateCrud = createCrudService('/api/intra/contents', true)
 
 const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', published: false, content: '' }
 

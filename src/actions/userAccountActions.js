@@ -5,7 +5,7 @@ import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const userAccountCrud = createCrudService('/api/intra/account', true)
+const userAccountCrud = createCrudService('/api/intra/accounts', true)
 
 const USER_ACCOUNT = createCrudTypes(actionKeys.userAccount)
 

@@ -4,7 +4,7 @@ import createCrudService from '../services/createCrudService'
 import { loginActions } from '.'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const userRoleCrud = createCrudService('/api/intra/account/roles', true)
+const userRoleCrud = createCrudService('/api/intra/accounts/roles', true)
 
 const USER_ROLE = createCrudTypes(actionKeys.userRole)
 

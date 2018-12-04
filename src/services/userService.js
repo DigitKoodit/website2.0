@@ -1,7 +1,7 @@
 import urlTemplate from 'url-template'
 import { get, post, put, del } from '../api/apiHelper'
 
-const userBaseUrl = '/api/user/{userId}'
+const userBaseUrl = '/api/users/{userId}'
 const userTemplate = urlTemplate.parse(userBaseUrl)
 
 const loginUrl = '/api/login'

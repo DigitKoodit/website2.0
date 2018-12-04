@@ -6,10 +6,10 @@ import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const navItemPublicCrud = createCrudService('/api/content/navigation')
+const navItemPublicCrud = createCrudService('/api/contents/navigation')
 // Private routes require authorization header
 const requireAuth = true
-const navItemPrivateCrud = createCrudService('/api/intra/content/navigation', requireAuth)
+const navItemPrivateCrud = createCrudService('/api/intra/contents/navigation', requireAuth)
 const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, isVisible: false }
 
 const siteNavigationActions = {
