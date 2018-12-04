@@ -1,0 +1,18 @@
+.file-grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.file-item {
+  background-color: #1771e3;
+  margin: 0.5rem;
+  color: white;
+  overflow: hidden;
+  border-radius: 2px;
+  max-width: 200px;
+  &>p {
+    padding: 0 1rem;
+  }
+}

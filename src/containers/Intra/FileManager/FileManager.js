@@ -8,6 +8,9 @@ import { BaseContent, VerticalList } from '../../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../../components/Intra/ModelEditor'
 import { INITIAL_ID } from '../../../constants'
 import Dropzone from '../../../components/Dropzone'
+import FileGrid from './FileGrid'
+
+import '../../../styles/fileManager.scss'
 
 class FileManager extends Component {
   state = {
@@ -76,11 +79,7 @@ class FileManager extends Component {
           <Title>Tiedostot</Title>
           <Columns>
             <Column isFullWidth>
-              <FileList
-                items={files}
-                onItemClick={this.handleItemClick}
-                originalItems={files}
-              />
+              <FileGrid files={files} />
               <Dropzone handleDrop={uploadFile}>
                 <Box>
                   {(activeItemId && find(files, { id: activeItemId }))
@@ -116,6 +115,7 @@ const FileList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
   <VerticalList
     items={items}
     listItemRenderer={item => (
+
       <div key={item.id}>
         <p>{item.filename}</p>
         <img width={200} alt={item.filename} src={`http://localhost:3001/${item.path}`} />
