@@ -1,4 +1,4 @@
-import moment from 'moment'
+// import moment from 'moment'
 import { actionKeys } from './actionTypes'
 import { crudTypes, createCrudTypes, createAction } from '../store/crudHelpers'
 import { displaySnackbar } from './uiActions'
@@ -8,8 +8,6 @@ import { upload } from '../api/apiHelper'
 
 const baseUrl = '/api/intra/files/uploads'
 
-// const upload = (body, contentType) => upload(baseUrl, { body }, true)
-
 const FILE_UPLOAD = createCrudTypes(actionKeys.fileUpload)
 
 const fileUploadActions = {
@@ -17,20 +15,19 @@ const fileUploadActions = {
   success: (response, crudType) => createAction(FILE_UPLOAD[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(FILE_UPLOAD[crudType].ERROR, { error }),
   clearErrors() { return this.error({}, crudTypes.UPDATE) },
-  prepareUpload(files) {
-    return (dispatch, getState) => {
-      console.log(files)
-      const filesWithId = files.map(file => ({
-        id: file.name || moment().format(),
-        name: file.name,
-        preview: file.preview,
-        size: file.size,
-        type: file.type
-      }))
-      clearUploadBuffer(getState().fileUploads.records)
-      return dispatch(this.success(files, crudTypes.FETCH))
-    }
-  },
+  // prepareUpload(files) {
+  //   return (dispatch, getState) => {
+  //     const filesWithId = files.map(file => ({
+  //       id: file.name || moment().format(),
+  //       name: file.name,
+  //       preview: file.preview,
+  //       size: file.size,
+  //       type: file.type
+  //     }))
+  //     clearUploadBuffer(getState().fileUploads.records)
+  //     return dispatch(this.success(files, crudTypes.FETCH))
+  //   }
+  // },
   cancelUploads() {
     return (dispatch, getState) => {
       getState().fileUpload.records.forEach(pendingFile => {
@@ -41,7 +38,6 @@ const fileUploadActions = {
   },
   uploadFile(files) {
     return dispatch => {
-      console.log(files)
       dispatch(this.pending(crudTypes.CREATE))
       const formData = new FormData()
       files.forEach(file =>

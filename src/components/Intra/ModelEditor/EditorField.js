@@ -11,7 +11,7 @@ const EditorField = ({ label, children, tooltipMessage }) => {
     <Field isHorizontal>
       <FieldLabel>
         {tooltipMessage
-          ? <Tooltip message={tooltipMessage}>
+          ? <Tooltip message={tooltipMessage} className='ml-1'>
             {LabelComponent}
           </Tooltip>
           : LabelComponent

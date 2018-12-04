@@ -3,11 +3,11 @@ import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
 import find from 'lodash/find'
 import { Column, Title, Columns, Box, MenuLink } from 'bloomer'
-import { fileActions, fileUploadActions } from '../../actions'
-import { BaseContent, VerticalList } from '../../components/Layout'
-import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
-import { INITIAL_ID } from '../../constants'
-import Dropzone from '../../components/Dropzone'
+import { fileActions, fileUploadActions } from '../../../actions'
+import { BaseContent, VerticalList } from '../../../components/Layout'
+import ModelEditor, { EditorField, EditorInput } from '../../../components/Intra/ModelEditor'
+import { INITIAL_ID } from '../../../constants'
+import Dropzone from '../../../components/Dropzone'
 
 class FileManager extends Component {
   state = {
@@ -68,7 +68,7 @@ class FileManager extends Component {
   }
 
   render = () => {
-    const { files, fileUploads, prepareUpload } = this.props
+    const { files, fileUploads, uploadFile } = this.props
     const { activeItemId } = this.state
     return (
       <BaseContent>
@@ -81,7 +81,7 @@ class FileManager extends Component {
                 onItemClick={this.handleItemClick}
                 originalItems={files}
               />
-              <Dropzone handleDrop={prepareUpload}>
+              <Dropzone handleDrop={uploadFile}>
                 <Box>
                   {(activeItemId && find(files, { id: activeItemId }))
                     ? this.renderEditor(find(files, { id: activeItemId }))
@@ -106,7 +106,7 @@ FileManager.propTypes = {
   files: PropTypes.array.isRequired,
   fileUploads: PropTypes.array.isRequired,
   fetchFiles: PropTypes.func.isRequired,
-  prepareUpload: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
   addFile: PropTypes.func.isRequired,
   updateFile: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired
@@ -146,7 +146,7 @@ const mapDispatchToProps = (dispatch) => ({
   addFile: item => dispatch(fileActions.addFile(item)),
   updateFile: item => dispatch(fileActions.updateFile(item)),
   removeFile: item => dispatch(fileActions.removeFile(item)),
-  prepareUpload: files => dispatch(fileUploadActions.uploadFile(files))
+  uploadFile: files => dispatch(fileUploadActions.uploadFile(files))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileManager)
