@@ -6,7 +6,7 @@ import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpe
 import { loginActions } from '.'
 import { upload } from '../api/apiHelper'
 
-const baseUrl = '/api/intra/file/upload'
+const baseUrl = '/api/intra/files/uploads'
 
 // const upload = (body, contentType) => upload(baseUrl, { body }, true)
 

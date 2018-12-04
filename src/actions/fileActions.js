@@ -6,7 +6,7 @@ import { INITIAL_ID } from '../constants'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 import { loginActions } from '.'
 
-const fileCrud = createCrudService('/api/intra/file', true)
+const fileCrud = createCrudService('/api/intra/files', true)
 
 const initialItem = {
   id: INITIAL_ID,

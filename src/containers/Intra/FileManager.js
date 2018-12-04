@@ -75,14 +75,12 @@ class FileManager extends Component {
         <Column>
           <Title>Tiedostot</Title>
           <Columns>
-            <Column isSize='narrow'>
+            <Column isFullWidth>
               <FileList
                 items={files}
                 onItemClick={this.handleItemClick}
                 originalItems={files}
               />
-            </Column>
-            <Column isFullWidth>
               <Dropzone handleDrop={prepareUpload}>
                 <Box>
                   {(activeItemId && find(files, { id: activeItemId }))
@@ -108,7 +106,6 @@ FileManager.propTypes = {
   files: PropTypes.array.isRequired,
   fileUploads: PropTypes.array.isRequired,
   fetchFiles: PropTypes.func.isRequired,
-  initNewFile: PropTypes.func.isRequired,
   prepareUpload: PropTypes.func.isRequired,
   addFile: PropTypes.func.isRequired,
   updateFile: PropTypes.func.isRequired,
@@ -119,17 +116,16 @@ const FileList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
   <VerticalList
     items={items}
     listItemRenderer={item => (
-      <ListItem
-        key={item.id}
-        item={item}
-        onItemClick={onItemClick}
-      />
+      <div key={item.id}>
+        <p>{item.filename}</p>
+        <img width={200} alt={item.filename} src={`http://localhost:3001/${item.path}`} />
+      </div>
     )} />
 
 const ListItem = ({ item, onItemClick }) => (
   <li key={item.id} onClick={() => onItemClick(item.id)}>
     <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
-      {item.name}
+      {item.filename}
     </MenuLink>
   </li>
 )
@@ -147,7 +143,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchFiles: () => dispatch(fileActions.fetchFiles(true)),
   fetchFile: fileId => dispatch(fileActions.fetchFile(fileId)),
-  initNewFile: () => dispatch(fileActions.prepareNew()),
   addFile: item => dispatch(fileActions.addFile(item)),
   updateFile: item => dispatch(fileActions.updateFile(item)),
   removeFile: item => dispatch(fileActions.removeFile(item)),
