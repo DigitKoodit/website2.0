@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
 import find from 'lodash/find'
-import { Column, Title, Columns, Box, MenuLink } from 'bloomer'
+import { Column, Title, Columns, Box, MenuLink, Media, MediaContent, MediaRight, Delete, Button } from 'bloomer'
+import { Route } from 'react-router-dom'
 import { fileActions, fileUploadActions } from '../../../actions'
-import { BaseContent, VerticalList } from '../../../components/Layout'
+import { BaseContent } from '../../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../../components/Intra/ModelEditor'
-import { INITIAL_ID } from '../../../constants'
 import Dropzone from '../../../components/Dropzone'
 import FileGrid from './FileGrid'
+import Modal from '../../../components/Modal'
 
 import '../../../styles/fileManager.scss'
 
@@ -70,6 +71,13 @@ class FileManager extends Component {
     this.clearSelection()
   }
 
+  navigateToFileDetails = file => {
+    this.props.history.push(`/intra/cms/files/${file.id}`)
+  }
+  navigateToFiles = () => {
+    this.props.history.push(`/intra/cms/files/`)
+  }
+
   render = () => {
     const { files, fileUploads, uploadFile } = this.props
     const { activeItemId } = this.state
@@ -79,7 +87,7 @@ class FileManager extends Component {
           <Title>Tiedostot</Title>
           <Columns>
             <Column isFullWidth>
-              <FileGrid files={files} />
+              <FileGrid files={files} onClick={this.navigateToFileDetails} />
               <Dropzone handleDrop={uploadFile}>
                 <Box>
                   {(activeItemId && find(files, { id: activeItemId }))
@@ -96,6 +104,31 @@ class FileManager extends Component {
             </Column>
           </Columns>
         </Column>
+        <Route path='/intra/cms/files/:fileId' render={({ match }) => {
+          const file = this.props.files.find(file => file.id === Number.parseInt(match.params.fileId))
+          return !file
+            ? null
+            : (
+              <Modal isOpen handleClickOutside={this.navigateToFiles}>
+                <Box>
+                  <Media>
+                    <MediaContent>
+                      <Title>{file.description || 'Tiedosto'}</Title>
+                      {JSON.stringify(file)}
+                      <MenuLink>
+                        {`${window.location.origin}/${file.path}`}
+                      </MenuLink>
+
+                      <Button isSize='small' onClick={this.navigateToFiles}>Sulje</Button>
+                    </MediaContent>
+                    <MediaRight>
+                      <Delete onClick={this.navigateToFiles} />
+                    </MediaRight>
+                  </Media>
+                </Box>
+              </Modal >
+            )
+        }} />
       </BaseContent >
     )
   }
@@ -108,31 +141,10 @@ FileManager.propTypes = {
   uploadFile: PropTypes.func.isRequired,
   addFile: PropTypes.func.isRequired,
   updateFile: PropTypes.func.isRequired,
-  removeFile: PropTypes.func.isRequired
-}
-
-const FileList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
-  <VerticalList
-    items={items}
-    listItemRenderer={item => (
-
-      <div key={item.id}>
-        <p>{item.filename}</p>
-        <img width={200} alt={item.filename} src={`http://localhost:3001/${item.path}`} />
-      </div>
-    )} />
-
-const ListItem = ({ item, onItemClick }) => (
-  <li key={item.id} onClick={() => onItemClick(item.id)}>
-    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
-      {item.filename}
-    </MenuLink>
-  </li>
-)
-
-ListItem.propTypes = {
-  item: PropTypes.object,
-  onItemClick: PropTypes.func
+  removeFile: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 }
 
 const mapStateToProps = (state) => ({

@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FileDetails from './FileDetails'
+import FileThumbnail from './FileThumbnail'
 import filePropType from './filePropType'
 
 const FileGrid = ({ files, onClick }) => (
   <div className='file-grid'>
     {files.map(file => (
-      <FileDetails file={file} />
+      <FileThumbnail file={file} onClick={onClick} />
     ))}
   </div>
 )
