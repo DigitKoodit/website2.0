@@ -166,9 +166,9 @@ EventManager.propTypes = {
   validationErrors: PropTypes.shape({ msg: PropTypes.string }),
   fetchEvents: PropTypes.func.isRequired,
   initNewEvent: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   addEvent: PropTypes.func.isRequired,
   updateEvent: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
   removeEvent: PropTypes.func.isRequired
 }
 

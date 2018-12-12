@@ -8,6 +8,8 @@ import { pageContentActions } from '../../actions'
 import { BaseContent } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
+
+import { isNewlyCreated, includesNewlyCreated } from '../../store/helpers'
 import { INITIAL_ID } from '../../constants'
 
 class ContentManager extends PureComponent {
@@ -18,9 +20,22 @@ class ContentManager extends PureComponent {
     this.props.fetchPages()
   }
 
-  handleItemClick = itemId => this.setState({ activeItemId: itemId })
+  componentDidUpdate = prevProps => {
+    const { pages } = this.props
+    if(prevProps.pages.length < pages.length && includesNewlyCreated(pages)) {
+      this.handleActiveItemChange(INITIAL_ID)
+    }
+  }
 
-  clearSelection = () => this.setState({ activeItemId: null })
+  handleActiveItemChange = itemId => {
+    this.setState({ activeItemId: itemId })
+    this.props.clearErrors()
+  }
+
+  clearSelection = () => {
+    this.setState({ activeItemId: null })
+    this.props.clearErrors()
+  }
 
   renderEditor = item => <ModelEditor
     item={item}
@@ -28,11 +43,13 @@ class ContentManager extends PureComponent {
     onCancel={this.clearSelection}
     onRemove={this.removeNavItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
-      const isNewlyCreated = item.id < 0
       return (
         <Columns>
           <Column>
-            {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
+            {!isNewlyCreated(item) &&
+              <EditorField label='Id' >
+                {item.id}
+              </EditorField>}
             <EditorField label='Nimi'>
               <EditorInput
                 field='title'
@@ -81,7 +98,7 @@ class ContentManager extends PureComponent {
             <Column isSize='narrow'>
               <PageList
                 items={pages}
-                onItemClick={this.handleItemClick}
+                onItemClick={this.handleActiveItemChange}
                 originalItems={pages}
               />
             </Column>
@@ -131,6 +148,7 @@ ContentManager.propTypes = {
   pages: PropTypes.array.isRequired,
   fetchPages: PropTypes.func.isRequired,
   initNewPage: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   addPage: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   removePage: PropTypes.func.isRequired
@@ -141,6 +159,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  clearErrors: () => dispatch(pageContentActions.clearErrors()),
   fetchPages: () => dispatch(pageContentActions.fetchPages()),
   fetchPage: pageId => dispatch(pageContentActions.fetchPage(pageId)),
   initNewPage: () => dispatch(pageContentActions.prepareNew()),
