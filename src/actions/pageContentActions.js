@@ -15,6 +15,7 @@ const pageContentActions = {
   pending: (crudType) => createAction(SITE_PAGE[crudType].PENDING),
   success: (response, crudType) => createAction(SITE_PAGE[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(SITE_PAGE[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchPage(pageId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
