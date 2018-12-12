@@ -66,7 +66,6 @@
     "test": "react-scripts test",
     "lint": "eslint src/* --fix"
   },
-  "proxy": "http://localhost:3001",
   "browserslist": [
     ">0.2%",
     "not dead",
