@@ -1,43 +1,61 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Field, FieldLabel, FieldBody, Control, Checkbox as BCheckbox } from 'bloomer'
+import { Control, Checkbox as BCheckbox } from 'bloomer'
+import EditorField from '../../Intra/ModelEditor/EditorField'
 
-const InputCheck = ({ label, value, handleChange, options = {}, ...inputProps }) => {
+const InputCheck = ({ type,
+  label,
+  placeholder,
+  value,
+  onChange,
+  options,
+  hint,
+  isHorizontal,
+  ...inputAttributes }) => {
+  const { containerClass, labelClass } = options || {}
   const inputs = Array.isArray(value)
-    ? value.map((input, i) => renderCheckbox(input, handleChange, inputProps))
-    : renderCheckbox(value, handleChange, inputProps)
+    ? value.map((input, i) => renderCheckbox(input, onChange, inputAttributes))
+    : renderCheckbox(value, onChange, inputAttributes)
 
   return (
-    <Field isHorizontal>
-      <FieldLabel>
-        <span>{label}</span>
-      </FieldLabel>
-      <FieldBody>
-        {inputs}
-      </FieldBody>
-    </Field>
+    <EditorField
+      label={label}
+      tooltipMessage={hint}
+      isHorizontal={isHorizontal}
+      className={containerClass}
+      labelClass={labelClass}
+    >
+      {inputs}
+    </EditorField >
   )
 }
 
-const renderCheckbox = (input, handleChange, { className }) => (
-  <Field key={input.name}>
-    <Control>
-      <BCheckbox
-        type='checkbox'
-        className={className}
-        name={input.name}
-        checked={input.value}
-        onChange={handleChange}>
-        {input.label}
-      </BCheckbox>
-    </Control>
-  </Field>
+const renderCheckbox = (input, onChange, { className }) => (
+  <Control key={input.name}>
+    <BCheckbox
+      type='checkbox'
+      className={className}
+      name={input.name}
+      checked={input.value}
+      onChange={onChange}>
+      {input.label}
+    </BCheckbox>
+  </Control>
 )
+
 InputCheck.propTypes = {
+  type: PropTypes.string,
   label: PropTypes.string,
+  placeholder: PropTypes.string,
+  labelProps: PropTypes.string,
+  hint: PropTypes.string,
   value: PropTypes.bool,
-  handleChange: PropTypes.func,
-  options: PropTypes.object
+  onChange: PropTypes.func,
+  isHorizontal: PropTypes.bool,
+  options: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string
+  })
 }
 
 export default InputCheck

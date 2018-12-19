@@ -60,7 +60,7 @@ const parseCalendarDataSimple = data =>
       description: event.description,
       location: event.location
     }))
-    if (events && events.length > 0) {
+    if(events && events.length > 0) {
       return resolve(events)
     }
     throw new Error('No calendar events')

@@ -50,7 +50,7 @@ export const get = (url, options, requireAuth) => {
 }
 
 export const post = (url, options, requireAuth) => {
-  const { headers, ...rest } = options
+  const { headers, ...rest } = options || {}
   return request(url, {
     ...rest,
     headers: { ...commonHeaders(requireAuth), ...headers },
@@ -59,7 +59,7 @@ export const post = (url, options, requireAuth) => {
 }
 
 export const put = (url, options, requireAuth) => {
-  const { headers, ...rest } = options
+  const { headers, ...rest } = options || {}
   return request(url, {
     ...rest,
     headers: { ...commonHeaders(requireAuth), ...headers },
@@ -68,7 +68,7 @@ export const put = (url, options, requireAuth) => {
 }
 
 export const del = (url, options, requireAuth) => {
-  const { headers, ...rest } = options
+  const { headers, ...rest } = options || {}
   return request(url, {
     ...rest,
     headers: { ...commonHeaders(requireAuth), ...headers },
@@ -77,7 +77,7 @@ export const del = (url, options, requireAuth) => {
 }
 
 export const patch = (url, options, requireAuth) => {
-  const { headers, ...rest } = options
+  const { headers, ...rest } = options || {}
   return request(url, {
     ...rest,
     headers: { ...commonHeaders(requireAuth), ...headers },
@@ -86,7 +86,7 @@ export const patch = (url, options, requireAuth) => {
 }
 
 export const upload = (url, options, requireAuth) => {
-  const { headers, ...rest } = options
+  const { headers, ...rest } = options || {}
   const authHeader = requireAuth ? authorizationHeader() : null
   return request(url, {
     ...rest,
