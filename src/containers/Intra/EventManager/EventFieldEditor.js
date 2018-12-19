@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Form from '../../Enroll/Form'
+import Form from '../../../components/Enroll/Form'
 import { Label } from 'bloomer'
 
 const defaultFields = [
@@ -18,14 +18,16 @@ const defaultFields = [
   { name: 'required', type: 'checkbox', label: 'Pakollinen', defaultValue: false, isSize: 'small' },
   { name: 'public', type: 'checkbox', label: 'Näytetään lomakkeessa', defaultValue: false, isSize: 'small' },
   // { name: 'order', type: 'tex', label: 'Järjestys', defaultValue: null, isSize: 'small'},
-  // { name: 'options', type: 'tex', label: 'Asetukset', defaultValue: null, isSize: 'small'},
-  { name: 'maxParticipant', type: 'text', label: 'Maksimi osallistujamäärä', defaultValue: null, isSize: 'small' },
-  { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' },
   { name: 'reserveEndAt', type: 'text', label: 'Kiintiön päättymisaika', defaultValue: null, isSize: 'small' }
 ]
 
 const textInputFields = [
-  { name: 'maxLength', type: 'text', label: 'Maksimi merkkimäärä', defaultValue: null, isSize: 'small' }
+  { name: 'maxLength', type: 'text', label: 'Maksimi merkkimäärä', defaultValue: null, isSize: 'small' },
+  { name: 'maxLines', type: 'text', label: 'Maksimi rivit', defaultValue: null, isSize: 'small' }
+]
+
+const optionInputFields = [
+  { name: 'value', type: 'arrayEditor', label: 'Valinnat', defaultValue: [], isSize: 'small' }
 ]
 
 const defaultValues = initialValues => {
@@ -45,8 +47,8 @@ export default class EventFieldEditor extends PureComponent {
     return (
       <Form
         onSave={values => Promise.resolve(onSave(values))}
-        fields={isTextInput ? [...defaultFields, ...textInputFields] : defaultFields}
-        defaultValues={initialValues || defaultValues}
+        fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
+        defaultValues={defaultValues(initialValues)}
         validate={values => console.log('VALIDATE', values)}
       />
     )

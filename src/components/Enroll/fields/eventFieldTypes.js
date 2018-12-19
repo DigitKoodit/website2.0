@@ -19,8 +19,10 @@ export const options = {
       {
         name: null,
         label: null,
-        default: false,
-        value: false
+        isDefault: false,
+        value: false,
+        maxParticipants: null,
+        reserveCount: null
       }
     ],
     fieldName: 'Monivalinta',
@@ -31,8 +33,10 @@ export const options = {
       {
         name: null,
         label: null,
-        default: false,
-        value: false
+        isDefault: false,
+        value: false,
+        maxParticipants: null,
+        reserveCount: null
       }
     ],
     fieldName: 'Valintaruudut',
@@ -43,8 +47,10 @@ export const options = {
       {
         name: null,
         label: null,
-        default: false,
-        value: null
+        isDefault: false,
+        value: null,
+        maxParticipants: null,
+        reserveCount: null
       }
     ],
     fieldName: 'Avattava',

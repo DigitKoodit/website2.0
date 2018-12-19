@@ -9,7 +9,6 @@ import { eventFieldTypes } from '../../../components/Enroll/fields'
 const fieldActionTypes = {
   ADD: 'ADD',
   REMOVE: 'REMOVE',
-  CREATE: 'CREATE',
   UPDATE: 'UPDATE'
 }
 
@@ -25,8 +24,8 @@ class EventFieldManager extends Component {
     return (
       <Fragment>
         {fields.map((field, index) =>
-          <Columns key={field.name + '' + index}>
-            <Column >
+          <Columns className='event-option-field' key={field.name + '' + index}>
+            <Column isSize='2/3'>
               <EventFieldEditor
                 initialValues={field}
                 onSave={updatedField => this.fieldAction(fieldActionTypes.UPDATE, updatedField)()} />
@@ -57,6 +56,7 @@ class EventFieldManager extends Component {
     ADD: (oldFields, newField) => [...oldFields, { ...newField, id: oldFields.length }],
     REMOVE: (oldFields, newField) => oldFields.filter(field => field.id !== newField.id),
     UPDATE: (oldFields, newField) => {
+      // TODO: preserve order and allow reordering
       const filteredFields = oldFields.filter(item => item.id !== newField.id)
       return [...filteredFields, newField]
     }

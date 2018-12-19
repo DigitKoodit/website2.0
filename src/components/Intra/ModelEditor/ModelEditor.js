@@ -54,8 +54,8 @@ class ModelEditor extends PureComponent {
       <Fragment>
         {renderFields(item, this.handleInputChange, this.updateStateItem)}
         {onSave ? <Button className='' isColor='primary' onClick={() => onSave(item)}>Tallenna</Button> : null}
-        {onCancel ? <Button className='' isColor='warning' onClick={() => onCancel(item)}>Peruuta</Button> : null}
-        {onRemove ? <Button className='' isColor='danger' onClick={() => onRemove(item)}>Poista</Button> : null}
+        {onCancel ? <Button className='' isOutlined isColor='warning' onClick={() => onCancel(item)}>Peruuta</Button> : null}
+        {onRemove ? <Button className='' isOutlined isColor='danger' onClick={() => onRemove(item)}>Poista</Button> : null}
       </Fragment >)
   }
   static propTypes = {
