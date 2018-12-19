@@ -13,38 +13,44 @@ const EditorInputPropType = {
   validationErrors: PropTypes.shape({ msg: PropTypes.string })
 }
 
-const EditorInput = ({ model, field, onChange, disabled, validationErrors = {}, isSize = 'small', className = '', type = 'text' }) => (
-  <Fragment>
-    <Input
-      isSize={isSize}
-      className={className}
-      name={field}
-      type={type}
-      disabled={disabled}
-      value={!isNil(model[field]) ? model[field] : ''}
-      isColor={validationErrors[field] ? 'danger' : ''}
-      onChange={onChange} />
-    {validationErrors[field] && <Help isColor='danger'>{validationErrors[field].msg}</Help>}
-  </Fragment>
-)
+const EditorInput = ({ model, field, onChange, disabled, validationErrors = {}, isSize = 'small', className = '', type = 'text' }) => {
+  const composedClassName = `editor-input-field ${className}`
+  return (
+    <Fragment>
+      <Input
+        isSize={isSize}
+        className={composedClassName}
+        name={field}
+        type={type}
+        disabled={disabled}
+        value={!isNil(model[field]) ? model[field] : ''}
+        isColor={validationErrors[field] ? 'danger' : ''}
+        onChange={onChange} />
+      {validationErrors[field] && <Help isColor='danger'>{validationErrors[field].msg}</Help>}
+    </Fragment>
+  )
+}
 
 EditorInput.propTypes = {
   ...EditorInputPropType,
   isSize: PropTypes.string
 }
 
-const EditorCheckbox = ({ model, field, onChange, disabled, validationErrors = {}, className = 'is-inline', type = 'checkbox' }) => (
-  <Fragment>
-    <Checkbox
-      className={className}
-      name={field}
-      type={type}
-      disabled={disabled}
-      checked={!isNil(model[field]) && model[field]}
-      onChange={onChange} />
-    {validationErrors[field] && <Help isColor='danger'>{validationErrors[field].msg}</Help>}
-  </Fragment>
-)
+const EditorCheckbox = ({ model, field, onChange, disabled, validationErrors = {}, className = 'is-inline', type = 'checkbox' }) => {
+  const composedClassName = `editor-input-field ${className}`
+  return (
+    <Fragment>
+      <Checkbox
+        className={composedClassName}
+        name={field}
+        type={type}
+        disabled={disabled}
+        checked={!isNil(model[field]) && model[field]}
+        onChange={onChange} />
+      {validationErrors[field] && <Help isColor='danger'>{validationErrors[field].msg}</Help>}
+    </Fragment>
+  )
+}
 
 EditorCheckbox.propTypes = EditorInputPropType
 

@@ -4,9 +4,10 @@ import isFunction from 'lodash/isFunction'
 import noop from 'lodash/noop'
 import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
-import { withFormik } from 'formik'
-import selectInput from '../../components/Enroll/fields'
 import { Button } from 'bloomer'
+import { withFormik } from 'formik'
+import selectInput from './fields'
+import ArrayEditor from '../Intra/ModelEditor/ArrayEditor'
 
 const InnerForm = ({
   values,
@@ -17,7 +18,7 @@ const InnerForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-  submitRenderer = 'Tallenna'
+  submitRenderer
 }) =>
   <form className='form' onSubmit={handleSubmit}>
     {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, ...rest }, index) => {
@@ -27,11 +28,11 @@ const InnerForm = ({
             {customRenderer({ name, label, value: values[name], values, handleChange })}
           </Fragment>)
       }
-      const Input = selectInput(type)
+      const Input = type === 'arrayEditor' ? ArrayEditor : selectInput(type)
       return (
         <Fragment key={name}>
           <Input
-            className='mb-3'
+            className='editor-input-field mb-3'
             type={type}
             name={name}
             label={label}
@@ -46,9 +47,12 @@ const InnerForm = ({
         </Fragment>
       )
     })}
-    <Button type='submit' isSize='small' isColor='success' disabled={isSubmitting}>
-      {isFunction(submitRenderer) ? submitRenderer() : submitRenderer}
-    </Button>
+
+    {submitRenderer &&
+      <Button className='mt-1' type='submit' isSize='small' isColor='success' disabled={isSubmitting}>
+        {isFunction(submitRenderer) ? submitRenderer() : submitRenderer}
+      </Button>
+    }
   </form>
 
 InnerForm.propTypes = {
@@ -71,7 +75,10 @@ InnerForm.propTypes = {
 }
 // Wrap our form with the using withFormik HoC
 const Form = withFormik({
-  mapPropsToValues: props => mapValues(props.defaultValues, value => !isNil(value) ? value : ''),
+  mapPropsToValues: props => mapValues(props.defaultValues, value =>
+    Array.isArray(value)
+      ? value.map(serializeForInput)
+      : serializeForInput(value)),
   validate: (values, props) => {
     const errors = props.validate(values)
     return errors
@@ -89,6 +96,8 @@ const Form = withFormik({
       .catch(errors => setErrors(errors))
   }
 })(InnerForm)
+
+const serializeForInput = value => !isNil(value) ? value : ''
 
 Form.propTypes = {
   onSave: PropTypes.func.isRequired,

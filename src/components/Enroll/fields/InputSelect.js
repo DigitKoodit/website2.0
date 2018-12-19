@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Control, Select, Label } from 'bloomer'
 
-const InputSelect = ({ label, value, handleChange, options, ...attributes }) => {
+const InputSelect = ({ label, value, onChange, options, ...attributes }) => {
   const selectOptions = value.map(option =>
     <option
       key={option.name}
@@ -16,7 +16,7 @@ const InputSelect = ({ label, value, handleChange, options, ...attributes }) => 
       <Control>
         <Select
           name={label}
-          onChange={handleChange}
+          onChange={onChange}
           value={value[1].name}
           {...attributes}
         >
@@ -31,7 +31,7 @@ const InputSelect = ({ label, value, handleChange, options, ...attributes }) => 
 InputSelect.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  handleChange: PropTypes.func,
+  onChange: PropTypes.func,
   options: PropTypes.object
 }
 

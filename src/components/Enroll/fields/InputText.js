@@ -1,48 +1,54 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
-import { Field, FieldLabel, FieldBody, Control, Input, TextArea } from 'bloomer'
-
+import { Control, Input, TextArea } from 'bloomer'
+import EditorField from '../../Intra/ModelEditor/EditorField'
 // TODO: use horizontal layout
-const InputText = ({ type, label, value, handleChange, options, labelProps, ...inputAttributes }) => {
-  const { containerClass, labelClass, lines, placeholder, maxLength } = options || {}
+const InputText = ({ type,
+  label,
+  placeholder,
+  value,
+  onChange,
+  options,
+  hint,
+  isHorizontal,
+  ...inputAttributes }) => {
+  const { containerClass, labelClass, lines, maxLength } = options || {}
 
   return (
-    <Field isHorizontal className={containerClass}>
-      <FieldLabel>
-        {label && (
-          <span className={labelClass}>{label}</span>
-        )}
-      </FieldLabel>
-      <FieldBody>
-        <Field>
-          <Control isExpanded>
-            {(isNil(lines) || lines <= 1)
-              ? (
-                <Input
-                  type={type}
-                  placeholder={placeholder}
-                  value={value}
-                  maxLength={maxLength}
-                  onChange={handleChange}
-                  name={label}
-                  {...inputAttributes}
-                />)
-              : (
-                <TextArea
-                  type={type}
-                  placeholder={placeholder}
-                  value={value}
-                  maxLength={maxLength}
-                  onChange={handleChange}
-                  name={label}
-                  {...inputAttributes}
-                />
-              )}
-          </Control>
-        </Field>
-      </FieldBody>
-    </Field>
+    <EditorField
+      label={label}
+      tooltipMessage={hint}
+      isHorizontal={isHorizontal}
+      className={containerClass}
+      labelClass={labelClass}
+    >
+      <Control isExpanded>
+        {(isNil(lines) || lines <= 1)
+          ? (
+            <Input
+              type={type}
+              placeholder={placeholder}
+              value={value}
+              maxLength={maxLength}
+              onChange={onChange}
+              name={label}
+              {...inputAttributes}
+            />)
+          : (
+            <TextArea
+              type={type}
+              placeholder={placeholder}
+              value={value}
+              maxLength={maxLength}
+              onChange={onChange}
+              name={label}
+              {...inputAttributes}
+            />
+          )}
+      </Control>
+    </EditorField>
+
   )
 }
 
@@ -54,9 +60,10 @@ InputText.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  handleChange: PropTypes.func,
+  onChange: PropTypes.func,
   options: PropTypes.shape({
     containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
     lines: PropTypes.number
   })
 }

@@ -1,0 +1,17 @@
+.field-label {
+  text-align: left;
+}
+
+.editor-input-field {
+  max-width: 400px;
+}
+
+.event-option-field {
+  margin: 1rem 0.5rem;
+  &:nth-child(2n+1) {
+    >.column {
+      background-color: #f6fbff;
+      ;
+    }
+  }
+}
