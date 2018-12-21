@@ -13,13 +13,23 @@ const history = createHistory()
 
 const store = configureStore(history)
 
-ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-)
+const render = Component =>
+  ReactDOM.render(
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Component />
+      </ConnectedRouter>
+    </Provider>,
+    document.getElementById('root')
+  )
+
+render(App)
 
 serviceWorker.unregister()
+
+if(process.env.NODE_ENV !== 'development' && module.hot) {
+  module.hot.accept('./containers/App', () => {
+    const NextApp = require('./containers/App').default
+    render(NextApp)
+  })
+}
