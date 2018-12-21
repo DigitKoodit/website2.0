@@ -1,27 +1,14 @@
 import React from 'react'
-import Form from '../../components/Form'
-import PropTypes from 'prop-types'
+import { Switch, Route } from 'react-router-dom'
+import EnrollListPage from './EnrollListPage'
+import EnrollEventPage from './EnrollEventPage'
 
-const defaultFields = [
-  { name: 'firstName', type: 'text', placeholder: 'Etunimi', defaultValue: null },
-  { name: 'lastname', type: 'text', placeholder: 'Sukunimi', defaultValue: null },
-  { name: 'organization', type: 'text', placeholder: 'Ainejärjestö', defaultValue: null },
-  { name: 'studentYears', type: 'number', placeholder: 'Opiskeluvuosi', defaultValue: null }
-]
-
-const defaultValues = defaultFields.reduce((acc, field) => ({ ...acc, [field.name]: field.defaultValue }), {})
-
-const EnrollPage = ({ events, ...rest }) =>
-  <Form
-    fields={defaultFields}
-    defaultValues={defaultValues}
-    onSave={values => {
-      return Promise.resolve()
-    }}
-  />
-
-EnrollPage.propTypes = {
-  events: PropTypes.array
-}
+const EnrollPage = () =>
+  <Switch>
+    <Route path='/ilmo' exact component={EnrollListPage} />
+    <Route path='/ilmo/:eventId' exact render={({ match }) =>
+      <EnrollEventPage eventId={match.params.eventId} />
+    } />
+  </Switch>
 
 export default EnrollPage

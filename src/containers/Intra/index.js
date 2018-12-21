@@ -53,7 +53,7 @@ const IntraPageComponent = ({ loading }) => {
     return (
       <Base>
         <Column>
-          <Title size={6}>Ladataan...</Title>
+          <Title isSize={6}>Ladataan...</Title>
         </Column>
       </Base>
     )

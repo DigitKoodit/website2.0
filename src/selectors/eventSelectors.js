@@ -2,7 +2,7 @@ import createCachedSelector from 're-reselect'
 import { createSelector } from 'reselect'
 import moment from 'moment'
 
-const getEventsFromArguments = arg => arg.pages ? arg.pages.records : arg
+const getEventsFromArguments = arg => arg.events ? arg.events.records : arg
 
 export const findEventById = createCachedSelector(
   getEventsFromArguments,
@@ -15,8 +15,14 @@ export const findEventById = createCachedSelector(
 export const findActiveEvents = createSelector(
   getEventsFromArguments,
   events => events.filter(event => {
+    return event.isVisible && moment().isBetween(event.activeAt, event.activeUntil)
+  })
+)
+
+export const findUpComingEvents = createSelector(
+  getEventsFromArguments,
+  events => events.filter(event => {
     const activeAt = moment(event.activeAt)
-    const activeUntil = moment(event.activeAt)
-    return moment().isBetween(activeAt, activeUntil)
+    return event.isVisible && moment().isBefore(activeAt)
   })
 )

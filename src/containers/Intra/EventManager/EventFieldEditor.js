@@ -7,7 +7,7 @@ const defaultFields = [
   {
     name: 'fieldName',
     type: 'text',
-    label: null,
+    labπel: null,
     defaultValue: null,
     readOnly: true,
     isSize: 'small',
@@ -16,7 +16,7 @@ const defaultFields = [
   { name: 'label', type: 'text', label: 'Nimi', defaultValue: null, isSize: 'small' },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
   { name: 'required', type: 'checkbox', label: 'Pakollinen', defaultValue: false, isSize: 'small' },
-  { name: 'public', type: 'checkbox', label: 'Näytetään lomakkeessa', defaultValue: false, isSize: 'small' },
+  { name: 'public', type: 'checkbox', label: 'Näytetään vastauksissa', defaultValue: false, isSize: 'small' },
   // { name: 'order', type: 'tex', label: 'Järjestys', defaultValue: null, isSize: 'small'},
   { name: 'reserveEndAt', type: 'text', label: 'Kiintiön päättymisaika', defaultValue: null, isSize: 'small' }
 ]
