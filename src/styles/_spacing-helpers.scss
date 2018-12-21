@@ -4,7 +4,6 @@
 
 $spaceamounts: (0, 0.5, 0.75, 1, 1.5, 1.75, 2, 3, 4, 5, 10);
 $sides: (top, bottom, left, right);
-
 @each $space in $spaceamounts {
   $i: index($spaceamounts, $space)-1;
   .m-#{$i} {
@@ -12,6 +11,22 @@ $sides: (top, bottom, left, right);
   }
   .p-#{$i} {
     padding: #{$space}rem !important;
+  }
+}
+
+@each $space in $spaceamounts {
+  $i: index($spaceamounts, $space)-1;
+  .my-#{$i} {
+    margin: #{$space}rem 0 !important;
+  }
+  .mx-#{$i} {
+    margin: 0 #{$space}rem !important;
+  }
+  .py-#{$i} {
+    padding: #{$space}rem 0 !important;
+  }
+  .px-#{$i} {
+    padding: 0 #{$space}rem !important;
   }
 }
 
