@@ -9,7 +9,7 @@ import { withFormik } from 'formik'
 import selectInput from './fields'
 import ArrayEditor from '../Intra/ModelEditor/ArrayEditor'
 
-const InnerForm = ({
+const InnerForm = React.memo(({
   values,
   fields,
   errors,
@@ -18,10 +18,11 @@ const InnerForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-  submitRenderer
+  submitRenderer,
+  setFieldValue
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, ...rest }, index) => {
+    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }, index) => {
       if(customRenderer) {
         return (
           <Fragment key={name}>
@@ -37,10 +38,14 @@ const InnerForm = ({
             name={name}
             label={label}
             required={required}
-            onChange={handleChange}
+            onChange={event => {
+              handleChange(event)
+              customOnChangeHandler && customOnChangeHandler(event, setFieldValue)
+            }}
             onBlur={handleBlur}
             value={values[name]}
             readOnly={readOnly}
+            setFieldValue={setFieldValue}
             {...rest}
           />
           {touched[name] && errors[name] && <div className='form-errors'>{errors[name]}</div>}
@@ -54,12 +59,13 @@ const InnerForm = ({
       </Button>
     }
   </form>
-
+)
 InnerForm.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    label: PropTypes.string
+    label: PropTypes.string,
+    customOnChangeHandler: PropTypes.func
   })).isRequired,
   values: PropTypes.object,
   errors: PropTypes.object,
@@ -67,6 +73,7 @@ InnerForm.propTypes = {
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
   handleSubmit: PropTypes.func,
+  setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   submitRenderer: PropTypes.oneOfType([
     PropTypes.func,

@@ -102,6 +102,13 @@ class EventManager extends PureComponent {
                   onChange={handleInputChange}
                   validationErrors={validationErrors} />
               </EditorField>
+              <EditorField label='Kiintiöiden aukeamisaika' >
+                <DatePicker
+                  selected={moment(item.activeUntil)}
+                  onChange={date => updateStateItem({ activeUntil: date })}
+                  className='input is-small'
+                />
+              </EditorField>
             </div>
             <div className='mb-3'>
               <Subtitle isSize={5}>Lomake</Subtitle>

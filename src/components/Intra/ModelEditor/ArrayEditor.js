@@ -6,15 +6,25 @@ import selectInput from '../../Enroll/fields/index'
 import { Button } from 'bloomer/lib/elements/Button'
 
 const defaultFields = [
-  { name: 'label', type: 'text', label: 'Nimi', defaultValue: null, isSize: 'small' },
+  {
+    name: 'label',
+    type: 'text',
+    label: 'Nimi',
+    defaultValue: null,
+    isSize: 'small',
+    customOnChangeHandler: (event, index, setFieldValue) => {
+      // remove any hazardous characters
+      const nameValue = event.target.value.toLowerCase().replace(/([\\/\-(),#|!@~"&^$=<*])/g, '')
+      setFieldValue(`value[${index}].name`, nameValue)
+    }
+  },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
   { name: 'maxParticipants', type: 'text', label: 'Max osallistujamäärä', defaultValue: null, isSize: 'small' },
-  { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' },
-  { name: 'isDefault', type: 'radio', label: 'Oletusvalinta', defaultValue: false, isSize: 'small' }
+  { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' }
+  // { name: 'isDefault', type: 'radio', label: 'Oletusvalinta', defaultValue: false, isSize: 'small' }
 ]
 
 const newInitialItem = initialValues => {
-  console.log(initialValues)
   const defaultModel = defaultFields.reduce((acc, field) => ({ ...acc, [field.name]: field.defaultValue }), {})
   return { ...defaultModel, ...initialValues }
 }
@@ -24,9 +34,9 @@ export class ArrayEditor extends PureComponent {
     const {
       name: arrayName,
       value: optionValues,
+      setFieldValue,
       onChange
     } = this.props
-    console.log(optionValues)
     return (
       <div className='array-field-container'>
         <FieldArray
@@ -43,11 +53,10 @@ export class ArrayEditor extends PureComponent {
               </Columns>
               {optionValues.map((value, index) =>
                 <Columns key={index}>
-                  {defaultFields.map(({ type, name, label, defaultValue, required, ...rest }) => {
+                  {defaultFields.map(({ type, name, label, defaultValue, required, customOnChangeHandler, ...rest }) => {
                     const Input = selectInput(type)
                     const inputName = `${arrayName}[${index}].${name}`
                     const inputValue = value[name] || (defaultValue != null ? defaultValue : '')
-                    console.log(value, name, value[name], inputValue)
                     return (
                       <Column key={inputName}>
                         <Input
@@ -55,7 +64,10 @@ export class ArrayEditor extends PureComponent {
                           type={type}
                           name={inputName}
                           required={required}
-                          onChange={onChange}
+                          onChange={event => {
+                            onChange(event)
+                            customOnChangeHandler && customOnChangeHandler(event, index, setFieldValue)
+                          }}
                           value={inputValue}
                           {...rest}
                         />
@@ -90,7 +102,8 @@ export class ArrayEditor extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    setFieldValue: PropTypes.func.isRequired
   }
 }
 

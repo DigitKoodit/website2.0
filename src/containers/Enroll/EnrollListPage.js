@@ -58,7 +58,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   push: url => dispatch(push(url)),
-  fetchEvents: () => dispatch(eventActions.fetchEvents(true))
+  fetchEvents: () => dispatch(eventActions.fetchEvents())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollListPage)

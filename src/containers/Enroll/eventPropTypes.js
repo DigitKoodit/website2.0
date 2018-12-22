@@ -6,12 +6,12 @@ const eventOptionPropTypes = {
   name: PropTypes.string.isRequired,
   fieldName: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  required: PropTypes.string.isRequired,
-  public: PropTypes.string.isRequired,
-  order: PropTypes.number.isRequired,
-  reserveCount: PropTypes.string.isRequired,
-  reserveEndAt: PropTypes.string.isRequired,
-  maxParticipants: PropTypes.number.isRequired,
+  required: PropTypes.bool.isRequired,
+  public: PropTypes.bool.isRequired,
+  order: PropTypes.number,
+  reserveCount: PropTypes.string,
+  reserveEndAt: PropTypes.string,
+  maxParticipants: PropTypes.number,
   placeholder: PropTypes.string,
   maxLength: PropTypes.number,
   lines: PropTypes.number,
@@ -41,7 +41,7 @@ const eventPropTypes = {
   maxParticipants: PropTypes.number.isRequired,
   reserveCount: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape(eventOptionPropTypes))
+  fields: PropTypes.arrayOf(PropTypes.shape(eventOptionPropTypes))
 }
 
 export default eventPropTypes

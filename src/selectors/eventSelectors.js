@@ -22,7 +22,6 @@ export const findActiveEvents = createSelector(
 export const findUpComingEvents = createSelector(
   getEventsFromArguments,
   events => events.filter(event => {
-    const activeAt = moment(event.activeAt)
-    return event.isVisible && moment().isBefore(activeAt)
+    return event.isVisible && moment().isBefore(event.activeAt)
   })
 )

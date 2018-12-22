@@ -7,18 +7,26 @@ const defaultFields = [
   {
     name: 'fieldName',
     type: 'text',
-    labπel: null,
+    label: null,
     defaultValue: null,
     readOnly: true,
     isSize: 'small',
     customRenderer: item => <Label>{item.value}</Label>
   },
-  { name: 'label', type: 'text', label: 'Nimi', defaultValue: null, isSize: 'small' },
+  {
+    name: 'label',
+    type: 'text',
+    label: 'Nimi',
+    defaultValue: null,
+    isSize: 'small',
+    customOnChangeHandler: (event, setFieldValue) => {
+      const nameValue = event.target.value.toLowerCase().replace(' ', '')
+      setFieldValue('name', nameValue)
+    }
+  },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
   { name: 'required', type: 'checkbox', label: 'Pakollinen', defaultValue: false, isSize: 'small' },
-  { name: 'public', type: 'checkbox', label: 'Näytetään vastauksissa', defaultValue: false, isSize: 'small' },
-  // { name: 'order', type: 'tex', label: 'Järjestys', defaultValue: null, isSize: 'small'},
-  { name: 'reserveEndAt', type: 'text', label: 'Kiintiön päättymisaika', defaultValue: null, isSize: 'small' }
+  { name: 'public', type: 'checkbox', label: 'Näytetään vastauksissa', defaultValue: false, isSize: 'small' }
 ]
 
 const textInputFields = [
@@ -31,7 +39,7 @@ const optionInputFields = [
 ]
 
 const defaultValues = initialValues => {
-  const defaultModel = defaultFields.reduce((acc, field) => ({ ...acc, [field.name]: field.defaultValue }), {})
+  const defaultModel = defaultFields.reduce((acc, field, index) => ({ ...acc, id: index, [field.name]: field.defaultValue }), {})
   return { ...defaultModel, ...initialValues }
 }
 
@@ -48,8 +56,8 @@ export default class EventFieldEditor extends PureComponent {
       <Form
         onSave={values => Promise.resolve(onSave(values))}
         fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
+        submitRenderer='Tallenna'
         defaultValues={defaultValues(initialValues)}
-        validate={values => console.log('VALIDATE', values)}
       />
     )
   }

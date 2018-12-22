@@ -65,8 +65,5 @@ export const base = {
   required: false,
   public: false,
   order: undefined,
-  reserveCount: 0,
-  reserveEndAt: undefined,
-  maxParticipants: undefined,
   value: undefined
 }
