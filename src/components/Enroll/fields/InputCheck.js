@@ -13,10 +13,10 @@ const InputCheck = ({ type,
   isHorizontal,
   ...inputAttributes }) => {
   const { containerClass, labelClass } = options || {}
+  delete inputAttributes.setFieldValue
   const inputs = Array.isArray(value)
     ? value.map((input, i) => renderCheckbox(input, onChange, inputAttributes))
     : renderCheckbox(value, onChange, inputAttributes)
-
   return (
     <EditorField
       label={label}
@@ -40,6 +40,7 @@ const renderCheckbox = (input, onChange, { className }) => (
       onChange={onChange}>
       {input.label}
     </BCheckbox>
+    {input.name}
   </Control>
 )
 

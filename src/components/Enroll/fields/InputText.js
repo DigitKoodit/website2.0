@@ -14,7 +14,7 @@ const InputText = ({ type,
   isHorizontal,
   ...inputAttributes }) => {
   const { containerClass, labelClass, lines, maxLength } = options || {}
-
+  delete inputAttributes.setFieldValue
   return (
     <EditorField
       label={label}

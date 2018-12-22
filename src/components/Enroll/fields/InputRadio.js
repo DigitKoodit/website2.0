@@ -2,42 +2,44 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field, Control, Radio, FieldLabel, FieldBody } from 'bloomer'
 
-const InputRadio = ({ label, placeholder, value, onChange, options = {}, ...inputProps }) => {
+const InputRadio = ({ label, placeholder, name, value, onChange, options = {}, ...inputAttributes }) => {
   const inputs = Array.isArray(value)
-    ? value.map((input, index) => renderRadioButton(input, onChange, inputProps, index))
-    : renderRadioButton(value, onChange, inputProps)
+    ? value.map((input, index) => renderRadioButton(name, input, onChange, inputAttributes, index))
+    : renderRadioButton(name, value, onChange, inputAttributes)
 
   return (
     <Field isHorizontal>
       <FieldLabel>
-        <span>{label || placeholder}</span>
+        <span> {label || placeholder}</span>
       </FieldLabel>
       <FieldBody>
-        {inputs}
+        <Control>
+          {inputs}
+        </Control>
       </FieldBody>
     </Field>
   )
 }
 
-const renderRadioButton = (input, onChange, { className }, index = 0) => (
-  <Field key={input.name}>
-    <Control>
-      <Radio
-        type='radio'
-        className={className}
-        name={`${input.name}_${index}`}
-        checked={input.value}
-        onChange={onChange}>
-        {input.label}
-      </Radio>
-    </Control>
-  </Field>
+const renderRadioButton = (name, input, onChange, { className }, index = 0) => (
+  <Radio
+    key={index}
+    className={className}
+    name={name}
+    checked={input}
+    onChange={onChange}>
+    <span> {input.label}</span>
+  </Radio>
 )
 
 InputRadio.propTypes = {
   label: PropTypes.string,
+  name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.bool,
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
   onChange: PropTypes.func,
   options: PropTypes.object
 }
