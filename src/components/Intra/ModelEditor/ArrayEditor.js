@@ -20,7 +20,9 @@ const defaultFields = [
   },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
   { name: 'maxParticipants', type: 'text', label: 'Max osallistujamäärä', defaultValue: null, isSize: 'small' },
-  { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' }
+  { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' },
+  { name: 'value', isHidden: true, type: 'text', label: 'Oletusarvo', defaultValue: false, isSize: 'small' },
+  { name: 'order', isHidden: true, type: 'text', label: 'Järjestys', defaultValue: 0, isSize: 'small' }
   // { name: 'isDefault', type: 'radio', label: 'Oletusvalinta', defaultValue: false, isSize: 'small' }
 ]
 
@@ -44,7 +46,8 @@ export class ArrayEditor extends PureComponent {
           render={arrayHelpers => (
             <>
               <Columns>
-                {defaultFields.map(({ name, label }) => (
+                {defaultFields.map(({ name, label, isHidden }) => (
+                  !isHidden &&
                   <Column className='pb-0' key={name}>
                     {label}
                   </Column>
@@ -53,14 +56,16 @@ export class ArrayEditor extends PureComponent {
               </Columns>
               {optionValues.map((value, index) =>
                 <Columns key={index}>
-                  {defaultFields.map(({ type, name, label, defaultValue, required, customOnChangeHandler, ...rest }) => {
+                  {defaultFields.map(({ type, name, label, defaultValue, required, customOnChangeHandler, isHidden, readOnly, ...rest }) => {
+                    if(isHidden) {
+                      return null
+                    }
                     const Input = selectInput(type)
                     const inputName = `${arrayName}[${index}].${name}`
                     const inputValue = value[name] || (defaultValue != null ? defaultValue : '')
                     return (
                       <Column key={inputName}>
                         <Input
-                          className='editor-input-field'
                           type={type}
                           name={inputName}
                           required={required}
@@ -69,6 +74,11 @@ export class ArrayEditor extends PureComponent {
                             customOnChangeHandler && customOnChangeHandler(event, index, setFieldValue)
                           }}
                           value={inputValue}
+                          inputProps={{
+                            inputClassName: 'editor-input-field',
+                            readOnly,
+                            ...rest
+                          }}
                           {...rest}
                         />
                       </Column>
@@ -90,7 +100,7 @@ export class ArrayEditor extends PureComponent {
                 isSize='small'
                 isColor='success'
                 isOutlined
-                onClick={() => arrayHelpers.push(newInitialItem)} >
+                onClick={() => arrayHelpers.push(newInitialItem())} >
                 Lisää kenttä
               </Button>
             </>

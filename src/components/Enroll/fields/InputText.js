@@ -3,18 +3,19 @@ import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
 import { Control, Input, TextArea } from 'bloomer'
 import EditorField from '../../Intra/ModelEditor/EditorField'
-// TODO: use horizontal layout
-const InputText = ({ type,
+
+const InputText = ({
+  type,
   label,
   placeholder,
   value,
   onChange,
-  options,
   hint,
   isHorizontal,
-  ...inputAttributes }) => {
-  const { containerClass, labelClass, lines, maxLength } = options || {}
-  delete inputAttributes.setFieldValue
+  name,
+  inputProps }) => {
+  const { inputClassName, containerClass, labelClass, lines, maxLength } = inputProps || {}
+
   return (
     <EditorField
       label={label}
@@ -27,23 +28,25 @@ const InputText = ({ type,
         {(isNil(lines) || lines <= 1)
           ? (
             <Input
+              className={inputClassName || ''}
               type={type}
               placeholder={placeholder}
               value={value}
               maxLength={maxLength}
               onChange={onChange}
-              name={label}
-              {...inputAttributes}
+              name={name}
+              isActive={inputProps.readOnly}
             />)
           : (
             <TextArea
+              className={inputClassName || ''}
               type={type}
               placeholder={placeholder}
               value={value}
               maxLength={maxLength}
               onChange={onChange}
-              name={label}
-              {...inputAttributes}
+              name={name}
+              isActive={inputProps.readOnly}
             />
           )}
       </Control>
@@ -55,17 +58,16 @@ const InputText = ({ type,
 InputText.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
-  labelProps: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  hint: PropTypes.string,
+  isHorizontal: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]),
   onChange: PropTypes.func,
-  options: PropTypes.shape({
-    containerClass: PropTypes.string,
-    labelClass: PropTypes.string,
-    lines: PropTypes.number
-  })
+  inputProps: PropTypes.object
 }
 
 export default InputText

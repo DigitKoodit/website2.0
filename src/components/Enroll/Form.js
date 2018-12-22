@@ -9,7 +9,7 @@ import { withFormik } from 'formik'
 import selectInput from './fields'
 import ArrayEditor from '../Intra/ModelEditor/ArrayEditor'
 
-const InnerForm = React.memo(({
+const InnerForm = ({
   values,
   fields,
   errors,
@@ -22,7 +22,7 @@ const InnerForm = React.memo(({
   setFieldValue
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }, index) => {
+    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
       if(customRenderer) {
         return (
           <Fragment key={name}>
@@ -30,10 +30,10 @@ const InnerForm = React.memo(({
           </Fragment>)
       }
       const Input = type === 'arrayEditor' ? ArrayEditor : selectInput(type)
+      console.log(values, name, values[name])
       return (
         <Fragment key={name}>
           <Input
-            className='editor-input-field mb-3'
             type={type}
             name={name}
             label={label}
@@ -46,7 +46,11 @@ const InnerForm = React.memo(({
             value={values[name]}
             readOnly={readOnly}
             setFieldValue={setFieldValue}
-            {...rest}
+            inputProps={{
+              inputClassName: 'editor-input-field mb-3',
+              readOnly,
+              ...rest
+            }}
           />
           {touched[name] && errors[name] && <div className='form-errors'>{errors[name]}</div>}
         </Fragment>
@@ -59,7 +63,7 @@ const InnerForm = React.memo(({
       </Button>
     }
   </form>
-)
+
 InnerForm.propTypes = {
   fields: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
