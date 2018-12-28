@@ -60,9 +60,7 @@ export class EnrollEventPage extends PureComponent {
 }
 
 const defaultValues = (fields, initialValues = {}) => {
-  console.log(fields)
   const defaultModel = fields.reduce((acc, field, index) => ({ ...acc, id: index, [field.name]: field.value }), {})
-  console.log(fields, initialValues)
   return { ...defaultModel, ...initialValues }
 }
 

@@ -54,7 +54,7 @@ export const options = {
       }
     ],
     fieldName: 'Avattava',
-    type: ''
+    type: 'select'
   }
 }
 

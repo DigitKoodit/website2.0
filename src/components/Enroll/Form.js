@@ -30,7 +30,6 @@ const InnerForm = ({
           </Fragment>)
       }
       const Input = type === 'arrayEditor' ? ArrayEditor : selectInput(type)
-      console.log(values, name, values[name])
       return (
         <Fragment key={name}>
           <Input

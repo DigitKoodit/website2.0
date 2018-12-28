@@ -10,8 +10,7 @@ const InputRadio = ({
   hint,
   isHorizontal,
   name,
-  inputProps,
-  setFieldValue
+  inputProps
 }) => {
   const { containerClass, labelClass } = inputProps || {}
 
@@ -43,18 +42,18 @@ InputRadio.propTypes = {
   ]),
   hint: PropTypes.string,
   isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object,
-  setFieldValue: PropTypes.func
+  inputProps: PropTypes.object
 }
 
 const renderRadioButton = (name, input, { inputClassName }) => (
+  console.log(input) ||
   <Field
     key={input.label}
     component={RadioButton}
     id={input.name}
     label={input.label}
     className={inputClassName}
-    name={`values.${name}`}
+    name={`${name}.selection`}
   />
 )
 
@@ -79,7 +78,7 @@ const RadioButton = ({
       <label htmlFor={id}>
         <span> {label}</span>
       </label>
-    </Radio>
+    </Radio >
   )
 }
 

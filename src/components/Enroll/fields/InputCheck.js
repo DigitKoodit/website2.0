@@ -1,22 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Control, Checkbox as BCheckbox } from 'bloomer'
+import { Control, Checkbox } from 'bloomer'
 import EditorField from '../../Intra/ModelEditor/EditorField'
+import { Field } from 'formik'
 
-const InputCheck = ({ type,
+const InputCheck = ({
   label,
-  placeholder,
   value,
-  onChange,
-  options,
   hint,
   isHorizontal,
-  ...inputAttributes }) => {
-  const { containerClass, labelClass } = options || {}
-  delete inputAttributes.setFieldValue
+  name,
+  inputProps
+}) => {
+  const { containerClass, labelClass } = inputProps || {}
+
   const inputs = Array.isArray(value)
-    ? value.map((input, i) => renderCheckbox(input, onChange, inputAttributes))
-    : renderCheckbox(value, onChange, inputAttributes)
+    ? value.map((input, index) => renderCheckButton(name, input, inputProps, index))
+    : renderCheckButton(name, value, inputProps)
+
   return (
     <EditorField
       label={label}
@@ -25,38 +26,70 @@ const InputCheck = ({ type,
       className={containerClass}
       labelClass={labelClass}
     >
-      {inputs}
-    </EditorField >
+      <Control>
+        {inputs}
+      </Control>
+    </EditorField>
   )
 }
 
-const renderCheckbox = (input, onChange, { className }) => (
-  <Control key={input.name}>
-    <BCheckbox
-      type='checkbox'
-      className={className}
-      name={input.name}
-      checked={input.value}
-      onChange={onChange}>
-      {input.label}
-    </BCheckbox>
-    {input.name}
-  </Control>
+InputCheck.propTypes = {
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  hint: PropTypes.string,
+  isHorizontal: PropTypes.string,
+  inputProps: PropTypes.object
+}
+
+const renderCheckButton = (name, input, { inputClassName }, index) => (
+  <Field
+    key={input.label}
+    component={CheckButton}
+    id={input.name}
+    label={input.label}
+    className={inputClassName}
+    name={index != null ? `${name}[${index}].value` : name}
+  />
 )
 
-InputCheck.propTypes = {
-  type: PropTypes.string,
+const CheckButton = ({
+  field: { name, value, onChange, onBlur },
+  id,
+  label,
+  className,
+  ...props
+}) => {
+  return (
+    <Checkbox
+      name={name}
+      id={id}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      className={className}
+      {...props}
+    >
+      <label htmlFor={id}>
+        <span> {label}</span>
+      </label>
+    </Checkbox>
+  )
+}
+
+CheckButton.propTypes = {
+  field: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.bool,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func
+  }).isRequired,
+  id: PropTypes.string,
   label: PropTypes.string,
-  placeholder: PropTypes.string,
-  labelProps: PropTypes.string,
-  hint: PropTypes.string,
-  value: PropTypes.bool,
-  onChange: PropTypes.func,
-  isHorizontal: PropTypes.bool,
-  options: PropTypes.shape({
-    containerClass: PropTypes.string,
-    labelClass: PropTypes.string
-  })
+  className: PropTypes.string
 }
 
 export default InputCheck
