@@ -8,7 +8,8 @@ import Base, { baseColumnSize } from '../../components/Layout/Base'
 import { Column } from 'bloomer'
 import asyncComponent from '../../components/AsyncComponent'
 import Markdown from '../../components/ContentManagement/Markdown'
-import { findSitePageById, findSiteNavigationByPath } from '../../selectors/siteContentSelectors'
+import { findSitePageById } from '../../selectors/siteContentSelectors'
+import { findNavItemByPath } from '../../selectors/navItemSelectors'
 import { pageContentActions } from '../../actions'
 import withLoader from '../../components/Helpers/withLoader'
 
@@ -74,7 +75,7 @@ const pageContentLoader = Children => {
   const mapStateToProps = (state, ownProps) => {
     const requestedSiteId = ownProps.location.state ? ownProps.location.state.sitePageId : null
     const requestedPath = ownProps.location.pathname
-    const containingNavItem = findSiteNavigationByPath(state, requestedPath)
+    const containingNavItem = findNavItemByPath(state, requestedPath)
     const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
     const { loading } = state.pages
     return {
