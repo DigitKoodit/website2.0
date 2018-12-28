@@ -10,6 +10,8 @@ import { VerticalList } from '../../components/Layout/Lists'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import { ChooserModal } from '../../components/Modal'
 import { INITIAL_ID } from '../../constants'
+import { getArrayOrderedBy } from '../../selectors/generalSelectors'
+
 class NavigationManager extends PureComponent {
   constructor(props) {
     super(props)
@@ -41,7 +43,7 @@ class NavigationManager extends PureComponent {
           <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
             {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'><EditorInput field='title' model={item} onChange={handleInputChange} /></EditorField>
-            <EditorField label='Polku' tooltipMessage='Lisää kenoviiva (/) ennen polkua'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>
+            <EditorField label='Polku'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>
             <EditorField label='Ylävalikko'>
               <ChooserModal
                 ref={this.chooserRef}
@@ -133,19 +135,26 @@ const NavItemList = ({ items, originalItems, onItemClick }) => items.length > 0 
       />
     )} />
 
-const ListItem = ({ item, items, onItemClick }) => (
-  <li key={item.id}>
-    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
-      {item.title}
-    </MenuLink>
-    {items.length > 0 && (
-      <NavItemList
-        items={items}
-        originalItems={items}
-        onItemClick={onItemClick} />
-    )}
-  </li>
-)
+const ListItem = ({ item, items, onItemClick }) => {
+  const iconClass = item.isPublished
+    ? item.showOnNavigation
+      ? ''
+      : 'fa fa-eye-slash'
+    : 'fa fa-ban'
+  return (
+    <li key={item.id}>
+      <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
+        {item.title} <i className={`${iconClass} has-text-grey-light`} aria-hidden='true' />
+      </MenuLink>
+      {items.length > 0 && (
+        <NavItemList
+          items={items}
+          originalItems={items}
+          onItemClick={onItemClick} />
+      )}
+    </li>
+  )
+}
 
 ListItem.propTypes = {
   item: PropTypes.object,
@@ -169,7 +178,11 @@ NavigationManager.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  navItems: state.siteNavigation.records,
+  navItems: getArrayOrderedBy(state, {
+    path: 'siteNavigation',
+    sortByKeys: ['isPublished', 'showOnNavigation', 'title'],
+    orders: ['desc', 'desc', 'asc']
+  }),
   pages: state.pages.records
 })
 

@@ -15,6 +15,7 @@ import { findEventById } from '../../../selectors/eventSelectors'
 import EventFieldManager from './EventFieldManager'
 import { isNewlyCreated, includesNewlyCreated } from '../../../store/helpers'
 import { INITIAL_ID } from '../../../constants'
+import { getArraySortedBy } from '../../../selectors/generalSelectors'
 
 class EventManager extends PureComponent {
   state = {
@@ -191,7 +192,12 @@ EventManager.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  events: state.events.records,
+  events: getArraySortedBy(state,
+    {
+      path: 'events',
+      sortByKey: 'activeAt',
+      orderBy: 'asc'
+    }),
   validationErrors: state.events.error
 })
 

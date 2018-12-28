@@ -10,6 +10,7 @@ import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
 import '../../styles/datepicker.scss'
 import { INITIAL_ID } from '../../constants'
+import { getArraySortedBy } from '../../selectors/generalSelectors'
 
 class SponsorManager extends Component {
   state = {
@@ -129,13 +130,22 @@ const SponsorList = ({ items, originalItems, onItemClick }) => items.length > 0 
       />
     )} />
 
-const ListItem = ({ item, onItemClick }) => (
-  <li key={item.id} onClick={() => onItemClick(item.id)}>
-    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
-      {item.name}
-    </MenuLink>
-  </li>
-)
+const ListItem = ({ item, onItemClick }) => {
+  const iconClass = moment().isBefore(item.activeUntil)
+    ? ''
+    : 'fa fa-ban'
+  return (
+    <li key={item.id} onClick={() => onItemClick(item.id)}>
+      <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
+        {item.name} <i className={`${iconClass} has-text-grey-light`} aria-hidden='true' /> <br />
+        <small
+          className='has-text-grey-light'>
+          {moment(item.activeUntil).format('DD.MM.YYYY')}
+        </small>
+      </MenuLink>
+    </li>
+  )
+}
 
 ListItem.propTypes = {
   item: PropTypes.object,
@@ -143,7 +153,14 @@ ListItem.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  sponsors: state.sponsors.records
+  sponsors: getArraySortedBy(
+    state,
+    {
+      path: 'sponsors',
+      sortByKey: 'name',
+      orderBy: 'asc'
+    }
+  )
 })
 
 const mapDispatchToProps = (dispatch) => ({

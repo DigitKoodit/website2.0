@@ -11,6 +11,7 @@ import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
 
 import { isNewlyCreated, includesNewlyCreated } from '../../store/helpers'
 import { INITIAL_ID } from '../../constants'
+import { getArraySortedBy } from '../../selectors/generalSelectors'
 
 class ContentManager extends PureComponent {
   state = {
@@ -155,7 +156,11 @@ ContentManager.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  pages: state.pages.records
+  pages: getArraySortedBy(state, {
+    path: 'pages',
+    sortByKey: 'title',
+    sortOrder: 'asc'
+  })
 })
 
 const mapDispatchToProps = (dispatch) => ({
