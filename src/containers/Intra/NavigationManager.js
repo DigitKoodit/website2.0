@@ -70,7 +70,8 @@ class NavigationManager extends PureComponent {
                 selectedRenderer={item => <p><b>{item.title}</b></p>}
                 nullable />
             </EditorField>
-            <EditorField label='Julkaistu'><EditorCheckbox field='isVisible' model={item} onChange={handleInputChange} /></EditorField>
+            <EditorField label='Näytetään valikossa'><EditorCheckbox field='showOnNavigation' model={item} onChange={handleInputChange} /></EditorField>
+            <EditorField label='Julkaistu'><EditorCheckbox field='isPublished' model={item} onChange={handleInputChange} /></EditorField>
             <EditorField label='Paino'><EditorInput type='number' field='weight' model={item} onChange={handleInputChange} /></EditorField>
           </Column>
         </Columns>

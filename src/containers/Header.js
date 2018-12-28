@@ -97,7 +97,7 @@ const renderBrand = (onBurgerClick, isActive) =>
   </NavbarBrand>
 
 const mapStateToProps = (state) => ({
-  navItems: state.siteNavigation.records.filter(item => item.isVisible)
+  navItems: state.siteNavigation.records.filter(item => item.isPublished && item.showOnNavigation)
 })
 
 const mapDispatchToProps = (dispatch) => ({
