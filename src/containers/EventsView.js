@@ -26,12 +26,12 @@ class EventsView extends Component {
     const firstThreeDays = take(values(this.state.events), 3)
     // TODO: Add calendar button
     return (
-      <Tile isParent style={{ padding: 30 }}>
+      <Tile isParent>
         <Tile isChild render={
           props => (
             <Box {...props}>
               <Content>
-                <Title>Tapahtumat</Title>
+                <Title className='highlight-left-blue'>Tapahtumat</Title>
                 <Columns>
                   {firstThreeDays.map(renderDay)}
                 </Columns>

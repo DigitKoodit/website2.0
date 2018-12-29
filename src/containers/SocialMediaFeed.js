@@ -5,6 +5,7 @@ import 'moment/locale/fi'
 
 import ReactMarkdown from 'react-markdown'
 import fbFeed from './SocialMediaFeed.json'
+// import { get } from '../api/apiHelper'
 
 class SocialMediaFeed extends Component {
   constructor() {
@@ -15,19 +16,19 @@ class SocialMediaFeed extends Component {
   }
 
   componentDidMount() {
-    // fetch('url')
-    //   .then(res => res.json())
-    //   .then(parsedRes => {
-    //     this.setState({ feed: parsedRes })
+    // get('/api/facebook')
+    //   .then(res => {
+    //     console.log(res)
+    //     this.setState({ feed: res })
     //   })
   }
 
   render() {
     const posts = this.state.feed.posts.data
-    const pagePicture = this.state.feed.page.picture.data
+    // const pagePicture = this.state.feed.page.picture.data
 
     return (
-      <Tile isSize={4} isParent style={{ padding: 30 }}>
+      <Tile isSize={4} isParent >
         <Tile isChild render={
           props => (
             <Box {...props} className='is-centered' style={{ overflowX: 'auto', height: '550px' }}>
@@ -35,13 +36,11 @@ class SocialMediaFeed extends Component {
                 posts.map(post => (
                   <Media key={post.id}>
                     <MediaLeft>
-                      <figure className='image'>
-                        <img className='is-rounded' src={pagePicture.url} alt='Digit' />
-                      </figure>
+                      <figure className='image' />
                     </MediaLeft>
                     <MediaContent>
                       <Content>
-                        <strong>Digit ry @Facebook</strong>
+                        <strong className='highlight-left-blue'>Digit ry @Facebook</strong>
                         <br />
                         <small>{moment(post.created_time).from(moment())}</small>
                         <Title isSize={5} >{post.name}</Title>

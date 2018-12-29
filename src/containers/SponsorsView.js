@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImageLink from '../components/ImageLink'
 import { sponsorActions } from '../actions'
-import { Content, Columns, Column, Title } from 'bloomer'
+import { Content, Columns, Column, Title, Tile, Box } from 'bloomer'
 
 class SponsorsView extends PureComponent {
   componentDidMount() {
@@ -14,31 +14,37 @@ class SponsorsView extends PureComponent {
   render() {
     const { sponsorList } = this.props
     return (
-      <div>
-        <Content hasTextAlign='centered'>
-          <Title>Yhteistyössä</Title>
-        </Content >
-        <Columns className='ml-5 mr-5' isCentered isMultiline>
-          {sponsorList && (
-            sponsorList.map(sponsor => (
-              <Column
-                isSize={{ mobile: '1', default: '1/4' }}
-                key={sponsor.name}
-                hasTextAlign='centered'>
-                <ImageLink
-                  name={sponsor.name}
-                  link={sponsor.link}
-                  imageUrl={sponsor.logo}
-                  alt={sponsor.name}
-                />
-              </Column>
-            ))
-          )}
-        </Columns>
-        <Content hasTextAlign='centered'>
-          <Link className='link margin-1' to='/partners'>Yhteistyöhon Digitin kanssa?</Link>
-        </Content >
-      </div>
+      <Tile isParent>
+        <Tile isChild render={
+          props => (
+            <Box {...props}>
+              <Title className='highlight-left-dark-red' >Yhteistyössä</Title>
+              <Columns isCentered isMultiline>
+                {sponsorList && (
+                  sponsorList.map(sponsor => (
+                    <Column
+                      isSize={{ mobile: '1', default: '1/3' }}
+                      key={sponsor.name}
+                      hasTextAlign='centered'>
+                      <ImageLink
+                        name={sponsor.name}
+                        link={sponsor.link}
+                        imageUrl={sponsor.logo}
+                        alt={sponsor.name}
+                      />
+                    </Column>
+                  ))
+                )}
+              </Columns>
+              <Content hasTextAlign='centered'>
+                <Link className='link margin-1' to='/partners'>
+                  Yhteistyöhon Digitin kanssa?
+                </Link>
+              </Content >
+            </Box>
+          )
+        } />
+      </Tile>
     )
   }
 }

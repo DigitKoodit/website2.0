@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-import { Title, Column } from 'bloomer'
+import { Title, Column, Box } from 'bloomer'
 import moment from 'moment'
 import eventPropTypes from './eventPropTypes'
 import { Base } from '../../components/Layout'
@@ -43,16 +43,23 @@ export class EnrollEventPage extends PureComponent {
             {moment(event.activeAt).format('DD.MM.YYYY HH:mm:ss')} - {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
           </p>
           <Markdown source={event.description} />
-          <div className='my-4'>
+          <Box className='p-3 pt-5 top-blue'>
+            <Title isSize={4} className='highlight-left-dark-blue'>
+              Ilmoittaudu
+            </Title>
             <Form
               fields={event.fields}
               defaultValues={defaultValues(event.fields)}
-              submitRenderer='Tallena'
+              submitRenderer='Tallenna'
               onSave={values => {
                 return Promise.resolve()
               }} />
-          </div>
-          <Title isSize={4}>Osallistujat</Title>
+          </Box>
+          <Box className='top-red' >
+            <Title isSize={4} className='highlight-left-red'>
+              Osallistujat
+            </Title>
+          </Box>
         </Column>
       </Base >
     )

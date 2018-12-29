@@ -16,7 +16,7 @@ import withLoader from '../../components/Helpers/withLoader'
 const NotFound = asyncComponent(() => import('../NotFound'))
 
 const PageContent = ({ siteContent }) => (
-  <Column isSize={baseColumnSize}>
+  <Column className='left-gray' isSize={baseColumnSize}>
     <Markdown source={siteContent.content} />
   </Column>
 )

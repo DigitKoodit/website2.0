@@ -65,3 +65,91 @@ body {
   transform: translateY(-50%);
   right: 0.8rem;
 }
+
+.highlight-left-yellow {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #ffce00;
+  }
+}
+
+.highlight-left-dark-yellow {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #362d06;
+  }
+}
+
+.highlight-left-blue {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #3273dc;
+  }
+}
+
+.highlight-left-dark-blue {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #092758;
+  }
+}
+
+.highlight-left-red {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #ff5100;
+  }
+}
+
+.highlight-left-dark-red {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: -0.4rem;
+    bottom: 0;
+    right: 0;
+    box-shadow: inset 3px 0 0 0 #491b05;
+  }
+}
+
+.left-gray {
+  border-left: 3px solid rgb(68, 69, 73);
+}
