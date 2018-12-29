@@ -6,11 +6,11 @@ import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
 class PageEditor extends PureComponent {
   state = { pageContent: { ...this.props.initialData } }
 
-  handleTextChange = updatedContent => {
+  handleTextChange = text => {
     this.setState(prevState => ({
       pageContent: {
         ...prevState.pageContent,
-        ...updatedContent
+        content: text
       }
     }))
   }
@@ -39,11 +39,7 @@ class PageEditor extends PureComponent {
           <div className='col-xs-12'>
             <MarkdownEditor
               content={pageContent.content}
-              handleTextChange={text => {
-                this.handleTextChange({
-                  content: text
-                })
-              }}
+              handleTextChange={this.handleTextChange}
             />
             <button onClick={onSavePage}>Tallenna</button>
           </div>

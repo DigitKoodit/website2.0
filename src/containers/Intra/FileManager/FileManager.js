@@ -153,7 +153,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchFiles: () => dispatch(fileActions.fetchFiles(true)),
+  fetchFiles: () => dispatch(fileActions.fetchFiles()),
   fetchFile: fileId => dispatch(fileActions.fetchFile(fileId)),
   addFile: item => dispatch(fileActions.addFile(item)),
   updateFile: item => dispatch(fileActions.updateFile(item)),

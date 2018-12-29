@@ -49,7 +49,9 @@ export class ChooserModal extends PureComponent {
                     </li>
                   )}
                 />
-                {nullable && <Button isSize='small' onClick={() => this.handleSelect(null)}>Poista valinta</Button>}
+                {nullable && <Button isSize='small' onClick={() => this.handleSelect(null)}>
+                  Poista valinta
+                </Button>}
               </MediaContent>
               <MediaRight>
                 <Delete onClick={this.closeModal} />
@@ -70,7 +72,7 @@ export class ChooserModal extends PureComponent {
     }),
     listItemFormatter: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selectedRenderer: PropTypes.func.isRequired,
+    selectedRenderer: PropTypes.func,
     nullable: PropTypes.bool,
     disabled: PropTypes.bool
   }
