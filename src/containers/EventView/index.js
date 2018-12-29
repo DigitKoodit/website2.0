@@ -36,7 +36,7 @@ class EventView extends Component {
 
     // TODO: Add calendar button
     return (
-      <Tile isParent id='bulma-override-tile'>
+      <Tile isParent className='frontpage-responsive-tile'>
         <Tile isChild render={
           props => (
             <Box {...props}>

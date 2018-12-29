@@ -27,10 +27,10 @@ class SocialMediaFeed extends Component {
     // const pagePicture = this.state.feed.page.picture.data
 
     return (
-      <Tile isSize={4} isParent id='bulma-override-tile'>
+      <Tile isSize={4} isParent className='frontpage-responsive-tile'>
         <Tile isChild render={
           props => (
-            <Box {...props} className='is-centered' id='bulma-override-box'>
+            <Box {...props} className='frontpage-responsive-box is-centered'>
               {posts && (
                 posts.map(post => (
                   <Media key={post.id}>

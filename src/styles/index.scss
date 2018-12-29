@@ -158,25 +158,31 @@ body {
   hyphens: auto;
 }
 
-#bulma-override-section {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+.frontpage-responsive-section {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
   @include until($tablet){
-    padding: 0;
+    padding: 0 !important;
   }
 }
 
-#bulma-override-tile {
+.frontpage-responsive-tile {
   @include until($tablet){
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
   }
 }
 
-#bulma-override-box {
+.frontpage-responsive-box {
+  @include until($tablet){
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
   @include from($tablet) {
-    height: 550px;
-    overflow-y: auto;
+    height: 550px !important;
+    overflow-y: auto !important;
   }
 }
