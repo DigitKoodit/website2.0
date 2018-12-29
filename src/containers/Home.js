@@ -25,27 +25,27 @@ const Home = () => {
         <HeroBody isPaddingless className='has-bg-img' style={heroBgStyle} />
       </Hero>
       <Columns isCentered>
-        <Column isSize={{ mobile: 'full', desktop: '3/4', widescreen: '2/3' }} >
-          <Section className='p-4' id='bulma-override-section'>
-            <Tile isAncestor id='bulma-override-tile'>
+        <Column isSize={{ mobile: 'full', desktop: 'full', widescreen: '3/4' }} >
+          <Section className='frontpage-responsive-section'>
+            <Tile isAncestor className='frontpage-responsive-tile'>
               <WelcomeView />
               <EventView />
             </Tile>
           </Section>
           {isDev
-            ? <Section className='p-4 pt-0' id='bulma-override-section'>
-              <Tile isAncestor id='bulma-override-tile'>
+            ? <Section className='frontpage-responsive-section'>
+              <Tile isAncestor className='frontpage-responsive-tile'>
                 <SocialMediaFeed />
                 <SponsorsView />
               </Tile>
             </Section>
-            : <Section className='p-4 pt-0' id='bulma-override-section'>
-              <Tile isAncestor id='bulma-override-tile'>
+            : <Section className='frontpage-responsive-section'>
+              <Tile isAncestor className='frontpage-responsive-tile'>
                 <SponsorsView />
               </Tile>
             </Section>
           }
-          <Section className='p-4' id='bulma-override-section'>
+          <Section>
             <SocialMediaView />
           </Section>
         </Column>
