@@ -27,7 +27,7 @@ render(App)
 
 serviceWorker.unregister()
 
-if(process.env.NODE_ENV !== 'development' && module.hot) {
+if(process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./containers/App', () => {
     const NextApp = require('./containers/App').default
     render(NextApp)
