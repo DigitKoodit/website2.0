@@ -48,7 +48,7 @@ const pageContentLoader = Children => {
 
     fetchPage = () => {
       const { sitePageId, siteContent, fetchPage, loading } = this.props
-      if(isNil(siteContent) && !loading) {
+      if(sitePageId && isNil(siteContent) && !loading) {
         fetchPage(sitePageId)
       }
     }

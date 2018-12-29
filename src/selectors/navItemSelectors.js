@@ -1,6 +1,6 @@
 import createCachedSelector from 're-reselect'
 
-const getNavItemFromArguments = arg => arg.pages ? arg.pages.records : arg
+const getNavItemFromArguments = arg => arg.siteNavigation ? arg.siteNavigation.records : arg
 
 export const findNavItemByPath = createCachedSelector(
   getNavItemFromArguments,
