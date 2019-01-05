@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import isMatch from 'lodash/isMatch'
 import { Button } from 'bloomer'
+import DelayedActionButton from '../../DelayedActionButton'
 
 class ModelEditor extends PureComponent {
   state = {
@@ -53,9 +54,32 @@ class ModelEditor extends PureComponent {
     return (
       <Fragment>
         {renderFields(item, this.handleInputChange, this.updateStateItem)}
-        {onSave ? <Button className='' isColor='primary' onClick={() => onSave(item)}>Tallenna</Button> : null}
-        {onCancel ? <Button className='' isOutlined isColor='warning' onClick={() => onCancel(item)}>Peruuta</Button> : null}
-        {onRemove ? <Button className='' isOutlined isColor='danger' onClick={() => onRemove(item)}>Poista</Button> : null}
+        {onSave &&
+          <Button
+            className=''
+            isColor='primary'
+            onClick={() => onSave(item)}>
+            Tallenna
+          </Button>
+        }
+        {onCancel &&
+          <Button
+            className=''
+            isOutlined
+            isColor='warning'
+            onClick={() => onCancel(item)}>
+            Peruuta
+          </Button>
+        }
+        {onRemove &&
+          <DelayedActionButton
+            className=''
+            isOutlined
+            isColor='danger'
+            onClick={() => onRemove(item)}>
+            Poista
+          </DelayedActionButton>
+        }
       </Fragment >)
   }
   static propTypes = {
