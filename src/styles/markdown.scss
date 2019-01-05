@@ -27,13 +27,20 @@ blockquote p {
     display: block;
     box-sizing: border-box;
     width: 100%;
+    min-height: 50rem;
     resize: vertical;
-    min-height: 40rem;
-    height: 100%;
+    max-height: none;
     padding: 1rem;
     display: block;
     padding: .75rem 1.25rem;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, .125);
+  }
+}
+
+.markdown-preview {
+  &.scroll {
+    max-height: 50rem;
+    overflow-y: auto;
   }
 }

@@ -29,7 +29,7 @@ export class MarkdownEditor extends PureComponent {
                 )} />
             </div>
           </Column>
-          <Column isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
+          <Column className='markdown-preview scroll' isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
             <Markdown source={content} />
           </Column>
         </Columns>
