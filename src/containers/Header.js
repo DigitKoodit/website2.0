@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import find from 'lodash/find'
 import SiteNavbar from './SiteNavbar'
 import SiteNavbarItem from '../components/SiteNavbarItem'
-import brandLogo from '../public/images/logo.svg'
 import { connect } from 'react-redux'
-import { siteNavigationActions } from '../actions'
 import { NavbarBrand, Image } from 'bloomer'
+import brandLogo from '../public/images/logo.svg'
+import { siteNavigationActions } from '../actions'
 import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
 
 class Header extends PureComponent {

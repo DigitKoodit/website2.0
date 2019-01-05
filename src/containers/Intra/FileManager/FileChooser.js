@@ -8,8 +8,6 @@ export class FileChooser extends PureComponent {
   chooserRef = React.createRef()
 
   componentDidMount() {
-    console.log(this.props)
-
     this.props.fetchFiles()
   }
 
@@ -19,6 +17,7 @@ export class FileChooser extends PureComponent {
       <ChooserModal
         ref={this.chooserRef}
         modalTitle='Valitse liite'
+        placeholder='Liitä kuva tai tiedosto'
         dataSet={files}
         listItemFormatter={item => <>
           <img width='50' src={'/' + item.path} alt={item.filename} />
@@ -38,10 +37,9 @@ export class FileChooser extends PureComponent {
     onSelect: PropTypes.func.isRequired
   }
 }
-const mapStateToProps = (state) =>
-  console.log(state) || ({
-    files: state.files.records
-  })
+const mapStateToProps = (state) => ({
+  files: state.files.records
+})
 
 const mapDispatchToProps = dispatch => ({
   fetchFiles: () => dispatch(fileActions.fetchFiles())

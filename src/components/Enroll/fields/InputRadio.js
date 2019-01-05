@@ -46,7 +46,6 @@ InputRadio.propTypes = {
 }
 
 const renderRadioButton = (name, input, { inputClassName }) => (
-  console.log(input) ||
   <Field
     key={input.label}
     component={RadioButton}

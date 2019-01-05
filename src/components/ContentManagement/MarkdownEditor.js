@@ -17,24 +17,26 @@ export class MarkdownEditor extends PureComponent {
         <Columns>
           <Column isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
             <Textarea
-              onTextChange={handleTextChange}
+              onTextChange={this.handleChangeWithEncoding}
               value={decodedContent}
             />
-
-            <FileChooser
-              onSelect={data => handleTextChange(`${decodedContent}
+            <div className='py-3'>
+              <FileChooser
+                onSelect={file => handleTextChange(`${decodedContent}
                 
-<img src='/${data.path}' alt=${data.filename}/>
-<a target='noopener noreferrer' href='/${data.path}' alt=${data.filename}>Liite</a>`
-              )} />
+<img src='/${file.path}' alt='${file.filename}'/>
+<a target='noopener noreferrer' href='/${file.path}'>Liite</a>`
+                )} />
+            </div>
           </Column>
           <Column isSize={{ mobile: 'full', tablet: 'full', default: '1/2' }}>
-            <Markdown source={decodedContent} />
+            <Markdown source={content} />
           </Column>
         </Columns>
       </div>
     )
   }
+  handleChangeWithEncoding = text => this.props.handleTextChange(encodeURI(text))
 }
 
 MarkdownEditor.propTypes = {
