@@ -74,8 +74,11 @@ const pageContentLoader = Children => {
   }
   const mapStateToProps = (state, ownProps) => {
     const requestedSiteId = ownProps.location.state ? ownProps.location.state.sitePageId : null
-    const requestedPath = ownProps.location.pathname
-    const containingNavItem = findNavItemByPath(state, requestedPath)
+    const paths = ownProps.location.pathname.split('/').filter(path => !!path)
+
+    // Split and select only last url
+    const requestedPath = paths[paths.length - 1]
+    const containingNavItem = findNavItemByPath(state, '/' + requestedPath)
     const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
     const { loading } = state.pages
     return {
