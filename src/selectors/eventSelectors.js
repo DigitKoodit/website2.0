@@ -1,15 +1,15 @@
 import createCachedSelector from 're-reselect'
 import { createSelector } from 'reselect'
 import moment from 'moment'
+import { INITIAL_ID } from '../constants'
 
 const getEventsFromArguments = arg => arg.events ? arg.events.records : arg
 
 export const findEventById = createCachedSelector(
   getEventsFromArguments,
-  (state, eventId) => Number(eventId),
-  (events, eventId) => {
-    return events.find(event => event.id === eventId)
-  }
+  (state, eventId) => eventId === 'new' ? INITIAL_ID : Number(eventId),
+  (events, eventId) =>
+    events.find(event => event.id === eventId)
 )((state, eventId) => eventId)
 
 export const findActiveEvents = createSelector(

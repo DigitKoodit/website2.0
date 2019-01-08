@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import isNil from 'lodash/isNil'
 import moment from 'moment'
+import { Route, Switch } from 'react-router-dom'
 import { BaseContent } from '../../../components/Layout'
 import { eventActions } from '../../../actions'
 import { Columns, Column, Title, Box, Button, Subtitle } from 'bloomer'
@@ -17,11 +18,9 @@ import { isNewlyCreated, includesNewlyCreated } from '../../../store/helpers'
 import { INITIAL_ID } from '../../../constants'
 import { getArraySortedBy } from '../../../selectors/generalSelectors'
 
-class EventManager extends PureComponent {
-  state = {
-    activeItemId: null
-  }
+const rootPath = '/intra/events'
 
+class EventManager extends PureComponent {
   componentDidMount() {
     this.props.fetchEvents()
   }
@@ -34,18 +33,18 @@ class EventManager extends PureComponent {
   }
 
   handleActiveItemChange = itemId => {
-    this.setState({ activeItemId: itemId })
+    this.props.openForEdit(itemId)
     this.props.clearErrors()
   }
 
   clearSelection = () => {
-    this.setState({ activeItemId: null })
+    this.props.closeEditor()
     this.props.clearErrors()
   }
 
   renderDetailedEvent = (item, validationErrors) => <ModelEditor
     item={item}
-    onSave={this.state.activeItemId < 0 ? this.props.addEvent : this.props.updateEvent}
+    onSave={isNewlyCreated(item) ? this.props.addEvent : this.props.updateEvent}
     onCancel={this.clearSelection}
     onRemove={this.removeItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
@@ -146,10 +145,9 @@ class EventManager extends PureComponent {
     this.props.removeEvent(item)
     this.clearSelection()
   }
+
   render = () => {
     const { events, initNewEvent, validationErrors } = this.props
-    const { activeItemId } = this.state
-    const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
     return (
       <BaseContent>
         <Column>
@@ -168,9 +166,19 @@ class EventManager extends PureComponent {
                 Lisää uusi
               </Button>
               <Box>
-                {activeItem
-                  ? this.renderDetailedEvent(activeItem, validationErrors)
-                  : <p>Valitse muokattava kohde listalta</p>}
+                <Switch>
+                  <Route
+                    path={`${rootPath}/:activeItemId`}
+                    render={({ match }) => {
+                      const { activeItemId } = match.params
+                      const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
+                      return activeItem
+                        ? this.renderDetailedEvent(activeItem, validationErrors)
+                        : `Tapahtumaa ei löytynyt`
+                    }
+                    } />
+                  <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
+                </Switch>
               </Box>
             </Column>
           </Columns>
@@ -181,6 +189,8 @@ class EventManager extends PureComponent {
 }
 
 EventManager.propTypes = {
+  openForEdit: PropTypes.func.isRequired,
+  closeEditor: PropTypes.func.isRequired,
   events: PropTypes.array.isRequired,
   validationErrors: PropTypes.shape({ msg: PropTypes.string }),
   fetchEvents: PropTypes.func.isRequired,
@@ -191,14 +201,16 @@ EventManager.propTypes = {
   removeEvent: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   events: getArraySortedBy(state,
     {
       path: 'events',
       sortByKey: 'activeAt',
       orderBy: 'asc'
     }),
-  validationErrors: state.events.error
+  validationErrors: state.events.error,
+  closeEditor: () => ownProps.history.push(rootPath),
+  openForEdit: activeItemId => ownProps.history.push(`${rootPath}/${activeItemId}`)
 })
 
 const mapDispatchToProps = (dispatch) => ({
