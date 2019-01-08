@@ -14,8 +14,8 @@ import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../
 import MarkdownEditor from '../../../components/ContentManagement/MarkdownEditor'
 import { findEventById } from '../../../selectors/eventSelectors'
 import EventFieldManager from './EventFieldManager'
-import { isNewlyCreated, includesNewlyCreated } from '../../../store/helpers'
 import { INITIAL_ID } from '../../../constants'
+import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../../store/helpers'
 import { getArraySortedBy } from '../../../selectors/generalSelectors'
 
 const rootPath = '/intra/events'
@@ -33,7 +33,7 @@ class EventManager extends PureComponent {
   }
 
   handleActiveItemChange = itemId => {
-    this.props.openForEdit(itemId)
+    this.props.openForEdit(urlDisplayId(itemId))
     this.props.clearErrors()
   }
 
