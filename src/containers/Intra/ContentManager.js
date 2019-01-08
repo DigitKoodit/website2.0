@@ -134,7 +134,7 @@ const PageList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
 
 const ListItem = ({ item, onItemClick }) => (
   <li key={item.id} onClick={() => onItemClick(item.id)}>
-    <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
+    <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''}>
       {item.title}
     </MenuLink>
   </li>

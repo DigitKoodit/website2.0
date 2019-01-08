@@ -9,8 +9,8 @@ import { sponsorActions } from '../../actions'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
 import '../../styles/datepicker.scss'
-import { INITIAL_ID } from '../../constants'
 import { getArraySortedBy } from '../../selectors/generalSelectors'
+import { isNewlyCreated } from '../../store/helpers'
 
 class SponsorManager extends Component {
   state = {
@@ -136,7 +136,7 @@ const ListItem = ({ item, onItemClick }) => {
     : 'fa fa-ban'
   return (
     <li key={item.id} onClick={() => onItemClick(item.id)}>
-      <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''}>
+      <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''}>
         {item.name} <i className={`${iconClass} has-text-grey-light`} aria-hidden='true' /> <br />
         <small
           className='has-text-grey-light'>

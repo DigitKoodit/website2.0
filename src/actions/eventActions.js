@@ -3,6 +3,7 @@ import { crudTypes, createCrudTypes, createAction } from '../store/crudHelpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 import moment from 'moment'
 import { loginActions } from '.'
@@ -190,7 +191,7 @@ const enrollActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().events.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().events.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addEvent(item) {
     return dispatch => {

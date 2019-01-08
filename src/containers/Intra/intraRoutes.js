@@ -12,7 +12,7 @@ const FileManager = asyncComponent(() => import('./FileManager'))
 const routes = [
   { title: 'Intra', path: '/intra', component: IntraPage, active: true, exact: true },
   { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
-  { title: 'Ilmo', path: '/intra/event', component: EventManager, active: true },
+  { title: 'Ilmo', path: '/intra/events', component: EventManager, active: true },
   { title: 'Käyttäjät', path: '/intra/accounts', component: AccountManager, active: true },
   {
     title: 'CMS',

@@ -9,7 +9,7 @@ import { BaseContent } from '../../components/Layout'
 import { VerticalList } from '../../components/Layout/Lists'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import { ChooserModal } from '../../components/Modal'
-import { INITIAL_ID } from '../../constants'
+import { isNewlyCreated } from '../../store/helpers'
 import { getArrayOrderedBy } from '../../selectors/generalSelectors'
 
 class NavigationManager extends PureComponent {
@@ -143,7 +143,7 @@ const ListItem = ({ item, items, onItemClick }) => {
     : 'fa fa-ban'
   return (
     <li key={item.id}>
-      <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
+      <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
         {item.title} <i className={`${iconClass} has-text-grey-light`} aria-hidden='true' />
       </MenuLink>
       {items.length > 0 && (

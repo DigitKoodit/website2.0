@@ -5,6 +5,7 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
 const sponsorPublicCrud = createCrudService('/api/contents/sponsors')
@@ -52,7 +53,7 @@ const sponsorActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().sponsors.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().sponsors.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addSponsor(sponsor) {
     return dispatch => {

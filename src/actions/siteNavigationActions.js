@@ -4,6 +4,7 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
 const navItemPublicCrud = createCrudService('/api/contents/navigation')
@@ -34,7 +35,7 @@ const siteNavigationActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().siteNavigation.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().siteNavigation.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addNavItem(navItem) {
     return dispatch => {
