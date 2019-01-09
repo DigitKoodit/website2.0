@@ -31,7 +31,7 @@ const defaultFields = [
 
 const textInputFields = [
   { name: 'maxLength', type: 'text', label: 'Maksimi merkkimäärä', defaultValue: null, isSize: 'small' },
-  { name: 'maxLines', type: 'text', label: 'Maksimi rivit', defaultValue: null, isSize: 'small' }
+  { name: 'maxLines', type: 'text', label: 'Maksimirivit', defaultValue: null, isSize: 'small' }
 ]
 
 const optionInputFields = [

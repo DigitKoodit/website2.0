@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import isNil from 'lodash/isNil'
 import moment from 'moment'
 import { Route, Switch } from 'react-router-dom'
-import { BaseContent } from '../../../components/Layout'
-import { eventActions } from '../../../actions'
-import { Columns, Column, Title, Box, Button, Subtitle } from 'bloomer'
 import DatePicker from 'react-datepicker'
 import '../../../styles/datepicker.scss'
+import { Columns, Column, Title, Box, Button, Subtitle } from 'bloomer'
+import isNil from 'lodash/isNil'
+import { BaseContent } from '../../../components/Layout'
+import { eventActions } from '../../../actions'
 import EventList from './EventList'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../../components/ContentManagement/MarkdownEditor'
@@ -42,7 +42,7 @@ class EventManager extends PureComponent {
     this.props.clearErrors()
   }
 
-  renderDetailedEvent = (item, validationErrors) => <ModelEditor
+  renderEditor = (item, validationErrors) => <ModelEditor
     item={item}
     onSave={isNewlyCreated(item) ? this.props.addEvent : this.props.updateEvent}
     onCancel={this.clearSelection}
@@ -173,7 +173,7 @@ class EventManager extends PureComponent {
                       const { activeItemId } = match.params
                       const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
                       return activeItem
-                        ? this.renderDetailedEvent(activeItem, validationErrors)
+                        ? this.renderEditor(activeItem, validationErrors)
                         : `Tapahtumaa ei löytynyt`
                     }
                     } />

@@ -19,6 +19,7 @@ const sponsorActions = {
   pending: (crudType) => createAction(SPONSOR[crudType].PENDING),
   success: (response, crudType) => createAction(SPONSOR[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(SPONSOR[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchSponsor(sponsorId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))

@@ -1,34 +1,48 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
-import find from 'lodash/find'
 import moment from 'moment'
+import { Route, Switch } from 'react-router-dom'
 import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
 import DatePicker from 'react-datepicker'
+import '../../styles/datepicker.scss'
+import isNil from 'lodash/isNil'
 import { sponsorActions } from '../../actions'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
-import '../../styles/datepicker.scss'
 import { getArraySortedBy } from '../../selectors/generalSelectors'
-import { isNewlyCreated } from '../../store/helpers'
+import { findSponsorById } from '../../selectors/sponsorSelectors'
+import { INITIAL_ID } from '../../constants'
+import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../store/helpers'
+
+const rootPath = '/intra/cms/sponsors'
 
 class SponsorManager extends Component {
-  state = {
-    activeItemId: null
-  }
   componentDidMount() {
     this.props.fetchSponsors()
   }
 
-  handleItemClick = itemId => this.setState({ activeItemId: itemId })
+  componentDidUpdate = prevProps => {
+    const { sponsors } = this.props
+    if(prevProps.sponsors.length < sponsors.length && includesNewlyCreated(sponsors)) {
+      this.handleActiveItemChange(INITIAL_ID)
+    }
+  }
 
-  clearSelection = () => this.setState({ activeItemId: null })
+  handleActiveItemChange = itemId => {
+    this.props.openForEdit(urlDisplayId(itemId))
+    this.props.clearErrors()
+  }
 
-  renderEditor = item => <ModelEditor
+  clearSelection = () => {
+    this.props.closeEditor()
+    this.props.clearErrors()
+  }
+  renderEditor = (item, validationErrors) => <ModelEditor
     item={item}
-    onSave={this.state.activeItemId < 0 ? this.props.addSponsor : this.props.updateSponsor}
+    onSave={isNewlyCreated(item) ? this.props.addSponsor : this.props.updateSponsor}
     onCancel={this.clearSelection}
-    onRemove={this.removeNavItem}
+    onRemove={this.removeItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
       const isNewlyCreated = item.id < 0
       return (
@@ -39,25 +53,29 @@ class SponsorManager extends Component {
               <EditorInput
                 field='name'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Kuvaus'>
               <EditorInput
                 field='description'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Linkki'>
               <EditorInput
                 field='link'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Logo'>
               <EditorInput
                 field='logo'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Aktiivinen alkaen'>
               <DatePicker
@@ -81,8 +99,7 @@ class SponsorManager extends Component {
   }
 
   render = () => {
-    const { sponsors, initNewSponsor } = this.props
-    const { activeItemId } = this.state
+    const { sponsors, initNewSponsor, validationErrors } = this.props
     return (
       <BaseContent>
         <Column>
@@ -91,16 +108,26 @@ class SponsorManager extends Component {
             <Column isSize='narrow'>
               <SponsorList
                 items={sponsors}
-                onItemClick={this.handleItemClick}
+                onItemClick={this.handleActiveItemChange}
                 originalItems={sponsors}
               />
             </Column>
             <Column isFullWidth>
               <Button isSize='small' isColor='primary' onClick={initNewSponsor}>Lisää uusi</Button>
               <Box>
-                {(activeItemId && find(sponsors, { id: activeItemId }))
-                  ? this.renderEditor(find(sponsors, { id: activeItemId }))
-                  : <p>Valitse muokattava kohde listalta</p>}
+                <Switch>
+                  <Route
+                    path={`${rootPath}/:activeItemId`}
+                    render={({ match }) => {
+                      const { activeItemId } = match.params
+                      const activeItem = !isNil(activeItemId) && findSponsorById(sponsors, activeItemId)
+                      return activeItem
+                        ? this.renderEditor(activeItem, validationErrors)
+                        : `Yhteistyökumppania ei löytynyt`
+                    }
+                    } />
+                  <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
+                </Switch>
               </Box>
             </Column>
           </Columns>
@@ -111,6 +138,10 @@ class SponsorManager extends Component {
 }
 
 SponsorManager.propTypes = {
+  openForEdit: PropTypes.func.isRequired,
+  closeEditor: PropTypes.func.isRequired,
+  validationErrors: PropTypes.shape({ msg: PropTypes.string }),
+  clearErrors: PropTypes.func.isRequired,
   sponsors: PropTypes.array.isRequired,
   fetchSponsors: PropTypes.func.isRequired,
   initNewSponsor: PropTypes.func.isRequired,
@@ -152,7 +183,7 @@ ListItem.propTypes = {
   onItemClick: PropTypes.func
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   sponsors: getArraySortedBy(
     state,
     {
@@ -160,10 +191,14 @@ const mapStateToProps = (state) => ({
       sortByKey: 'name',
       orderBy: 'asc'
     }
-  )
+  ),
+  validationErrors: state.sponsors.error,
+  closeEditor: () => ownProps.history.push(rootPath),
+  openForEdit: activeItemId => ownProps.history.push(`${rootPath}/${activeItemId}`)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  clearErrors: () => dispatch(sponsorActions.clearErrors()),
   fetchSponsors: () => dispatch(sponsorActions.fetchSponsors(true)),
   fetchSponsor: sponsorId => dispatch(sponsorActions.fetchSponsor(sponsorId)),
   initNewSponsor: () => dispatch(sponsorActions.prepareNew()),

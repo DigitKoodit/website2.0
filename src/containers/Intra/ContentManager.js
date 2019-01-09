@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types' //
 import { connect } from 'react-redux'
-import find from 'lodash/find'
+import isNil from 'lodash/isNil'
+import { Route, Switch } from 'react-router-dom'
 import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
 import { VerticalList } from '../../components/Layout/Lists'
 import { pageContentActions } from '../../actions'
@@ -9,14 +10,14 @@ import { BaseContent } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../components/ContentManagement/MarkdownEditor'
 
-import { isNewlyCreated, includesNewlyCreated } from '../../store/helpers'
-import { INITIAL_ID } from '../../constants'
 import { getArraySortedBy } from '../../selectors/generalSelectors'
+import { findSitePageById } from '../../selectors/siteContentSelectors'
+import { INITIAL_ID } from '../../constants'
+import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../store/helpers'
+
+const rootPath = '/intra/cms/content'
 
 class ContentManager extends PureComponent {
-  state = {
-    activeItemId: null
-  }
   componentDidMount() {
     this.props.fetchPages()
   }
@@ -29,18 +30,18 @@ class ContentManager extends PureComponent {
   }
 
   handleActiveItemChange = itemId => {
-    this.setState({ activeItemId: itemId })
+    this.props.openForEdit(urlDisplayId(itemId))
     this.props.clearErrors()
   }
 
   clearSelection = () => {
-    this.setState({ activeItemId: null })
+    this.props.closeEditor()
     this.props.clearErrors()
   }
 
-  renderEditor = item => <ModelEditor
+  renderEditor = (item, validationErrors) => <ModelEditor
     item={item}
-    onSave={this.state.activeItemId < 0 ? this.props.addPage : this.props.updatePage}
+    onSave={isNewlyCreated(item) ? this.props.addPage : this.props.updatePage}
     onCancel={this.clearSelection}
     onRemove={this.removeNavItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
@@ -55,19 +56,22 @@ class ContentManager extends PureComponent {
               <EditorInput
                 field='title'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Kuvaus'>
               <EditorInput
                 field='description'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Julkaistu'>
               <EditorCheckbox
                 field='isVisible'
                 model={item}
-                onChange={handleInputChange} />
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Luotu'>{parseTime(item.createdAt)}</EditorField>
             <EditorField label='Muokattu'>{parseTime(item.updatedAt)}</EditorField>
@@ -83,14 +87,13 @@ class ContentManager extends PureComponent {
     }}
   />
 
-  removeNavItem = item => {
+  removeItem = item => {
     this.props.removePage(item)
     this.clearSelection()
   }
 
   render = () => {
-    const { pages, initNewPage } = this.props
-    const { activeItemId } = this.state
+    const { pages, initNewPage, validationErrors } = this.props
     return (
       <BaseContent>
         <Column>
@@ -106,9 +109,19 @@ class ContentManager extends PureComponent {
             <Column isFullWidth>
               <Button isSize='small' isColor='primary' onClick={initNewPage}>Lisää uusi</Button>
               <Box>
-                {(activeItemId && find(pages, { id: activeItemId }))
-                  ? this.renderEditor(find(pages, { id: activeItemId }))
-                  : <p>Valitse muokattava kohde listalta</p>}
+                <Switch>
+                  <Route
+                    path={`${rootPath}/:activeItemId`}
+                    render={({ match }) => {
+                      const { activeItemId } = match.params
+                      const activeItem = !isNil(activeItemId) && findSitePageById(pages, activeItemId)
+                      return activeItem
+                        ? this.renderEditor(activeItem, validationErrors)
+                        : `Sivua ei löytynyt`
+                    }
+                    } />
+                  <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
+                </Switch>
               </Box>
             </Column>
           </Columns>
@@ -116,6 +129,19 @@ class ContentManager extends PureComponent {
       </BaseContent >
     )
   }
+}
+
+ContentManager.propTypes = {
+  openForEdit: PropTypes.func.isRequired,
+  closeEditor: PropTypes.func.isRequired,
+  validationErrors: PropTypes.shape({ msg: PropTypes.string }),
+  pages: PropTypes.array.isRequired,
+  fetchPages: PropTypes.func.isRequired,
+  initNewPage: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  addPage: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
+  removePage: PropTypes.func.isRequired
 }
 
 const parseTime = timeString => timeString && `${new Date(timeString).toLocaleString()}`
@@ -145,22 +171,15 @@ ListItem.propTypes = {
   onItemClick: PropTypes.func
 }
 
-ContentManager.propTypes = {
-  pages: PropTypes.array.isRequired,
-  fetchPages: PropTypes.func.isRequired,
-  initNewPage: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
-  addPage: PropTypes.func.isRequired,
-  updatePage: PropTypes.func.isRequired,
-  removePage: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   pages: getArraySortedBy(state, {
     path: 'pages',
     sortByKey: 'title',
     sortOrder: 'asc'
-  })
+  }),
+  validationErrors: state.pages.error,
+  closeEditor: () => ownProps.history.push(rootPath),
+  openForEdit: activeItemId => ownProps.history.push(`${rootPath}/${activeItemId}`)
 })
 
 const mapDispatchToProps = (dispatch) => ({

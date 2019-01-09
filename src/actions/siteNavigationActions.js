@@ -17,6 +17,7 @@ const siteNavigationActions = {
   pending: (crudType) => createAction(SITE_NAVIGATION[crudType].PENDING),
   success: (response, crudType) => createAction(SITE_NAVIGATION[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(SITE_NAVIGATION[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchNavigation(attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
@@ -56,7 +57,7 @@ const siteNavigationActions = {
         })
     }
   },
-  updateNavigation(navItem) {
+  updateNavItem(navItem) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
       navItemPrivateCrud.update(navItem)
