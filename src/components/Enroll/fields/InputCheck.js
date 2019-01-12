@@ -55,7 +55,7 @@ const renderCheckButtons = (options, fieldName, inputProps) =>
       id={input.name}
       label={input.label}
       className={inputProps.inputClassName}
-      name={`values.${fieldName}.${input.name}`}
+      name={`[${fieldName}][${input.name}]`}
     />
   )
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Control, Radio } from 'bloomer'
-import EditorField from '../../Intra/ModelEditor/EditorField'
 import { Field } from 'formik'
+import EditorField from '../../Intra/ModelEditor/EditorField'
 
 const InputRadio = ({
   label,
@@ -51,7 +51,7 @@ const renderRadioButtons = (options, name) =>
       id={input.name}
       label={input.label}
       className={inputClassName}
-      name={`values[${name}]`}
+      name={name}
     />
   ))
 

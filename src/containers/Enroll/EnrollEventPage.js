@@ -48,11 +48,11 @@ export class EnrollEventPage extends PureComponent {
               Ilmoittaudu
             </Title>
             <Form
-              fields={event.fields}
+              fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
               submitRenderer='Tallenna'
               onSave={values => {
-                console.log(values, defaultValues(event.fields))
+                console.log('VASTAUS', values)
                 return Promise.resolve()
               }} />
           </Box>
@@ -78,18 +78,14 @@ const findDefaultForRadio = options => {
 }
 
 const defaultValues = (fields, initialValues = {}) => {
-  console.log(fields)
   const defaultModel = fields.reduce((acc, field, index) => {
     const initialValue = Array.isArray(field.options)
       ? field.type === 'checkbox'
         ? findDefaultForCheckboxes(field.options)
         : findDefaultForRadio(field.options)
       : ''
-    console.log(initialValue, field.name)
     return ({ ...acc, id: index, values: { ...acc.values, [field.name]: initialValue } })
   }, {})
-
-  console.log(defaultModel, initialValues)
   return { ...defaultModel, ...initialValues }
 }
 
