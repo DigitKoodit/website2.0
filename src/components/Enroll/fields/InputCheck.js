@@ -7,16 +7,17 @@ import { Field } from 'formik'
 const InputCheck = ({
   label,
   value,
+  name,
+  options,
   hint,
   isHorizontal,
-  name,
   inputProps
 }) => {
   const { containerClass, labelClass } = inputProps || {}
 
-  const inputs = Array.isArray(value)
-    ? value.map((input, index) => renderCheckButton(name, input, inputProps, index))
-    : renderCheckButton(name, value, inputProps)
+  const inputs = options
+    ? renderCheckButtons(options, name, inputProps)
+    : renderCheckButton(name, inputProps)
 
   return (
     <EditorField
@@ -36,7 +37,8 @@ const InputCheck = ({
 InputCheck.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
+  value: PropTypes.bool,
+  options: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array
   ]),
@@ -45,16 +47,26 @@ InputCheck.propTypes = {
   inputProps: PropTypes.object
 }
 
-const renderCheckButton = (name, input, { inputClassName }, index) => (
+const renderCheckButtons = (options, fieldName, inputProps) =>
+  options.map(input =>
+    <Field
+      key={input.label}
+      component={CheckButton}
+      id={input.name}
+      label={input.label}
+      className={inputProps.inputClassName}
+      name={`values.${fieldName}.${input.name}`}
+    />
+  )
+
+const renderCheckButton = (name, inputProps) =>
   <Field
-    key={input.label}
+    key={name}
     component={CheckButton}
-    id={input.name}
-    label={input.label}
-    className={inputClassName}
-    name={index != null ? `${name}[${index}].value` : name}
+    id={name}
+    className={inputProps.inputClassName}
+    name={name}
   />
-)
 
 const CheckButton = ({
   field: { name, value, onChange, onBlur },
@@ -67,15 +79,17 @@ const CheckButton = ({
     <Checkbox
       name={name}
       id={id}
-      value={value}
+      checked={value}
       onChange={onChange}
       onBlur={onBlur}
       className={className}
       {...props}
     >
-      <label htmlFor={id}>
-        <span> {label}</span>
-      </label>
+      {label &&
+        <label htmlFor={id}>
+          <span> {label}</span>
+        </label>
+      }
     </Checkbox>
   )
 }

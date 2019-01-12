@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { FieldArray } from 'formik'
 import { Columns, Column } from 'bloomer'
-import selectInput from '../../Enroll/fields/index'
+import inputByType from '../../Enroll/fields'
 import { Button } from 'bloomer/lib/elements/Button'
+import Tooltip from '../../Tooltip'
 
 const defaultFields = [
   {
@@ -12,10 +13,14 @@ const defaultFields = [
     label: 'Nimi',
     defaultValue: null,
     isSize: 'small',
+    customRenderer: label =>
+      <Tooltip message={'Näytetään lomakkeessa'} className='ml-1'>
+        {label}
+      </Tooltip>,
     customOnChangeHandler: (event, index, setFieldValue) => {
       // remove any hazardous characters
       const nameValue = event.target.value.toLowerCase().replace(/([\\/\-(),#|!@~"&^$=<*])/g, '')
-      setFieldValue(`value[${index}].name`, nameValue)
+      setFieldValue(`options[${index}].name`, nameValue)
     }
   },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
@@ -23,7 +28,7 @@ const defaultFields = [
   { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' },
   { name: 'value', isHidden: true, type: 'text', label: 'Oletusarvo', defaultValue: false, isSize: 'small' },
   { name: 'order', isHidden: true, type: 'text', label: 'Järjestys', defaultValue: 0, isSize: 'small' }
-  // { name: 'isDefault', type: 'radio', label: 'Oletusvalinta', defaultValue: false, isSize: 'small' }
+  // {name: 'isDefault', type: 'radio', label: 'Oletusvalinta', defaultValue: false, isSize: 'small' }
 ]
 
 const newInitialItem = initialValues => {
@@ -46,13 +51,7 @@ export class ArrayEditor extends PureComponent {
           render={arrayHelpers => (
             <>
               <Columns>
-                {defaultFields.map(({ name, label, isHidden }) => (
-                  !isHidden &&
-                  <Column className='pb-0' key={name}>
-                    {label}
-                  </Column>
-                ))}
-                <Column isSize='narrow' />
+                {this.renderHeaders(defaultFields)}
               </Columns>
               {optionValues.map((value, index) =>
                 <Columns key={index}>
@@ -60,7 +59,7 @@ export class ArrayEditor extends PureComponent {
                     if(isHidden) {
                       return null
                     }
-                    const Input = selectInput(type)
+                    const Input = inputByType(type)
                     const inputName = `${arrayName}[${index}].${name}`
                     const inputValue = value[name] || (defaultValue != null ? defaultValue : '')
                     return (
@@ -79,7 +78,6 @@ export class ArrayEditor extends PureComponent {
                             readOnly,
                             ...rest
                           }}
-                          {...rest}
                         />
                       </Column>
                     )
@@ -108,6 +106,17 @@ export class ArrayEditor extends PureComponent {
       </div >
     )
   }
+
+  renderHeaders = defaultFields =>
+    <>
+      {defaultFields.map(({ name, label, isHidden, customRenderer }) => (
+        !isHidden &&
+        <Column className='pb-0' key={name}>
+          {customRenderer ? customRenderer(label) : label}
+        </Column>
+      ))}
+      <Column isSize='narrow' />
+    </>
 
   static propTypes = {
     name: PropTypes.string.isRequired,

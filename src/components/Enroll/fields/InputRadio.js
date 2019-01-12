@@ -6,17 +6,15 @@ import { Field } from 'formik'
 
 const InputRadio = ({
   label,
-  value,
+  name,
+  options,
   hint,
   isHorizontal,
-  name,
   inputProps
 }) => {
   const { containerClass, labelClass } = inputProps || {}
 
-  const inputs = Array.isArray(value)
-    ? value.map((input) => renderRadioButton(name, input, inputProps))
-    : renderRadioButton(name, value, inputProps)
+  const inputs = renderRadioButtons(options, name)
 
   return (
     <EditorField
@@ -36,7 +34,7 @@ const InputRadio = ({
 InputRadio.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
+  options: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array
   ]),
@@ -45,16 +43,17 @@ InputRadio.propTypes = {
   inputProps: PropTypes.object
 }
 
-const renderRadioButton = (name, input, { inputClassName }) => (
-  <Field
-    key={input.label}
-    component={RadioButton}
-    id={input.name}
-    label={input.label}
-    className={inputClassName}
-    name={`${name}.selection`}
-  />
-)
+const renderRadioButtons = (options, name) =>
+  options.map((input, { inputClassName }) => (
+    <Field
+      key={input.label}
+      component={RadioButton}
+      id={input.name}
+      label={input.label}
+      className={inputClassName}
+      name={`values[${name}]`}
+    />
+  ))
 
 const RadioButton = ({
   field: { name, value, onChange, onBlur },

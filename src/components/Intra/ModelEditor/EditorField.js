@@ -20,7 +20,7 @@ const EditorField = ({
           ? <Tooltip message={tooltipMessage} className='ml-1'>
             {LabelComponent}
           </Tooltip>
-          : LabelComponent
+          : <small>{LabelComponent}</small>
         }
       </FieldLabel>
       }

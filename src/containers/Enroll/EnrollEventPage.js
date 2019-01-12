@@ -52,6 +52,7 @@ export class EnrollEventPage extends PureComponent {
               defaultValues={defaultValues(event.fields)}
               submitRenderer='Tallenna'
               onSave={values => {
+                console.log(values, defaultValues(event.fields))
                 return Promise.resolve()
               }} />
           </Box>
@@ -66,8 +67,29 @@ export class EnrollEventPage extends PureComponent {
   }
 }
 
+const findDefaultForCheckboxes = options =>
+  options.reduce((optionAcc, option) => ({ ...optionAcc, [option.name]: !!option.isDefault }), {})
+
+const findDefaultForRadio = options => {
+  const option = options.find(option => option.isDefault)
+  return option
+    ? option.name
+    : null
+}
+
 const defaultValues = (fields, initialValues = {}) => {
-  const defaultModel = fields.reduce((acc, field, index) => ({ ...acc, id: index, [field.name]: field.value }), {})
+  console.log(fields)
+  const defaultModel = fields.reduce((acc, field, index) => {
+    const initialValue = Array.isArray(field.options)
+      ? field.type === 'checkbox'
+        ? findDefaultForCheckboxes(field.options)
+        : findDefaultForRadio(field.options)
+      : ''
+    console.log(initialValue, field.name)
+    return ({ ...acc, id: index, values: { ...acc.values, [field.name]: initialValue } })
+  }, {})
+
+  console.log(defaultModel, initialValues)
   return { ...defaultModel, ...initialValues }
 }
 

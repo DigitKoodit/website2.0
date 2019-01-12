@@ -14,7 +14,7 @@ const InputText = ({
   isHorizontal,
   name,
   inputProps }) => {
-  const { inputClassName, containerClass, labelClass, lines, maxLength } = inputProps || {}
+  const { inputClassName, containerClass, labelClass, lines, maxLength, isSize } = inputProps || {}
 
   return (
     <EditorField
@@ -36,6 +36,7 @@ const InputText = ({
               onChange={onChange}
               name={name}
               isActive={inputProps.readOnly}
+              isSize={isSize}
             />)
           : (
             <TextArea
@@ -45,8 +46,9 @@ const InputText = ({
               value={value}
               maxLength={maxLength}
               onChange={onChange}
-              name={name}
+              name={`${name}`}
               isActive={inputProps.readOnly}
+              isSize={isSize}
             />
           )}
       </Control>
