@@ -26,9 +26,16 @@ npm install
 npm start
 ```
 
+## DOCS 
+ 
+> Check [docs](docs) folder:
+
+-  [Event management](docs/events.md)
+
+
 ### Initial Configuration
 
-(Use VScode)
+Nothing :)
 
 ## Developing
 
