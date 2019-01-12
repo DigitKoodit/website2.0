@@ -7,7 +7,6 @@ export const types = [
 
 export const options = {
   text: {
-    value: '',
     fieldName: 'Teksti',
     type: 'text',
     placeholder: null,
@@ -15,7 +14,7 @@ export const options = {
     lines: 1
   },
   radio: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
@@ -29,7 +28,7 @@ export const options = {
     type: 'radio'
   },
   checkbox: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
@@ -43,7 +42,7 @@ export const options = {
     type: 'checkbox'
   },
   select: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
@@ -59,11 +58,10 @@ export const options = {
 }
 
 export const base = {
-  type: undefined,
-  name: undefined,
-  label: undefined,
+  type: null,
+  name: null,
+  label: null,
   required: false,
   public: false,
-  order: undefined,
-  value: undefined
+  order: null
 }

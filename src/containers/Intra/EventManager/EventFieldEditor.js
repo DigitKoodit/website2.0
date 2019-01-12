@@ -35,7 +35,7 @@ const textInputFields = [
 ]
 
 const optionInputFields = [
-  { name: 'value', type: 'arrayEditor', label: 'Valinnat', defaultValue: [], isSize: 'small' }
+  { name: 'options', type: 'arrayEditor', label: 'Valinnat', defaultValue: [], isSize: 'small' }
 ]
 
 const defaultValues = initialValues => {
@@ -54,7 +54,8 @@ export default class EventFieldEditor extends PureComponent {
     const isTextInput = initialValues.type === 'text'
     return (
       <Form
-        onSave={values => Promise.resolve(onSave(values))}
+        onSave={values =>
+          console.log(values) || Promise.resolve(onSave(values))}
         fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
         submitRenderer='Tallenna'
         defaultValues={defaultValues(initialValues)}

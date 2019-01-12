@@ -6,7 +6,7 @@ import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
 import { Button } from 'bloomer'
 import { withFormik } from 'formik'
-import selectInput from './fields'
+import inputByType from './fields'
 import ArrayEditor from '../Intra/ModelEditor/ArrayEditor'
 
 const InnerForm = ({
@@ -22,14 +22,14 @@ const InnerForm = ({
   setFieldValue
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
+    {fields.map(({ type, options, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
       if(customRenderer) {
         return (
           <Fragment key={name}>
             {customRenderer({ name, label, value: values[name], values, handleChange })}
           </Fragment>)
       }
-      const Input = type === 'arrayEditor' ? ArrayEditor : selectInput(type)
+      const Input = type === 'arrayEditor' ? ArrayEditor : inputByType(type)
       return (
         <Fragment key={name}>
           <Input
@@ -43,6 +43,7 @@ const InnerForm = ({
             }}
             onBlur={handleBlur}
             value={values[name]}
+            options={options}
             readOnly={readOnly}
             setFieldValue={setFieldValue}
             inputProps={{
@@ -116,7 +117,7 @@ Form.propTypes = {
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    options: PropTypes.object
+    options: PropTypes.array
   })),
   validate: PropTypes.func.isRequired
 }
