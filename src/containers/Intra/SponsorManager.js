@@ -44,11 +44,10 @@ class SponsorManager extends Component {
     onCancel={this.clearSelection}
     onRemove={this.removeItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
-      const isNewlyCreated = item.id < 0
       return (
         <Columns>
           <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
-            {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
+            {!isNewlyCreated(item) && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'>
               <EditorInput
                 field='name'
