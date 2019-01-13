@@ -45,14 +45,13 @@ InputCheck.propTypes = {
 }
 
 const renderCheckButtons = (options, fieldName, inputProps) =>
-  options.map(input =>
+  options.map(option =>
     <Field
-      key={input.label}
+      key={option.label}
       component={CheckButton}
-      id={input.name}
-      label={input.label}
+      label={option.label}
       className={inputProps.inputClassName}
-      name={`[${fieldName}][${input.name}]`}
+      name={`[${fieldName}][${option.name}]`}
     />
   )
 
@@ -67,7 +66,6 @@ const renderCheckButton = (name, inputProps) =>
 
 const CheckButton = ({
   field: { name, value, onChange, onBlur },
-  id,
   label,
   className,
   ...props
@@ -75,7 +73,7 @@ const CheckButton = ({
   return (
     <Checkbox
       name={name}
-      id={id}
+      id={name}
       checked={value}
       onChange={onChange}
       onBlur={onBlur}
@@ -83,7 +81,7 @@ const CheckButton = ({
       {...props}
     >
       {label &&
-        <label htmlFor={id}>
+        <label htmlFor={name}>
           <span> {label}</span>
         </label>
       }

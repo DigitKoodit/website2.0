@@ -43,12 +43,12 @@ InputRadio.propTypes = {
 }
 
 const renderRadioButtons = (options, name) =>
-  options.map((input, { inputClassName }) => (
+  options.map((option, { inputClassName }) => (
     <Field
-      key={input.label}
+      key={option.label}
       component={RadioButton}
-      id={input.name}
-      label={input.label}
+      id={option.name}
+      label={option.label}
       className={inputClassName}
       name={name}
     />
