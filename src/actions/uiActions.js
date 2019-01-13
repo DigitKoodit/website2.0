@@ -1,7 +1,6 @@
 import * as types from './actionTypes'
 
-const timeoutLong = 2900 // FIXME: snackbar flashes 100ms when timeout is set to 3000
-// const timeoutShort = 1000
+const timeoutLong = 2900
 
 const toggleSnackbar = message => ({
   type: types.TOGGLE_SNACKBAR,
@@ -10,5 +9,6 @@ const toggleSnackbar = message => ({
 
 export const displaySnackbar = message => dispatch => {
   dispatch(toggleSnackbar(message))
+  // FIXME: [Violation] 'setTimeout' handler took 50ms happens sometimes
   setTimeout(() => dispatch(toggleSnackbar(message)), timeoutLong)
 }
