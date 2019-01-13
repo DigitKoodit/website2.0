@@ -9,8 +9,9 @@ const InputText = ({
   hint,
   isHorizontal,
   name,
-  inputProps }) => {
-  const { inputClassName, containerClass, labelClass, lines, readOnly, maxLength, isSize } = inputProps || {}
+  inputProps,
+  onChange }) => {
+  const { inputClassName, containerClass, labelClass, readOnly, maxLength, isTextarea, isSize } = inputProps || {}
 
   return (
     <EditorField
@@ -18,19 +19,19 @@ const InputText = ({
       tooltipMessage={hint}
       isHorizontal={isHorizontal}
       className={containerClass}
-      labelClass={labelClass}
-    >
-      <Control isExpanded>
+      labelClass={labelClass} >
+      <Control>
         <Field
           key={label}
           component={TextInput}
           id={name}
           className={inputClassName}
           name={name}
-          lines={lines}
           isActive={readOnly}
           maxLength={maxLength}
           isSize={isSize}
+          onChange={onChange}
+          isTextarea={isTextarea}
         />
       </Control>
     </EditorField>
@@ -42,25 +43,27 @@ InputText.propTypes = {
   name: PropTypes.string,
   hint: PropTypes.string,
   isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object
+  inputProps: PropTypes.object,
+  onChange: PropTypes.func.isRequired
 }
 
 const TextInput = ({
   field,
-  field: { name, value, onChange, onBlur },
+  field: { name, value, onBlur },
   id,
   label,
   className,
-  isTextArea,
-  lines,
+  isTextarea,
   readOnly,
+  onChange,
   ...props
 }) =>
-  (!lines || lines === 1)
+  !isTextarea
     ? <Input
       id={id}
       name={name}
       value={value}
+      className={className}
       onChange={onChange}
       onBlur={onBlur}
       {...props}
@@ -69,9 +72,9 @@ const TextInput = ({
       id={id}
       name={name}
       value={value}
+      className={className}
       onChange={onChange}
       onBlur={onBlur}
-      rows={lines}
       {...props}
     />
 

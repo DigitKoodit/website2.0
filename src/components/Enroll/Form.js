@@ -47,7 +47,7 @@ const InnerForm = ({
             readOnly={readOnly}
             setFieldValue={setFieldValue}
             inputProps={{
-              inputClassName: 'editor-input-field mb-3',
+              inputClassName: 'editor-input-field mb-2',
               readOnly,
               ...rest
             }}

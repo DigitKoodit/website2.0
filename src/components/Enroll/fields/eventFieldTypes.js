@@ -11,7 +11,7 @@ export const options = {
     type: 'text',
     placeholder: null,
     maxLength: 64,
-    lines: 1
+    isTextarea: false
   },
   radio: {
     options: [

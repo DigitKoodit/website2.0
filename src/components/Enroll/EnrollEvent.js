@@ -196,7 +196,7 @@ EnrollEvent.defaultProps = {
       options: {
         placeholder: 'Etunimi',
         maxLength: 64,
-        lines: 1
+        isTextarea: false
       },
       value: ''
     },
@@ -209,7 +209,7 @@ EnrollEvent.defaultProps = {
       options: {
         placeholder: 'Tekstiä',
         maxLength: 256,
-        lines: 5
+        isTextarea: true
       },
       value: ''
     }

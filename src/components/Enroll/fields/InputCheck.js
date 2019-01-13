@@ -6,7 +6,6 @@ import { Field } from 'formik'
 
 const InputCheck = ({
   label,
-  value,
   name,
   options,
   hint,
@@ -25,8 +24,7 @@ const InputCheck = ({
       tooltipMessage={hint}
       isHorizontal={isHorizontal}
       className={containerClass}
-      labelClass={labelClass}
-    >
+      labelClass={labelClass} >
       <Control>
         {inputs}
       </Control>
@@ -37,7 +35,6 @@ const InputCheck = ({
 InputCheck.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.bool,
   options: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array

@@ -22,8 +22,7 @@ const InputRadio = ({
       tooltipMessage={hint}
       isHorizontal={isHorizontal}
       className={containerClass}
-      labelClass={labelClass}
-    >
+      labelClass={labelClass}>
       <Control>
         {inputs}
       </Control>

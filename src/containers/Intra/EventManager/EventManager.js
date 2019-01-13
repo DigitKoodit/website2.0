@@ -132,7 +132,6 @@ class EventManager extends PureComponent {
                   validationErrors={validationErrors} />
               </EditorField>
             </div>
-
             <span className='has-text-grey-light'>* pakollinen</span>
           </Column>
         </Columns>

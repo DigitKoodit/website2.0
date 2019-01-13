@@ -5,6 +5,7 @@ import { Columns, Column } from 'bloomer'
 import inputByType from '../../Enroll/fields'
 import { Button } from 'bloomer/lib/elements/Button'
 import Tooltip from '../../Tooltip'
+import { HAZARDOUS_INPUT_CHAR_REGEX } from '../../../constants'
 
 const defaultFields = [
   {
@@ -19,7 +20,7 @@ const defaultFields = [
       </Tooltip>,
     customOnChangeHandler: (event, index, setFieldValue) => {
       // remove any hazardous characters
-      const nameValue = event.target.value.toLowerCase().replace(/([\\/\-(),#|!@~"&^$=<*])/g, '')
+      const nameValue = event.target.value.replace(HAZARDOUS_INPUT_CHAR_REGEX, '-').toLowerCase()
       setFieldValue(`options[${index}].name`, nameValue)
     }
   },
