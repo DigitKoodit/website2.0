@@ -23,23 +23,24 @@ class EventFieldManager extends Component {
     const { fields } = this.props
     return (
       <Fragment>
-        {fields.map((field, index) =>
-          <Columns className='event-option-field' key={field.name + '' + index}>
-            <Column isSize='2/3'>
-              <EventFieldEditor
-                initialValues={field}
-                onSave={updatedField => this.fieldAction(fieldActionTypes.UPDATE, updatedField)()} />
-            </Column>
-            <Column isSize='narrow'>
-              <Button
-                isColor='danger'
-                isSize='small'
-                onClick={this.fieldAction(fieldActionTypes.REMOVE, field)} >
-                -
-              </Button>
-            </Column>
-          </Columns>
-        )}
+        {fields.sort((fieldA, fieldB) => fieldA.id - fieldB.id)
+          .map((field, index) =>
+            <Columns className='event-option-field' key={field.name + '' + index}>
+              <Column isSize='2/3'>
+                <EventFieldEditor
+                  initialValues={field}
+                  onSave={updatedField => this.fieldAction(fieldActionTypes.UPDATE, updatedField)()} />
+              </Column>
+              <Column isSize='narrow'>
+                <Button
+                  isColor='danger'
+                  isSize='small'
+                  onClick={this.fieldAction(fieldActionTypes.REMOVE, field)} >
+                  -
+                </Button>
+              </Column>
+            </Columns>
+          )}
         <FieldSelector onSelect={this.fieldAction} />
       </Fragment>
     )
