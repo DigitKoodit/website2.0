@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const eventOptionPropTypes = {
+const eventOptionPropTypes = PropTypes.shape({
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -30,9 +30,9 @@ const eventOptionPropTypes = {
 
     })
   ]).isRequired
-}
+})
 
-const eventPropTypes = {
+const eventPropTypes = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   activeAt: PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ const eventPropTypes = {
   reserveCount: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   fields: PropTypes.arrayOf(PropTypes.shape(eventOptionPropTypes))
-}
+})
 
 export default eventPropTypes
 export {

@@ -19,6 +19,7 @@ const rootReducer =
     sponsors: generateReducer(types.SPONSOR),
     userAccounts: generateReducer(types.USER_ACCOUNT),
     events: generateReducer(types.EVENT),
+    eventEnrolls: generateReducer(types.EVENT_ENROLL),
     files: generateReducer(types.FILE),
     fileUploads: generateReducer(types.FILE_UPLOAD)
   }

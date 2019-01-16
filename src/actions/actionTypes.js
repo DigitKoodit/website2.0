@@ -16,6 +16,7 @@ export const actionKeys = {
   userRole: 'USER_ROLE',
   auth: 'AUTH',
   event: 'EVENT',
+  eventEnroll: 'EVENT_ENROLL',
   file: 'FILE',
   fileUpload: 'FILE_UPLOAD'
 }
