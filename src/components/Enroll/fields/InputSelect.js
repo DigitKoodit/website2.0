@@ -1,7 +1,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Control, Select } from 'bloomer'
+import { Control } from 'bloomer'
 import EditorField from '../../Intra/ModelEditor/EditorField'
 import { Field } from 'formik'
 
