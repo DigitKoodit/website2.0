@@ -58,9 +58,10 @@ const pageContentActions = {
       pageItemPrivateCrud.create(pageItem)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          pageItem.id < 0 && dispatch(this.success(pageItem, crudTypes.DELETE)) // remove temporary item
-          pageItem.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          if(isNewlyCreated(pageItem)) {
+            dispatch(this.success(pageItem, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar('Luominen onnistui'))
+          }
         }).catch(err => {
           const message = 'Luominen epäonnistui'
           parseResponseError(err, message).then(error => {
@@ -90,7 +91,7 @@ const pageContentActions = {
   },
   removePage(pageItem) {
     return dispatch => {
-      const isUnsavedItem = pageItem.id < 0
+      const isUnsavedItem = isNewlyCreated(pageItem)
       if(isUnsavedItem) {
         return dispatch(this.success(pageItem, crudTypes.DELETE))
       }

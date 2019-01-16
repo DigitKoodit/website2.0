@@ -62,9 +62,10 @@ const sponsorActions = {
       sponsorPrivateCrud.create(sponsor)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          sponsor.id < 0 && dispatch(this.success(sponsor, crudTypes.DELETE)) // remove temporary item
-          sponsor.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          if(isNewlyCreated(sponsor)) {
+            dispatch(this.success(sponsor, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar('Luominen onnistui'))
+          }
         }).catch(err => {
           const message = 'Luominen epäonnistui'
           parseResponseError(err, message).then(error => {

@@ -65,9 +65,10 @@ const fileActions = {
       fileCrud.create(item)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          item.id < 0 && dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
-          item.id < 0 && dispatch(displaySnackbar(`${singular} luominen onnistui`))
+          if(isNewlyCreated(item)) {
+            dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar(`${singular} luominen onnistui`))
+          }
         }).catch(err => {
           const message = `${singular} luominen epäonnistui`
           parseResponseError(err, message).then(error => {
@@ -97,7 +98,7 @@ const fileActions = {
   },
   removeFile(item) {
     return dispatch => {
-      const isUnsavedItem = item.id < 0
+      const isUnsavedItem = isNewlyCreated(item)
       if(isUnsavedItem) {
         return dispatch(this.success(item, crudTypes.DELETE))
       }
