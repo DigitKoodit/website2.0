@@ -17,6 +17,9 @@ const renderAnswers = (fields, answers) =>
     </tr>)
 
 const renderAnswer = (type, value) => {
+  if(value == null) {
+    return null
+  }
   if(type === 'text') {
     return value
   } else if(type === 'radio') {

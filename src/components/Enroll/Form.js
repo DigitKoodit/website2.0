@@ -35,7 +35,7 @@ const InnerForm = ({
           <Input
             type={type}
             name={name}
-            label={label}
+            label={required ? <strong>{label}</strong> : label}
             required={required}
             onChange={event => {
               handleChange(event)
