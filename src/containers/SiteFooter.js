@@ -11,7 +11,10 @@ const SiteFooter = () => (
           <Column hasTextAlign='centered'>
             <address>
               <p>Digit ry © {new Date().getFullYear()}<br />
-                Agora, 20014 Turun yliopisto</p>
+                Vesilinnantie 5<br />
+                Agora, 20014 Turun yliopisto<br />
+                Finland<br />
+                E-mail: digit [ät] utu.fi</p>
             </address>
           </Column>
         </Columns>
