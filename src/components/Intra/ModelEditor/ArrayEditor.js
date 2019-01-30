@@ -25,7 +25,6 @@ const defaultFields = [
     }
   },
   { name: 'name', type: 'text', label: 'Tunniste', defaultValue: null, isSize: 'small' },
-  { name: 'maxParticipants', type: 'text', label: 'Max osallistujamäärä', defaultValue: null, isSize: 'small' },
   { name: 'reserveCount', type: 'text', label: 'Kiintiö', defaultValue: null, isSize: 'small' },
   { name: 'value', isHidden: true, type: 'text', label: 'Oletusarvo', defaultValue: false, isSize: 'small' },
   { name: 'order', isHidden: true, type: 'text', label: 'Järjestys', defaultValue: 0, isSize: 'small' }

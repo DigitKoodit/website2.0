@@ -19,8 +19,6 @@ export const options = {
         name: null,
         label: null,
         isDefault: false,
-        value: false,
-        maxParticipants: null,
         reserveCount: null
       }
     ],
@@ -33,8 +31,6 @@ export const options = {
         name: null,
         label: null,
         isDefault: false,
-        value: false,
-        maxParticipants: null,
         reserveCount: null
       }
     ],
@@ -47,8 +43,6 @@ export const options = {
         name: null,
         label: null,
         isDefault: false,
-        value: null,
-        maxParticipants: null,
         reserveCount: null
       }
     ],

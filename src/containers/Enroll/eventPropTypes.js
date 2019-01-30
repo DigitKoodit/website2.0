@@ -11,7 +11,6 @@ const eventOptionPropTypes = PropTypes.shape({
   order: PropTypes.number,
   reserveCount: PropTypes.string,
   reserveEndAt: PropTypes.string,
-  maxParticipants: PropTypes.number,
   placeholder: PropTypes.string,
   maxLength: PropTypes.number,
   lines: PropTypes.number,
@@ -25,7 +24,6 @@ const eventOptionPropTypes = PropTypes.shape({
         PropTypes.string,
         PropTypes.bool
       ]).isRequired,
-      maxParticipants: PropTypes.number,
       reserveCount: PropTypes.number
 
     })
