@@ -13,7 +13,7 @@ const createCrudService = (baseUrl, requireAuth = false) => {
     get(baseUrlIdTemplate.expand({ ...params, id }), null, requireAuth)
 
   const create = (data, params) =>
-    post(baseUrlIdTemplate.expand(params), addBodyPayload(data), requireAuth)
+    post(baseUrlTemplate.expand(params), addBodyPayload(data), requireAuth)
 
   const update = (data, params) =>
     put(baseUrlIdTemplate.expand({ ...params, id: data.id }), addBodyPayload(data), requireAuth)

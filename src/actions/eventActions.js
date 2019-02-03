@@ -16,6 +16,7 @@ const initialItem = {
   activeAt: moment().format(),
   activeUntil: moment().add(1, 'month').format(),
   isVisible: false,
+  maxParticipants: null,
   reserveCount: 0,
   description: `# Testitapahtuma
   Markdown toimii täälläkin `,
