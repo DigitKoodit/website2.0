@@ -7,10 +7,10 @@ import { INITIAL_ID } from '../constants'
 import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const navItemPublicCrud = createCrudService('/api/contents/navigation')
+const navItemPublicCrud = createCrudService('/api//navigation')
 // Private routes require authorization header
 const requireAuth = true
-const navItemPrivateCrud = createCrudService('/api/intra/contents/navigation', requireAuth)
+const navItemPrivateCrud = createCrudService('/api/intra/navigation', requireAuth)
 const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, showOnNavigation: false, isPublished: false }
 
 const siteNavigationActions = {

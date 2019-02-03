@@ -7,8 +7,8 @@ import { INITIAL_ID } from '../constants'
 import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const pageItemPublicCrud = createCrudService('/api/contents')
-const pageItemPrivateCrud = createCrudService('/api/intra/contents', true)
+const pageItemPublicCrud = createCrudService('/api/pages')
+const pageItemPrivateCrud = createCrudService('/api/intra/pages', true)
 
 const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', published: false, content: '' }
 

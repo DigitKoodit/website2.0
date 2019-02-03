@@ -7,7 +7,7 @@ import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 import { loginActions } from '.'
 
-const eventEnrollPublicCrud = createCrudService('/api/contents/events/{eventId}/enrolls')
+const eventEnrollPublicCrud = createCrudService('/api/events/{eventId}/enrolls')
 const eventEnrollPrivateCrud = createCrudService('/api/intra/events/{eventId}/enrolls', true)
 const initialItem = {
   id: INITIAL_ID,

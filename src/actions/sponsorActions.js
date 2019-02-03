@@ -8,7 +8,7 @@ import { INITIAL_ID } from '../constants'
 import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const sponsorPublicCrud = createCrudService('/api/contents/sponsors')
+const sponsorPublicCrud = createCrudService('/api/sponsors')
 const sponsorPrivateCrud = createCrudService('/api/intra/sponsors', true)
 
 const initialItem = { id: INITIAL_ID, name: 'Uusi', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
