@@ -37,6 +37,8 @@ export const createReducer = (initialState, handlers) =>
 
 export const arrayToObject = array => array.reduce((acc, item) => ({ ...acc, [item.id]: item }))
 
+const appendOrReplace = (array, newItem) => array.filter(item => item.id !== newItem.id).concat(newItem)
+
 export const deleteItem = (object, key) => {
   const filtered = { ...object }
   delete filtered[key]
@@ -44,7 +46,7 @@ export const deleteItem = (object, key) => {
 }
 
 /**
- * Generates reducers for crud operations. Just override function in reducer if custom operations are needed. E.g: * {..., [reducerType.CREATE.SUCCESS]: (state, action) {...},...} Se siteNavigationReducers.js
+ * Generates reducers for crud operations. Just override function in reducer if custom operations are needed. E.g: * {..., [reducerType.CREATE.SUCCESS]: (state, action) {...},...} See siteNavigationReducers.js
  *
  * // TODO: on fetch success search/replace existing values
  * @param {String} type reducer type constant
@@ -64,14 +66,14 @@ export const commonCrudReducers = reducerType => ({
   }),
   [reducerType.FETCH.SUCCESS]: (state, action) => ({
     ...state,
-    records: Array.isArray(action.response) ? [...action.response] : [...state.records, action.response],
+    records: Array.isArray(action.response) ? [...action.response] : appendOrReplace(state.records, action.response),
     loading: false,
     error: {}
   }),
   [reducerType.CREATE.SUCCESS]: (state, action) => ({
     ...state,
     // rough way of copying updated object to records
-    records: [...state.records, action.response],
+    records: appendOrReplace(state.records, action.response),
     loading: false,
     error: {}
   }),
