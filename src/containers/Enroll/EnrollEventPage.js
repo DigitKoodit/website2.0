@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-import { Title, Column, Box } from 'bloomer'
+import { Title, Column, Box, Icon } from 'bloomer'
 import moment from 'moment'
 import eventPropTypes from './eventPropTypes'
 import { Base } from '../../components/Layout'
@@ -19,8 +19,16 @@ import { findEventEnrollsByEventId } from '../../selectors/eventEnrollSelectors'
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
     ? <>
-      <i className='fa fa-calendar-check has-text-success' aria-hidden='true' /> Ilmoittautuminen auki <br />
-      Päättyy {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+      <Icon className='fa fa-calendar' aria-hidden='true' />&nbsp;
+      <span className='is-inline-block'>
+        <small><b>Ilmoittautuminen auki</b></small> <br />
+        Ilmoittautumisaika päättyy {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+      </span>
+      {event.reservedUntil &&
+        <span className='mt-1 is-block'>
+          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukeavat {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+        </span>
+      }
     </>
     : <>
       <i className='fa fa-calendar-times has-text-danger' aria-hidden='true' /> Ilmoittautumisaika<br />
@@ -39,6 +47,7 @@ export class EnrollEventPage extends PureComponent {
     fetchEventEnrolls: PropTypes.func.isRequired,
     addEventEnroll: PropTypes.func.isRequired,
     event: eventPropTypes,
+    eventEnrolls: PropTypes.array,
     push: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired
   }
@@ -67,8 +76,9 @@ export class EnrollEventPage extends PureComponent {
               fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
               submitRenderer='Tallenna'
-              onSave={values =>
+              onSave={(values, { resetForm }) =>
                 this.props.addEventEnroll(values, event.id)
+                  .then(() => resetForm())
               } />
           </Box>
           <Box className='top-red' >
