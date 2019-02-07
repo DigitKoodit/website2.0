@@ -70,7 +70,7 @@ InnerForm.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
     customOnChangeHandler: PropTypes.func
-  })).isRequired,
+  })),
   values: PropTypes.object,
   errors: PropTypes.object,
   touched: PropTypes.object,
@@ -99,12 +99,19 @@ const Form = withFormik({
     {
       props,
       setSubmitting,
+      resetForm,
       setErrors /* setValues, setStatus, and other goodies */
     }
   ) => {
-    props.onSave(values)
-      .then(() => setSubmitting(false))
-      .catch(errors => setErrors(errors))
+    props.onSave(values, { resetForm })
+      .then(() => {
+        setSubmitting(false)
+      })
+      .catch(errors => {
+        console.log('err', errors)
+        setSubmitting(false)
+        setErrors(errors)
+      })
   }
 })(InnerForm)
 
