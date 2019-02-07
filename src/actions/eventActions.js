@@ -15,6 +15,7 @@ const initialItem = {
   name: 'Uusi',
   activeAt: moment().format(),
   activeUntil: moment().add(1, 'month').format(),
+  reservedUntil: null,
   isVisible: false,
   maxParticipants: null,
   reserveCount: 0,

@@ -104,8 +104,8 @@ class EventManager extends PureComponent {
               </EditorField>
               <EditorField label='Kiintiöiden aukeamisaika' >
                 <DatePicker
-                  selected={moment(item.activeUntil)}
-                  onChange={date => updateStateItem({ activeUntil: date })}
+                  selected={item.reservedUntil ? moment(item.reservedUntil) : null}
+                  onChange={date => updateStateItem({ reservedUntil: date })}
                   className='input is-small'
                 />
               </EditorField>

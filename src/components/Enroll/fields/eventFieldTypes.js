@@ -22,7 +22,7 @@ export const options = {
         reserveCount: null
       }
     ],
-    fieldName: 'Monivalinta',
+    fieldName: 'Valinta',
     type: 'radio'
   },
   checkbox: {

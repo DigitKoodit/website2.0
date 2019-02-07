@@ -8,7 +8,7 @@ const eventOptionPropTypes = PropTypes.shape({
   label: PropTypes.string.isRequired,
   required: PropTypes.bool.isRequired,
   public: PropTypes.bool.isRequired,
-  order: PropTypes.number,
+  // order: PropTypes.number,
   reserveCount: PropTypes.string,
   reserveEndAt: PropTypes.string,
   placeholder: PropTypes.string,
@@ -25,9 +25,8 @@ const eventOptionPropTypes = PropTypes.shape({
         PropTypes.bool
       ]).isRequired,
       reserveCount: PropTypes.number
-
     })
-  ]).isRequired
+  ])
 })
 
 const eventPropTypes = PropTypes.shape({
@@ -35,6 +34,7 @@ const eventPropTypes = PropTypes.shape({
   name: PropTypes.string.isRequired,
   activeAt: PropTypes.string.isRequired,
   activeUntil: PropTypes.string.isRequired,
+  reservedUntil: PropTypes.string,
   isVisible: PropTypes.bool.isRequired,
   maxParticipants: PropTypes.number.isRequired,
   reserveCount: PropTypes.number.isRequired,
