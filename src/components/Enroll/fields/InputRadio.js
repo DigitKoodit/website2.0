@@ -31,7 +31,7 @@ const InputRadio = ({
 }
 
 InputRadio.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   name: PropTypes.string.isRequired,
   options: PropTypes.oneOfType([
     PropTypes.bool,
@@ -87,7 +87,7 @@ RadioButton.propTypes = {
     onBlur: PropTypes.func
   }).isRequired,
   id: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.node,
   className: PropTypes.string
 }
 

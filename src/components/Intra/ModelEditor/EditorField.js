@@ -34,7 +34,7 @@ const EditorField = ({
 }
 
 EditorField.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)

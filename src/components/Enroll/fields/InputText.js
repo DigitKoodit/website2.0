@@ -39,7 +39,7 @@ const InputText = ({
 }
 
 InputText.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   name: PropTypes.string,
   hint: PropTypes.string,
   isHorizontal: PropTypes.string,
@@ -86,7 +86,7 @@ TextInput.propTypes = {
     onBlur: PropTypes.func
   }).isRequired,
   id: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.node,
   className: PropTypes.string
 }
 
