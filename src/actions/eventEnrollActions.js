@@ -70,15 +70,15 @@ const enrollActions = {
           if(isNewlyCreated(item)) {
             dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
             dispatch(displaySnackbar(`Ilmoittautuminen onnistui`))
-            resolve()
           }
+          resolve()
         }).catch(err => {
           const message = `Ilmoittautuminen epäonnistui`
           parseResponseError(err, message).then(error => {
             dispatch(this.error(error, crudTypes.CREATE))
             dispatch(displayErrorMessage(isUnauthorized(err), message))
             isUnauthorized(err) && dispatch(loginActions.logout('/login'))
-            reject()
+            reject(error)
           })
         })
     }
