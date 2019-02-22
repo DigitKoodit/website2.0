@@ -14,7 +14,8 @@ import { findEventById } from '../../selectors/eventSelectors'
 import Form from '../../components/Enroll/Form'
 import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
-import { findEventEnrollsByEventId } from '../../selectors/eventEnrollSelectors'
+import { findEventEnrollsByEventId, splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
+import { Subtitle } from 'bloomer/lib/elements/Subtitle'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -85,10 +86,20 @@ export class EnrollEventPage extends PureComponent {
             <Title isSize={4} className='highlight-left-red'>
               Osallistujat
             </Title>
-            {eventEnrolls &&
+            {eventEnrolls[0] &&
               <ParticipantList
                 fields={event.fields}
-                answers={eventEnrolls}
+                answers={eventEnrolls[0]}
+                sort={answers => answers}
+                publicOnly
+              />}
+            <Subtitle isSize={5}>
+              Varasijoilla
+            </Subtitle>
+            {eventEnrolls[1] &&
+              <ParticipantList
+                fields={event.fields}
+                answers={eventEnrolls[1]}
                 sort={answers => answers}
                 publicOnly
               />
@@ -124,7 +135,7 @@ const defaultValues = (fields, initialValues = {}) => {
 
 const mapStateToProps = (state, { eventId }) => ({
   event: findEventById(state, eventId),
-  eventEnrolls: findEventEnrollsByEventId(state, eventId),
+  eventEnrolls: splitNormalAndSpare(state, eventId),
   loading: state.events.loading
 })
 

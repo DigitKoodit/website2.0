@@ -17,3 +17,11 @@ export const findEventEnrollsByEventId = createCachedSelector(
   (eventEnrolls, eventId) =>
     eventEnrolls.filter(eventEnroll => eventEnroll.eventId === eventId)
 )((state, eventId) => eventId)
+
+export const splitNormalAndSpare = createCachedSelector(
+  findEventEnrollsByEventId,
+  enrolls => bifurcateBy(enrolls, enroll => enroll.isSpare)
+)((state, eventId) => eventId)
+
+const bifurcateBy = (arr, fn) =>
+  arr.reduce((acc, val, i) => (acc[fn(val, i) ? 0 : 1].push(val), acc), [[], []])
