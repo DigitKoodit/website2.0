@@ -1,47 +1,48 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
-// import fetch from 'fetch-hoc'
-import asyncComponent from '../components/AsyncComponent'
-// import ProilesRenderer from '../components/ProfilesRenderer'
 import PrivateRoute from '../components/PrivateRoute'
+import Header from './Header'
+import Footer from './SiteFooter'
+
 const isDev = process.env.NODE_ENV === 'development'
 
-const Header = asyncComponent(() => import('./Header'))
-const Home = asyncComponent(() => import('./Home'))
-const CalendarSite = asyncComponent(() => import('./CalendarSite'))
-const Footer = asyncComponent(() => import('./SiteFooter'))
-const IntraPage = asyncComponent(() => import('./Intra'))
-const LoginPage = asyncComponent(() => import('./Auth/LoginPage'))
-const RegistrationPage = asyncComponent(() => import('./Auth/RegistrationPage'))
-// const RegistrationConfirmation = asyncComponent(() => import('./Auth/RegistrationConfirmation'))
-const DynamicPage = asyncComponent(() => import('./Content/DynamicPage'))
-const EnrollPage = asyncComponent(() => import('./Enroll/EnrollPage'))
+const Home = React.lazy(() => import('./Home'))
+const CalendarSite = React.lazy(() => import('./CalendarSite'))
+const IntraPage = React.lazy(() => import('./Intra'))
+const LoginPage = React.lazy(() => import('./Auth/LoginPage'))
+const RegistrationPage = React.lazy(() => import('./Auth/RegistrationPage'))
+// const RegistrationConfirmation = React.lazy(() => import('./Auth/RegistrationConfirmation'))
+const DynamicPage = React.lazy(() => import('./Content/DynamicPage'))
+const EnrollPage = React.lazy(() => import('./Enroll/EnrollPage'))
 
 class Main extends Component {
   render() {
+    console.log('Render')
     return this.getRouter()
   }
   getRouter() {
     return (
-      <Fragment>
+      <>
         <Header />
         <div className='is-full-height'>
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/toiminta/tapahtumat' component={CalendarSite} />
-            {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
-            {isDev &&
-              <Route path='/register' exact component={RegistrationPage} />
-            }
-            {/* <Route path='/register/:registrationToken' component={RegistrationConfirmation} /> */}
-            <Route path='/login' exact component={LoginPage} />
-            <PrivateRoute path='/intra' component={IntraPage} />
-            <Route path='/ilmo' component={EnrollPage} />
-            <Route path='*' component={DynamicPage} />
-          </Switch>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path='/' exact component={Home} />
+              <Route path='/toiminta/tapahtumat' component={CalendarSite} />
+              {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
+              {isDev &&
+                <Route path='/register' exact component={RegistrationPage} />
+              }
+              {/* <Route path='/register/:registrationToken' component={RegistrationConfirmation} /> */}
+              <Route path='/login' exact component={LoginPage} />
+              <Route path='/ilmo' component={EnrollPage} />
+              <PrivateRoute path='/intra' component={IntraPage} />
+              <Route path='*' component={DynamicPage} />
+            </Switch>
+          </Suspense>
         </div >
         <Footer />
-      </Fragment>
+      </>
     )
   }
 }

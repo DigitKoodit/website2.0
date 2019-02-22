@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -6,14 +6,13 @@ import isNil from 'lodash/isNil'
 import { Route } from 'react-router-dom'
 import Base, { baseColumnSize } from '../../components/Layout/Base'
 import { Column } from 'bloomer'
-import asyncComponent from '../../components/AsyncComponent'
 import Markdown from '../../components/ContentManagement/Markdown'
 import { findSitePageById } from '../../selectors/siteContentSelectors'
 import { findNavItemByPath } from '../../selectors/navItemSelectors'
 import { pageContentActions } from '../../actions'
 import withLoader from '../../components/Helpers/withLoader'
 
-const NotFound = asyncComponent(() => import('../NotFound'))
+const NotFound = React.lazy(() => import('../NotFound'))
 
 const PageContent = ({ siteContent }) => (
   <Column className='left-gray' isSize={baseColumnSize}>
@@ -59,7 +58,11 @@ const pageContentLoader = Children => {
         return null
       }
       if(!sitePageId) {
-        return <Route status={NotFound} component={NotFound} />
+        return (
+          <Suspense fallback={null}>
+            <Route status={NotFound} component={NotFound} />
+          </Suspense>
+        )
       }
       return <Children {...this.props} />
     }

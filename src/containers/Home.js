@@ -10,6 +10,7 @@ import { Hero, HeroBody, Tile, Section, Columns, Column } from 'bloomer'
 
 const heroBgStyle = { backgroundImage: `url(${heroImage})` }
 const isDev = process.env.NODE_ENV === 'development'
+
 const Home = () => {
   return (
     <>
