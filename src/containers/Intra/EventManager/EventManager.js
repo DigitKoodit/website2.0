@@ -49,93 +49,112 @@ class EventManager extends PureComponent {
     onRemove={this.removeItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
       return (
-        <Columns>
-          <Column>
-            <div className='mb-3'>
-              <Subtitle isSize={5}>Perustiedot</Subtitle>
-              {!isNewlyCreated(item) &&
-                <EditorField label='Id' >
-                  {item.id}
-                </EditorField>}
-              <EditorField label='Nimi *' >
-                <EditorInput
-                  field='name'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </EditorField>
-              <EditorField label='Ilmoittautuminen alkaa *' >
-                <DatePicker
-                  selected={moment(item.activeAt)}
-                  onChange={date => updateStateItem({ activeAt: date })}
-                  className='input is-small'
-                />
-              </EditorField>
-              <EditorField label='Ilmoittautuminen päättyy *' >
-                <DatePicker
-                  selected={moment(item.activeUntil)}
-                  onChange={date => updateStateItem({ activeUntil: date })}
-                  className='input is-small'
-                />
-              </EditorField>
-              <EditorField label='Julkaistu' >
-                <EditorCheckbox
-                  field='isVisible'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </EditorField>
-            </div>
-            <div className='mb-3'>
-              <Subtitle isSize={5}>Rajat</Subtitle>
-              <EditorField label='Osallistujamäärä *' >
-                <EditorInput
-                  field='maxParticipants'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </EditorField>
-              <EditorField label='Varasijoja' >
-                <EditorInput
-                  field='reserveCount'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </EditorField>
-              <EditorField label='Kiintiöiden aukeamisaika' >
-                <DatePicker
-                  selected={item.reservedUntil ? moment(item.reservedUntil) : null}
-                  onChange={date => updateStateItem({ reservedUntil: date })}
-                  className='input is-small'
-                />
-              </EditorField>
-            </div>
-            <div className='mb-3'>
-              <Subtitle isSize={5}>Lomake</Subtitle>
-              <EditorField label='Kuvaus *' >
+        <Columns isMultiline>
+          <Column isSize={{ desktop: '1/2', tablet: 'full' }}>
+            <Subtitle isSize={5}>Perustiedot
+              {!isNewlyCreated(item) && <small className='has-text-grey-light'> (ID: {item.id})</small>}
+            </Subtitle>
+            <Columns className='ml-3'>
+              <Column isSize='full'>
+                <EditorField label='Nimi *' >
+                  <EditorInput
+                    field='name'
+                    model={item}
+                    onChange={handleInputChange}
+                    validationErrors={validationErrors} />
+                </EditorField>
+              </Column>
+            </Columns>
+            <Columns className='ml-3'>
+              <Column isSize='narrow'>
+                <EditorField label='Ilmoittautuminen alkaa *' >
+                  <DatePicker
+                    selected={moment(item.activeAt)}
+                    onChange={date => updateStateItem({ activeAt: date })}
+                    className='input is-small'
+                  />
+                </EditorField>
+              </Column>
+              <Column>
+                <EditorField label='Ilmoittautuminen päättyy *' >
+                  <DatePicker
+                    selected={moment(item.activeUntil)}
+                    onChange={date => updateStateItem({ activeUntil: date })}
+                    className='input is-small'
+                  />
+                </EditorField>
+              </Column>
+            </Columns>
+            <Columns className='ml-3'>
+              <Column>
+                <EditorField label='Julkaistu' >
+                  <EditorCheckbox
+                    field='isVisible'
+                    model={item}
+                    onChange={handleInputChange}
+                    validationErrors={validationErrors} />
+                </EditorField>
+              </Column>
+            </Columns>
+          </Column>
+          <Column isSize={{ desktop: '1/2', tablet: 'full' }}>
+            <Subtitle isSize={5}>Rajat</Subtitle>
+            <Columns className='ml-3'>
+              <Column>
+                <EditorField label='Osallistujamäärä *' >
+                  <EditorInput
+                    field='maxParticipants'
+                    model={item}
+                    onChange={handleInputChange}
+                    validationErrors={validationErrors} />
+                </EditorField>
+              </Column>
+              <Column>
+                <EditorField label='Varasijoja' >
+                  <EditorInput
+                    field='reserveCount'
+                    model={item}
+                    onChange={handleInputChange}
+                    validationErrors={validationErrors} />
+                </EditorField>
+              </Column>
+              <Column>
+                <EditorField label='Kiintiöiden aukeamisaika' >
+                  <DatePicker
+                    selected={item.reservedUntil ? moment(item.reservedUntil) : null}
+                    onChange={date => updateStateItem({ reservedUntil: date })}
+                    className='input is-small'
+                  />
+                </EditorField>
+              </Column>
+            </Columns>
+          </Column>
+          <Column isSize='full'>
+            <Subtitle isSize={5}>Tapahtumakuvaus</Subtitle>
+            <Columns className='ml-3'>
+              <Column>
                 <MarkdownEditor
                   content={item.description}
                   handleTextChange={description => updateStateItem({ description: description || '' })}
                 />
-              </EditorField>
-              <EditorField label='Kentät' >
-                <EventFieldManager
-                  fields={item.fields}
-                  updateFields={updateStateItem}
-                  validationErrors={validationErrors} />
-              </EditorField>
-              <EditorField label='Osallistujat' >
-                <EditorInput
-                  field='participants'
-                  model={item}
-                  onChange={handleInputChange}
-                  validationErrors={validationErrors} />
-              </EditorField>
-            </div>
-            <span className='has-text-grey-light'>* pakollinen</span>
+              </Column>
+            </Columns>
+            <EditorField label='Kentät' >
+              <EventFieldManager
+                fields={item.fields}
+                updateFields={updateStateItem}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Osallistujat' >
+              <EditorInput
+                field='participants'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
           </Column>
+          <span className='has-text-grey-light'>* pakollinen</span>
         </Columns>
-
       )
     }}
   />

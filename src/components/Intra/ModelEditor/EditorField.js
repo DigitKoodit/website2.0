@@ -7,7 +7,7 @@ const EditorField = ({
   label,
   children,
   tooltipMessage,
-  isHorizontal = true,
+  isHorizontal = false,
   containerClass = '',
   labelClass = '' }) => {
   const LabelComponent = label && <span className={`has-text-grey-light has-text-weight-semibold ${labelClass}`}>
