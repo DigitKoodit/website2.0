@@ -55,11 +55,11 @@ export default class EventFieldEditor extends PureComponent {
     const isTextInput = initialValues.type === 'text'
     return (
       <Form
+        saveOnBlur
         onSave={values =>
           console.log(values) ||
           Promise.resolve(onSave(values))}
         fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
-        submitRenderer='Tallenna'
         defaultValues={defaultValues(initialValues)}
       />
     )

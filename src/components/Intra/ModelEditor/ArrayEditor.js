@@ -42,7 +42,8 @@ export class ArrayEditor extends PureComponent {
       name: arrayName,
       value: optionValues,
       setFieldValue,
-      onChange
+      onChange,
+      inputProps
     } = this.props
     return (
       <div className='array-field-container'>
@@ -76,6 +77,7 @@ export class ArrayEditor extends PureComponent {
                           inputProps={{
                             inputClassName: 'editor-input-field',
                             readOnly,
+                            onBlur: inputProps.onBlur,
                             ...rest
                           }}
                         />
@@ -122,7 +124,10 @@ export class ArrayEditor extends PureComponent {
     name: PropTypes.string.isRequired,
     value: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    setFieldValue: PropTypes.func.isRequired
+    setFieldValue: PropTypes.func.isRequired,
+    inputProps: PropTypes.shape({
+      onBlur: PropTypes.func
+    })
   }
 }
 

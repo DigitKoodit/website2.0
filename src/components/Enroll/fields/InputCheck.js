@@ -40,8 +40,12 @@ InputCheck.propTypes = {
     PropTypes.array
   ]),
   hint: PropTypes.string,
-  isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object
+  isHorizontal: PropTypes.bool,
+  inputProps: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    onBlur: PropTypes.func
+  })
 }
 
 const renderCheckButtons = (options, fieldName, inputProps) =>
@@ -52,6 +56,7 @@ const renderCheckButtons = (options, fieldName, inputProps) =>
       label={option.label}
       className={inputProps.inputClassName}
       name={`[${fieldName}][${option.name}]`}
+      onBlur={inputProps.onBlur}
     />
   )
 
@@ -62,12 +67,14 @@ const renderCheckButton = (name, inputProps) =>
     id={name}
     className={inputProps.inputClassName}
     name={name}
+    onBlur={inputProps.onBlur}
   />
 
 const CheckButton = ({
-  field: { name, value, onChange, onBlur },
+  field: { name, value, onChange },
   label,
   className,
+  onBlur,
   ...props
 }) => {
   return (
@@ -98,7 +105,8 @@ CheckButton.propTypes = {
   }).isRequired,
   id: PropTypes.string,
   label: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onBlur: PropTypes.func
 }
 
 export default InputCheck

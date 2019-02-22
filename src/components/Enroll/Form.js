@@ -15,11 +15,12 @@ const InnerForm = ({
   errors,
   touched,
   handleChange,
-  handleBlur,
   handleSubmit,
   isSubmitting,
   submitRenderer,
-  setFieldValue
+  setFieldValue,
+  submitForm,
+  saveOnBlur
 }) =>
   <form className='form' onSubmit={handleSubmit}>
     {fields.map(({ type, options, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
@@ -41,7 +42,6 @@ const InnerForm = ({
               handleChange(event)
               customOnChangeHandler && customOnChangeHandler(event, setFieldValue)
             }}
-            onBlur={handleBlur}
             value={values[name]}
             options={options}
             readOnly={readOnly}
@@ -49,6 +49,7 @@ const InnerForm = ({
             inputProps={{
               inputClassName: 'editor-input-field mb-2',
               readOnly,
+              onBlur: event => saveOnBlur && submitForm(),
               ...rest
             }}
           />
@@ -75,14 +76,15 @@ InnerForm.propTypes = {
   errors: PropTypes.object,
   touched: PropTypes.object,
   handleChange: PropTypes.func,
-  handleBlur: PropTypes.func,
+  submitForm: PropTypes.func,
   handleSubmit: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   submitRenderer: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.node
-  ])
+  ]),
+  saveOnBlur: PropTypes.bool
 }
 // Wrap our form with the using withFormik HoC
 const Form = withFormik({
@@ -118,6 +120,7 @@ const Form = withFormik({
 const serializeForInput = value => !isNil(value) ? value : ''
 
 Form.propTypes = {
+  saveOnBlur: PropTypes.bool,
   onSave: PropTypes.func.isRequired,
   defaultValues: PropTypes.object,
   fields: PropTypes.arrayOf(PropTypes.shape({

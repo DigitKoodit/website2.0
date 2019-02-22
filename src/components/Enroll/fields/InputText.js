@@ -11,7 +11,16 @@ const InputText = ({
   name,
   inputProps,
   onChange }) => {
-  const { inputClassName, containerClass, labelClass, readOnly, maxLength, isTextarea, isSize } = inputProps || {}
+  const {
+    inputClassName,
+    containerClass,
+    labelClass,
+    readOnly,
+    maxLength,
+    isTextarea,
+    isSize,
+    onBlur
+  } = inputProps || {}
 
   return (
     <EditorField
@@ -32,6 +41,7 @@ const InputText = ({
           isSize={isSize}
           onChange={onChange}
           isTextarea={isTextarea}
+          onBlur={onBlur}
         />
       </Control>
     </EditorField>
@@ -42,19 +52,23 @@ InputText.propTypes = {
   label: PropTypes.node,
   name: PropTypes.string,
   hint: PropTypes.string,
-  isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object,
+  isHorizontal: PropTypes.bool,
+  inputProps: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    onBlur: PropTypes.func
+  }),
   onChange: PropTypes.func.isRequired
 }
 
 const TextInput = ({
-  field,
-  field: { name, value, onBlur },
+  field: { name, value },
   id,
   label,
   className,
   isTextarea,
   readOnly,
+  onBlur,
   onChange,
   ...props
 }) =>
@@ -87,7 +101,11 @@ TextInput.propTypes = {
   }).isRequired,
   id: PropTypes.string,
   label: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  isTextarea: PropTypes.bool,
+  readOnly: PropTypes.bool
 }
 
 export default InputText

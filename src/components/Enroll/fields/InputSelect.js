@@ -13,9 +13,9 @@ const InputSelect = ({
   isHorizontal,
   inputProps
 }) => {
-  const { containerClass, labelClass } = inputProps || {}
+  const { containerClass, labelClass, onBlur } = inputProps || {}
 
-  const inputs = renderSelect(options, name)
+  const inputs = renderSelect(options, name, onBlur)
 
   return (
     <EditorField
@@ -36,12 +36,16 @@ InputSelect.propTypes = {
   name: PropTypes.string.isRequired,
   options: PropTypes.array,
   hint: PropTypes.string,
-  isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object
+  isHorizontal: PropTypes.bool,
+  inputProps: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    onBlur: PropTypes.func
+  })
 }
 
-const renderSelect = (options, name) => (
-  <Field id={name} name={name} component='select' className='select' >
+const renderSelect = (options, name, onBlur) => (
+  <Field id={name} name={name} component='select' className='select' onBlur={onBlur}>
     {options.map(option =>
       <option key={option.name} value={option.name}>{option.label}</option>
     )}

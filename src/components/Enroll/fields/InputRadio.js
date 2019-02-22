@@ -12,9 +12,9 @@ const InputRadio = ({
   isHorizontal,
   inputProps
 }) => {
-  const { containerClass, labelClass } = inputProps || {}
+  const { containerClass, labelClass, onBlur } = inputProps || {}
 
-  const inputs = renderRadioButtons(options, name)
+  const inputs = renderRadioButtons(options, name, onBlur)
 
   return (
     <EditorField
@@ -38,11 +38,15 @@ InputRadio.propTypes = {
     PropTypes.array
   ]),
   hint: PropTypes.string,
-  isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object
+  isHorizontal: PropTypes.bool,
+  inputProps: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    onBlur: PropTypes.func
+  })
 }
 
-const renderRadioButtons = (options, name) =>
+const renderRadioButtons = (options, name, onBlur) =>
   options.map((option, { inputClassName }) => (
     <Field
       key={option.label}
@@ -51,14 +55,16 @@ const renderRadioButtons = (options, name) =>
       label={option.label}
       className={inputClassName}
       name={name}
+      onBlur={onBlur}
     />
   ))
 
 const RadioButton = ({
-  field: { name, value, onChange, onBlur },
+  field: { name, value, onChange },
   id,
   label,
   className,
+  onBlur,
   ...props
 }) => {
   return (
@@ -88,7 +94,8 @@ RadioButton.propTypes = {
   }).isRequired,
   id: PropTypes.string,
   label: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onBlur: PropTypes.func
 }
 
 export default InputRadio
