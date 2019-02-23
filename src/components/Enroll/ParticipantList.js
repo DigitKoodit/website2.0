@@ -12,26 +12,32 @@ const renderAnswers = (fields, answers) =>
   answers.map(answer =>
     <tr key={answer.id}>
       {fields.map(field => <td key={field.name}>
-        {renderAnswer(field.type, answer.values[field.name])}
+        {renderAnswer(field.type, answer.values[field.name], field.options)}
       </td>)}
     </tr>)
 
-const renderAnswer = (type, value) => {
+const getOptionLabel = (options, name) => {
+  const option = options.find(option => option.name === name)
+  return option ? option.label : 'Ei vastausta'
+}
+const renderAnswer = (type, value, options) => {
   if(value == null) {
     return null
   }
   if(type === 'text') {
     return value
-  } else if(type === 'radio') {
-    return value ? 'X' : '0'
+  } else if(type === 'radio' || type === 'select') {
+    return getOptionLabel(options, value)
   } else if(type === 'checkbox') {
-    return Object.entries(value).map(([key, value]) => value && <span key={key}>{key}: <b>{'X'}</b></span>)
-  } else if(type === 'select') {
-    // Select allows only one item
-    return Object.values(value)
+    const checkedValues = Object.entries(value)
+    return checkedValues.map(([key, value], index) => value &&
+      <span key={key}>
+        {getOptionLabel(options, key)}{index !== checkedValues.length - 1 ? ', ' : ''}
+      </span>)
   }
   return null
 }
+
 const ParticipantList = ({ fields = [], answers, sort, publicOnly }) => {
   const visibleFields = publicOnly ? fields.filter(field => field.public) : fields
   return <Table isFullWidth >
