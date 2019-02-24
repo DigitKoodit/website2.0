@@ -4,10 +4,9 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch } from 'react-router-dom'
 import { Column, Title, Columns, Box, Button, MenuLink } from 'bloomer'
-import DatePicker from 'react-datepicker'
-import '../../styles/datepicker.scss'
 import isNil from 'lodash/isNil'
 import { sponsorActions } from '../../actions'
+import DateTimePicker from '../../components/DateTimePicker'
 import { BaseContent, VerticalList } from '../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../components/Intra/ModelEditor'
 import { getArraySortedBy } from '../../selectors/generalSelectors'
@@ -77,13 +76,13 @@ class SponsorManager extends Component {
                 validationErrors={validationErrors} />
             </EditorField>
             <EditorField label='Aktiivinen alkaen'>
-              <DatePicker
-                selected={moment(item.activeAt)}
+              <DateTimePicker
+                selectedDate={item.activeAt}
                 onChange={date => updateStateItem({ activeAt: date })}
               /></EditorField>
             <EditorField label='Aktiivinen asti'>
-              <DatePicker
-                selected={moment(item.activeUntil)}
+              <DateTimePicker
+                selectedDate={item.activeUntil}
                 onChange={date => updateStateItem({ activeUntil: date })}
               /></EditorField>
           </Column>

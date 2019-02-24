@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Box, Media, MediaLeft, Content, Title, MediaContent, Tile } from 'bloomer'
 import moment from 'moment'
-import 'moment/locale/fi'
 
 import ReactMarkdown from 'react-markdown'
 import fbFeed from './SocialMediaFeed.json'

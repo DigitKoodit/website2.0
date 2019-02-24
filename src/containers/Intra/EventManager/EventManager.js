@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Route, Switch } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import '../../../styles/datepicker.scss'
 import { Columns, Column, Title, Box, Button, Subtitle } from 'bloomer'
 import isNil from 'lodash/isNil'
-import { BaseContent } from '../../../components/Layout'
 import { eventActions } from '../../../actions'
+import { BaseContent } from '../../../components/Layout'
+import DateTimePicker from '../../../components/DateTimePicker'
 import EventList from './EventList'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../../components/Intra/ModelEditor'
 import MarkdownEditor from '../../../components/ContentManagement/MarkdownEditor'
@@ -68,19 +67,17 @@ class EventManager extends PureComponent {
             <Columns className='ml-3'>
               <Column isSize='narrow'>
                 <EditorField label='Ilmoittautuminen alkaa *' >
-                  <DatePicker
-                    selected={moment(item.activeAt)}
+                  <DateTimePicker
+                    selectedDate={item.activeAt}
                     onChange={date => updateStateItem({ activeAt: date })}
-                    className='input is-small'
                   />
                 </EditorField>
               </Column>
               <Column>
                 <EditorField label='Ilmoittautuminen päättyy *' >
-                  <DatePicker
-                    selected={moment(item.activeUntil)}
+                  <DateTimePicker
+                    selectedDate={item.activeUntil}
                     onChange={date => updateStateItem({ activeUntil: date })}
-                    className='input is-small'
                   />
                 </EditorField>
               </Column>
@@ -120,8 +117,8 @@ class EventManager extends PureComponent {
               </Column>
               <Column>
                 <EditorField label='Kiintiöiden aukeamisaika' >
-                  <DatePicker
-                    selected={item.reservedUntil ? moment(item.reservedUntil) : null}
+                  <DateTimePicker
+                    selectedDate={item.reservedUntil}
                     onChange={date => updateStateItem({ reservedUntil: date })}
                     className='input is-small'
                   />

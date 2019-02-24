@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import values from 'lodash/values'
 import take from 'lodash/take'
 import moment from 'moment'
-import 'moment/locale/fi'
 
 class EventsView extends Component {
   state = {
