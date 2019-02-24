@@ -14,8 +14,7 @@ import { findEventById } from '../../selectors/eventSelectors'
 import Form from '../../components/Enroll/Form'
 import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
-import { findEventEnrollsByEventId, splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
-import { Subtitle } from 'bloomer/lib/elements/Subtitle'
+import { splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -27,7 +26,7 @@ const EventStatus = ({ event }) =>
       </span>
       {event.reservedUntil &&
         <span className='mt-1 is-block'>
-          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukeavat {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukea {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
         </span>
       }
     </>
@@ -35,6 +34,10 @@ const EventStatus = ({ event }) =>
       <i className='fa fa-calendar-times has-text-danger' aria-hidden='true' /> Ilmoittautumisaika<br />
       {moment(event.activeAt).format('DD.MM.YYYY HH:mm:ss')} - {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
     </>
+
+EventStatus.propTypes = {
+  event: eventPropTypes
+}
 
 const isEnrollable = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
@@ -65,6 +68,7 @@ export class EnrollEventPage extends PureComponent {
     if(!event || loading) {
       return null
     }
+    console.log('render')
     return (
       <Base >
         <Column isSize={baseColumnSize}>
