@@ -36,6 +36,9 @@ const EventStatus = ({ event }) =>
       {moment(event.activeAt).format('DD.MM.YYYY HH:mm:ss')} - {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
     </>
 
+const isEnrollable = event => event &&
+  moment().isAfter(moment(event.activeAt)) &&
+  moment().isBefore(moment(event.activeUntil))
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -48,7 +51,8 @@ export class EnrollEventPage extends PureComponent {
     fetchEventEnrolls: PropTypes.func.isRequired,
     addEventEnroll: PropTypes.func.isRequired,
     event: eventPropTypes,
-    eventEnrolls: PropTypes.array,
+    participants: PropTypes.array,
+    spareParticipants: PropTypes.array,
     push: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired
   }
@@ -57,7 +61,7 @@ export class EnrollEventPage extends PureComponent {
     this.props.push(`/ilmo`)
 
   render() {
-    const { event, loading, eventEnrolls } = this.props
+    const { event, loading, participants, spareParticipants } = this.props
     if(!event || loading) {
       return null
     }
@@ -69,42 +73,53 @@ export class EnrollEventPage extends PureComponent {
             <EventStatus event={event} />
           </p>
           <Markdown source={event.description} />
-          <Box className='p-3 pt-5 top-blue'>
-            <Title isSize={4} className='highlight-left-dark-blue'>
-              Ilmoittaudu
-            </Title>
-            <Form
-              fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
-              defaultValues={defaultValues(event.fields)}
-              submitRenderer='Tallenna'
-              onSave={(values, { resetForm }) =>
-                this.props.addEventEnroll(values, event.id)
-                  .then(() => resetForm())
-              } />
-          </Box>
-          <Box className='top-red' >
-            <Title isSize={4} className='highlight-left-red'>
-              Osallistujat
-            </Title>
-            {eventEnrolls[0] &&
-              <ParticipantList
-                fields={event.fields}
-                answers={eventEnrolls[0]}
-                sort={answers => answers}
-                publicOnly
-              />}
-            <Subtitle isSize={5}>
-              Varasijoilla
-            </Subtitle>
-            {eventEnrolls[1] &&
-              <ParticipantList
-                fields={event.fields}
-                answers={eventEnrolls[1]}
-                sort={answers => answers}
-                publicOnly
-              />
-            }
-          </Box>
+          {isEnrollable(event)
+            ? <>
+              <Box className='p-3 pt-5 top-blue'>
+                <Title isSize={4} className='highlight-left-dark-blue'>
+                  Ilmoittaudu
+                </Title>
+                <Form
+                  fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
+                  defaultValues={defaultValues(event.fields)}
+                  submitRenderer='Tallenna'
+                  onSave={(values, { resetForm }) =>
+                    this.props.addEventEnroll(values, event.id)
+                      .then(() => resetForm())
+                  } />
+              </Box>
+              <Box className='top-red' >
+                <Title isSize={4} className='highlight-left-red'>
+                  Osallistujat
+                </Title>
+                {participants &&
+                  <ParticipantList
+                    fields={event.fields}
+                    answers={participants}
+                    sort={answers => answers}
+                    publicOnly
+                  />}
+                <strong>
+                  <p className='has-text-grey mb-1'>
+                    Varasijoilla
+                  </p>
+                </strong>
+                {spareParticipants &&
+                  <ParticipantList
+                    fields={event.fields}
+                    answers={spareParticipants}
+                    sort={answers => answers}
+                    publicOnly
+                  />
+                }
+              </Box>
+            </>
+            : <Box>
+              <p className='has-text-grey mb-1'>
+                Ilmoittautuminen ei ole auki.
+              </p>
+            </Box>
+          }
         </Column>
       </Base >
     )
@@ -133,11 +148,15 @@ const defaultValues = (fields, initialValues = {}) => {
   return { ...defaultModel, ...initialValues }
 }
 
-const mapStateToProps = (state, { eventId }) => ({
-  event: findEventById(state, eventId),
-  eventEnrolls: splitNormalAndSpare(state, eventId),
-  loading: state.events.loading
-})
+const mapStateToProps = (state, { eventId }) => {
+  const splittedEnrolls = splitNormalAndSpare(state, eventId)
+  return {
+    event: findEventById(state, eventId),
+    participants: splittedEnrolls[1],
+    spareParticipants: splittedEnrolls[0],
+    loading: state.events.loading
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   push: () => dispatch(push()),
