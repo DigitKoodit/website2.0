@@ -57,7 +57,6 @@ export default class EventFieldEditor extends PureComponent {
       <Form
         saveOnBlur
         onSave={values =>
-          console.log(values) ||
           Promise.resolve(onSave(values))}
         fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
         defaultValues={defaultValues(initialValues)}

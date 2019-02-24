@@ -17,7 +17,6 @@ const EnrollPage = React.lazy(() => import('./Enroll/EnrollPage'))
 
 class Main extends Component {
   render() {
-    console.log('Render')
     return this.getRouter()
   }
   getRouter() {
