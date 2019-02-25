@@ -39,9 +39,11 @@ EventStatus.propTypes = {
   event: eventPropTypes
 }
 
-const isEnrollable = event => event &&
+const isActiveEvent = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
   moment().isBefore(moment(event.activeUntil))
+
+const isEnrollable = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -68,6 +70,7 @@ export class EnrollEventPage extends PureComponent {
     if(!event || loading) {
       return null
     }
+    console.log(event, participants.length, spareParticipants.length)
     return (
       <Base >
         <Column isSize={baseColumnSize}>
@@ -76,26 +79,39 @@ export class EnrollEventPage extends PureComponent {
             <EventStatus event={event} />
           </p>
           <Markdown source={event.description} />
-          {isEnrollable(event)
+          {isActiveEvent(event)
             ? <>
-              <Box className='p-3 pt-5 top-blue'>
-                <Title isSize={4} className='highlight-left-dark-blue'>
-                  Ilmoittaudu
-                </Title>
-                <Form
-                  fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
-                  defaultValues={defaultValues(event.fields)}
-                  submitRenderer='Tallenna'
-                  onSave={(values, { resetForm }) =>
-                    this.props.addEventEnroll(values, event.id)
-                      .then(() => resetForm())
-                  } />
+              <Box>
+                {isEnrollable(event, participants.length + spareParticipants.length)
+                  ? <>
+                    <Title isSize={4} className='highlight-left-dark-blue'>
+                      Ilmoittaudu
+                    </Title>
+                    <Form
+                      fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
+                      defaultValues={defaultValues(event.fields)}
+                      submitRenderer='Tallenna'
+                      onSave={(values, { resetForm }) =>
+                        this.props.addEventEnroll(values, event.id)
+                          .then(() => resetForm())
+                      } />
+                  </>
+                  : (
+                    <p className='has-text-grey'>
+                      Tapahtuma on täynnä
+                    </p>
+                  )}
               </Box>
               <Box className='top-red' >
-                <Title isSize={5} className='highlight-left-red'>
+                <Title isSize={5} className='highlight-left-red is-inline-block'>
                   Osallistujat
                 </Title>
-                {participants &&
+                {participants.length &&
+                  <>
+                    &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
+                  </>
+                }
+                {participants.length &&
                   <ParticipantList
                     fields={event.fields}
                     answers={participants}
@@ -105,6 +121,11 @@ export class EnrollEventPage extends PureComponent {
                 <strong>
                   <p className='has-text-grey mb-1'>
                     Varasijoilla
+                    {spareParticipants.length &&
+                      <>
+                        &nbsp;<small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
+                      </>
+                    }
                   </p>
                 </strong>
                 {spareParticipants &&

@@ -35,7 +35,7 @@ export class ParticipantPage extends PureComponent {
     return (
       <Columns>
         <Column>
-          <Subtitle isSize={5}>Osallistujat</Subtitle>
+          <Subtitle isSize={5}>Osallistujat <small className='has-text-grey-light'>({enrolls.length})</small></Subtitle>
           {enrolls.length
             ? <DataGrid
               columns={mapFieldsToColumns(enrolls[0])}
@@ -65,7 +65,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchEnrolls: eventId => dispatch(eventEnrollActions.fetchEventEnrolls(eventId))
+  fetchEnrolls: eventId => dispatch(eventEnrollActions.fetchEventEnrolls(eventId, true))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ParticipantPage)
