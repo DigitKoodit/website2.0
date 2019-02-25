@@ -19,7 +19,7 @@ const EVENT_ENROLL = createCrudTypes(actionKeys.eventEnroll)
 const singular = 'Ilmoittautumisen'
 const plural = 'Ilmoittautumisten'
 
-const enrollActions = {
+const eventEnrollActions = {
   pending: (crudType) => createAction(EVENT_ENROLL[crudType].PENDING),
   success: (response, crudType) => createAction(EVENT_ENROLL[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(EVENT_ENROLL[crudType].ERROR, { error }),
@@ -123,5 +123,5 @@ const enrollActions = {
   }
 }
 
-export default enrollActions
+export default eventEnrollActions
 export { EVENT_ENROLL }

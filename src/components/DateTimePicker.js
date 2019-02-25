@@ -25,7 +25,6 @@ class DateTimePicker extends PureComponent {
               onError={console.log}
               clearable
               invalidDateMessage='Viallinen aika'
-              showTodayButton
               format='DD.MM.YYYY HH:mm'
             />
           </MuiPickersUtilsProvider>
@@ -34,7 +33,7 @@ class DateTimePicker extends PureComponent {
     )
   }
   static propTypes = {
-    selectedDate: PropTypes.object,
+    selectedDate: PropTypes.string,
     onChange: PropTypes.func.isRequired
 
   }

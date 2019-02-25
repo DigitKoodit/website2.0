@@ -68,7 +68,6 @@ export class EnrollEventPage extends PureComponent {
     if(!event || loading) {
       return null
     }
-    console.log('render')
     return (
       <Base >
         <Column isSize={baseColumnSize}>
@@ -93,7 +92,7 @@ export class EnrollEventPage extends PureComponent {
                   } />
               </Box>
               <Box className='top-red' >
-                <Title isSize={4} className='highlight-left-red'>
+                <Title isSize={5} className='highlight-left-red'>
                   Osallistujat
                 </Title>
                 {participants &&
