@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import moment from 'moment'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import { Columns, Column, Title, Box, Button, Subtitle } from 'bloomer'
 import isNil from 'lodash/isNil'
 import { eventActions } from '../../../actions'
@@ -16,6 +15,7 @@ import EventFieldManager from './EventFieldManager'
 import { INITIAL_ID } from '../../../constants'
 import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../../store/helpers'
 import { getArraySortedBy } from '../../../selectors/generalSelectors'
+import ParticipantPage from '../../Enroll/ParticipantPage'
 
 const rootPath = '/intra/events'
 
@@ -50,6 +50,9 @@ class EventManager extends PureComponent {
       return (
         <Columns isMultiline>
           <Column isSize={{ desktop: '1/2', tablet: 'full' }}>
+            {!isNewlyCreated(item) &&
+              <Link to={`${rootPath}/${item.id}/enrolls`} >Osallistujat</Link>
+            }
             <Subtitle isSize={5}>Perustiedot
               {!isNewlyCreated(item) && <small className='has-text-grey-light'> (ID: {item.id})</small>}
             </Subtitle>
@@ -142,13 +145,6 @@ class EventManager extends PureComponent {
                 updateFields={updateStateItem}
                 validationErrors={validationErrors} />
             </EditorField>
-            <EditorField label='Osallistujat' >
-              <EditorInput
-                field='participants'
-                model={item}
-                onChange={handleInputChange}
-                validationErrors={validationErrors} />
-            </EditorField>
           </Column>
           <span className='has-text-grey-light'>* pakollinen</span>
         </Columns>
@@ -184,21 +180,32 @@ class EventManager extends PureComponent {
                 <Switch>
                   <Route
                     path={`${rootPath}/:activeItemId`}
+                    exact
                     render={({ match }) => {
                       const { activeItemId } = match.params
                       const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
                       return activeItem
                         ? this.renderEditor(activeItem, validationErrors)
                         : `Tapahtumaa ei löytynyt`
-                    }
-                    } />
+                    }}
+                  />
+                  <Route
+                    path={`${rootPath}/:activeItemId/enrolls`}
+                    render={({ match }) => {
+                      const { activeItemId } = match.params
+                      const activeItem = !isNil(activeItemId) && findEventById(events, activeItemId)
+                      return activeItem
+                        ? <ParticipantPage eventId={activeItem.id} />
+                        : `Tapahtumaa ei löytynyt`
+                    }}
+                  />
                   <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
                 </Switch>
               </Box>
-            </Column>
-          </Columns>
-        </Column>
-      </BaseContent>
+            </Column >
+          </Columns >
+        </Column >
+      </BaseContent >
     )
   }
 }

@@ -5,7 +5,13 @@ import { Table } from 'bloomer'
 
 const renderHeaderItems = fields =>
   <tr>
-    {fields.map(field => <td key={field.name}>{field.label}</td>)}
+    {fields.map(field =>
+      <td key={field.name}>
+        <strong>
+          {field.label}
+        </strong>
+      </td>
+    )}
   </tr>
 
 const renderAnswers = (fields, answers) =>
@@ -18,7 +24,7 @@ const renderAnswers = (fields, answers) =>
 
 const getOptionLabel = (options, name) => {
   const option = options.find(option => option.name === name)
-  return option ? option.label : 'Ei vastausta'
+  return option ? option.label : '-'
 }
 const renderAnswer = (type, value, options) => {
   if(value == null) {
@@ -40,7 +46,7 @@ const renderAnswer = (type, value, options) => {
 
 const ParticipantList = ({ fields = [], answers, sort, publicOnly }) => {
   const visibleFields = publicOnly ? fields.filter(field => field.public) : fields
-  return <Table isFullWidth >
+  return <Table isFullWidth isNarrow isStriped className='is-size-7-touch'>
     <thead>
       {renderHeaderItems(visibleFields)}
     </thead>
