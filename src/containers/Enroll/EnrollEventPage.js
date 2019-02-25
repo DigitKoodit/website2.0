@@ -22,17 +22,17 @@ const EventStatus = ({ event }) =>
       <Icon className='fa fa-calendar' aria-hidden='true' />&nbsp;
       <span className='is-inline-block'>
         <small><b>Ilmoittautuminen auki</b></small> <br />
-        Ilmoittautumisaika päättyy {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+        Ilmoittautumisaika päättyy {moment(event.activeUntil).format('DD.MM.YYYY HH:mm')}
       </span>
       {event.reservedUntil &&
         <span className='mt-1 is-block'>
-          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukea {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukea {moment(event.activeUntil).format('DD.MM.YYYY HH:mm')}
         </span>
       }
     </>
     : <>
       <i className='fa fa-calendar-times has-text-danger' aria-hidden='true' /> Ilmoittautumisaika<br />
-      {moment(event.activeAt).format('DD.MM.YYYY HH:mm:ss')} - {moment(event.activeUntil).format('DD.MM.YYYY HH:mm:ss')}
+      {moment(event.activeAt).format('DD.MM.YYYY HH:mm')} - {moment(event.activeUntil).format('DD.MM.YYYY HH:mm')}
     </>
 
 EventStatus.propTypes = {
@@ -70,7 +70,6 @@ export class EnrollEventPage extends PureComponent {
     if(!event || loading) {
       return null
     }
-    console.log(event, participants.length, spareParticipants.length)
     return (
       <Base >
         <Column isSize={baseColumnSize}>
@@ -119,15 +118,14 @@ export class EnrollEventPage extends PureComponent {
                     publicOnly
                   />}
                 <strong>
-                  <p className='has-text-grey mb-1'>
+                  <p className='has-text-grey mb-1 is-inline-block'>
                     Varasijoilla
-                    {spareParticipants.length &&
-                      <>
-                        &nbsp;<small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
-                      </>
-                    }
                   </p>
                 </strong>
+                {spareParticipants.length && <>
+                  &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
+                </>
+                }
                 {spareParticipants &&
                   <ParticipantList
                     fields={event.fields}

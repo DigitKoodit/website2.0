@@ -12,7 +12,7 @@ class DateTimePicker extends PureComponent {
   }
   render() {
     const { selectedDate } = this.props
-    const dateObject = selectedDate ? moment(selectedDate) : null
+    const dateObject = selectedDate ? moment(selectedDate).startOf('minute') : null
     return (
       <>
         <div className='picker'>
