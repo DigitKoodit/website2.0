@@ -105,34 +105,34 @@ export class EnrollEventPage extends PureComponent {
                 <Title isSize={5} className='highlight-left-red is-inline-block'>
                   Osallistujat
                 </Title>
-                {participants.length &&
-                  <>
+                {participants.length
+                  ? <>
                     &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
                   </>
+                  : <p>Ei osallistujia</p>
                 }
-                {participants.length &&
+                {!!participants.length &&
                   <ParticipantList
                     fields={event.fields}
                     answers={participants}
                     sort={answers => answers}
                     publicOnly
                   />}
-                <strong>
-                  <p className='has-text-grey mb-1 is-inline-block'>
-                    Varasijoilla
-                  </p>
-                </strong>
-                {spareParticipants.length && <>
-                  &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
-                </>
-                }
-                {spareParticipants &&
-                  <ParticipantList
-                    fields={event.fields}
-                    answers={spareParticipants}
-                    sort={answers => answers}
-                    publicOnly
-                  />
+                {!!spareParticipants.length &&
+                  <>
+                    <strong>
+                      <p className='has-text-grey mb-1 is-inline-block'>
+                        Varasijoilla
+                      </p>
+                    </strong>
+                    &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
+                    <ParticipantList
+                      fields={event.fields}
+                      answers={spareParticipants}
+                      sort={answers => answers}
+                      publicOnly
+                    />
+                  </>
                 }
               </Box>
             </>
