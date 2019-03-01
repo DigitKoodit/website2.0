@@ -3,6 +3,7 @@ import { crudTypes, createCrudTypes, createAction } from '../store/crudHelpers'
 import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 import { loginActions } from '.'
 
@@ -56,7 +57,7 @@ const fileActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().files.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().files.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addFile(item) {
     return dispatch => {
@@ -64,9 +65,10 @@ const fileActions = {
       fileCrud.create(item)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          item.id < 0 && dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
-          item.id < 0 && dispatch(displaySnackbar(`${singular} luominen onnistui`))
+          if(isNewlyCreated(item)) {
+            dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar(`${singular} luominen onnistui`))
+          }
         }).catch(err => {
           const message = `${singular} luominen epäonnistui`
           parseResponseError(err, message).then(error => {
@@ -96,7 +98,7 @@ const fileActions = {
   },
   removeFile(item) {
     return dispatch => {
-      const isUnsavedItem = item.id < 0
+      const isUnsavedItem = isNewlyCreated(item)
       if(isUnsavedItem) {
         return dispatch(this.success(item, crudTypes.DELETE))
       }

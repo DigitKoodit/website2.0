@@ -5,80 +5,29 @@ import { displaySnackbar } from './uiActions'
 import { INITIAL_ID } from '../constants'
 import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
-import moment from 'moment'
 import { loginActions } from '.'
 
-const eventPublicCrud = createCrudService('/api/events')
-const eventPrivateCrud = createCrudService('/api/intra/events', true)
+const eventEnrollPublicCrud = createCrudService('/api/events/{eventId}/enrolls')
+const eventEnrollPrivateCrud = createCrudService('/api/intra/events/{eventId}/enrolls', true)
 const initialItem = {
   id: INITIAL_ID,
-  name: 'Uusi',
-  activeAt: moment().format(),
-  activeUntil: moment().add(1, 'month').format(),
-  reservedUntil: null,
-  isVisible: false,
-  maxParticipants: null,
-  reserveCount: 0,
-  description: `# Testitapahtuma
-  Markdown toimii täälläkin `,
-
-  fields: [
-    {
-      id: 0,
-      name: 'etunimi',
-      label: 'Etunimi',
-      type: 'text',
-      placeholder: null,
-      maxLength: 64,
-      isTextarea: false,
-      fieldName: 'Teksti',
-      required: true,
-      public: true,
-      order: 0
-    },
-    {
-      id: 1,
-      name: 'sukunimi',
-      label: 'Sukunimi',
-      type: 'text',
-      placeholder: null,
-      maxLength: 64,
-      isTextarea: false,
-      fieldName: 'Teksti',
-      required: true,
-      public: true,
-      order: 1
-    },
-    {
-      id: 2,
-      name: 'sahkoposti',
-      label: 'Sähköposti',
-      type: 'text',
-      placeholder: null,
-      maxLength: 64,
-      isTextarea: false,
-      fieldName: 'Teksti',
-      required: true,
-      public: true,
-      order: 2
-    }
-  ]
-  // TODO: prevent field with name 'id'
+  eventId: null,
+  values: []
 }
 
-const EVENT = createCrudTypes(actionKeys.event)
-const singular = 'Tapahtuman'
-const plural = 'Tapahtumien'
+const EVENT_ENROLL = createCrudTypes(actionKeys.eventEnroll)
+const singular = 'Ilmoittautumisen'
+const plural = 'Ilmoittautumisten'
 
-const enrollActions = {
-  pending: (crudType) => createAction(EVENT[crudType].PENDING),
-  success: (response, crudType) => createAction(EVENT[crudType].SUCCESS, { response }),
-  error: (error, crudType) => createAction(EVENT[crudType].ERROR, { error }),
+const eventEnrollActions = {
+  pending: (crudType) => createAction(EVENT_ENROLL[crudType].PENDING),
+  success: (response, crudType) => createAction(EVENT_ENROLL[crudType].SUCCESS, { response }),
+  error: (error, crudType) => createAction(EVENT_ENROLL[crudType].ERROR, { error }),
   clearErrors() { return this.error({}, crudTypes.UPDATE) },
-  fetchEvent(eventId) {
+  fetchEventEnroll(eventEnrollId, eventId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
-      eventPublicCrud.fetchById(eventId)
+      eventEnrollPrivateCrud.fetchById(eventEnrollId, { eventId })
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
@@ -91,11 +40,11 @@ const enrollActions = {
         })
     }
   },
-  fetchEvents(attemptAuthorizedRoute) {
+  fetchEventEnrolls(eventId, attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
-      const api = attemptAuthorizedRoute ? eventPrivateCrud : eventPublicCrud
-      api.fetchAll()
+      const api = attemptAuthorizedRoute ? eventEnrollPrivateCrud : eventEnrollPublicCrud
+      api.fetchAll({ eventId })
         .then(response => {
           dispatch(this.success(response, crudTypes.FETCH))
         }).catch(err => {
@@ -109,32 +58,40 @@ const enrollActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().events.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().eventEnrolls.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
-  addEvent(item) {
+  addEventEnroll(item, eventId, { resolve, reject }, attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.CREATE))
-      eventPrivateCrud.create(item)
+      const api = attemptAuthorizedRoute ? eventEnrollPrivateCrud : eventEnrollPublicCrud
+      api.create(item, { eventId })
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
           if(isNewlyCreated(item)) {
             dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
-            dispatch(displaySnackbar(`${singular} luominen onnistui`))
           }
+          if(response.isSpare) {
+            dispatch(displaySnackbar(`Ilmoittautuminen varasijalle onnistui`))
+          } else {
+            dispatch(displaySnackbar(`Ilmoittautuminen onnistui`))
+          }
+          dispatch(this.fetchEventEnrolls(eventId))
+          resolve()
         }).catch(err => {
-          const message = `${singular} luominen epäonnistui`
+          const message = `Ilmoittautuminen epäonnistui`
           parseResponseError(err, message).then(error => {
             dispatch(this.error(error, crudTypes.CREATE))
             dispatch(displayErrorMessage(isUnauthorized(err), message))
             isUnauthorized(err) && dispatch(loginActions.logout('/login'))
+            reject(error)
           })
         })
     }
   },
-  updateEvent(item) {
+  updateEventEnroll(item, eventId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
-      eventPrivateCrud.update(item)
+      eventEnrollPrivateCrud.update(item, { eventId })
         .then(response => {
           dispatch(this.success(response, crudTypes.UPDATE))
           dispatch(displaySnackbar(`${singular} tallentaminen onnistui`))
@@ -148,14 +105,14 @@ const enrollActions = {
         })
     }
   },
-  removeEvent(item) {
+  removeEventEnroll(item, eventId) {
     return dispatch => {
       const isUnsavedItem = isNewlyCreated(item)
       if(isUnsavedItem) {
         return dispatch(this.success(item, crudTypes.DELETE))
       }
       dispatch(this.pending(crudTypes.DELETE))
-      eventPrivateCrud.performDelete(item)
+      eventEnrollPrivateCrud.performDelete(item, { eventId })
         .then(() => {
           dispatch(this.success(item, crudTypes.DELETE))
           dispatch(displaySnackbar(`${singular} poistaminen onnistui`))
@@ -171,5 +128,5 @@ const enrollActions = {
   }
 }
 
-export default enrollActions
-export { EVENT }
+export default eventEnrollActions
+export { EVENT_ENROLL }

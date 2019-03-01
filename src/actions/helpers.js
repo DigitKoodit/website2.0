@@ -11,7 +11,7 @@ export const parseResponseError = (err, fallbackMessage) =>
         }, {})
         return { common: message, ...errors }
       })
-    : { common: fallbackMessage }
+    : Promise.resolve({ common: fallbackMessage })
 
 export const isUnauthorized = err => err.response && err.response.status === 401
 

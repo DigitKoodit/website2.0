@@ -4,10 +4,11 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const pageItemPublicCrud = createCrudService('/api/contents')
-const pageItemPrivateCrud = createCrudService('/api/intra/contents', true)
+const pageItemPublicCrud = createCrudService('/api/pages')
+const pageItemPrivateCrud = createCrudService('/api/intra/pages', true)
 
 const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', published: false, content: '' }
 
@@ -49,7 +50,7 @@ const pageContentActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().pages.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().pages.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addPage(pageItem) {
     return dispatch => {
@@ -57,9 +58,10 @@ const pageContentActions = {
       pageItemPrivateCrud.create(pageItem)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          pageItem.id < 0 && dispatch(this.success(pageItem, crudTypes.DELETE)) // remove temporary item
-          pageItem.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          if(isNewlyCreated(pageItem)) {
+            dispatch(this.success(pageItem, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar('Luominen onnistui'))
+          }
         }).catch(err => {
           const message = 'Luominen epäonnistui'
           parseResponseError(err, message).then(error => {
@@ -89,7 +91,7 @@ const pageContentActions = {
   },
   removePage(pageItem) {
     return dispatch => {
-      const isUnsavedItem = pageItem.id < 0
+      const isUnsavedItem = isNewlyCreated(pageItem)
       if(isUnsavedItem) {
         return dispatch(this.success(pageItem, crudTypes.DELETE))
       }

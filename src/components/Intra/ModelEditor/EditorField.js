@@ -7,7 +7,7 @@ const EditorField = ({
   label,
   children,
   tooltipMessage,
-  isHorizontal = true,
+  isHorizontal = false,
   containerClass = '',
   labelClass = '' }) => {
   const LabelComponent = label && <span className={`has-text-grey-light has-text-weight-semibold ${labelClass}`}>
@@ -20,7 +20,7 @@ const EditorField = ({
           ? <Tooltip message={tooltipMessage} className='ml-1'>
             {LabelComponent}
           </Tooltip>
-          : LabelComponent
+          : <small>{LabelComponent}</small>
         }
       </FieldLabel>
       }
@@ -34,7 +34,7 @@ const EditorField = ({
 }
 
 EditorField.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)

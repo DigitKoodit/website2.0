@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
@@ -6,11 +6,10 @@ import { Column, Title } from 'bloomer'
 import withLoader from '../../components/Helpers/withLoader'
 import { Base } from '../../components/Layout'
 import SideNav from '../../components/Intra/SideNav'
-import asyncComponent from '../../components/AsyncComponent'
 import authActions from '../../actions/authActions'
 import routes from './intraRoutes'
 
-const NotFound = asyncComponent(() => import('../NotFound'))
+const NotFound = React.lazy(() => import('../NotFound'))
 
 class IntraPage extends Component {
   componentDidMount = () => {
@@ -66,10 +65,12 @@ const IntraPageComponent = ({ loading }) => {
         />
       </Column>
       <Column>
-        <Switch>
-          {mapRoutes(routes)}
-          <Route status={NotFound} component={NotFound} />
-        </Switch>
+        <Suspense fallback={null}>
+          <Switch>
+            {mapRoutes(routes)}
+            <Route status={NotFound} component={NotFound} />
+          </Switch>
+        </Suspense>
       </Column>
     </Base>
   )

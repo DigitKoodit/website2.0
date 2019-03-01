@@ -18,8 +18,8 @@ export class EnrollListPage extends Component {
 
   static propTypes = {
     fetchEvents: PropTypes.func.isRequired,
-    events: PropTypes.arrayOf(PropTypes.shape(eventPropTypes)),
-    upComingEvents: PropTypes.arrayOf(PropTypes.shape(eventPropTypes)),
+    events: PropTypes.arrayOf(eventPropTypes),
+    upComingEvents: PropTypes.arrayOf(eventPropTypes),
     push: PropTypes.func.isRequired
   }
 
@@ -34,14 +34,19 @@ export class EnrollListPage extends Component {
           <Title isSize={2}>Tapahtumat</Title>
           {events.length > 0
             ? <div className='my-4'>
-              <Title isSize={3}>Avoimet</Title>
+              <Title isSize={3}>Avoimet <span className='has-text-success' style={{ fontSize: '1.5rem' }} >
+                <i className='fa fa-calendar-check' aria-hidden='true' />
+              </span> </Title>
               <EventList events={events} onItemClick={this.navigateToEventPage} />
             </div>
             : <Subtitle className='my-4' >Ei tapahtumia</Subtitle>
           }
           {upComingEvents.length > 0 &&
             <div className='my-4'>
-              <Title isSize={3}>Tulevat</Title>
+              <Title isSize={3}>Tulevat <span className='has-text-danger' style={{ fontSize: '1.5rem' }} >
+                <i className='fa fa-calendar-times' aria-hidden='true' />
+              </span>
+              </Title>
               <EventList events={upComingEvents} onItemClick={this.navigateToEventPage} />
             </div>
           }

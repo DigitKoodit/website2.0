@@ -1,18 +1,18 @@
-import asyncComponent from '../../components/AsyncComponent'
-const ContentManager = asyncComponent(() => import('./ContentManager'))
-const IntraPage = asyncComponent(() => import('./IntraPage'))
-const NavigationManager = asyncComponent(() => import('./NavigationManager'))
-const NotFound = asyncComponent(() => import('../NotFound'))
-const Profile = asyncComponent(() => import('./ProfilePage'))
-const SponsorManager = asyncComponent(() => import('./SponsorManager'))
-const AccountManager = asyncComponent(() => import('./AccountManager'))
-const EventManager = asyncComponent(() => import('./EventManager'))
-const FileManager = asyncComponent(() => import('./FileManager'))
+import React from 'react'
+const ContentManager = React.lazy(() => import('./ContentManager'))
+const IntraPage = React.lazy(() => import('./IntraPage'))
+const NavigationManager = React.lazy(() => import('./NavigationManager'))
+const NotFound = React.lazy(() => import('../NotFound'))
+const Profile = React.lazy(() => import('./ProfilePage'))
+const SponsorManager = React.lazy(() => import('./SponsorManager'))
+const AccountManager = React.lazy(() => import('./AccountManager'))
+const EventManager = React.lazy(() => import('./EventManager'))
+const FileManager = React.lazy(() => import('./FileManager'))
 
 const routes = [
   { title: 'Intra', path: '/intra', component: IntraPage, active: true, exact: true },
   { title: 'Profiili', path: '/intra/profile', component: Profile, active: true },
-  { title: 'Ilmo', path: '/intra/event', component: EventManager, active: true },
+  { title: 'Ilmo', path: '/intra/events', component: EventManager, active: true },
   { title: 'Käyttäjät', path: '/intra/accounts', component: AccountManager, active: true },
   {
     title: 'CMS',

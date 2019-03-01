@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Form from '../../../components/Enroll/Form'
 import { Label } from 'bloomer'
+import { HAZARDOUS_INPUT_CHAR_REGEX } from '../../../constants'
 
 const defaultFields = [
   {
@@ -20,7 +21,7 @@ const defaultFields = [
     defaultValue: null,
     isSize: 'small',
     customOnChangeHandler: (event, setFieldValue) => {
-      const nameValue = event.target.value.toLowerCase().replace(' ', '')
+      const nameValue = event.target.value.replace(HAZARDOUS_INPUT_CHAR_REGEX, '-').toLowerCase()
       setFieldValue('name', nameValue)
     }
   },
@@ -31,11 +32,11 @@ const defaultFields = [
 
 const textInputFields = [
   { name: 'maxLength', type: 'text', label: 'Maksimi merkkimäärä', defaultValue: null, isSize: 'small' },
-  { name: 'maxLines', type: 'text', label: 'Maksimi rivit', defaultValue: null, isSize: 'small' }
+  { name: 'isTextarea', type: 'checkbox', label: 'Monirivinen', defaultValue: false, isSize: 'small' }
 ]
 
 const optionInputFields = [
-  { name: 'value', type: 'arrayEditor', label: 'Valinnat', defaultValue: [], isSize: 'small' }
+  { name: 'options', type: 'arrayEditor', label: 'Valinnat', defaultValue: [], isSize: 'small' }
 ]
 
 const defaultValues = initialValues => {
@@ -54,9 +55,10 @@ export default class EventFieldEditor extends PureComponent {
     const isTextInput = initialValues.type === 'text'
     return (
       <Form
-        onSave={values => Promise.resolve(onSave(values))}
+        saveOnBlur
+        onSave={values =>
+          Promise.resolve(onSave(values))}
         fields={isTextInput ? [...defaultFields, ...textInputFields] : [...defaultFields, ...optionInputFields]}
-        submitRenderer='Tallenna'
         defaultValues={defaultValues(initialValues)}
       />
     )

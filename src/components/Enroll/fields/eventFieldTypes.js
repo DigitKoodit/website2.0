@@ -7,35 +7,30 @@ export const types = [
 
 export const options = {
   text: {
-    value: '',
     fieldName: 'Teksti',
     type: 'text',
     placeholder: null,
     maxLength: 64,
-    lines: 1
+    isTextarea: false
   },
   radio: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
         isDefault: false,
-        value: false,
-        maxParticipants: null,
         reserveCount: null
       }
     ],
-    fieldName: 'Monivalinta',
+    fieldName: 'Valinta',
     type: 'radio'
   },
   checkbox: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
         isDefault: false,
-        value: false,
-        maxParticipants: null,
         reserveCount: null
       }
     ],
@@ -43,13 +38,11 @@ export const options = {
     type: 'checkbox'
   },
   select: {
-    value: [
+    options: [
       {
         name: null,
         label: null,
         isDefault: false,
-        value: null,
-        maxParticipants: null,
         reserveCount: null
       }
     ],
@@ -59,11 +52,10 @@ export const options = {
 }
 
 export const base = {
-  type: undefined,
-  name: undefined,
-  label: undefined,
+  type: null,
+  name: null,
+  label: null,
   required: false,
   public: false,
-  order: undefined,
-  value: undefined
+  order: null
 }

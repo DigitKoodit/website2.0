@@ -5,9 +5,10 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const sponsorPublicCrud = createCrudService('/api/contents/sponsors')
+const sponsorPublicCrud = createCrudService('/api/sponsors')
 const sponsorPrivateCrud = createCrudService('/api/intra/sponsors', true)
 
 const initialItem = { id: INITIAL_ID, name: 'Uusi', link: '', logo: '', description: null, activeAt: moment().format(), activeUntil: moment().add(1, 'year').format() }
@@ -18,6 +19,7 @@ const sponsorActions = {
   pending: (crudType) => createAction(SPONSOR[crudType].PENDING),
   success: (response, crudType) => createAction(SPONSOR[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(SPONSOR[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchSponsor(sponsorId) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
@@ -52,7 +54,7 @@ const sponsorActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().sponsors.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().sponsors.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addSponsor(sponsor) {
     return dispatch => {
@@ -60,9 +62,10 @@ const sponsorActions = {
       sponsorPrivateCrud.create(sponsor)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          sponsor.id < 0 && dispatch(this.success(sponsor, crudTypes.DELETE)) // remove temporary item
-          sponsor.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          if(isNewlyCreated(sponsor)) {
+            dispatch(this.success(sponsor, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar('Luominen onnistui'))
+          }
         }).catch(err => {
           const message = 'Luominen epäonnistui'
           parseResponseError(err, message).then(error => {

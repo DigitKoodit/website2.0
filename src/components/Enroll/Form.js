@@ -6,7 +6,7 @@ import mapValues from 'lodash/mapValues'
 import isNil from 'lodash/isNil'
 import { Button } from 'bloomer'
 import { withFormik } from 'formik'
-import selectInput from './fields'
+import inputByType from './fields'
 import ArrayEditor from '../Intra/ModelEditor/ArrayEditor'
 
 const InnerForm = ({
@@ -15,39 +15,41 @@ const InnerForm = ({
   errors,
   touched,
   handleChange,
-  handleBlur,
   handleSubmit,
   isSubmitting,
   submitRenderer,
-  setFieldValue
+  setFieldValue,
+  submitForm,
+  saveOnBlur
 }) =>
   <form className='form' onSubmit={handleSubmit}>
-    {fields.map(({ type, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
+    {fields.map(({ type, options, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
       if(customRenderer) {
         return (
           <Fragment key={name}>
             {customRenderer({ name, label, value: values[name], values, handleChange })}
           </Fragment>)
       }
-      const Input = type === 'arrayEditor' ? ArrayEditor : selectInput(type)
+      const Input = type === 'arrayEditor' ? ArrayEditor : inputByType(type)
       return (
         <Fragment key={name}>
           <Input
             type={type}
             name={name}
-            label={label}
+            label={required ? <strong>{label}</strong> : label}
             required={required}
             onChange={event => {
               handleChange(event)
               customOnChangeHandler && customOnChangeHandler(event, setFieldValue)
             }}
-            onBlur={handleBlur}
             value={values[name]}
+            options={options}
             readOnly={readOnly}
             setFieldValue={setFieldValue}
             inputProps={{
-              inputClassName: 'editor-input-field mb-3',
+              inputClassName: 'editor-input-field mb-2',
               readOnly,
+              onBlur: event => saveOnBlur && submitForm(),
               ...rest
             }}
           />
@@ -69,19 +71,20 @@ InnerForm.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
     customOnChangeHandler: PropTypes.func
-  })).isRequired,
+  })),
   values: PropTypes.object,
   errors: PropTypes.object,
   touched: PropTypes.object,
   handleChange: PropTypes.func,
-  handleBlur: PropTypes.func,
+  submitForm: PropTypes.func,
   handleSubmit: PropTypes.func,
   setFieldValue: PropTypes.func,
   isSubmitting: PropTypes.bool,
   submitRenderer: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.node
-  ])
+  ]),
+  saveOnBlur: PropTypes.bool
 }
 // Wrap our form with the using withFormik HoC
 const Form = withFormik({
@@ -98,25 +101,33 @@ const Form = withFormik({
     {
       props,
       setSubmitting,
+      resetForm,
       setErrors /* setValues, setStatus, and other goodies */
     }
   ) => {
-    props.onSave(values)
-      .then(() => setSubmitting(false))
-      .catch(errors => setErrors(errors))
+    props.onSave(values, { resetForm })
+      .then(() => {
+        setSubmitting(false)
+      })
+      .catch(errors => {
+        console.log('err', errors)
+        setSubmitting(false)
+        setErrors(errors)
+      })
   }
 })(InnerForm)
 
 const serializeForInput = value => !isNil(value) ? value : ''
 
 Form.propTypes = {
+  saveOnBlur: PropTypes.bool,
   onSave: PropTypes.func.isRequired,
   defaultValues: PropTypes.object,
   fields: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    options: PropTypes.object
+    options: PropTypes.array
   })),
   validate: PropTypes.func.isRequired
 }

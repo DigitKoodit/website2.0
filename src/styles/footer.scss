@@ -1,6 +1,5 @@
 @import './_variables';
 
 .footer {
-  background-color: $footer-bg;
-  color: findColorInvert($footer-bg);
+  color: findColorInvert($footer-background-color);
 }

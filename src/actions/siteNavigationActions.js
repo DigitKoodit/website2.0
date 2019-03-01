@@ -4,18 +4,20 @@ import createCrudService from '../services/createCrudService'
 import { displaySnackbar } from './uiActions'
 import { loginActions } from '.'
 import { INITIAL_ID } from '../constants'
+import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const navItemPublicCrud = createCrudService('/api/contents/navigation')
+const navItemPublicCrud = createCrudService('/api//navigation')
 // Private routes require authorization header
 const requireAuth = true
-const navItemPrivateCrud = createCrudService('/api/intra/contents/navigation', requireAuth)
+const navItemPrivateCrud = createCrudService('/api/intra/navigation', requireAuth)
 const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, showOnNavigation: false, isPublished: false }
 
 const siteNavigationActions = {
   pending: (crudType) => createAction(SITE_NAVIGATION[crudType].PENDING),
   success: (response, crudType) => createAction(SITE_NAVIGATION[crudType].SUCCESS, { response }),
   error: (error, crudType) => createAction(SITE_NAVIGATION[crudType].ERROR, { error }),
+  clearErrors() { return this.error({}, crudTypes.UPDATE) },
   fetchNavigation(attemptAuthorizedRoute) {
     return dispatch => {
       dispatch(this.pending(crudTypes.FETCH))
@@ -34,7 +36,7 @@ const siteNavigationActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().siteNavigation.records.find(item => item.id === INITIAL_ID) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().siteNavigation.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addNavItem(navItem) {
     return dispatch => {
@@ -42,9 +44,10 @@ const siteNavigationActions = {
       navItemPrivateCrud.create(navItem)
         .then(response => {
           dispatch(this.success(response, crudTypes.CREATE))
-          // newly added item has to have negative id created in prepareNew()
-          navItem.id < 0 && dispatch(this.success(navItem, crudTypes.DELETE)) // remove temporary item
-          navItem.id < 0 && dispatch(displaySnackbar('Luominen onnistui'))
+          if(isNewlyCreated(navItem)) {
+            dispatch(this.success(navItem, crudTypes.DELETE)) // remove temporary item
+            dispatch(displaySnackbar('Luominen onnistui'))
+          }
         }).catch(err => {
           const message = 'Luominen epäonnistui'
           parseResponseError(err, message).then(error => {
@@ -55,7 +58,7 @@ const siteNavigationActions = {
         })
     }
   },
-  updateNavigation(navItem) {
+  updateNavItem(navItem) {
     return dispatch => {
       dispatch(this.pending(crudTypes.UPDATE))
       navItemPrivateCrud.update(navItem)
@@ -74,7 +77,7 @@ const siteNavigationActions = {
   },
   removeNavItem(navItem) {
     return dispatch => {
-      const isUnsavedItem = navItem.id < 0
+      const isUnsavedItem = isNewlyCreated(navItem)
       if(isUnsavedItem) {
         return dispatch(this.success(navItem, crudTypes.DELETE))
       }

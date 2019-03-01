@@ -1,16 +1,21 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import find from 'lodash/find'
-import memoize from 'lodash/memoize'
+import isNil from 'lodash/isNil'
+import { Route, Switch } from 'react-router-dom'
 import { Column, Columns, Title, Box, Button, MenuLink } from 'bloomer'
 import { siteNavigationActions, pageContentActions } from '../../actions'
 import { BaseContent } from '../../components/Layout'
 import { VerticalList } from '../../components/Layout/Lists'
 import ModelEditor, { EditorField, EditorInput, EditorCheckbox } from '../../components/Intra/ModelEditor'
 import { ChooserModal } from '../../components/Modal'
-import { INITIAL_ID } from '../../constants'
 import { getArrayOrderedBy } from '../../selectors/generalSelectors'
+import { findNavItemById, getNavItemsForChooser } from '../../selectors/navItemSelectors'
+import { findSitePageById } from '../../selectors/siteContentSelectors'
+import { INITIAL_ID } from '../../constants'
+import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../store/helpers'
+
+const rootPath = '/intra/cms/navigation'
 
 class NavigationManager extends PureComponent {
   constructor(props) {
@@ -27,29 +32,54 @@ class NavigationManager extends PureComponent {
     this.props.fetchPages()
   }
 
-  handleNavItemClick = itemId => this.setState({ activeItemId: itemId })
+  componentDidUpdate = prevProps => {
+    const { navItems } = this.props
+    if(prevProps.navItems.length < navItems.length && includesNewlyCreated(navItems)) {
+      this.handleActiveItemChange(INITIAL_ID)
+    }
+  }
 
-  clearSelection = () => this.setState({ activeItemId: null })
+  handleActiveItemChange = itemId => {
+    this.props.openForEdit(urlDisplayId(itemId))
+    this.props.clearErrors()
+  }
 
-  renderEditor = (item, navItems, pages) => <ModelEditor
+  clearSelection = () => {
+    this.props.closeEditor()
+    this.props.clearErrors()
+  }
+
+  renderEditor = (item, validationErrors) => <ModelEditor
     item={item}
-    onSave={this.state.activeItemId < 0 ? this.props.addNavItem : this.props.updateNavigation}
+    onSave={isNewlyCreated(item) ? this.props.addNavItem : this.props.updateNavItem}
     onCancel={this.clearSelection}
     onRemove={this.removeNavItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
-      const isNewlyCreated = item.id < 0
       return (
         <Columns>
           <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
-            {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
-            <EditorField label='Nimi'><EditorInput field='title' model={item} onChange={handleInputChange} /></EditorField>
-            <EditorField label='Polku'><EditorInput field='path' model={item} onChange={handleInputChange} /></EditorField>
+            {!isNewlyCreated(item) && <EditorField label='ID'>{item.id}</EditorField>}
+            <EditorField label='Nimi'>
+              <EditorInput
+                field='title'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField label='Polku'>
+              <EditorInput
+                field='path'
+                model={item}
+                onChange={handleInputChange}
+
+                validationErrors={validationErrors} />
+            </EditorField>
             <EditorField label='Ylävalikko'>
               <ChooserModal
                 ref={this.chooserRef}
                 modalTitle='Valitse ylävalikko'
-                dataSet={this.filterForNavChooser(item, navItems)}
-                selectedItem={find(navItems, { id: item.parentId })}
+                dataSet={this.props.getNavItemsForChooser(item.id)}
+                selectedItem={this.props.findNavItemById(item.parentId)}
                 listItemFormatter={item => item.title}
                 onSelect={navItem => {
                   updateStateItem({ parentId: navItem ? navItem.id : null })
@@ -62,19 +92,37 @@ class NavigationManager extends PureComponent {
               <ChooserModal
                 ref={this.chooserRef2}
                 modalTitle='Valitse sisältösivu'
-                dataSet={pages}
-                selectedItem={find(pages, { id: item.sitePageId })}
+                dataSet={this.props.pages}
+                selectedItem={this.props.findPageById(item.sitePageId)}
                 listItemFormatter={item => item.title}
-                onSelect={role => {
-                  updateStateItem({ sitePageId: role.id })
+                onSelect={page => {
+                  updateStateItem({ sitePageId: page.id })
                   this.chooserRef2.current && this.chooserRef2.current.closeModal()
                 }}
-                selectedRenderer={item => <p><b>{item.title}</b></p>}
+                selectedRenderer={page => <p><b>{page.title}</b></p>}
                 nullable />
             </EditorField>
-            <EditorField label='Näytetään valikossa'><EditorCheckbox field='showOnNavigation' model={item} onChange={handleInputChange} /></EditorField>
-            <EditorField label='Julkaistu'><EditorCheckbox field='isPublished' model={item} onChange={handleInputChange} /></EditorField>
-            <EditorField label='Paino'><EditorInput type='number' field='weight' model={item} onChange={handleInputChange} /></EditorField>
+            <EditorField label='Näytetään valikossa'>
+              <EditorCheckbox
+                field='showOnNavigation'
+                model={item}
+                onChange={handleInputChange}
+
+                validationErrors={validationErrors} />
+            </EditorField>
+            <EditorField
+              label='Julkaistu'><EditorCheckbox
+                field='isPublished'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} /></EditorField>
+            <EditorField
+              label='Paino'><EditorInput
+                type='number'
+                field='weight'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} /></EditorField>
           </Column>
         </Columns>
 
@@ -82,20 +130,13 @@ class NavigationManager extends PureComponent {
     }}
   />
 
-  filterForNavChooser = memoize((activeItem, dataSet) =>
-    !activeItem
-      ? dataSet
-      : dataSet.filter(i => i.id !== activeItem.id && !i.parentId)
-  )
-
   removeNavItem = item => {
     this.props.removeNavItem(item)
     this.clearSelection()
   }
 
   render() {
-    const { navItems, initNewNavItem, pages } = this.props
-    const { activeItemId } = this.state
+    const { navItems, initNewNavItem, validationErrors } = this.props
     return (
       <BaseContent>
         <Column>
@@ -104,16 +145,26 @@ class NavigationManager extends PureComponent {
             <Column isSize='narrow'>
               <NavItemList
                 items={navItems.filter(item => !item.parentId)}
-                onItemClick={this.handleNavItemClick}
+                onItemClick={this.handleActiveItemChange}
                 originalItems={navItems}
               />
             </Column>
             <Column isFullWidth>
               <Button isSize={'small'} isColor='primary' onClick={initNewNavItem}>Lisää uusi</Button>
               <Box>
-                {(activeItemId && find(navItems, { id: activeItemId }))
-                  ? this.renderEditor(find(navItems, { id: activeItemId }), navItems, pages)
-                  : <p>Valitse muokattava kohde listalta</p>}
+                <Switch>
+                  <Route
+                    path={`${rootPath}/:activeItemId`}
+                    render={({ match }) => {
+                      const { activeItemId } = match.params
+                      const activeItem = !isNil(activeItemId) && findNavItemById(navItems, activeItemId)
+                      return activeItem
+                        ? this.renderEditor(activeItem, validationErrors)
+                        : `Yhteistyökumppania ei löytynyt`
+                    }
+                    } />
+                  <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
+                </Switch>
               </Box>
             </Column>
           </Columns>
@@ -121,6 +172,31 @@ class NavigationManager extends PureComponent {
       </BaseContent >
     )
   }
+}
+
+NavigationManager.propTypes = {
+  openForEdit: PropTypes.func.isRequired,
+  closeEditor: PropTypes.func.isRequired,
+  validationErrors: PropTypes.shape({ msg: PropTypes.string }),
+  clearErrors: PropTypes.func.isRequired,
+  navItems: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    path: PropTypes.string,
+    subItems: PropTypes.array
+  })),
+  pages: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired
+  })),
+  fetchNavigation: PropTypes.func.isRequired,
+  addNavItem: PropTypes.func.isRequired,
+  initNewNavItem: PropTypes.func.isRequired,
+  updateNavItem: PropTypes.func.isRequired,
+  removeNavItem: PropTypes.func.isRequired,
+  fetchPages: PropTypes.func.isRequired,
+  findNavItemById: PropTypes.func.isRequired,
+  findPageById: PropTypes.func.isRequired,
+  getNavItemsForChooser: PropTypes.func.isRequired
 }
 
 const NavItemList = ({ items, originalItems, onItemClick }) => items.length > 0 &&
@@ -143,7 +219,7 @@ const ListItem = ({ item, items, onItemClick }) => {
     : 'fa fa-ban'
   return (
     <li key={item.id}>
-      <MenuLink className={item.id === INITIAL_ID ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
+      <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
         {item.title} <i className={`${iconClass} has-text-grey-light`} aria-hidden='true' />
       </MenuLink>
       {items.length > 0 && (
@@ -162,35 +238,27 @@ ListItem.propTypes = {
   onItemClick: PropTypes.func
 }
 
-NavigationManager.propTypes = {
-  navItems: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    path: PropTypes.string,
-    subItems: PropTypes.array
-  })),
-  pages: PropTypes.array.isRequired,
-  fetchNavigation: PropTypes.func.isRequired,
-  addNavItem: PropTypes.func.isRequired,
-  initNewNavItem: PropTypes.func.isRequired,
-  updateNavigation: PropTypes.func.isRequired,
-  removeNavItem: PropTypes.func.isRequired,
-  fetchPages: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   navItems: getArrayOrderedBy(state, {
     path: 'siteNavigation',
     sortByKeys: ['isPublished', 'showOnNavigation', 'title'],
     orders: ['desc', 'desc', 'asc']
   }),
-  pages: state.pages.records
+  pages: state.pages.records,
+  validationErrors: state.siteNavigation.error,
+  closeEditor: () => ownProps.history.push(rootPath),
+  openForEdit: activeItemId => ownProps.history.push(`${rootPath}/${activeItemId}`),
+  findNavItemById: id => findNavItemById(state, id),
+  getNavItemsForChooser: id => getNavItemsForChooser(state, id),
+  findPageById: pageId => findSitePageById(state, pageId)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  clearErrors: () => dispatch(siteNavigationActions.clearErrors()),
   fetchNavigation: attemptAuthorizedRoute => dispatch(siteNavigationActions.fetchNavigation(attemptAuthorizedRoute)),
   initNewNavItem: () => dispatch(siteNavigationActions.prepareNew()),
   addNavItem: navItem => dispatch(siteNavigationActions.addNavItem(navItem)),
-  updateNavigation: navItem => dispatch(siteNavigationActions.updateNavigation(navItem)),
+  updateNavItem: navItem => dispatch(siteNavigationActions.updateNavItem(navItem)),
   removeNavItem: navItem => dispatch(siteNavigationActions.removeNavItem(navItem)),
   fetchPages: () => dispatch(pageContentActions.fetchPages())
 

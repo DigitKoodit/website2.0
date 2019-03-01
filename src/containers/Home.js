@@ -15,6 +15,7 @@ const heroBgStyle = {
   backgroundPositionY: '-32vh'
 }
 const isDev = process.env.NODE_ENV === 'development'
+
 const Home = () => {
   return (
     <>

@@ -9,6 +9,7 @@ import { BaseContent } from '../../../components/Layout'
 import ModelEditor, { EditorField, EditorInput } from '../../../components/Intra/ModelEditor'
 import Dropzone from '../../../components/Dropzone'
 import FileGrid from './FileGrid'
+import { isNewlyCreated } from '../../../store/helpers'
 import Modal from '../../../components/Modal'
 
 import '../../../styles/fileManager.scss'
@@ -27,15 +28,14 @@ class FileManager extends Component {
 
   renderEditor = item => <ModelEditor
     item={item}
-    onSave={this.state.activeItemId < 0 ? this.props.addFile : this.props.updateFile}
+    onSave={isNewlyCreated(item) ? this.props.addFile : this.props.updateFile}
     onCancel={this.clearSelection}
     onRemove={this.removeNavItem}
     renderFields={(item, handleInputChange, updateStateItem) => {
-      const isNewlyCreated = item.id < 0
       return (
         <Columns>
           <Column isSize={{ mobile: 'full', tablet: '2/3', desktop: 'narrow' }}>
-            {!isNewlyCreated && <EditorField label='ID'>{item.id}</EditorField>}
+            {!isNewlyCreated(item) && <EditorField label='ID'>{item.id}</EditorField>}
             <EditorField label='Nimi'>
               <EditorInput
                 field='name'

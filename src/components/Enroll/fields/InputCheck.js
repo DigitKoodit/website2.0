@@ -6,17 +6,17 @@ import { Field } from 'formik'
 
 const InputCheck = ({
   label,
-  value,
+  name,
+  options,
   hint,
   isHorizontal,
-  name,
   inputProps
 }) => {
   const { containerClass, labelClass } = inputProps || {}
 
-  const inputs = Array.isArray(value)
-    ? value.map((input, index) => renderCheckButton(name, input, inputProps, index))
-    : renderCheckButton(name, value, inputProps)
+  const inputs = options
+    ? renderCheckButtons(options, name, inputProps)
+    : renderCheckButton(name, inputProps)
 
   return (
     <EditorField
@@ -24,8 +24,7 @@ const InputCheck = ({
       tooltipMessage={hint}
       isHorizontal={isHorizontal}
       className={containerClass}
-      labelClass={labelClass}
-    >
+      labelClass={labelClass} >
       <Control>
         {inputs}
       </Control>
@@ -34,48 +33,65 @@ const InputCheck = ({
 }
 
 InputCheck.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
+  options: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array
   ]),
   hint: PropTypes.string,
-  isHorizontal: PropTypes.string,
-  inputProps: PropTypes.object
+  isHorizontal: PropTypes.bool,
+  inputProps: PropTypes.shape({
+    containerClass: PropTypes.string,
+    labelClass: PropTypes.string,
+    onBlur: PropTypes.func
+  })
 }
 
-const renderCheckButton = (name, input, { inputClassName }, index) => (
+const renderCheckButtons = (options, fieldName, inputProps) =>
+  options.map(option =>
+    <Field
+      key={option.label}
+      component={CheckButton}
+      label={option.label}
+      className={inputProps.inputClassName}
+      name={`[${fieldName}][${option.name}]`}
+      onBlur={inputProps.onBlur}
+    />
+  )
+
+const renderCheckButton = (name, inputProps) =>
   <Field
-    key={input.label}
+    key={name}
     component={CheckButton}
-    id={input.name}
-    label={input.label}
-    className={inputClassName}
-    name={index != null ? `${name}[${index}].value` : name}
+    id={name}
+    className={inputProps.inputClassName}
+    name={name}
+    onBlur={inputProps.onBlur}
   />
-)
 
 const CheckButton = ({
-  field: { name, value, onChange, onBlur },
-  id,
+  field: { name, value, onChange },
   label,
   className,
+  onBlur,
   ...props
 }) => {
   return (
     <Checkbox
       name={name}
-      id={id}
-      value={value}
+      id={name}
+      checked={value}
       onChange={onChange}
       onBlur={onBlur}
       className={className}
       {...props}
     >
-      <label htmlFor={id}>
-        <span> {label}</span>
-      </label>
+      {label &&
+        <label htmlFor={name}>
+          <span> {label}</span>
+        </label>
+      }
     </Checkbox>
   )
 }
@@ -88,8 +104,9 @@ CheckButton.propTypes = {
     onBlur: PropTypes.func
   }).isRequired,
   id: PropTypes.string,
-  label: PropTypes.string,
-  className: PropTypes.string
+  label: PropTypes.node,
+  className: PropTypes.string,
+  onBlur: PropTypes.func
 }
 
 export default InputCheck
