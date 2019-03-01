@@ -16,7 +16,7 @@ const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
   return sortDirection === 'NONE' ? initialRows : [...rows].sort(comparer)
 }
 
-const ParticipantGrid = ({ columns, initialRows, minHeight = 150 }) => {
+const ParticipantGrid = ({ columns, initialRows, onRowDoubleClick, minHeight = 150 }) => {
   const [rows, setRows] = useState(initialRows)
   return (
     <ReactDataGrid
@@ -25,6 +25,7 @@ const ParticipantGrid = ({ columns, initialRows, minHeight = 150 }) => {
       rowsCount={initialRows.length}
       minHeight={800}
       minWidth={'100%'}
+      onRowDoubleClick={onRowDoubleClick}
       onGridSort={(sortColumn, sortDirection) =>
         setRows(sortRows(initialRows, sortColumn, sortDirection))
       }
@@ -35,6 +36,7 @@ const ParticipantGrid = ({ columns, initialRows, minHeight = 150 }) => {
 ParticipantGrid.propTypes = {
   columns: PropTypes.array.isRequired,
   initialRows: PropTypes.array.isRequired,
+  onRowDoubleClick: PropTypes.func,
   minHeight: PropTypes.number
 }
 
