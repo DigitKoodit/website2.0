@@ -78,70 +78,62 @@ export class EnrollEventPage extends PureComponent {
             <EventStatus event={event} />
           </p>
           <Markdown source={event.description} />
-          {isActiveEvent(event)
-            ? <>
-              <Box>
-                {isEnrollable(event, participants.length + spareParticipants.length)
-                  ? <>
-                    <Title isSize={4} className='highlight-left-dark-blue'>
-                      Ilmoittaudu
-                    </Title>
-                    <Form
-                      fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
-                      defaultValues={defaultValues(event.fields)}
-                      submitRenderer='Tallenna'
-                      onSave={(values, { resetForm }) =>
-                        this.props.addEventEnroll(values, event.id)
-                          .then(() => resetForm())
-                      } />
-                  </>
-                  : (
-                    <p className='has-text-grey'>
-                      Tapahtuma on täynnä
-                    </p>
-                  )}
-              </Box>
-              <Box className='top-red' >
-                <Title isSize={5} className='highlight-left-red is-inline-block'>
-                  Osallistujat
-                </Title>
-                {participants.length
-                  ? <>
-                    &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
-                  </>
-                  : <p>Ei osallistujia</p>
-                }
-                {!!participants.length &&
-                  <ParticipantList
-                    fields={event.fields}
-                    answers={participants}
-                    sort={answers => answers}
-                    publicOnly
-                  />}
-                {!!spareParticipants.length &&
-                  <>
-                    <strong>
-                      <p className='has-text-grey mb-1 is-inline-block'>
-                        Varasijoilla
-                      </p>
-                    </strong>
-                    &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
-                    <ParticipantList
-                      fields={event.fields}
-                      answers={spareParticipants}
-                      sort={answers => answers}
-                      publicOnly
-                    />
-                  </>
-                }
-              </Box>
-            </>
-            : <Box>
-              <p className='has-text-grey mb-1'>
-                Ilmoittautuminen ei ole auki.
+          <Box>
+            {isActiveEvent(event)
+              ? <Title isSize={4} className='highlight-left-dark-blue'>
+                Ilmoittaudu
+              </Title>
+              : <p className='has-text-grey mb-1'>
+                Ilmoittautuminen ei ole vielä auennut
               </p>
-            </Box>
-          }
+            }
+            <Form
+              fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
+              defaultValues={defaultValues(event.fields)}
+              submitRenderer={isActiveEvent(event) && isEnrollable(event, participants.length + spareParticipants.length) && 'Tallenna'}
+              onSave={(values, { resetForm }) =>
+                this.props.addEventEnroll(values, event.id)
+                  .then(() => resetForm())
+              } />
+            {!isEnrollable(event, participants.length + spareParticipants.length) &&
+              <p className='has-text-grey'>
+                Tapahtuma on täynnä
+              </p>
+            }
+          </Box>
+          <Box className='top-red' >
+            <Title isSize={5} className='highlight-left-red is-inline-block'>
+              Osallistujat
+            </Title>
+            {participants.length
+              ? <>
+                &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
+                <ParticipantList
+                  fields={event.fields}
+                  answers={participants}
+                  sort={answers => answers}
+                  publicOnly
+                />
+              </>
+              : <p>Ei osallistujia</p>
+            }
+            {!!spareParticipants.length &&
+              <>
+                <strong>
+                  <p className='has-text-grey mb-1 is-inline-block'>
+                    Varasijoilla
+                  </p>
+                </strong>
+                &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
+                <ParticipantList
+                  fields={event.fields}
+                  answers={spareParticipants}
+                  sort={answers => answers}
+                  publicOnly
+                />
+              </>
+            }
+          </Box>
         </Column>
       </Base >
     )
