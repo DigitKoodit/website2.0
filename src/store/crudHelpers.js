@@ -84,14 +84,13 @@ export const commonCrudReducers = reducerType => ({
     loading: false,
     error: {}
   }),
-  [reducerType.DELETE.SUCCESS]: (state, action) =>
-    console.log(action.response.id) || ({
-      ...state,
-      // rough way of copying updated object to records
-      records: state.records.filter(item => item.id !== action.response.id),
-      loading: false,
-      error: {}
-    })
+  [reducerType.DELETE.SUCCESS]: (state, action) => ({
+    ...state,
+    // rough way of copying updated object to records
+    records: state.records.filter(item => item.id !== action.response.id),
+    loading: false,
+    error: {}
+  })
 })
 
 export const combineCrudOperationReducers = (type, actionType, reducerFunc) =>
