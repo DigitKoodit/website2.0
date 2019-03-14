@@ -44,7 +44,7 @@ const isActiveEvent = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
   moment().isBefore(moment(event.activeUntil))
 
-const isEnrollable = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
+const isEventFull = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -72,7 +72,7 @@ export class EnrollEventPage extends PureComponent {
     if(!event || loading) {
       return null
     }
-    const enrollable = isEnrollable(event, participants.length + spareParticipants.length)
+    const isFull = isEventFull(event, participants.length + spareParticipants.length)
     const active = isActiveEvent(event)
     return (
       <Base >
@@ -94,14 +94,15 @@ export class EnrollEventPage extends PureComponent {
             <Form
               fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
+              buttonDisabled={!isFull}
               submitRenderer={'Tallenna'}
               onSave={(values, { resetForm }) =>
-                (active && enrollable)
+                (active && isFull)
                   ? addEventEnroll(values, event.id)
                     .then(() => resetForm())
                   : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
               } />
-            {!enrollable &&
+            {!isFull &&
               <p className='has-text-grey'>
                 Tapahtuma on täynnä
               </p>
