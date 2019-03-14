@@ -20,7 +20,8 @@ const InnerForm = ({
   submitRenderer,
   setFieldValue,
   submitForm,
-  saveOnBlur
+  saveOnBlur,
+  buttonDisabled
 }) =>
   <form className='form' onSubmit={handleSubmit}>
     {fields.map(({ type, options, name, label, defaultValue, required, readOnly, customRenderer, customOnChangeHandler, ...rest }) => {
@@ -59,7 +60,7 @@ const InnerForm = ({
     })}
 
     {submitRenderer &&
-      <Button className='mt-1' type='submit' isSize='small' isColor='success' disabled={isSubmitting}>
+      <Button className='mt-1' type='submit' isSize='small' isColor='success' disabled={buttonDisabled || isSubmitting}>
         {isFunction(submitRenderer) ? submitRenderer() : submitRenderer}
       </Button>
     }
@@ -84,7 +85,8 @@ InnerForm.propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
-  saveOnBlur: PropTypes.bool
+  saveOnBlur: PropTypes.bool,
+  buttonDisabled: PropTypes.bool
 }
 // Wrap our form with the using withFormik HoC
 const Form = withFormik({

@@ -15,6 +15,7 @@ import Form from '../../components/Enroll/Form'
 import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
 import { splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
+import { displaySnackbar } from '../../actions/uiActions'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -59,17 +60,20 @@ export class EnrollEventPage extends PureComponent {
     participants: PropTypes.array,
     spareParticipants: PropTypes.array,
     push: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    displaySnackbar: PropTypes.func.isRequired
   }
 
   navigateToEventList = () =>
     this.props.push(`/ilmo`)
 
   render() {
-    const { event, loading, participants, spareParticipants } = this.props
+    const { event, loading, participants, spareParticipants, addEventEnroll, displaySnackbar } = this.props
     if(!event || loading) {
       return null
     }
+    const enrollable = isEnrollable(event, participants.length + spareParticipants.length)
+    const active = isActiveEvent(event)
     return (
       <Base >
         <Column isSize={baseColumnSize}>
@@ -90,12 +94,14 @@ export class EnrollEventPage extends PureComponent {
             <Form
               fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
-              submitRenderer={isActiveEvent(event) && isEnrollable(event, participants.length + spareParticipants.length) && 'Tallenna'}
+              submitRenderer={'Tallenna'}
               onSave={(values, { resetForm }) =>
-                this.props.addEventEnroll(values, event.id)
-                  .then(() => resetForm())
+                (active && enrollable)
+                  ? addEventEnroll(values, event.id)
+                    .then(() => resetForm())
+                  : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
               } />
-            {!isEnrollable(event, participants.length + spareParticipants.length) &&
+            {!enrollable &&
               <p className='has-text-grey'>
                 Tapahtuma on täynnä
               </p>
@@ -178,7 +184,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchEventEnrolls: eventId => dispatch(eventEnrollActions.fetchEventEnrolls(eventId)),
   addEventEnroll: (data, eventId) => new Promise((resolve, reject) => {
     dispatch(eventEnrollActions.addEventEnroll(data, eventId, { resolve, reject }))
-  })
+  }),
+  displaySnackbar: message => dispatch(displaySnackbar(message))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollEventPage)
