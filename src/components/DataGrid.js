@@ -1,43 +1,79 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReactDataGrid from 'react-data-grid'
-import isString from 'lodash/isString'
+import {
+  SortingState,
+  IntegratedSorting,
+  EditingState
+} from '@devexpress/dx-react-grid'
+import {
+  Grid,
+  Table,
+  TableHeaderRow,
+  TableEditRow,
+  TableEditColumn
+} from '@devexpress/dx-react-grid-material-ui'
 
-const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
-  const comparer = (a, b) => {
-    const aVal = isString(a[sortColumn]) ? a[sortColumn].toLowerCase() : a[sortColumn]
-    const bVal = isString(b[sortColumn]) ? b[sortColumn].toLowerCase() : b[sortColumn]
-    if(sortDirection === 'ASC') {
-      return aVal > bVal ? 1 : -1
-    } else if(sortDirection === 'DESC') {
-      return aVal < bVal ? 1 : -1
-    }
+const tableLocalizationMessages = {
+  noData: 'Ei rivejä'
+}
+// import IconButton from '@material-ui/core/IconButton'
+// import DeleteIcon from '@material-ui/icons/Delete'
+
+// const DeleteButton = ({ onExecute }) => (
+//   <IconButton
+//     onClick={() => {
+//       if(window.confirm('Are you sure you want to delete this row?')) {
+//         onExecute()
+//       }
+//     }}
+//     title='Poista'
+//   >
+//     <DeleteIcon />
+//   </IconButton>
+// )
+// DeleteButton.propTypes = {
+//   onExecute: PropTypes.func.isRequired
+// }
+
+export default class DataGrid extends Component {
+  render() {
+    const { rows, columnSpecs, onCommitChanges } = this.props
+    return (
+      <div>
+        <Grid
+          rows={rows}
+          columns={columnSpecs.columns}>
+          <SortingState
+            defaultSorting={[{ columnName: 'id', direction: 'asc' }]}
+          />
+          <EditingState
+            onCommitChanges={onCommitChanges}
+          />
+          <IntegratedSorting />
+          <Table
+            messages={tableLocalizationMessages}
+            columnExtensions={columnSpecs.columnWidths} />
+
+          {columnSpecs.customRenderers.map(({ columnName, Formatter }) => <Formatter key={columnName} />)}
+          <TableHeaderRow showSortingControls />
+          <TableEditRow />
+          <TableEditColumn
+            // showAddCommand
+            showEditCommand
+            showDeleteCommand
+          />
+        </Grid>
+      </div>
+    )
   }
-  return sortDirection === 'NONE' ? initialRows : [...rows].sort(comparer)
 }
 
-const ParticipantGrid = ({ columns, initialRows }) => {
-  const [rows, setRows] = useState(initialRows)
-  if(rows.length !== initialRows.length) {
-    setRows(initialRows)
-  }
-  return (
-    <ReactDataGrid
-      columns={columns}
-      rowGetter={i => rows[i]}
-      rowsCount={initialRows.length}
-      minHeight={800}
-      minWidth={'100%'}
-      onGridSort={(sortColumn, sortDirection) =>
-        setRows(sortRows(initialRows, sortColumn, sortDirection))
-      }
-    />
-  )
+DataGrid.propTypes = {
+  rows: PropTypes.array.isRequired,
+  columnSpecs: PropTypes.shape({
+    columns: PropTypes.array.isRequired,
+    columnWidths: PropTypes.array,
+    editingStateColumnExtensions: PropTypes.array
+  }).isRequired,
+  onCommitChanges: PropTypes.func
 }
-
-ParticipantGrid.propTypes = {
-  columns: PropTypes.array.isRequired,
-  initialRows: PropTypes.array.isRequired
-}
-
-export default ParticipantGrid
