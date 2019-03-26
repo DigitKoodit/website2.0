@@ -55,7 +55,6 @@ export class ParticipantPage extends PureComponent {
     const { selectedItemIndex } = this.state
     const { event, enrolls, removeEventEnroll } = this.props
     const toBeRemovedEnroll = enrolls[selectedItemIndex]
-    console.log(toBeRemovedEnroll, selectedItemIndex)
     removeEventEnroll(toBeRemovedEnroll, event.id)
     this.clearSelection()
     this.resetCsvData()
