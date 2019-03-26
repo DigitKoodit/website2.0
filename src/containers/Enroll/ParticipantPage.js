@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isObject from 'lodash/isObject'
 import { connect } from 'react-redux'
-import memoizeOne from 'memoize-one'
+import memoize from 'memoize-one'
 import { Columns, Column, Subtitle, Box, Media, MediaContent, Button } from 'bloomer'
 import { findEventEnrollsByEventId } from '../../selectors/eventEnrollSelectors'
 import DataGrid from '../../components/DataGrid'
@@ -15,27 +15,6 @@ import eventPropTypes from './eventPropTypes'
 import { findEventById } from '../../selectors/eventSelectors'
 // import ExternalLinkButton from '../../components/Helpers/ExtrenalLinkButton';
 
-const commitChanges = rows => ({ added, changed, deleted }) => {
-  if(added) {
-    const startingAddedId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 0
-    rows = [
-      ...rows,
-      ...added.map((row, index) => ({
-        id: startingAddedId + index,
-        ...row
-      }))
-    ]
-  }
-  if(changed) {
-    rows = rows.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row))
-  }
-  if(deleted) {
-    const deletedSet = new Set(deleted)
-    rows = rows.filter(row => !deletedSet.has(row.id))
-  }
-  console.log(rows)
-  return rows
-}
 const flattenEnrollValues = enroll => ({
   id: enroll.id,
   ...enroll.values,
@@ -45,22 +24,23 @@ const flattenEnrollValues = enroll => ({
 const ObjectFormatter = value => Object.entries(value)
   .filter(([key, value]) => !!value)
   .map(([key, value]) => `${key}, `)
+
 export class ParticipantPage extends PureComponent {
   state = {
-    selectedItemId: null,
+    selectedItemIndex: null,
     csvDataUri: null
   }
   componentDidMount = () => {
     this.props.fetchEnrolls(this.props.event.id)
   }
 
-  mapFieldsToColumnsSpecs = enroll => mapToDataGrid([
+  mapFieldsToColumnsSpecs = memoize(enroll => mapToDataGrid([
     { name: 'id', title: 'ID', width: 60, editingEnabled: false },
     ...Object.entries(enroll.values).map(([key, value]) => ({
       name: key, title: key, customRenderer: isObject(value) ? ObjectFormatter : null, wordWrapEnabled: true
     })),
     { name: 'isSpare', title: 'varasijalla', customRenderer: (value) => value ? 'Kyllä' : '' }
-  ])
+  ]))
 
   mapCsvFields = enroll => [
     'id',
@@ -68,13 +48,14 @@ export class ParticipantPage extends PureComponent {
     'isSpare'
   ]
 
-  selectItem = ({ row }) => this.setState({ selectedItemId: row.id })
-  clearSelection = () => this.setState({ selectedItemId: null })
+  selectItem = index => this.setState({ selectedItemIndex: index })
+  clearSelection = () => this.setState({ selectedItemIndex: null })
   resetCsvData = () => this.setState({ csvDataUri: null })
   removeEventEnroll = () => {
-    const { selectedItemId } = this.state
+    const { selectedItemIndex } = this.state
     const { event, enrolls, removeEventEnroll } = this.props
-    const toBeRemovedEnroll = enrolls.find(enroll => enroll.id === selectedItemId)
+    const toBeRemovedEnroll = enrolls[selectedItemIndex]
+    console.log(toBeRemovedEnroll, selectedItemIndex)
     removeEventEnroll(toBeRemovedEnroll, event.id)
     this.clearSelection()
     this.resetCsvData()
@@ -90,13 +71,46 @@ export class ParticipantPage extends PureComponent {
         console.error('CSV parse error', error)
       })
   }
+
+  updateItem = changed => {
+    const { updateEventEnroll, enrolls } = this.props
+    const [changedIndex, changedField] = Object.entries(changed)[0]
+    const changedEnroll = enrolls[changedIndex]
+    if(changedEnroll) {
+      const [keyValue, changedValue] = Object.entries(changed)[0]
+      const updatedEnroll = keyValue === 'isSpare'
+        ? {
+          ...changedEnroll,
+          isSpare: changedValue === 'true'
+        }
+        : {
+          ...changedEnroll,
+          values: {
+            ...changedEnroll.values,
+            ...changedField
+          }
+        }
+      updateEventEnroll(updatedEnroll)
+    }
+  }
+
+  commitChanges = ({ changed, deleted }) => {
+    if(changed) {
+      console.log('mo')
+      this.updateItem(changed)
+    }
+    if(deleted) {
+      this.selectItem(deleted[0])
+    }
+  }
+
   render() {
     const { enrolls } = this.props
-    const { selectedItemId } = this.state
+    const { selectedItemIndex } = this.state
     return (
       <Columns>
-        {selectedItemId &&
-          <Modal isOpen handleClickOutside={this.clearSelection} >
+        {selectedItemIndex != null
+          ? <Modal isOpen handleClickOutside={this.clearSelection} >
             <Box>
               <Media>
                 <MediaContent>
@@ -116,6 +130,7 @@ export class ParticipantPage extends PureComponent {
               </Media>
             </Box>
           </Modal>
+          : null
         }
         <Column>
           <Subtitle isSize={5}>Osallistujat <small className='has-text-grey-light'>({enrolls.length})</small>
@@ -124,7 +139,7 @@ export class ParticipantPage extends PureComponent {
             ? <DataGrid
               columnSpecs={this.mapFieldsToColumnsSpecs(enrolls[0])}
               rows={enrolls.map(flattenEnrollValues)}
-              onCommitChanges={commitChanges(enrolls)}
+              onCommitChanges={this.commitChanges}
             />
             : (
               <p className='has-text-grey mb-1'>
@@ -157,7 +172,8 @@ export class ParticipantPage extends PureComponent {
     event: eventPropTypes,
     fetchEnrolls: PropTypes.func.isRequired,
     enrolls: PropTypes.array.isRequired,
-    removeEventEnroll: PropTypes.func.isRequired
+    removeEventEnroll: PropTypes.func.isRequired,
+    updateEventEnroll: PropTypes.func.isRequired
   }
 }
 
@@ -169,6 +185,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchEnrolls: eventId => dispatch(eventEnrollActions.fetchEventEnrolls(eventId, true)),
+  updateEventEnroll: enroll => dispatch(eventEnrollActions.updateEventEnroll(enroll, enroll.eventId)),
   removeEventEnroll: (enrollItem, eventId) => dispatch(eventEnrollActions.removeEventEnroll(enrollItem, eventId))
 })
 

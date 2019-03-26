@@ -36,6 +36,7 @@ const tableLocalizationMessages = {
 // }
 
 export default class DataGrid extends Component {
+  renderFormatter = ({ columnName, Formatter }) => <Formatter key={columnName} />
   render() {
     const { rows, columnSpecs, onCommitChanges } = this.props
     return (
@@ -48,14 +49,14 @@ export default class DataGrid extends Component {
           />
           <EditingState
             onCommitChanges={onCommitChanges}
+            columnExtensions={columnSpecs.editingStateColumnExtensions}
           />
           <IntegratedSorting />
           <Table
             messages={tableLocalizationMessages}
             columnExtensions={columnSpecs.columnWidths} />
-
-          {columnSpecs.customRenderers.map(({ columnName, Formatter }) => <Formatter key={columnName} />)}
           <TableHeaderRow showSortingControls />
+          {columnSpecs.customRenderers.map(this.renderFormatter)}
           <TableEditRow />
           <TableEditColumn
             // showAddCommand

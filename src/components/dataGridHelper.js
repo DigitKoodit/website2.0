@@ -11,6 +11,12 @@ export const mapToDataGrid = columnSpecs => columnSpecs.reduce((acc, columnSpec)
     width: columnSpec.width,
     wordWrapEnabled: !!columnSpec.wordWrapEnabled
   })
+  if(columnSpec.editingEnabled != null) {
+    acc.editingStateColumnExtensions.push({
+      columnName: columnSpec.name,
+      editingEnabled: columnSpec.editingEnabled
+    })
+  }
   if(columnSpec.customComponent) {
     const Component = columnSpec.customComponent
     acc.customRenderers.push({
@@ -31,4 +37,4 @@ export const mapToDataGrid = columnSpecs => columnSpecs.reduce((acc, columnSpec)
   }
 
   return acc
-}, { columns: [], columnWidths: [], customRenderers: [] })
+}, { columns: [], columnWidths: [], customRenderers: [], editingStateColumnExtensions: [] })
