@@ -76,8 +76,8 @@ export class ParticipantPage extends PureComponent {
     const { updateEventEnroll, enrolls } = this.props
     const [changedIndex, changedField] = Object.entries(changed)[0]
     const changedEnroll = enrolls[changedIndex]
-    if(changedEnroll) {
-      const [keyValue, changedValue] = Object.entries(changed)[0]
+    if(changedEnroll && changedField) {
+      const [keyValue, changedValue] = Object.entries(changedField)[0]
       const updatedEnroll = keyValue === 'isSpare'
         ? {
           ...changedEnroll,
@@ -96,7 +96,6 @@ export class ParticipantPage extends PureComponent {
 
   commitChanges = ({ changed, deleted }) => {
     if(changed) {
-      console.log('mo')
       this.updateItem(changed)
     }
     if(deleted) {
@@ -135,6 +134,7 @@ export class ParticipantPage extends PureComponent {
         <Column>
           <Subtitle isSize={5}>Osallistujat <small className='has-text-grey-light'>({enrolls.length})</small>
           </Subtitle>
+          <small>Jos (kun) edit/delete -nappulat katoaa, niin päivitä sivu..&#x1F4A9;</small>
           {enrolls.length
             ? <DataGrid
               columnSpecs={this.mapFieldsToColumnsSpecs(enrolls[0])}
