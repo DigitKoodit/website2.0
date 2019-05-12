@@ -111,7 +111,7 @@ class NavigationManager extends PureComponent {
                 validationErrors={validationErrors} />
             </EditorField>
             <EditorField
-              label='Julkaistu'><EditorCheckbox
+              label='Julkinen'><EditorCheckbox
                 field='isPublished'
                 model={item}
                 onChange={handleInputChange}

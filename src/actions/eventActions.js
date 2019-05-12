@@ -17,6 +17,7 @@ const initialItem = {
   activeUntil: moment().add(1, 'month').format(),
   reservedUntil: null,
   isVisible: false,
+  isPublished: true,
   maxParticipants: null,
   reserveCount: 0,
   description: `# Testitapahtuma
