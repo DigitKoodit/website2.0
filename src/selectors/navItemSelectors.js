@@ -1,7 +1,5 @@
 import createCachedSelector from 're-reselect'
-import { INITIAL_ID, NEW_ITEM_URL_KEYWORD } from '../constants'
-
-const parseId = id => id === NEW_ITEM_URL_KEYWORD ? INITIAL_ID : Number(id)
+import { parseId } from '../store/helpers'
 
 const getNavItemFromArguments = arg => arg.siteNavigation ? arg.siteNavigation.records : arg
 
