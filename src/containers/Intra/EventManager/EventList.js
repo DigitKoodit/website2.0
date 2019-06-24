@@ -36,7 +36,10 @@ const ListItem = ({ item, onItemClick }) => {
 
 ListItem.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    isVisible: PropTypes.bool,
+    activeAt: PropTypes.string
   }).isRequired,
   onItemClick: PropTypes.func
 }

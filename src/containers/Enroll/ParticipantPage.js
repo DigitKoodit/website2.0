@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isObject from 'lodash/isObject'
 import { connect } from 'react-redux'
-import memoize from 'memoize-one'
+import memoize from 'micro-memoize'
 import { Columns, Column, Subtitle, Box, Media, MediaContent, Button } from 'bloomer'
 import { findEventEnrollsByEventId } from '../../selectors/eventEnrollSelectors'
 import DataGrid from '../../components/DataGrid'
@@ -25,6 +25,8 @@ const ObjectFormatter = value => Object.entries(value)
   .filter(([key, value]) => !!value)
   .map(([key, value]) => `${key}, `)
 
+const compareArray = (oldArgs, newArgs) => console.log(oldArgs.length === newArgs.length) || oldArgs.length === newArgs.length
+
 export class ParticipantPage extends PureComponent {
   state = {
     selectedItemIndex: null,
@@ -34,13 +36,27 @@ export class ParticipantPage extends PureComponent {
     this.props.fetchEnrolls(this.props.event.id)
   }
 
-  mapFieldsToColumnsSpecs = memoize(enroll => mapToDataGrid([
-    { name: 'id', title: 'ID', width: 60, editingEnabled: false },
-    ...Object.entries(enroll.values).map(([key, value]) => ({
-      name: key, title: key, customRenderer: isObject(value) ? ObjectFormatter : null, wordWrapEnabled: true
-    })),
-    { name: 'isSpare', title: 'varasijalla', customRenderer: (value) => value ? 'Kyllä' : '' }
-  ]))
+  parsePossibleColumns = enrolls => {
+    console.log(enrolls)
+    const uniqFields = enrolls.reduce((accMap, enroll) => {
+      Object.entries(enroll.values).forEach(([key, value]) =>
+        accMap.set(key, isObject(value))
+      )
+      return accMap
+    }, new Map())
+    return [...uniqFields.entries()]
+  }
+
+  mapFieldsToColumnsSpecs = memoize(enrollFields => {
+    console.log(enrollFields)
+    return mapToDataGrid([
+      { name: 'id', title: 'ID', width: 60, editingEnabled: false },
+      ...enrollFields.map(([key, isObject]) => ({
+        name: key, title: key, customRenderer: isObject ? ObjectFormatter : null, wordWrapEnabled: true
+      })),
+      { name: 'isSpare', title: 'varasijalla', customRenderer: (value) => value ? 'Kyllä' : '' }
+    ])
+  }, compareArray)
 
   mapCsvFields = enroll => [
     'id',
@@ -133,10 +149,12 @@ export class ParticipantPage extends PureComponent {
         <Column>
           <Subtitle isSize={5}>Osallistujat <small className='has-text-grey-light'>({enrolls.length})</small>
           </Subtitle>
-          <small>Jos (kun) edit/delete -nappulat katoaa, niin päivitä sivu..&#x1F4A9;</small>
+          <small><span role='img' aria-label='poop'>
+            Jos (kun) edit/delete -nappulat katoaa, niin päivitä sivu..&#x1F4A9;
+          </span></small>
           {enrolls.length
             ? <DataGrid
-              columnSpecs={this.mapFieldsToColumnsSpecs(enrolls[0])}
+              columnSpecs={this.mapFieldsToColumnsSpecs(this.parsePossibleColumns(enrolls))}
               rows={enrolls.map(flattenEnrollValues)}
               onCommitChanges={this.commitChanges}
             />

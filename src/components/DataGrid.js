@@ -74,7 +74,8 @@ DataGrid.propTypes = {
   columnSpecs: PropTypes.shape({
     columns: PropTypes.array.isRequired,
     columnWidths: PropTypes.array,
-    editingStateColumnExtensions: PropTypes.array
+    editingStateColumnExtensions: PropTypes.array,
+    customRenderers: PropTypes.array
   }).isRequired,
   onCommitChanges: PropTypes.func
 }
