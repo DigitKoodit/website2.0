@@ -1,6 +1,6 @@
-import configureStore from './configureStore'
-import helpers from './helpers'
+import configureStore, { history } from './configureStore'
+import * as helpers from './helpers'
 
 export default configureStore
 
-export { helpers }
+export { helpers, history }

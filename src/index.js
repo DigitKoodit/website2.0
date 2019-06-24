@@ -2,16 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import createHistory from 'history/createBrowserHistory'
 import moment from 'moment'
 import 'moment/locale/fi'
 import App from './containers/App'
-import configureStore from './store/configureStore'
+import configureStore, { history } from './store'
 import * as serviceWorker from './serviceWorker'
 
 import './styles/index.scss'
 moment.locale('fi')
-const history = createHistory()
 
 const store = configureStore(history)
 
