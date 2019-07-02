@@ -22,9 +22,9 @@ export class MarkdownEditor extends PureComponent {
             />
             <div className='py-3'>
               <FileChooser
-                onSelect={file => handleTextChange(`${decodedContent}
+                onSelect={file => handleTextChange(`${content}
                 
-<img src='/${file.path}' alt='${file.filename}'/>
+<img src='/${file.path}' alt='${file.filename}' />
 <a target='noopener noreferrer' href='/${file.path}'>Liite</a>`
                 )} />
             </div>

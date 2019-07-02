@@ -1,8 +1,8 @@
 export const types = [
   'text',
-  'radio',
-  'checkbox',
-  'select'
+  'radio'
+  // 'checkbox',
+  // 'select'
 ]
 
 export const options = {

@@ -6,6 +6,19 @@ import ImageLink from '../components/ImageLink'
 import { sponsorActions } from '../actions'
 import { Content, Columns, Column, Title, Tile, Box } from 'bloomer'
 
+const renderSponsor = sponsor => (
+  <Column
+    isSize={{ mobile: '1', default: '1/3' }}
+    key={sponsor.name}
+    hasTextAlign='centered'>
+    <ImageLink
+      name={sponsor.name}
+      link={sponsor.link}
+      imageUrl={sponsor.logo}
+      alt={sponsor.name}
+    />
+  </Column>
+)
 class SponsorsView extends PureComponent {
   componentDidMount() {
     this.props.fetchSponsors()
@@ -19,21 +32,9 @@ class SponsorsView extends PureComponent {
           props => (
             <Box {...props}>
               <Title className='highlight-left-dark-red' >Yhteistyössä</Title>
-              <Columns isCentered isMultiline>
+              <Columns isCentered isMultiline isVCentered>
                 {sponsorList && (
-                  sponsorList.map(sponsor => (
-                    <Column
-                      isSize={{ mobile: '1', default: '1/3' }}
-                      key={sponsor.name}
-                      hasTextAlign='centered'>
-                      <ImageLink
-                        name={sponsor.name}
-                        link={sponsor.link}
-                        imageUrl={sponsor.logo}
-                        alt={sponsor.name}
-                      />
-                    </Column>
-                  ))
+                  sponsorList.map(renderSponsor)
                 )}
               </Columns>
               <Content hasTextAlign='centered'>

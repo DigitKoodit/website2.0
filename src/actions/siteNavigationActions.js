@@ -7,7 +7,7 @@ import { INITIAL_ID } from '../constants'
 import { isNewlyCreated } from '../store/helpers'
 import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpers'
 
-const navItemPublicCrud = createCrudService('/api//navigation')
+const navItemPublicCrud = createCrudService('/api/navigation')
 // Private routes require authorization header
 const requireAuth = true
 const navItemPrivateCrud = createCrudService('/api/intra/navigation', requireAuth)

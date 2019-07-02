@@ -66,7 +66,7 @@ class ContentManager extends PureComponent {
                 onChange={handleInputChange}
                 validationErrors={validationErrors} />
             </EditorField>
-            <EditorField label='Julkaistu'>
+            <EditorField label='Julkinen'>
               <EditorCheckbox
                 field='isVisible'
                 model={item}

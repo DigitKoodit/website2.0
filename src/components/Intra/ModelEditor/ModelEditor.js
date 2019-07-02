@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types' //
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
@@ -52,7 +52,7 @@ class ModelEditor extends PureComponent {
     const { item } = this.state
     const { onSave, onRemove, onCancel, renderFields } = this.props
     return (
-      <Fragment>
+      <>
         {renderFields(item, this.handleInputChange, this.updateStateItem)}
         {onSave &&
           <Button
@@ -80,7 +80,7 @@ class ModelEditor extends PureComponent {
             Poista
           </DelayedActionButton>
         }
-      </Fragment >)
+      </ >)
   }
   static propTypes = {
     item: PropTypes.shape({

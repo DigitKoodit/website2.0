@@ -4,3 +4,4 @@ export const isNewlyCreatedId = id => id === INITIAL_ID
 
 export const includesNewlyCreated = array => array && !!array.find(isNewlyCreated)
 export const urlDisplayId = id => isNewlyCreatedId(id) ? NEW_ITEM_URL_KEYWORD : id
+export const parseId = id => id === NEW_ITEM_URL_KEYWORD ? INITIAL_ID : Number(id)

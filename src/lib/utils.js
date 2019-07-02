@@ -2,9 +2,14 @@
 export const removeDuplicates = array =>
   array.filter((e, index, arr) => arr.indexOf(e) === index)
 
-export const bifurcateBy = (arr, fn) =>
-  arr.reduce((acc, val, i) => (acc[fn(val, i) ? 0 : 1].push(val), acc), [[], []])
-
+export const partition = (arr, fn) =>
+  arr.reduce(
+    (acc, val, i, arr) => {
+      acc[fn(val, i, arr) ? 0 : 1].push(val)
+      return acc
+    },
+    [[], []]
+  )
 export const getBrowserInfo = () => {
   const ua = navigator.userAgent
   let tem

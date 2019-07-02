@@ -7,7 +7,7 @@ import registration from './registrationReducers'
 import siteNavigation from './siteNavigationReducers'
 import generateReducer from './generateReducer'
 
-const rootReducer =
+const rootReducer = connectedRouter => (
   {
     ui,
     auth,
@@ -21,7 +21,8 @@ const rootReducer =
     events: generateReducer(types.EVENT),
     eventEnrolls: generateReducer(types.EVENT_ENROLL),
     files: generateReducer(types.FILE),
-    fileUploads: generateReducer(types.FILE_UPLOAD)
+    fileUploads: generateReducer(types.FILE_UPLOAD),
+    router: connectedRouter
   }
-
+)
 export default rootReducer

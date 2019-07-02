@@ -10,7 +10,7 @@ const EditorField = ({
   isHorizontal = false,
   containerClass = '',
   labelClass = '' }) => {
-  const LabelComponent = label && <span className={`has-text-grey-light has-text-weight-semibold ${labelClass}`}>
+  const LabelComponent = label && <span className={labelClass}>
     {label}
   </span>
   return (

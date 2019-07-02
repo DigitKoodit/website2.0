@@ -87,9 +87,18 @@ class EventManager extends PureComponent {
             </Columns>
             <Columns className='ml-3'>
               <Column>
-                <EditorField label='Julkaistu' >
+                <EditorField label='Näytetään listalla' >
                   <EditorCheckbox
                     field='isVisible'
+                    model={item}
+                    onChange={handleInputChange}
+                    validationErrors={validationErrors} />
+                </EditorField>
+              </Column>
+              <Column>
+                <EditorField label='Julkinen' >
+                  <EditorCheckbox
+                    field='isPublished'
                     model={item}
                     onChange={handleInputChange}
                     validationErrors={validationErrors} />

@@ -7,7 +7,6 @@ import Footer from './SiteFooter'
 const isDev = process.env.NODE_ENV === 'development'
 
 const Home = React.lazy(() => import('./Home'))
-const CalendarSite = React.lazy(() => import('./CalendarSite'))
 const IntraPage = React.lazy(() => import('./Intra'))
 const LoginPage = React.lazy(() => import('./Auth/LoginPage'))
 const RegistrationPage = React.lazy(() => import('./Auth/RegistrationPage'))
@@ -27,7 +26,6 @@ class Main extends Component {
           <Suspense fallback={null}>
             <Switch>
               <Route path='/' exact component={Home} />
-              <Route path='/toiminta/tapahtumat' component={CalendarSite} />
               {/* <Route path='/viralliset/hallitus' component={BoardComponent} /> */}
               {isDev &&
                 <Route path='/register' exact component={RegistrationPage} />

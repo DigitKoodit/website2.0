@@ -15,6 +15,7 @@ import Form from '../../components/Enroll/Form'
 import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
 import { splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
+import { displaySnackbar } from '../../actions/uiActions'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -43,7 +44,7 @@ const isActiveEvent = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
   moment().isBefore(moment(event.activeUntil))
 
-const isEnrollable = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
+const isEventFull = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -59,17 +60,20 @@ export class EnrollEventPage extends PureComponent {
     participants: PropTypes.array,
     spareParticipants: PropTypes.array,
     push: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    displaySnackbar: PropTypes.func.isRequired
   }
 
   navigateToEventList = () =>
     this.props.push(`/ilmo`)
 
   render() {
-    const { event, loading, participants, spareParticipants } = this.props
+    const { event, loading, participants, spareParticipants, addEventEnroll, displaySnackbar } = this.props
     if(!event || loading) {
       return null
     }
+    const isFull = isEventFull(event, participants.length + spareParticipants.length)
+    const active = isActiveEvent(event)
     return (
       <Base >
         <Column isSize={baseColumnSize}>
@@ -78,70 +82,65 @@ export class EnrollEventPage extends PureComponent {
             <EventStatus event={event} />
           </p>
           <Markdown source={event.description} />
-          {isActiveEvent(event)
-            ? <>
-              <Box>
-                {isEnrollable(event, participants.length + spareParticipants.length)
-                  ? <>
-                    <Title isSize={4} className='highlight-left-dark-blue'>
-                      Ilmoittaudu
-                    </Title>
-                    <Form
-                      fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
-                      defaultValues={defaultValues(event.fields)}
-                      submitRenderer='Tallenna'
-                      onSave={(values, { resetForm }) =>
-                        this.props.addEventEnroll(values, event.id)
-                          .then(() => resetForm())
-                      } />
-                  </>
-                  : (
-                    <p className='has-text-grey'>
-                      Tapahtuma on täynnä
-                    </p>
-                  )}
-              </Box>
-              <Box className='top-red' >
-                <Title isSize={5} className='highlight-left-red is-inline-block'>
-                  Osallistujat
-                </Title>
-                {participants.length &&
-                  <>
-                    &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
-                  </>
-                }
-                {participants.length &&
-                  <ParticipantList
-                    fields={event.fields}
-                    answers={participants}
-                    sort={answers => answers}
-                    publicOnly
-                  />}
+          <Box>
+            {isActiveEvent(event)
+              ? <Title isSize={4} className='highlight-left-dark-blue'>
+                Ilmoittaudu
+              </Title>
+              : <p className='has-text-grey mb-1'>
+                Ilmoittautuminen ei ole vielä auennut
+              </p>
+            }
+            <Form
+              fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
+              defaultValues={defaultValues(event.fields)}
+              buttonDisabled={!isFull}
+              submitRenderer={'Tallenna'}
+              onSave={(values, { resetForm }) =>
+                (active && isFull)
+                  ? addEventEnroll(values, event.id)
+                    .then(() => resetForm())
+                  : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
+              } />
+            {!isFull &&
+              <p className='has-text-grey'>
+                Tapahtuma on täynnä
+              </p>
+            }
+          </Box>
+          <Box className='top-red' >
+            <Title isSize={5} className='highlight-left-red is-inline-block'>
+              Osallistujat
+            </Title>
+            {participants.length
+              ? <>
+                &nbsp;<small className='has-text-grey-light'>({participants.length}/{event.maxParticipants})</small>
+                <ParticipantList
+                  fields={event.fields}
+                  answers={participants}
+                  sort={answers => answers}
+                  publicOnly
+                />
+              </>
+              : <p>Ei osallistujia</p>
+            }
+            {!!spareParticipants.length &&
+              <>
                 <strong>
                   <p className='has-text-grey mb-1 is-inline-block'>
                     Varasijoilla
                   </p>
                 </strong>
-                {spareParticipants.length && <>
-                  &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
-                </>
-                }
-                {spareParticipants &&
-                  <ParticipantList
-                    fields={event.fields}
-                    answers={spareParticipants}
-                    sort={answers => answers}
-                    publicOnly
-                  />
-                }
-              </Box>
-            </>
-            : <Box>
-              <p className='has-text-grey mb-1'>
-                Ilmoittautuminen ei ole auki.
-              </p>
-            </Box>
-          }
+                &nbsp; <small className='has-text-grey-light'>({spareParticipants.length}/{event.reserveCount})</small>
+                <ParticipantList
+                  fields={event.fields}
+                  answers={spareParticipants}
+                  sort={answers => answers}
+                  publicOnly
+                />
+              </>
+            }
+          </Box>
         </Column>
       </Base >
     )
@@ -186,7 +185,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchEventEnrolls: eventId => dispatch(eventEnrollActions.fetchEventEnrolls(eventId)),
   addEventEnroll: (data, eventId) => new Promise((resolve, reject) => {
     dispatch(eventEnrollActions.addEventEnroll(data, eventId, { resolve, reject }))
-  })
+  }),
+  displaySnackbar: message => dispatch(displaySnackbar(message))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollEventPage)
