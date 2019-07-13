@@ -89,7 +89,8 @@ class ModelEditor extends PureComponent {
     renderFields: PropTypes.func.isRequired,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
-    onRemove: PropTypes.func
+    onRemove: PropTypes.func,
+    loading: PropTypes.bool
   }
 }
 

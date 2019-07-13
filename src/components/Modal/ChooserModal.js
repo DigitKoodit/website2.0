@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Box, Title, MenuLink, Media, MediaContent, MediaRight, Delete, Icon } from 'bloomer'
 import Modal from './Modal'
@@ -27,7 +27,7 @@ export class ChooserModal extends PureComponent {
       disabled
     } = this.props
     return (
-      <Fragment>
+      <>
         <Button isSize='small' onClick={this.openModal} disabled={disabled}>
           {isOpen ? 'Muokataan' : selectedItem ? selectedRenderer(selectedItem) : placeholder}
         </Button>
@@ -59,7 +59,7 @@ export class ChooserModal extends PureComponent {
             </Media>
           </Box>
         </Modal >
-      </Fragment>
+      </>
 
     )
   }
