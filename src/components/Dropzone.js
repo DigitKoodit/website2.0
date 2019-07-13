@@ -49,8 +49,15 @@ class Dropzone extends Component {
         onDrop={this.onDrop}
         onDragEnter={this.onDragEnter}
         onDragLeave={this.onDragLeave} >
-        {dropzoneActive && <div className='dropzone'>Pudota tiedostot tähän</div>}
-        {this.props.children}
+        {({ getRootProps, getInputProps }) => (
+          <section>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {dropzoneActive && <div className='dropzone'>Pudota tiedostot tähän</div>}
+              {this.props.children}
+            </div>
+          </section>
+        )}
       </ReactDropzone>
     )
   }
