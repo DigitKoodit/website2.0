@@ -8,14 +8,15 @@ import { continuesBefore, continuesAfter } from '../../lib/eventUtils'
 import { renderSingleDayEvent, multidayEventcolor } from './common'
 
 const DesktopEvents = ({ days }) => (
-  <div className='is-hidden-mobile'>
-    <Columns className='is-marginless'>
+  <div className='is-hidden-touch'>
+    <Columns>
       {days.map(renderDayTitle)}
     </Columns>
     {renderMultiDayEventsDesktop(days)}
+    <hr />
     <Columns>
       {days.map(day => (
-        <Column>
+        <Column className='pt-0'>
           {day.eventsSingleDay.map(renderSingleDayEvent)}
         </Column>
       ))}
@@ -23,10 +24,19 @@ const DesktopEvents = ({ days }) => (
   </div>
 )
 
+DesktopEvents.propTypes = {
+  days: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    events: PropTypes.array.isRequired,
+    eventsMultiDay: PropTypes.array.isRequired,
+    eventsSingleDay: PropTypes.array.isRequired
+  }))
+}
+
 const renderDayTitle = (event, index) => {
   const { date } = event
   return (
-    <Column key={index} isSize='1/3' className='is-size-4 is-paddingless pb-4'>
+    <Column key={index} isSize='1/3' className='is-size-4 pb-0'>
       {moment(date).format('dddd DD.MM.')}
     </Column>
   )
@@ -49,7 +59,7 @@ const renderMultiDayEventsDesktop = firstThreeDays => {
     .map(({ title, start, end, isAllDay }, index) => {
       const before = continuesBefore(start, firstDay)
       const after = continuesAfter(end, thirdDay, isAllDay)
-      const eventLength = eventsFlattened.filter(event => event.title === title).length;
+      const eventLength = eventsFlattened.filter(event => event.title === title).length
       const columnLength =
         (eventLength === 1 && 'is-one-third') ||
         (eventLength === 2 && 'is-two-thirds') ||
@@ -64,7 +74,7 @@ const renderMultiDayEventsDesktop = firstThreeDays => {
 
       return (
         <Column
-          className={`multiday-event mb-3 is-paddingless ${columnLength} ${offset}`}
+          className={`multiday-event mt-3 is-paddingless ${columnLength} ${offset}`}
           key={title}
         >
           <BorderTriangle isVisible={before} color={color} side='left' />

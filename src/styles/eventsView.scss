@@ -5,7 +5,7 @@ $color-3: #9B25d0;
 .multiday-event{
   display: flex;
   flex-direction: row;
-  margin: -10px 0px;
+  margin: -10px -6px;
   line-height: 22px;
 
   .event-text-box {
@@ -19,6 +19,9 @@ $color-3: #9B25d0;
     }
     &.color-3 {
       background-color: $color-3;
+    }
+    &.mobile {
+      border-radius: 5px;
     }
   }
 
