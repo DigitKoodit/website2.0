@@ -11,14 +11,14 @@ const renderSingleDayEvent = event => {
   return (
     <div key={`${start}-${title}`} className='pb-2'>
       <span className='has-text-weight-semibold'>{title}</span><br />
-      <Icon isSize='small' className='fas fa-clock has-text-info mr-1' />
-      <span className='has-text-grey'>
+      <Icon isSize='small' className='fas fa-clock has-text-info mr-1 ml-1' />
+      <span className='has-text-grey ml-1'>
         {`${formattedStart} - ${formattedEnd}`}
       </span><br />
       {location && (
         <>
-          <Icon isSize='small' className='fas fa-map-marker has-text-info mr-1' />
-          <span className='has-text-grey is-size-6'>{location}</span>
+          <Icon isSize='small' className='fas fa-map-marker has-text-info mr-1 ml-1' />
+          <span className='has-text-grey is-size-6 ml-1'>{location}</span>
         </>
       )}
     </div>

@@ -21,7 +21,7 @@ const continuesAfter = (end, date, isAllDay) => {
     ? moment(end).subtract(3, 'hours')
     : moment(end)
 
-    return endDateAdjusted.isAfter(date, 'day')
+  return endDateAdjusted.isAfter(date, 'day')
 }
 
 // Group events into an array of days

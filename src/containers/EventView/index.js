@@ -29,8 +29,8 @@ class EventView extends Component {
   render() {
     const today = moment().startOf('day')
     const takeFirstThree = days =>
-      take(days.filter(({ date }) => moment(date).isSameOrAfter(today)), 3)      
-    
+      take(days.filter(({ date }) => moment(date).isSameOrAfter(today)), 3)
+
     const firstThreeDays = takeFirstThree(eventsIntoDayGroups(this.state.events))
       .map(day => {
         const [eventsMultiDay, eventsSingleDay] = partition(day.events, isAlldayOrMultiday)
@@ -48,7 +48,7 @@ class EventView extends Component {
           props => (
             <Box {...props}>
               <Content>
-                <Title>Tapahtumat</Title>
+                <Title className='highlight-left-blue'>Tapahtumat</Title>
                 <DesktopEvents days={firstThreeDays} />
                 <MobileEvents days={firstThreeDays} />
               </Content>

@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import { renderSingleDayEvent, multidayEventcolor } from './common'
 
@@ -17,8 +18,17 @@ const MobileEvents = ({ days }) => {
   )
 }
 
+MobileEvents.propTypes = {
+  days: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    events: PropTypes.array.isRequired,
+    eventsMultiDay: PropTypes.array.isRequired,
+    eventsSingleDay: PropTypes.array.isRequired
+  }))
+}
+
 const renderAllDayEventMobile = (event, date, index) => {
-  const { title, dayNumber, length  } = event
+  const { title, dayNumber, length } = event
 
   // TODO: make color truly unique
   const color = multidayEventcolor(index)
@@ -26,7 +36,11 @@ const renderAllDayEventMobile = (event, date, index) => {
   return (
     <div className='multiday-event pb-3' key={`${date}-${title}`}>
       <div className={`event-text-box mobile ${color}`}>
-        {title} (Päivä {dayNumber + 1}/{length})
+        {title}
+        {length > 1
+          ? ` (Päivä ${dayNumber + 1}/${length})`
+          : null
+        }
       </div>
     </div>
   )
