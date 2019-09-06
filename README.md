@@ -1,5 +1,3 @@
-![Logo of the project](https://digit.fi/images/site/logo_screen_new.gif)
-
 # Digit - Frontend
 
 ## **IMPORTANT UPDATES!** 
@@ -73,19 +71,47 @@ TODO
     cd website2.0
     git remote add upstream git@github.com:DigitKoodit/website2.0.git
     git fetch upstream
+  
+Creates local `master` branch
 
-### 3. Updating your fork from original repo to keep up with their changes:
+### 3. Make a new branch from master
+
+    git checkout -b blazing-feature
+
+Create a new branch from the `master` branch so you can always pull latest changes from upstream origin without interrupting your own feature development if new changes are available.
+
+### 4. Updating your fork from original repo to keep up with their changes:
 
     git pull upstream master
+      or
+    git pull --rebase upstream master
 
-### 4. Making your own changes
-    git push origin master
+ Please follow the steps on the previous block. If . Rebasing helps to keep the project history more readable and therefore more maintainable. Here's a good article about what it means and why to use it: [Git Fork Workflow Using Rebase](https://medium.com/@ruthmpardee/git-fork-workflow-using-rebase-587a144be470). 
 
-### 5. Make a pull request on GitHub 
+### 5. Creating a feature
 
-## Links
+Example of how to create a new feature/fix
 
-TODO
+    # After the step 2. is performed
+        git checkout -b blazing-feature
+    # Make changes and commit with meaningful message
+        git commit -m "Add new blazing feature"
+        git checkout master
+    # Update local master and rebase moves possible changes after the ones which are already on production
+        git pull --rebase upstream master 
+        git checkout blazing-feature
+        git rebase master
+    # Check that everything works and then perform merge or rebase
+        git checkout master
+        git merge blazing-feature
+    # Check that your new feature works on master branch and make a pull request
+
+**Take away:**
+- Only update `feature` branch to keep project more maintainable for everyone
+- Keep master always up to date with `upstream master`
+- Keep commits small and on the topic
+- Keep master always up to date with `upstream master`!!
+- Rebase `feature` to your master branch
 
 
 ## Licensing
