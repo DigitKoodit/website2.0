@@ -1,8 +1,19 @@
-
 .navbar-end {
   width: 100%;
 
   > a:first-child {
     margin-right: auto;
   }
+}
+
+.content-full-width-height {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 1);
 }

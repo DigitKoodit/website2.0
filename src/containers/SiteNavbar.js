@@ -1,17 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Navbar, NavbarMenu, NavbarEnd } from 'bloomer'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Navbar, NavbarMenu, NavbarEnd } from 'bloomer';
 
-const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => (
-  <Navbar className='has-shadow'>
-    {brand}
-    <NavbarMenu isActive={isActive} onClick={onNavbarClick}>
-      <NavbarEnd>
-        {children}
-      </NavbarEnd>
-    </NavbarMenu>
-  </Navbar>
-)
+const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => {
+  useEffect(() => {
+    const path = document.location.pathname;
+    const el = document.getElementById('root');
+    if (path === '/vujut') {
+      el.classList.add('vujut');
+    } else {
+      el.classList.remove('vujut');
+    }
+  });
+
+  return (
+    <Navbar className="has-shadow">
+      {brand}
+      <NavbarMenu isActive={isActive} onClick={onNavbarClick}>
+        <NavbarEnd>{children}</NavbarEnd>
+      </NavbarMenu>
+    </Navbar>
+  );
+};
 
 SiteNavbar.propTypes = {
   brand: PropTypes.oneOfType([
@@ -25,6 +35,6 @@ SiteNavbar.propTypes = {
     PropTypes.node
   ]).isRequired,
   onNavbarClick: PropTypes.func
-}
+};
 
-export default SiteNavbar
+export default SiteNavbar;
