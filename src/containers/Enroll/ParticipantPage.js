@@ -13,7 +13,7 @@ import { toCsv, toCsvDataUri } from '../../helpers/helpers'
 import ExternalLinkButton from '../../components/Helpers/ExtrenalLinkButton'
 import eventPropTypes from './eventPropTypes'
 import { findEventById } from '../../selectors/eventSelectors'
-// import ExternalLinkButton from '../../components/Helpers/ExtrenalLinkButton';
+// import ExternalLinkButton from '../../components/Helpers/ExtrenalLinkButton'
 
 const flattenEnrollValues = enroll => ({
   id: enroll.id,
