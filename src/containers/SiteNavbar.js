@@ -4,9 +4,9 @@ import { Navbar, NavbarMenu, NavbarEnd } from 'bloomer';
 
 const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => {
   useEffect(() => {
-    const path = document.location.pathname;
+    const pathname = document.location.pathname;
     const el = document.getElementById('root');
-    if (path === '/vujut') {
+    if (pathname === '/vujut') {
       el.classList.add('vujut');
     } else {
       el.classList.remove('vujut');
