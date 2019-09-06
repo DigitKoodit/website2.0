@@ -12,7 +12,8 @@ const heroBgStyle = {
   backgroundImage: `url(${heroImage})`,
   backgroundSize: '220vh',
   backgroundPositionX: '47%',
-  backgroundPositionY: '-32vh'
+  backgroundPositionY: '-32vh',
+  backgroundRepeat: 'no-repeat'
 }
 const isDev = process.env.NODE_ENV === 'development'
 
