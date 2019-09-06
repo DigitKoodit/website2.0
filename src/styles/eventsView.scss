@@ -1,0 +1,57 @@
+$color-1: #3A6ED9;
+$color-2: #6B4AD5;
+$color-3: #9B25d0;
+
+.multiday-event{
+  display: flex;
+  flex-direction: row;
+  margin: -10px -6px;
+  line-height: 22px;
+
+  .event-text-box {
+    background-color: $color-1;
+    color: white;
+    width: 100%;
+    padding: 0 16px;
+
+    &.color-2 {
+      background-color: $color-2;
+    }
+    &.color-3 {
+      background-color: $color-3;
+    }
+    &.mobile {
+      border-radius: 5px;
+    }
+  }
+
+  .event-border-triangle {
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+
+    &.left {
+      border-right: 6px solid $color-1;
+      &.color-2 {
+        border-right: 6px solid $color-2;
+      }
+      &.color-3 {
+        border-right: 6px solid $color-3;
+      }
+    }
+
+    &.right {
+      border-left: 6px solid $color-1;
+      &.color-2 {
+        border-left: 6px solid $color-2;
+      }
+      &.color-3 {
+        border-left: 6px solid $color-3;
+      }
+    }
+
+    &.hidden {
+      border: none;
+      width: 12px;
+    }
+  }
+}

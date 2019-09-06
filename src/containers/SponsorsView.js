@@ -27,7 +27,7 @@ class SponsorsView extends PureComponent {
   render() {
     const { sponsorList } = this.props
     return (
-      <Tile isParent>
+      <Tile isParent className='frontpage-responsive-tile'>
         <Tile isChild render={
           props => (
             <Box {...props}>
