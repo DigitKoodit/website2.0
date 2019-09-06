@@ -6,14 +6,59 @@
   }
 }
 
-.content-full-width-height {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 1);
+.vujut {
+  .left-gray {
+    width: 100vw;
+    height: 100%;
+    border: none;
+    padding: 0;
+  }
+
+  .vujut--wrapper {
+    background: black;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+      height: 200px;
+    }
+
+    h1 {
+      color: #fecd33;
+    }
+    .svg--wrapper {
+      position: absolute;
+      left: 40px;
+      bottom: 0;
+
+      .wheel--staff {
+        width: 2px;
+        height: 50px;
+        margin: 0 auto;
+        padding: 0;
+        background: white;
+      }
+    }
+
+    // Stuff that matters.
+    @keyframes scroll {
+      0% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(60px);
+      }
+    }
+
+    svg #wheel {
+      animation: scroll ease 2s infinite;
+    }
+  }
+
+  .is-full-height {
+    padding: 0;
+  }
 }
