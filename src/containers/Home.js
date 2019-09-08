@@ -26,8 +26,8 @@ const Home = () => {
       <Hero isSize='small' className='is-halfheight'>
         <HeroBody isPaddingless className='has-bg-img' style={heroBgStyle} />
       </Hero>
-      <Columns isCentered>
-        <Column isSize={{ mobile: 'full', desktop: 'full', widescreen: '3/4' }} >
+      <Columns isCentered className='is-marginless'>
+        <Column isSize={{ mobile: 'full', desktop: 'full', widescreen: '3/4' }} className='is-paddingless'>
           <Section className='frontpage-responsive-section'>
             <Tile isAncestor className='frontpage-responsive-tile'>
               <WelcomeView />
