@@ -87,8 +87,7 @@ $color-yellow: #D4AF37;
 .vujut .vujut--infowrapper {
   min-height: 100vh;
   margin-left: 20px;
-
-
+  align-items: center;
 
   .vujut--textbox {
     font-size: 1.8em;
@@ -101,12 +100,12 @@ $color-yellow: #D4AF37;
     }
 
     > .vujut--buttoncontainer {
-      padding: 20px;
-      margin-top: 20px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      text-align: center;
 
       > a {
         color: $color-white;
-        margin: 20px;
         padding: 10px 20px;
         border: 2px solid $color-white;
         border-radius: 5px;
