@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Chonburi|Gravitas+One|Limelight|Yeseva+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Patua+One|Roboto+Slab&display=swap');
 
 $color-black: black;
 $color-darkgrey: #333;
@@ -42,12 +42,14 @@ $color-yellow: #D4AF37;
     }
 
     h1 {
-      font-family: 'Chonburi', cursive;
+      font-family: 'Patua One', serif;
+      font-size: 3em;
+      font-weight: 500;
       color: $color-yellow;
     }
     h2 {
       color: $color-lightgrey;
-      font-family: 'Abril Fatface', cursive;
+      font-family: 'Roboto Slab', serif;
     }
     .svg--wrapper {
       position: absolute;
@@ -92,14 +94,16 @@ $color-yellow: #D4AF37;
 }
 
 .vujut .vujut--infowrapper {
-  font-family: 'Abril Fatface', cursive;
+
   min-height: 100vh;
-  margin-left: 20px;
   align-items: center;
 
   .vujut--textbox {
+    font-family: 'Roboto Slab', sans-serif;
+
     font-size: 1.8em;
     line-height: 1.4;
+    margin-left: 15px;
     color: $color-white;
 
     > strong {
@@ -130,9 +134,18 @@ $color-yellow: #D4AF37;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
+    @include from($tablet) {
+      margin-right: 20px;
+    }
+
     > a {
       min-width: 250px;
       margin: 10px 20px;
+
+      @include from($tablet) {
+        max-width: 250px;
+      }
 
       > img {
         &:hover {
