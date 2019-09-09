@@ -16,6 +16,7 @@ import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
 import { splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
 import { displaySnackbar } from '../../actions/uiActions'
+import { Helmet } from 'react-helmet'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -75,7 +76,7 @@ export class EnrollEventPage extends PureComponent {
     const isFull = isEventFull(event, participants.length + spareParticipants.length)
     const active = isActiveEvent(event)
     return (
-      <Base >
+      <Base htmlTitle={`${event.name} - ${event.id} - Ilmoittaudu - Digit ry`} >
         <Column isSize={baseColumnSize}>
           <Title className='mb-4' isSize={2}>{event.name}</Title>
           <p className='mb-4'>
