@@ -97,13 +97,13 @@ $color-yellow: #D4AF37;
 
   min-height: 100vh;
   align-items: center;
+  padding: 2rem 1rem;
 
   .vujut--textbox {
     font-family: 'Roboto Slab', sans-serif;
 
     font-size: 1.8em;
     line-height: 1.4;
-    margin-left: 15px;
     color: $color-white;
 
     > strong {
@@ -134,10 +134,9 @@ $color-yellow: #D4AF37;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
-    @include from($tablet) {
-      margin-right: 20px;
-    }
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
 
     > a {
       min-width: 250px;
