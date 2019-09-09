@@ -3,7 +3,7 @@ $color-darkgrey: #333;
 $color-grey: #444;
 $color-lightgrey: #bbb;
 $color-white: #fff;
-$color-yellow: #fecd33;
+$color-yellow: #D4AF37;
 
 .navbar-end {
   width: 100%;
@@ -83,9 +83,66 @@ $color-yellow: #fecd33;
   }
 }
 
+.vujut .vujut--infowrapper {
+  min-height: 100vh;
+  margin-left: 20px;
+
+
+
+  .vujut--textbox {
+    font-size: 1.8em;
+    line-height: 1.4;
+    color: $color-white;
+
+    > strong {
+      color: $color-yellow;
+      font-weight: 700;
+    }
+
+    > .vujut--buttoncontainer {
+      padding: 20px;
+      margin-top: 20px;
+
+      > a {
+        color: $color-white;
+        margin: 20px;
+        padding: 10px 20px;
+        border: 2px solid $color-white;
+        border-radius: 5px;
+        transition: background-color 0.3s ease,
+                    color 0.3s ease;
+
+        &:hover {
+          background-color: $color-white;
+          color: $color-black;
+        }
+      }
+    }
+  }
+
+  .vujut--sponsors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    > a {
+      max-width: 250px;
+
+      > img {
+        &:hover {
+          transform: scale(1.05);
+          transition: .1s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
 .vujut .navbar {
   background-color: $color-black;
   color: $color-lightgrey;
+  transition: background-color 0.4s ease,
+              color 0.2s ease;
   box-shadow: none;
 
   .navbar-burger {
@@ -99,6 +156,8 @@ $color-yellow: #fecd33;
 
   .navbar-item {
     color: $color-white;
+    transition: background-color 0.2s ease,
+                color 0.2s ease;
     
     &:hover {
       color: $color-lightgrey !important;
@@ -130,4 +189,8 @@ $color-yellow: #fecd33;
       background-color: $color-black
     }
   }
+}
+
+.vujut footer {
+  display: none;
 }
