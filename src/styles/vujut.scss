@@ -17,6 +17,7 @@ $color-yellow: #D4AF37;
 .vujut {
   background-color: $color-black;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .vujut {
@@ -141,8 +142,8 @@ $color-yellow: #D4AF37;
 .vujut .navbar {
   background-color: $color-black;
   color: $color-lightgrey;
-  transition: background-color 0.4s ease,
-              color 0.2s ease;
+  transition: background-color 0.3s ease,
+              color 0.3s ease;
   box-shadow: none;
 
   .navbar-burger {
@@ -154,10 +155,14 @@ $color-yellow: #D4AF37;
     border-top: 2px solid $color-darkgrey;
   }
 
+  .navbar-brand {
+    transition: none;
+  }
+
   .navbar-item {
     color: $color-white;
-    transition: background-color 0.2s ease,
-                color 0.2s ease;
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
     
     &:hover {
       color: $color-lightgrey !important;
