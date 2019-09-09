@@ -9,7 +9,8 @@ $color-yellow: #fecd33;
   width: 100%;
 
   > a:first-child {
-    margin-right: auto;
+    color: $color-yellow;
+    font-weight: bold;
   }
 }
 
