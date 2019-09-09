@@ -127,7 +127,8 @@ $color-yellow: #D4AF37;
     justify-content: center;
     
     > a {
-      max-width: 250px;
+      min-width: 250px;
+      margin: 10px 20px;
 
       > img {
         &:hover {
