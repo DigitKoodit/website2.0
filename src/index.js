@@ -13,8 +13,6 @@ moment.locale('fi')
 
 const store = configureStore(history)
 
-console.log('vujut')
-
 const render = Component =>
   ReactDOM.render(
     <Provider store={store}>
