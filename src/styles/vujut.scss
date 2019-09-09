@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Chonburi|Gravitas+One|Limelight|Yeseva+One&display=swap');
+
 $color-black: black;
 $color-darkgrey: #333;
 $color-grey: #444;
@@ -39,7 +41,12 @@ $color-yellow: #D4AF37;
     }
 
     h1 {
+      font-family: 'Chonburi', cursive;
       color: $color-yellow;
+    }
+    h2 {
+      color: $color-lightgrey;
+      font-family: 'Abril Fatface', cursive;
     }
     .svg--wrapper {
       position: absolute;
@@ -84,6 +91,7 @@ $color-yellow: #D4AF37;
 }
 
 .vujut .vujut--infowrapper {
+  font-family: 'Abril Fatface', cursive;
   min-height: 100vh;
   margin-left: 20px;
   align-items: center;
@@ -99,9 +107,8 @@ $color-yellow: #D4AF37;
     }
 
     > .vujut--buttoncontainer {
-      margin-top: 40px;
+      margin-top: 60px;
       margin-bottom: 40px;
-      text-align: center;
 
       > a {
         color: $color-white;
