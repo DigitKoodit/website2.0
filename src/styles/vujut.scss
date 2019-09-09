@@ -23,7 +23,6 @@ $color-yellow: #fecd33;
     width: 100vw;
     height: 100%;
     border: none;
-    padding: 0;
   }
 
   .vujut--wrapper {
@@ -69,6 +68,13 @@ $color-yellow: #fecd33;
     svg line {
       animation: scroll ease 2s infinite;
     }
+
+    @media (max-width: 767px) {
+      .svg--wrapper {
+        display: none;
+      }
+    }
+
   }
 
   .is-full-height {
