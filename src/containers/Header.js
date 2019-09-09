@@ -89,10 +89,13 @@ Header.propTypes = {
 
 const renderBrand = (onBurgerClick, isActive) =>
   <NavbarBrand className='pr-1 p-3' >
-    <Link to='/' className='mr-2'>
-      <Image isSize='32x32' src={brandLogo} alt='Digit ry' />
+    <Link to='/' style={{
+      display: 'inline-flex',
+      color: '#4a4a4a'
+    }}>
+      <Image isSize='32x32' src={brandLogo} alt='Digit ry' className='mr-2'/>
+      <span style={{ fontSize: '.8rem' }}>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</span>
     </Link>
-    <span style={{ fontSize: '.8rem' }}>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</span>
     <NavbarBurger isActive={isActive} onClick={onBurgerClick} />
   </NavbarBrand>
 
