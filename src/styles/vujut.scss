@@ -15,6 +15,7 @@ $color-yellow: #fecd33;
 
 .vujut {
   background-color: $color-black;
+  overflow-x: hidden;
 }
 
 .vujut {
@@ -26,7 +27,7 @@ $color-yellow: #fecd33;
   }
 
   .vujut--wrapper {
-    background: black;
+    background-color: black;
     height: 100vh;
     width: 100%;
     display: flex;
@@ -44,6 +45,7 @@ $color-yellow: #fecd33;
       position: absolute;
       left: 40px;
       bottom: 0;
+      height: 200px;
 
       .wheel--staff {
         width: 2px;
@@ -60,11 +62,11 @@ $color-yellow: #fecd33;
         transform: translateY(0);
       }
       30% {
-        transform: translateY(60px);
+        transform: translateY(20px);
       }
     }
 
-    svg #wheel {
+    svg line {
       animation: scroll ease 2s infinite;
     }
   }
