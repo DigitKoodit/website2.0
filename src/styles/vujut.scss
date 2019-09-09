@@ -22,7 +22,6 @@ $color-yellow: #D4AF37;
 
 .vujut {
   .left-gray {
-    width: 100vw;
     height: 100%;
     border: none;
   }
@@ -111,7 +110,6 @@ $color-yellow: #D4AF37;
         border-radius: 5px;
         transition: background-color 0.3s ease,
                     color 0.3s ease;
-
         &:hover {
           background-color: $color-white;
           color: $color-black;
@@ -124,7 +122,6 @@ $color-yellow: #D4AF37;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    
     > a {
       min-width: 250px;
       margin: 10px 20px;
