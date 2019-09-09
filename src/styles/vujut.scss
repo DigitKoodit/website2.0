@@ -1,9 +1,20 @@
+$color-black: black;
+$color-darkgrey: #333;
+$color-grey: #444;
+$color-lightgrey: #bbb;
+$color-white: #fff;
+$color-yellow: #fecd33;
+
 .navbar-end {
   width: 100%;
 
   > a:first-child {
     margin-right: auto;
   }
+}
+
+.vujut {
+  background-color: $color-black;
 }
 
 .vujut {
@@ -27,7 +38,7 @@
     }
 
     h1 {
-      color: #fecd33;
+      color: $color-yellow;
     }
     .svg--wrapper {
       position: absolute;
@@ -39,7 +50,7 @@
         height: 50px;
         margin: 0 auto;
         padding: 0;
-        background: white;
+        background: $color-white;
       }
     }
 
@@ -60,5 +71,54 @@
 
   .is-full-height {
     padding: 0;
+  }
+}
+
+.vujut .navbar {
+  background-color: $color-black;
+  color: $color-lightgrey;
+  box-shadow: none;
+
+  .navbar-burger {
+    color: $color-lightgrey;
+  }
+
+  .navbar-dropdown {
+    background-color: $color-darkgrey;
+    border-top: 2px solid $color-darkgrey;
+  }
+
+  .navbar-item {
+    color: $color-white;
+    
+    &:hover {
+      color: $color-lightgrey !important;
+      background-color: $color-black !important;
+    }
+
+    &.is-hidden-touch:hover {
+      color: $color-white !important;
+      background-color: $color-black !important;
+    }
+
+    &.nav-active {
+      box-shadow: none;
+
+      background-color: $color-darkgrey;
+      color: $color-yellow;
+
+      @include from($desktop) {
+        background-color: $color-black;
+        color: $color-lightgrey;
+      }
+    }
+  }
+
+  .navbar-menu.is-active {
+    background-color: $color-darkgrey;
+
+    @include from($desktop) {
+      background-color: $color-black
+    }
   }
 }
