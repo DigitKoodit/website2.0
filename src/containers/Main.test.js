@@ -4,6 +4,5 @@ import App from './App'
 
 afterEach(cleanup)
 it('renders Main', () => {
-  const {}
-
+  console.log('Write tests!')
 })

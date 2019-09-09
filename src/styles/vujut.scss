@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One|Roboto+Slab&display=swap');
+
+$color-black: black;
+$color-darkgrey: #333;
+$color-grey: #444;
+$color-lightgrey: #bbb;
+$color-white: #fff;
+$color-yellow: #D4AF37;
+
+.navbar-end {
+  width: 100%;
+
+  > a:first-child {
+    color: $color-yellow;
+    font-weight: bold;
+  }
+}
+
+.vujut {
+  background-color: $color-black;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.vujut {
+  .left-gray {
+    height: 100%;
+    border: none;
+    width: 100%;
+  }
+
+  .vujut--wrapper {
+    background-color: black;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+      height: 200px;
+    }
+
+    h1 {
+      font-family: 'Patua One', serif;
+      font-size: 3em;
+      font-weight: 500;
+      color: $color-yellow;
+    }
+    h2 {
+      color: $color-lightgrey;
+      font-family: 'Roboto Slab', serif;
+    }
+    .svg--wrapper {
+      position: absolute;
+      left: 40px;
+      bottom: 0;
+      height: 200px;
+
+      .wheel--staff {
+        width: 2px;
+        height: 50px;
+        margin: 0 auto;
+        padding: 0;
+        background: $color-white;
+      }
+    }
+
+    // Stuff that matters.
+    @keyframes scroll {
+      0% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(20px);
+      }
+    }
+
+    svg line {
+      animation: scroll ease 2s infinite;
+    }
+
+    @media (max-width: 767px) {
+      .svg--wrapper {
+        display: none;
+      }
+    }
+
+  }
+
+  .is-full-height {
+    padding: 0;
+  }
+}
+
+.vujut .vujut--infowrapper {
+
+  min-height: 100vh;
+  align-items: center;
+  padding: 2rem 1rem;
+
+  .vujut--textbox {
+    font-family: 'Roboto Slab', sans-serif;
+
+    font-size: 1.8em;
+    line-height: 1.4;
+    color: $color-white;
+
+    > strong {
+      color: $color-yellow;
+      font-weight: 700;
+    }
+
+    > .vujut--buttoncontainer {
+      margin-top: 60px;
+      margin-bottom: 40px;
+
+      > a {
+        color: $color-white;
+        padding: 10px 20px;
+        border: 2px solid $color-white;
+        border-radius: 5px;
+        transition: background-color 0.3s ease,
+                    color 0.3s ease;
+        &:hover {
+          background-color: $color-white;
+          color: $color-black;
+        }
+      }
+    }
+  }
+
+  .vujut--sponsors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+
+    > a {
+      min-width: 250px;
+      margin: 10px 20px;
+
+      @include from($tablet) {
+        max-width: 250px;
+      }
+
+      > img {
+        &:hover {
+          transform: scale(1.05);
+          transition: .1s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+.vujut .navbar {
+  background-color: $color-black;
+  color: $color-lightgrey;
+  transition: background-color 0.3s ease,
+              color 0.3s ease;
+  box-shadow: none;
+
+  .navbar-burger {
+    color: $color-lightgrey;
+  }
+
+  .navbar-dropdown {
+    background-color: $color-darkgrey;
+    border-top: 2px solid $color-darkgrey;
+  }
+
+  .navbar-brand {
+    transition: none;
+  }
+
+  .navbar-item {
+    color: $color-white;
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
+    
+    &:hover {
+      color: $color-lightgrey !important;
+      background-color: $color-black !important;
+    }
+
+    &.is-hidden-touch:hover {
+      color: $color-white !important;
+      background-color: $color-black !important;
+    }
+
+    &.nav-active {
+      box-shadow: none;
+
+      background-color: $color-darkgrey;
+      color: $color-yellow;
+
+      @include from($desktop) {
+        background-color: $color-black;
+        color: $color-lightgrey;
+      }
+    }
+  }
+
+  .navbar-menu.is-active {
+    background-color: $color-darkgrey;
+
+    @include from($desktop) {
+      background-color: $color-black
+    }
+  }
+}
+
+.vujut footer {
+  display: none;
+}
