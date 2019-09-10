@@ -33,6 +33,10 @@ $color-yellow: #D4AF37;
     color: $color-white;
   }
 
+  p {
+    color: $color-lightgrey !important;
+  }
+
   strong {
     color: $color-yellow;
   }
