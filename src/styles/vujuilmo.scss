@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Patua+One|Roboto+Slab&display=swap');
 
 $color-black: black;
-$color-darkgrey: #333;
+$color-darkgrey: #292929;
 $color-grey: #444;
 $color-lightgrey: #bbb;
 $color-white: #fff;
@@ -14,11 +14,12 @@ $color-yellow: #D4AF37;
   color: $color-lightgrey;
   font-family: 'Roboto Slab', serif;
   background-color: $color-black;
-  background-image: url('/public/images/salmiakki.svg');
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='105' viewBox='0 0 80 105'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='death-star' fill='%23474747' fill-opacity='0.4'%3E%3Cpath d='M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 
   h1,
   .title {
     color: $color-yellow;
+    font-family: 'Patua One', sans-serif;
   }
   
   .title:after {
@@ -39,6 +40,75 @@ $color-yellow: #D4AF37;
 
   .box {
     background-color: $color-darkgrey;
+
+    .field-label {
+      color: $color-lightgrey;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-left: 1px;
+      margin-bottom: 4px;
+    }
+
+    strong {
+      color: $color-yellow;
+    }
+
+    input {
+      background-color: $color-black;
+      border-color: $color-black;
+      border-radius: 0;
+      color: $color-lightgrey;
+      font-family: 'Roboto Slab', sans-serif;
+    }
+
+    label {
+      color: $color-lightgrey;
+
+      > input {
+        margin: 5px;
+      }
+    }
+
+    button {
+      background-color: transparent;
+      border: 2px solid $color-white;
+      border-radius: 5px;
+      font-size: 1.3em;
+      font-family: 'Roboto Slab', sans-serif;
+      font-weight: 800;
+      transition: 0.1s ease-in-out;
+
+      &:hover {
+        background-color: $color-white;
+        border: 2px solid $color-white;
+        color: $color-black;
+        font-weight: 800;
+        font-size: 1.3em;
+      }
+    }
+
+    table {
+      background-color: transparent;
+      color: white;
+
+      thead {
+        border-bottom: 2px solid $color-grey;
+      }
+
+      td {
+        border: none;
+        line-height: 2.1;
+      }
+    }
+
+    .table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  footer {
+    background: none;
+    color: $color-lightgrey;
   }
 }
 
