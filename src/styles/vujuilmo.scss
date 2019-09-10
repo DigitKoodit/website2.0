@@ -12,8 +12,11 @@ $color-yellow: #D4AF37;
   overflow-x: hidden;
   overflow-y: hidden;
   color: $color-lightgrey;
-  font-family: 'Roboto Slab', serif;
   background-color: $color-black;
+  
+  > div {
+    font-family: 'Roboto Slab', serif;
+  }
 
   h1,
   .title {
