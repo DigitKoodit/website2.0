@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Patua+One|Roboto+Slab&display=swap');
+
+$color-black: black;
+$color-darkgrey: #333;
+$color-grey: #444;
+$color-lightgrey: #bbb;
+$color-white: #fff;
+$color-yellow: #D4AF37;
+
+.vujuilmo {
+  background-color: $color-black;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  color: $color-lightgrey;
+  font-family: 'Roboto Slab', serif;
+  background-color: $color-black;
+  background-image: url('/public/images/salmiakki.svg');
+
+  h1,
+  .title {
+    color: $color-yellow;
+  }
+  
+  .title:after {
+    box-shadow: none;
+  }
+
+  h2 {
+    color: $color-white;
+  }
+
+  h3 {
+    color: $color-white;
+  }
+
+  strong {
+    color: $color-yellow;
+  }
+
+  .box {
+    background-color: $color-darkgrey;
+  }
+}
+
+.vujuilmo .markdown-area {
+  text-align: left;
+  color: $color-white !important;
+}
+
+.vujuilmo .navbar {
+  background-color: $color-black;
+  color: $color-lightgrey;
+  transition: background-color 0.3s ease,
+              color 0.3s ease;
+  box-shadow: none;
+
+  .navbar-burger {
+    color: $color-lightgrey;
+  }
+
+  .navbar-dropdown {
+    background-color: $color-darkgrey;
+    border-top: 2px solid $color-darkgrey;
+  }
+
+  .navbar-brand {
+    transition: none;
+  }
+
+  .navbar-item {
+    color: $color-white;
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
+    
+    &:hover {
+      color: $color-lightgrey !important;
+      background-color: $color-black !important;
+    }
+
+    &.is-hidden-touch:hover {
+      color: $color-white !important;
+      background-color: $color-black !important;
+    }
+
+    &.nav-active {
+      box-shadow: none;
+
+      background-color: $color-darkgrey;
+      color: $color-yellow;
+
+      @include from($desktop) {
+        background-color: $color-black;
+        color: $color-lightgrey;
+      }
+    }
+  }
+
+  .navbar-menu.is-active {
+    background-color: $color-darkgrey;
+
+    @include from($desktop) {
+      background-color: $color-black
+    }
+  }
+}
