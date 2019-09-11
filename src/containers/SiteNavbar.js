@@ -11,6 +11,12 @@ const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => {
     } else {
       el.classList.remove('vujut')
     }
+
+    if (pathname === '/ilmo/28') {
+      el.classList.add('vujuilmo')
+    } else {
+      el.classList.remove('vujuilmo')
+    }
   })
 
   return (
