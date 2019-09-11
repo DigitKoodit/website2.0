@@ -92,7 +92,7 @@ const renderBrand = (onBurgerClick, isActive) =>
     <Link to='/' className='mr-2'>
       <Image isSize='32x32' src={brandLogo} alt='Digit ry' />
     </Link>
-    <span className='is-size-7 is-hidden-desktop-only'>Turun yliopiston diplomi-insinööriopiskelijoiden ainejärjestö.<br />Teekkariperinteitä jo vuodesta 1999.</span>
+    <span className='is-size-7 is-hidden-desktop-only'>Turun yliopiston diplomi-insinööriopiskelijoiden kilta.<br />Teekkariperinteitä jo vuodesta 1999.</span>
     <NavbarBurger isActive={isActive} onClick={onBurgerClick} />
   </NavbarBrand>
 
