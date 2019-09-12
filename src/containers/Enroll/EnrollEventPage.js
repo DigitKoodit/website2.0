@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
+import throttle from 'lodash/throttle'
 import { Title, Column, Box, Icon } from 'bloomer'
 import moment from 'moment'
 import eventPropTypes from './eventPropTypes'
@@ -69,8 +70,18 @@ export class EnrollEventPage extends PureComponent {
   navigateToEventList = () =>
     this.props.push(`/ilmo`)
 
+  handleSave = throttle((values, { resetForm }) => {
+    const { event, displaySnackbar, participants, spareParticipants, addEventEnroll } = this.props
+    const isFull = isEventFull(event, participants.length + spareParticipants.length)
+    if(isActiveEvent(event) && !isFull) {
+      return addEventEnroll(values, event.id)
+        .then(() => resetForm())
+    }
+    return Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
+  }, 200)
+
   render() {
-    const { event, loading, participants, spareParticipants, addEventEnroll, displaySnackbar } = this.props
+    const { event, loading, participants, spareParticipants } = this.props
     if(!event || loading) {
       return null
     }
@@ -97,12 +108,7 @@ export class EnrollEventPage extends PureComponent {
               defaultValues={defaultValues(event.fields)}
               buttonDisabled={isFull}
               submitRenderer={'Tallenna'}
-              onSave={(values, { resetForm }) => (
-                (isActiveEvent(event) && !isFull)
-                  ? addEventEnroll(values, event.id)
-                    .then(() => resetForm())
-                  : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua')))
-              } />
+              onSave={this.handleSave} />
             {isFull &&
               <p className='has-text-grey'>
                 Tapahtuma on täynnä

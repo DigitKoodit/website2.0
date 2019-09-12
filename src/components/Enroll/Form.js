@@ -107,16 +107,21 @@ const Form = withFormik({
       setErrors /* setValues, setStatus, and other goodies */
     }
   ) => {
-    props.onSave(values, { resetForm })
-      .then(() => {
+    setSubmitting(true)
+    const response = props.onSave(values, { resetForm })
+    if(response && response.then) {
+      return response.then(() => {
         setSubmitting(false)
       })
-      .catch(errors => {
-        console.log('err', errors)
-        setSubmitting(false)
-        setErrors(errors)
-      })
+        .catch(errors => {
+          console.log('err', errors)
+          setSubmitting(false)
+          setErrors(errors)
+        })
+    }
+    setSubmitting(false)
   }
+
 })(InnerForm)
 
 const serializeForInput = value => !isNil(value) ? value : ''
