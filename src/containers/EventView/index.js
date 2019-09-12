@@ -3,7 +3,6 @@ import { Box, Content, Tile, Title } from 'bloomer'
 import take from 'lodash/take'
 import partition from 'lodash/partition'
 import moment from 'moment'
-import 'moment/locale/fi'
 
 import '../../styles/eventsView.scss'
 import MobileEvents from './MobileEvents'

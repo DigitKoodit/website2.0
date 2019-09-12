@@ -16,7 +16,6 @@ import Markdown from '../../components/ContentManagement/Markdown'
 import ParticipantList from '../../components/Enroll/ParticipantList'
 import { splitNormalAndSpare } from '../../selectors/eventEnrollSelectors'
 import { displaySnackbar } from '../../actions/uiActions'
-import { Helmet } from 'react-helmet'
 
 const EventStatus = ({ event }) =>
   moment().isBetween(event.activeAt, event.activeUntil)
@@ -45,7 +44,9 @@ const isActiveEvent = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
   moment().isBefore(moment(event.activeUntil))
 
-const isEventFull = (event, enrollCount) => (event.maxParticipants + (event.reserveCount || 0)) > enrollCount
+const isEventFull = (event, enrollCount) =>
+  enrollCount >= (event.maxParticipants + (event.reserveCount || 0))
+
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -74,7 +75,6 @@ export class EnrollEventPage extends PureComponent {
       return null
     }
     const isFull = isEventFull(event, participants.length + spareParticipants.length)
-    const active = isActiveEvent(event)
     return (
       <Base htmlTitle={`${event.name} - ${event.id} - Ilmoittaudu - Digit ry`} >
         <Column isSize={baseColumnSize}>
@@ -95,15 +95,15 @@ export class EnrollEventPage extends PureComponent {
             <Form
               fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
-              buttonDisabled={!isFull}
+              buttonDisabled={isFull}
               submitRenderer={'Tallenna'}
-              onSave={(values, { resetForm }) =>
-                (active && isFull)
+              onSave={(values, { resetForm }) => (
+                (isActiveEvent(event) && !isFull)
                   ? addEventEnroll(values, event.id)
                     .then(() => resetForm())
-                  : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
+                  : Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua')))
               } />
-            {!isFull &&
+            {isFull &&
               <p className='has-text-grey'>
                 Tapahtuma on täynnä
               </p>
