@@ -65,7 +65,8 @@ export class DelayedActionButton extends PureComponent {
     timeout: PropTypes.number,
     isColor: PropTypes.string,
     confirmationMessage: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    onClick: PropTypes.func.isRequired
   }
   static defaultProps = {
     timeout: 5000,

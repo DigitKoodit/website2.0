@@ -1,3 +1,4 @@
 /config/*
 /scripts/*
 /src/serviceWorker.js
+**/*.test.js

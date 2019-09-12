@@ -36,7 +36,9 @@ const DynamicPage = ({ siteContent = {} }) => {
 
 DynamicPage.propTypes = {
   siteContent: PropTypes.shape({
-    content: PropTypes.string
+    content: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string
   })
 }
 

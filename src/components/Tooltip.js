@@ -22,6 +22,7 @@ const Tooltip = ({ children, message, withoutIcon, className }) => {
 Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
   message: PropTypes.string,
-  withoutIcon: PropTypes.bool
+  withoutIcon: PropTypes.bool,
+  className: PropTypes.string
 }
 export default Tooltip

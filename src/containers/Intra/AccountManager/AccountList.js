@@ -26,7 +26,8 @@ const AccountItem = ({ account, onItemClick }) =>
 
 AccountItem.propTypes = {
   account: PropTypes.shape({
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    username: PropTypes.string
   }).isRequired,
   onItemClick: PropTypes.func
 }
