@@ -41,13 +41,31 @@ EventStatus.propTypes = {
   event: eventPropTypes
 }
 
+const isEventFull = (event, enrollCount) =>
+  enrollCount >= (event.maxParticipants + (event.reserveCount || 0))
+
 const isActiveEvent = event => event &&
   moment().isAfter(moment(event.activeAt)) &&
   moment().isBefore(moment(event.activeUntil))
 
-const isEventFull = (event, enrollCount) =>
-  enrollCount >= (event.maxParticipants + (event.reserveCount || 0))
+const isEventStarted = event => event &&
+  moment().isAfter(moment(event.activeAt))
 
+const isEventEnded = event => event &&
+  moment().isAfter(moment(event.activeUntil))
+
+const getPossibleEventError = ({ event, participants, spareParticipants }) => {
+  if(isEventFull(event, participants.length + spareParticipants.length)) {
+    return 'Tapahtuma on täynnä'
+  }
+  if(isEventEnded(event)) {
+    return 'Ilmoittautuminen on päättynyt'
+  }
+  if(!isEventStarted(event)) {
+    return 'Ilmoittautuminen ei ole vielä auennut'
+  }
+  return null
+}
 export class EnrollEventPage extends PureComponent {
   componentDidMount = () => {
     this.props.fetchEvent(this.props.eventId)
@@ -71,13 +89,14 @@ export class EnrollEventPage extends PureComponent {
     this.props.push(`/ilmo`)
 
   handleSave = throttle((values, { resetForm }) => {
-    const { event, displaySnackbar, participants, spareParticipants, addEventEnroll } = this.props
-    const isFull = isEventFull(event, participants.length + spareParticipants.length)
-    if(isActiveEvent(event) && !isFull) {
-      return addEventEnroll(values, event.id)
-        .then(() => resetForm())
+    const { event, displaySnackbar, addEventEnroll } = this.props
+
+    const eventErrorMessage = getPossibleEventError(this.props)
+    if(eventErrorMessage) {
+      return Promise.resolve(displaySnackbar(eventErrorMessage))
     }
-    return Promise.resolve(displaySnackbar('Tapahtumaan ei voi ilmoittautua'))
+    return addEventEnroll(values, event.id)
+      .then(() => resetForm())
   }, 200)
 
   render() {
@@ -86,6 +105,8 @@ export class EnrollEventPage extends PureComponent {
       return null
     }
     const isFull = isEventFull(event, participants.length + spareParticipants.length)
+    const eventErrorMessage = getPossibleEventError(this.props)
+    console.log(eventErrorMessage)
     return (
       <Base htmlTitle={`${event.name} - ${event.id} - Ilmoittaudu - Digit ry`} >
         <Column isSize={baseColumnSize}>
@@ -95,25 +116,20 @@ export class EnrollEventPage extends PureComponent {
           </p>
           <Markdown source={event.description} />
           <Box>
-            {isActiveEvent(event)
+            {(isActiveEvent(event) && !eventErrorMessage)
               ? <Title isSize={4} className='highlight-left-dark-blue'>
                 Ilmoittaudu
               </Title>
               : <p className='has-text-grey mb-1'>
-                Ilmoittautuminen ei ole vielä auennut
+                {eventErrorMessage}
               </p>
             }
             <Form
               fields={event.fields.map(field => ({ ...field, name: `values[${field.name}]` }))}
               defaultValues={defaultValues(event.fields)}
-              buttonDisabled={isFull}
+              buttonDisabled={isFull || isEventEnded(event)}
               submitRenderer={'Tallenna'}
               onSave={this.handleSave} />
-            {isFull &&
-              <p className='has-text-grey'>
-                Tapahtuma on täynnä
-              </p>
-            }
           </Box>
           <Box className='top-red' >
             <Title isSize={5} className='highlight-left-red is-inline-block'>
