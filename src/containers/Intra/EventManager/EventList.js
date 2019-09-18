@@ -1,21 +1,33 @@
-import React from 'react'
-import { MenuLink } from 'bloomer'
+import React, { useState } from 'react'
+import { MenuLink, Button } from 'bloomer'
 import PropTypes from 'prop-types'
 import { VerticalList } from '../../../components/Layout'
 import moment from 'moment'
 import { isNewlyCreated } from '../../../store/helpers'
+import take from 'lodash/take'
 
-const EventList = ({ events, onItemClick }) => (
-  <VerticalList
-    items={events}
-    listItemRenderer={event => (
-      <ListItem
-        key={event.id}
-        item={event}
-        onItemClick={onItemClick} />
-    )}
-  />
-)
+const EventList = ({ events, onItemClick }) => {
+  const [isOpen, toggleIsOpen] = useState(false)
+  const eventsReversed = [...events].reverse()
+  const eventsSorted = take(eventsReversed, (isOpen ? 9999 : 10))
+
+  return (
+    <>
+      <VerticalList
+        items={eventsSorted}
+        listItemRenderer={event => (
+          <ListItem
+            key={event.id}
+            item={event}
+            onItemClick={onItemClick} />
+        )}
+      />
+      <Button onClick={() => toggleIsOpen(!isOpen)}>
+        Näytä {isOpen ? 'vähemmän' : 'enemmän'}
+      </Button>
+    </>
+  )
+}
 
 const ListItem = ({ item, onItemClick }) => {
   const iconClass = item.isVisible
