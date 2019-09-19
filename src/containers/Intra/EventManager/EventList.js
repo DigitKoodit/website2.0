@@ -7,14 +7,17 @@ import { isNewlyCreated } from '../../../store/helpers'
 import take from 'lodash/take'
 
 const EventList = ({ events, onItemClick }) => {
+  const NUMBER_OF_SHOWN_EVENTS = 10
   const [isOpen, toggleIsOpen] = useState(false)
   const eventsReversed = [...events].reverse()
-  const eventsSorted = take(eventsReversed, (isOpen ? 9999 : 10))
+  const eventsShown = isOpen
+   ? eventsReversed 
+   : take(eventsReversed, NUMBER_OF_SHOWN_EVENTS)
 
   return (
     <>
       <VerticalList
-        items={eventsSorted}
+        items={eventsShown}
         listItemRenderer={event => (
           <ListItem
             key={event.id}
@@ -22,9 +25,11 @@ const EventList = ({ events, onItemClick }) => {
             onItemClick={onItemClick} />
         )}
       />
-      <Button onClick={() => toggleIsOpen(!isOpen)}>
-        Näytä {isOpen ? 'vähemmän' : 'enemmän'}
-      </Button>
+      {events.length > NUMBER_OF_SHOWN_EVENTS &&
+        <Button onClick={() => toggleIsOpen(!isOpen)}>
+          Näytä {isOpen ? 'vähemmän' : 'enemmän'}
+        </Button>
+      }
     </>
   )
 }
