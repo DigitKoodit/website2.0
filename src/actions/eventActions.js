@@ -60,7 +60,7 @@ const initialItem = {
       isTextarea: false,
       fieldName: 'Teksti',
       required: true,
-      public: true,
+      public: false,
       order: 2
     }
   ]
