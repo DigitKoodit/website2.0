@@ -1,0 +1,92 @@
+
+
+.vujut {
+  .vujuviikko {
+    background-color: black;
+    min-height: 100vh;
+    width: 800px;
+    max-width: 92%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Roboto Slab', serif;
+
+    > h1 {
+      color: $color-yellow;
+      font-size: 3em;
+      font-weight: 500;
+      font-family: 'Patua One', serif;
+    }
+
+    > h2 {
+      color: $color-lightgrey;
+    }
+
+    > .description {
+      font-size: 1.8em;
+      line-height: 1.4;
+      color: $color-white;
+    }
+
+    > .aikataulu {
+      color: white;
+      max-width: 95%;
+      margin-bottom: 200px;
+
+      > h3 {
+        color: $color-yellow;
+      }
+
+      > table { 
+        max-width: 100%;
+
+        > tbody > tr {
+
+          > td {
+            border-bottom: 2px solid $color-grey;
+            padding: 25px 15px;
+          }
+
+          > .weekday {
+            color: $color-lightgrey;
+            font-size: 1.4em;
+            font-weight: 900;
+            text-align: center;
+            padding-top: 50px;
+          }
+
+          > .time {
+            color: $color-white;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 800;
+            max-width: 100px;
+          }
+
+          > .information {
+            > h2 {
+              font-family: 'Patua One', serif;
+              font-size: 1.2em;
+              color: $color-white;
+              font-weight: 900;
+            }
+
+            > p {
+              color: #bbb;
+              font-size: 0.9em;
+              font-weight: 800;
+              hyphens: auto;
+
+              > strong {
+                color: $color-yellow;
+                font-weight: 900;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

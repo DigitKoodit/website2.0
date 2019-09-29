@@ -6,7 +6,7 @@ const SiteNavbar = ({ brand, isActive, children, onNavbarClick }) => {
   useEffect(() => {
     const pathname = document.location.pathname
     const el = document.getElementById('root')
-    if(pathname === '/iteraatio') {
+    if(pathname.startsWith('/iteraatio')) {
       el.classList.add('vujut')
     } else {
       el.classList.remove('vujut')
