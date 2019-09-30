@@ -84,8 +84,18 @@ const pageContentLoader = Children => {
     // Split and select only last url
     const requestedPath = paths[paths.length - 1]
     const containingNavItem = findNavItemByPath(state, '/' + requestedPath)
-    const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
     const { loading } = state.pages
+    const requestingSubRouteWithoutParent = containingNavItem &&
+      containingNavItem.parentId != null &&
+      paths.length === 1
+    if(requestingSubRouteWithoutParent) {
+      return {
+        sitePageId: null,
+        siteContent: null,
+        loading
+      }
+    }
+    const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
     return {
       sitePageId,
       siteContent: sitePageId ? findSitePageById(state, sitePageId) : null,
