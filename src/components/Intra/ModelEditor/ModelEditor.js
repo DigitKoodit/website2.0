@@ -54,32 +54,35 @@ class ModelEditor extends PureComponent {
     return (
       <>
         {renderFields(item, this.handleInputChange, this.updateStateItem)}
-        {onSave &&
-          <Button
-            className=''
-            isColor='primary'
-            onClick={() => onSave(item)}>
-            Tallenna
-          </Button>
-        }
-        {onCancel &&
-          <Button
-            className=''
-            isOutlined
-            isColor='warning'
-            onClick={() => onCancel(item)}>
-            Peruuta
-          </Button>
-        }
-        {onRemove &&
-          <DelayedActionButton
-            className=''
-            isOutlined
-            isColor='danger'
-            onClick={() => onRemove(item)}>
-            Poista
-          </DelayedActionButton>
-        }
+        <div className='pb-2 has-background-white sticky-bottom'>
+          <hr />
+          {onSave &&
+            <Button
+              className=''
+              isColor='primary'
+              onClick={() => onSave(item)}>
+              Tallenna
+            </Button>
+          }
+          {onCancel &&
+            <Button
+              className=''
+              isOutlined
+              isColor='warning'
+              onClick={() => onCancel(item)}>
+              Peruuta
+            </Button>
+          }
+          {onRemove &&
+            <DelayedActionButton
+              className=''
+              isOutlined
+              isColor='danger'
+              onClick={() => onRemove(item)}>
+              Poista
+            </DelayedActionButton>
+          }
+        </div>
       </ >)
   }
   static propTypes = {
