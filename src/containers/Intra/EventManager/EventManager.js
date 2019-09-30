@@ -41,13 +41,13 @@ class EventManager extends PureComponent {
     this.props.clearErrors()
   }
 
-  renderEditor = (item, validationErrors) => <ModelEditor
-    item={item}
-    onSave={isNewlyCreated(item) ? this.props.addEvent : this.props.updateEvent}
-    onCancel={this.clearSelection}
-    onRemove={this.removeItem}
-    renderFields={(item, handleInputChange, updateStateItem) => {
-      return (
+  renderEditor = (item, validationErrors) =>
+    <ModelEditor
+      item={item}
+      onSave={isNewlyCreated(item) ? this.props.addEvent : this.props.updateEvent}
+      onCancel={this.clearSelection}
+      onRemove={this.removeItem}
+      renderFields={(item, handleInputChange, updateStateItem) => (
         <Columns isMultiline>
           <Column isSize={{ desktop: '1/2', tablet: 'full' }}>
             {!isNewlyCreated(item) &&
@@ -155,11 +155,10 @@ class EventManager extends PureComponent {
                 validationErrors={validationErrors} />
             </EditorField>
           </Column>
-          <span className='has-text-grey-light'>* pakollinen</span>
+          <span className='has-text-grey-light ml-3'>* pakollinen</span>
         </Columns>
-      )
-    }}
-  />
+      )}
+    />
 
   removeItem = item => {
     this.props.removeEvent(item)

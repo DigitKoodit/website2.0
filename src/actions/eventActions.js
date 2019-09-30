@@ -110,7 +110,8 @@ const enrollActions = {
     }
   },
   prepareNew() {
-    return (dispatch, getState) => !getState().events.records.find(isNewlyCreated) && dispatch(this.success(initialItem, crudTypes.CREATE))
+    return (dispatch, getState) => !getState().events.records.find(isNewlyCreated) &&
+      dispatch(this.success(initialItem, crudTypes.CREATE))
   },
   addEvent(item) {
     return dispatch => {
