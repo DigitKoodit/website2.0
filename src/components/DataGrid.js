@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import memoize from 'micro-memoize'
 import {
   SortingState,
   IntegratedSorting,
@@ -16,27 +17,10 @@ import {
 const tableLocalizationMessages = {
   noData: 'Ei rivejä'
 }
-// import IconButton from '@material-ui/core/IconButton'
-// import DeleteIcon from '@material-ui/icons/Delete'
 
-// const DeleteButton = ({ onExecute }) => (
-//   <IconButton
-//     onClick={() => {
-//       if(window.confirm('Are you sure you want to delete this row?')) {
-//         onExecute()
-//       }
-//     }}
-//     title='Poista'
-//   >
-//     <DeleteIcon />
-//   </IconButton>
-// )
-// DeleteButton.propTypes = {
-//   onExecute: PropTypes.func.isRequired
-// }
-
+const renderFormatter = memoize(customRenderers =>
+  customRenderers.map(({ columnName, Formatter }) => <Formatter key={columnName} />))
 export default class DataGrid extends Component {
-  renderFormatter = ({ columnName, Formatter }) => <Formatter key={columnName} />
   render() {
     const { rows, columnSpecs, onCommitChanges } = this.props
     return (
@@ -56,7 +40,7 @@ export default class DataGrid extends Component {
             messages={tableLocalizationMessages}
             columnExtensions={columnSpecs.columnWidths} />
           <TableHeaderRow showSortingControls />
-          {columnSpecs.customRenderers.map(this.renderFormatter)}
+          {renderFormatter(columnSpecs.customRenderers)}
           <TableEditRow />
           <TableEditColumn
             // showAddCommand
