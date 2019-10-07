@@ -28,7 +28,7 @@ const EventStatus = ({ event }) =>
       </span>
       {event.reservedUntil &&
         <span className='mt-1 is-block'>
-          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukea {moment(event.activeUntil).format('DD.MM.YYYY HH:mm')}
+          <Icon className='fa fa-users' aria-hidden='true' /> Varasijat aukea {moment(event.reservedUntil).format('DD.MM.YYYY HH:mm')}
         </span>
       }
     </>
