@@ -11,7 +11,8 @@ const navItemPublicCrud = createCrudService('/api/navigation')
 // Private routes require authorization header
 const requireAuth = true
 const navItemPrivateCrud = createCrudService('/api/intra/navigation', requireAuth)
-const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false, weight: 9999, showOnNavigation: false, isPublished: false }
+const initialItem = { id: INITIAL_ID, title: 'Uusi', path: '', subItems: [], parentId: null, isCustom: false,
+                      weight: 9999, showOnNavigation: false, isPublished: false, isEmphasized: false }
 
 const siteNavigationActions = {
   pending: (crudType) => createAction(SITE_NAVIGATION[crudType].PENDING),

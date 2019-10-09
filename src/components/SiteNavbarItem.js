@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { NavbarItem, NavbarDropdown } from 'bloomer'
 
-const SiteNavbarItem = ({ state, title, path, subItems = [], children }) => {
+const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasized }) => {
   const hasSubitems = subItems.length > 0
   const NavItem = hasSubitems ? DropdownNavItem : SimpleNavItem
   return (
@@ -12,7 +12,9 @@ const SiteNavbarItem = ({ state, title, path, subItems = [], children }) => {
       title={title}
       path={path}
       subItems={subItems} >
-      {children || title}
+      <p className={isEmphasized && 'has-text-success has-text-weight-bold'}>
+        {children || title}
+      </p>
     </NavItem>
       : <NavbarItem isHidden='touch'>{children || title}</NavbarItem>
   )
