@@ -52,6 +52,20 @@ const pageContentLoader = Children => {
       if(sitePageId && isNil(siteContent) && !loading) {
         fetchPage(sitePageId)
       }
+
+      /**
+       * This JS adds onClick listeners to all elements with class 'card-toggle'
+       * 
+       * Stolen from here: https://codepen.io/brussell98/pen/mEwxjP
+       */
+      document.addEventListener('DOMContentLoaded', function() {
+        let cardToggles = document.getElementsByClassName('card-toggle');
+        for (let i = 0; i < cardToggles.length; i++) {
+          cardToggles[i].addEventListener('click', e => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+          });
+        }
+      });
     }
 
     render() {
