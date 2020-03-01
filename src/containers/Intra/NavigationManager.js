@@ -107,7 +107,6 @@ class NavigationManager extends PureComponent {
                 field='showOnNavigation'
                 model={item}
                 onChange={handleInputChange}
-
                 validationErrors={validationErrors} />
             </EditorField>
             <EditorField
@@ -123,6 +122,13 @@ class NavigationManager extends PureComponent {
                 model={item}
                 onChange={handleInputChange}
                 validationErrors={validationErrors} /></EditorField>
+            <EditorField label='Korosta valikossa'>
+              <EditorCheckbox
+                field='isEmphasized'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
           </Column>
         </Columns>
 
@@ -261,7 +267,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateNavItem: navItem => dispatch(siteNavigationActions.updateNavItem(navItem)),
   removeNavItem: navItem => dispatch(siteNavigationActions.removeNavItem(navItem)),
   fetchPages: () => dispatch(pageContentActions.fetchPages())
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationManager)

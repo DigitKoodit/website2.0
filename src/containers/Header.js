@@ -47,6 +47,7 @@ class Header extends PureComponent {
               title={item.title}
               key={item.id}
               path={item.path}
+              isEmphasized={item.isEmphasized}
               subItems={item.subItems && item.subItems.map(itemId => {
                 const subItem = find(navItems, { id: itemId })
                 return subItem && ({
