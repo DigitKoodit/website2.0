@@ -12,10 +12,12 @@ const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasi
       title={title}
       path={path}
       subItems={subItems} >
-      <p style={isEmphasized && { 
-        color: '#d4af37', // gold
-        fontWeight: 900
-       }}>
+      <p style={isEmphasized
+        ? {
+          color: '#d4af37', // gold
+          fontWeight: 900
+        }
+        : null}>
         {children || title}
       </p>
     </NavItem>
@@ -34,6 +36,7 @@ SiteNavbarItem.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
+  isEmphasized: PropTypes.bool,
   state: PropTypes.object
 }
 

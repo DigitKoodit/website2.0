@@ -166,7 +166,7 @@ class NavigationManager extends PureComponent {
                       const activeItem = !isNil(activeItemId) && findNavItemById(navItems, activeItemId)
                       return activeItem
                         ? this.renderEditor(activeItem, validationErrors)
-                        : `Yhteistyökumppania ei löytynyt`
+                        : `Sivua ei löytynyt`
                     }
                     } />
                   <Route render={() => <p>Valitse muokattava kohde listalta</p>} />
