@@ -16,7 +16,7 @@ const DesktopEvents = ({ days }) => (
     <hr />
     <Columns>
       {days.map(day => (
-        <Column className='pt-0'>
+        <Column className='pt-0' key={day.date}>
           {day.eventsSingleDay.map(renderSingleDayEvent)}
         </Column>
       ))}
@@ -42,14 +42,14 @@ const renderDayTitle = (event, index) => {
   )
 }
 
-const renderMultiDayEventsDesktop = firstThreeDays => {
-  const flatten = arr => arr[0]
-    ? arr[0].concat(arr[1]).concat(arr[2])
-    : []
+const flatten = arr => arr[0]
+  ? arr[0].concat(arr[1]).concat(arr[2])
+  : []
 
+const renderMultiDayEventsDesktop = firstThreeDays => {
   const eventsMultiDay = firstThreeDays.map(day => day.eventsMultiDay)
 
-  const eventsFlattened = flatten(eventsMultiDay)
+  const eventsFlattened = flatten(eventsMultiDay).filter(Boolean)
 
   const firstDay = firstThreeDays[0] && firstThreeDays[0].date
   const secondDay = firstThreeDays[1] && firstThreeDays[1].date
@@ -75,7 +75,7 @@ const renderMultiDayEventsDesktop = firstThreeDays => {
       return (
         <Column
           className={`multiday-event mt-3 is-paddingless ${columnLength} ${offset}`}
-          key={title}
+          key={`${title}_${index}`}
         >
           <BorderTriangle isVisible={before} color={color} side='left' />
           <div

@@ -8,11 +8,11 @@ const MobileEvents = ({ days }) => {
   return (
     <div className='is-hidden-desktop'>
       {days.map(({ date, eventsMultiDay, eventsSingleDay }) => (
-        <>
+        <React.Fragment key={date}>
           <h3>{moment(date).format('dddd DD.MM.')}</h3>
           {eventsMultiDay.map((event, idx) => renderAllDayEventMobile(event, date, idx))}
           {eventsSingleDay.map(renderSingleDayEvent)}
-        </>
+        </React.Fragment>
       ))}
     </div>
   )
@@ -34,7 +34,7 @@ const renderAllDayEventMobile = (event, date, index) => {
   const color = multidayEventcolor(index)
 
   return (
-    <div className='multiday-event pb-3' key={`${date}-${title}`}>
+    <div className='multiday-event pb-3' key={`${index}-${title}`}>
       <div className={`event-text-box mobile ${color}`}>
         {title}
         {length > 1
