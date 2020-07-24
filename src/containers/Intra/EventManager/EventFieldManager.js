@@ -67,7 +67,7 @@ class EventFieldManager extends Component {
 const FieldSelector = ({ onSelect }) => {
   const { types, options, base } = eventFieldTypes
   return (
-    <Fragment>
+    <>
       <Subtitle isSize='6'>Valittavat kentät</Subtitle>
       {types.map(type => {
         const model = { ...base, ...options[type] }
@@ -78,7 +78,9 @@ const FieldSelector = ({ onSelect }) => {
           {model.fieldName}
         </Button>
       })}
-    </Fragment >
+      <br />
+      <small className='has-text-grey-light'>Huom! Vain ensimmäisen "Valinta"-kentän kiintiöt vaikuttavat varasijoihin</small>
+    </ >
   )
 }
 FieldSelector.propTypes = {

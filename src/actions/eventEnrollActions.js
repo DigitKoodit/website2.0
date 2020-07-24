@@ -66,15 +66,11 @@ const eventEnrollActions = {
       const api = attemptAuthorizedRoute ? eventEnrollPrivateCrud : eventEnrollPublicCrud
       api.create(item, { eventId })
         .then(response => {
-          dispatch(this.success(response, crudTypes.CREATE))
           if(isNewlyCreated(item)) {
             dispatch(this.success(item, crudTypes.DELETE)) // remove temporary item
           }
-          if(response.isSpare) {
-            dispatch(displaySnackbar(`Ilmoittautuminen varasijalle onnistui`))
-          } else {
-            dispatch(displaySnackbar(`Ilmoittautuminen onnistui`))
-          }
+          dispatch(displaySnackbar(`Ilmoittautuminen onnistui`))
+          // }
           dispatch(this.fetchEventEnrolls(eventId))
           resolve()
         }).catch(err => {
