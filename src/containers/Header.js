@@ -48,6 +48,7 @@ class Header extends PureComponent {
               key={item.id}
               path={item.path}
               isEmphasized={item.isEmphasized}
+              isRedirect={item.isRedirect}
               subItems={item.subItems && item.subItems.map(itemId => {
                 const subItem = find(navItems, { id: itemId })
                 return subItem && ({
