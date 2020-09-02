@@ -17,7 +17,7 @@ const socialMediumsDefault = [
   },
   {
     name: 'Sähköposti',
-    link: 'https://lists.utu.fi/mailman/listinfo/digipiiri',
+    link: 'https://lists.utu.fi/mailman/listinfo/diginfo',
     faIcon: 'fa-envelope',
     faStyle: 'fas'
   }, {
