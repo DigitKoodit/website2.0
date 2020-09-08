@@ -55,10 +55,15 @@ const pageContentLoader = Children => {
     }
 
     render() {
-      const { sitePageId, loading } = this.props
+      const { sitePageId, loading, isExternal, externalPath } = this.props
       if(loading) {
         return null
       }
+
+      if(isExternal && externalPath) {
+        return window.location.href = externalPath
+      }
+
       if(!sitePageId) {
         return (
           <Suspense fallback={null}>
@@ -96,10 +101,15 @@ const pageContentLoader = Children => {
       }
     }
     const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
+    const isExternal = containingNavItem ? !!containingNavItem.isRedirect : false;
+    const externalPath = containingNavItem ? containingNavItem.externalPath : null;
+
     return {
       sitePageId,
       siteContent: sitePageId ? findSitePageById(state, sitePageId) : null,
-      loading
+      loading,
+      isExternal,
+      externalPath
     }
   }
   const mapDispatchToProps = dispatch => ({

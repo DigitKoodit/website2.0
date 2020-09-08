@@ -81,6 +81,16 @@ class NavigationManager extends PureComponent {
                 onChange={handleInputChange}
                 validationErrors={validationErrors} />
             </EditorField>
+            {item.isRedirect && (
+              <EditorField label='Ulkoinen polku'>
+                <EditorInput
+                  field='externalPath'
+                  model={item}
+                  onChange={handleInputChange}
+                  validationErrors={validationErrors}
+                />
+              </EditorField>
+            )}
             <EditorField label='Ylävalikko'>
               <ChooserModal
                 ref={this.chooserRef}
