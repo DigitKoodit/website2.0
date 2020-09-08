@@ -74,6 +74,13 @@ class NavigationManager extends PureComponent {
 
                 validationErrors={validationErrors} />
             </EditorField>
+            <EditorField label='Polku ulkopuoliselle sivulle'>
+              <EditorCheckbox
+                field='isRedirect'
+                model={item}
+                onChange={handleInputChange}
+                validationErrors={validationErrors} />
+            </EditorField>
             <EditorField label='Ylävalikko'>
               <ChooserModal
                 ref={this.chooserRef}

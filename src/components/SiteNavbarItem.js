@@ -3,9 +3,15 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { NavbarItem, NavbarDropdown } from 'bloomer'
 
-const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasized }) => {
+const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasized, isRedirect }) => {
   const hasSubitems = subItems.length > 0
   const NavItem = hasSubitems ? DropdownNavItem : SimpleNavItem
+
+  if(isRedirect) {
+    return (
+      <NavItem href={path.slice(1)} state={state} title={title}>{title}</NavItem>
+    )
+  }
   return (
     path ? <NavItem
       state={state}
@@ -40,11 +46,12 @@ SiteNavbarItem.propTypes = {
   state: PropTypes.object
 }
 
-const SimpleNavItem = ({ state, path, children }) =>
+const SimpleNavItem = ({ state, href, path, children }) =>
   <NavbarItem
     tag={NavLink}
     exact={path === '/'}
     activeClassName='nav-active'
+    href={href}
     to={{ pathname: path, state }} >
     {children}
   </NavbarItem>
