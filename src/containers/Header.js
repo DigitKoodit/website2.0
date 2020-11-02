@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import find from 'lodash/find'
@@ -10,75 +10,62 @@ import brandLogo from '../public/images/logo.svg'
 // import prideLogo from '../public/images/digit_pride.png'
 import { siteNavigationActions } from '../actions'
 import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
+import useToggle from '../hooks/useToggle'
 
-class Header extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.headerRef = createRef()
-  }
-  state = {
-    isBurgerMenuOpen: false
-  }
+const Header = ({ fetchNavigation, navItems }) => {
+  const headerRef = useRef()
+  const [isBurgerMenuOpen, { toggle: toggleBurgerMenu }] = useToggle()
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClick, false)
-    this.props.fetchNavigation()
-  }
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false)
-  }
-  handleClick = event =>
-    (this.headerRef.current.contains(event.target) || !this.state.isBurgerMenuOpen) ? null : this.handleBurgerClick()
+  console.log(headerRef)
+  const handleClick = useCallback(event =>
+    (headerRef.current.contains(event.target) || !isBurgerMenuOpen) ? null : toggleBurgerMenu()
+  , [isBurgerMenuOpen, toggleBurgerMenu])
 
-  handleBurgerClick = () => this.setState(prevState => ({ isBurgerMenuOpen: !prevState.isBurgerMenuOpen }))
+  useEffect(() => {
+    fetchNavigation()
+    document.addEventListener('mousedown', handleClick, false)
+    return () => {
+      document.removeEventListener('mousedown', handleClick, false)
+    }
+  }, [fetchNavigation, handleClick])
 
-  render() {
-    const { navItems } = this.props
-    const { isBurgerMenuOpen } = this.state
-
-    return (
-      <div ref={this.headerRef}>
-        <SiteNavbar
-          brand={renderBrand(this.handleBurgerClick, isBurgerMenuOpen)}
-          isActive={isBurgerMenuOpen}
-          onNavbarClick={this.handleBurgerClick} >
-          {navItems.filter(item => item && !item.parentId).map(item =>
-            <SiteNavbarItem
-              state={item}
-              title={item.title}
-              key={item.id}
-              path={item.path}
-              isEmphasized={item.isEmphasized}
-              isRedirect={item.isRedirect}
-              subItems={item.subItems && item.subItems.map(itemId => {
-                const subItem = find(navItems, { id: itemId })
-                return subItem && ({
-                  state: subItem,
-                  title: subItem.title,
-                  path: subItem.path
-                })
-              })}
-            />
-          )}
-          <SiteNavbarItem>
-            |
-          </SiteNavbarItem>
-          {/* <SiteNavbarItem
-            title='Hae'
-            path='/search'
-          >
-            <i className='fa fa-search site-icon action' aria-hidden='true' />
-          </SiteNavbarItem> */}
+  return (
+    <div ref={headerRef}>
+      <SiteNavbar
+        brand={renderBrand(toggleBurgerMenu, isBurgerMenuOpen)}
+        isActive={isBurgerMenuOpen}
+        onNavbarClick={toggleBurgerMenu} >
+        {navItems.filter(item => item && !item.parentId).map(item =>
           <SiteNavbarItem
-            title='Intra'
-            path='/intra'
-          >
-            <i className='fa fa-user site-icon action' aria-hidden='true' />
-          </SiteNavbarItem>
-        </SiteNavbar>
-      </div>
-    )
-  }
+            state={item}
+            title={item.title}
+            key={item.id}
+            path={item.path}
+            isEmphasized={item.isEmphasized}
+            isRedirect={item.isRedirect}
+            isCollapsible={isBurgerMenuOpen}
+            subItems={item.subItems && item.subItems.map(itemId => {
+              const subItem = find(navItems, { id: itemId })
+              return subItem && ({
+                state: subItem,
+                title: subItem.title,
+                path: subItem.path
+              })
+            })}
+          />
+        )}
+        <SiteNavbarItem>
+          |
+        </SiteNavbarItem>
+        <SiteNavbarItem
+          title='Intra'
+          path='/intra'
+        >
+          <i className='fa fa-user site-icon action' aria-hidden='true' />
+        </SiteNavbarItem>
+      </SiteNavbar>
+    </div>
+  )
 }
 
 Header.propTypes = {

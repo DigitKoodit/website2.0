@@ -83,6 +83,7 @@ export class ChooserModal extends PureComponent {
     selectedRenderer: PropTypes.func,
     nullable: PropTypes.bool,
     disabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
     onClose: PropTypes.func,
     onOpen: PropTypes.func
   }
