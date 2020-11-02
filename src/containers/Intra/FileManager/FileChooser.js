@@ -22,7 +22,7 @@ const FileChooser = ({ fetchFiles, files, isLoading, onSelect }) => {
         </>)}
       onSelect={file => {
         onSelect(file)
-        this.chooserRef.current && this.chooserRef.current.closeModal()
+        chooserRef.current && chooserRef.current.closeModal()
       }}
     />
   )

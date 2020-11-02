@@ -10,7 +10,7 @@ import { displayErrorMessage, isUnauthorized, parseResponseError } from './helpe
 const pageItemPublicCrud = createCrudService('/api/pages')
 const pageItemPrivateCrud = createCrudService('/api/intra/pages', true)
 
-const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', published: false, content: '' }
+const initialItem = { id: INITIAL_ID, title: 'Uusi', description: '', isHidden: false, content: '' }
 
 const pageContentActions = {
   pending: (crudType) => createAction(SITE_PAGE[crudType].PENDING),
