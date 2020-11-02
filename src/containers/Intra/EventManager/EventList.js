@@ -11,8 +11,8 @@ const EventList = ({ events, onItemClick }) => {
   const [isOpen, toggleIsOpen] = useState(false)
   const eventsReversed = [...events].reverse()
   const eventsShown = isOpen
-   ? eventsReversed 
-   : take(eventsReversed, NUMBER_OF_SHOWN_EVENTS)
+    ? eventsReversed
+    : take(eventsReversed, NUMBER_OF_SHOWN_EVENTS)
 
   return (
     <>

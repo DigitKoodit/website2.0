@@ -43,7 +43,8 @@ SiteNavbarItem.propTypes = {
     PropTypes.node
   ]),
   isEmphasized: PropTypes.bool,
-  state: PropTypes.object
+  state: PropTypes.object,
+  isRedirect: PropTypes.bool
 }
 
 const SimpleNavItem = ({ state, href, path, children }) =>
@@ -62,7 +63,8 @@ SimpleNavItem.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
-  state: PropTypes.object
+  state: PropTypes.object,
+  href: PropTypes.string
 }
 
 const DropdownNavItem = ({ state, path, subItems, children }) =>

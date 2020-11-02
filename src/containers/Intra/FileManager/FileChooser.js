@@ -8,7 +8,7 @@ export class FileChooser extends PureComponent {
   chooserRef = React.createRef()
 
   componentDidMount() {
-    this.props.fetchFiles()
+    this.props.fetchFiles() // TODO: fetch when opened
   }
 
   render() {
