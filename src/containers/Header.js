@@ -16,7 +16,6 @@ const Header = ({ fetchNavigation, navItems }) => {
   const headerRef = useRef()
   const [isBurgerMenuOpen, { toggle: toggleBurgerMenu }] = useToggle()
 
-  console.log(headerRef)
   const handleClick = useCallback(event =>
     (headerRef.current.contains(event.target) || !isBurgerMenuOpen) ? null : toggleBurgerMenu()
   , [isBurgerMenuOpen, toggleBurgerMenu])
@@ -43,7 +42,6 @@ const Header = ({ fetchNavigation, navItems }) => {
             path={item.path}
             isEmphasized={item.isEmphasized}
             isRedirect={item.isRedirect}
-            isCollapsible={isBurgerMenuOpen}
             subItems={item.subItems && item.subItems.map(itemId => {
               const subItem = find(navItems, { id: itemId })
               return subItem && ({

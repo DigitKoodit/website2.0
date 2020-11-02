@@ -4,8 +4,9 @@ import { NavLink } from 'react-router-dom'
 import { NavbarItem, NavbarDropdown } from 'bloomer'
 import { Button } from 'bloomer/lib/elements/Button'
 import useToggle from '../hooks/useToggle'
+import useWindowSize from '../hooks/useWindowSize'
 
-const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasized, isRedirect, isCollapsible }) => {
+const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasized, isRedirect }) => {
   const hasSubitems = subItems.length > 0
   const NavItem = hasSubitems ? DropdownNavItem : SimpleNavItem
 
@@ -13,7 +14,6 @@ const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasi
     return (
       <NavItem
         key={title}
-        isCollapsible={isCollapsible}
         href={path.slice(1)}
         state={state}
         title={title}
@@ -27,7 +27,6 @@ const SiteNavbarItem = ({ state, title, path, subItems = [], children, isEmphasi
       ? (
         <NavItem
           key={title}
-          isCollapsible={isCollapsible}
           state={state}
           title={title}
           path={path}
@@ -59,8 +58,7 @@ SiteNavbarItem.propTypes = {
   ]),
   isEmphasized: PropTypes.bool,
   state: PropTypes.object,
-  isRedirect: PropTypes.bool,
-  isCollapsible: PropTypes.bool
+  isRedirect: PropTypes.bool
 }
 
 const SimpleNavItem = ({ state, href, path, children }) =>
@@ -82,9 +80,12 @@ SimpleNavItem.propTypes = {
   state: PropTypes.object,
   href: PropTypes.string
 }
+const DESKTOP_WIDTH = 1087
+const DropdownNavItem = ({ state, path, subItems, children }) => {
+  const windowSize = useWindowSize()
+  const [isCollapsed, { toggle }] = useToggle(true)
 
-const DropdownNavItem = ({ state, path, subItems, children, isCollapsible }) => {
-  const [collapsed, { toggle }] = useToggle(true)
+  const showItems = (windowSize.width < DESKTOP_WIDTH && !isCollapsed) || windowSize.width >= DESKTOP_WIDTH
 
   const onIconPress = event => {
     event.stopPropagation()
@@ -92,9 +93,9 @@ const DropdownNavItem = ({ state, path, subItems, children, isCollapsible }) => 
     toggle()
   }
 
-  const icon = collapsed
-    ? 'fa fa-chevron-down'
-    : 'fa fa-chevron-up'
+  const icon = showItems
+    ? 'fa fa-chevron-up'
+    : 'fa fa-chevron-down'
   return (
     <NavbarItem hasDropdown isHoverable>
       <NavbarItem
@@ -103,15 +104,12 @@ const DropdownNavItem = ({ state, path, subItems, children, isCollapsible }) => 
         activeClassName='nav-active'
         to={{ pathname: path, state }} >
         {children}
-        {isCollapsible && (
-          <Button isInverted isColor='info' onClick={onIconPress}>
-            <i className={icon} />
-          </Button>
-        )}
+        <Button isInverted isColor='info' onClick={onIconPress} className='is-hidden-desktop'>
+          <i className={icon} />
+        </Button>
       </NavbarItem>
-      {collapsed
-        ? null
-        : (
+      {showItems
+        ? (
           <NavbarDropdown>
             {subItems.filter(item => !!item).map((item, index) => (
               <NavbarSubmenuItem
@@ -123,7 +121,9 @@ const DropdownNavItem = ({ state, path, subItems, children, isCollapsible }) => 
             ))
             }
           </NavbarDropdown>
-        )}
+        )
+        : null
+      }
     </NavbarItem>
   )
 }
@@ -138,8 +138,7 @@ DropdownNavItem.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
-  state: PropTypes.object,
-  isCollapsible: PropTypes.bool
+  state: PropTypes.object
 }
 
 const NavbarSubmenuItem = ({ state, title, path }) => (
