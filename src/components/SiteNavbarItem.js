@@ -109,19 +109,21 @@ const DropdownNavItem = ({ state, path, subItems, children, isCollapsible }) => 
           </Button>
         )}
       </NavbarItem>
-      <NavbarDropdown>
-        {collapsed
-          ? null
-          : subItems.filter(item => !!item).map((item, index) => (
-            <NavbarSubmenuItem
-              state={item}
-              key={index}
-              title={item.title}
-              path={path + item.path}
-            />
-          ))
-        }
-      </NavbarDropdown>
+      {collapsed
+        ? null
+        : (
+          <NavbarDropdown>
+            {subItems.filter(item => !!item).map((item, index) => (
+              <NavbarSubmenuItem
+                state={item}
+                key={index}
+                title={item.title}
+                path={path + item.path}
+              />
+            ))
+            }
+          </NavbarDropdown>
+        )}
     </NavbarItem>
   )
 }
