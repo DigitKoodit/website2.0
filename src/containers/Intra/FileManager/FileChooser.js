@@ -6,7 +6,6 @@ import { ChooserModal } from '../../../components/Modal'
 
 const FileChooser = ({ fetchFiles, files, isLoading, onSelect }) => {
   const chooserRef = useRef()
-  console.log(isLoading, files)
   return (
     <ChooserModal
       ref={chooserRef.current}

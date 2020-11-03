@@ -14,14 +14,6 @@ class SocialMediaFeed extends Component {
     }
   }
 
-  componentDidMount() {
-    // get('/api/facebook')
-    //   .then(res => {
-    //     console.log(res)
-    //     this.setState({ feed: res })
-    //   })
-  }
-
   render() {
     const posts = this.state.feed.posts.data
     // const pagePicture = this.state.feed.page.picture.data
