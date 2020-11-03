@@ -61,7 +61,8 @@ const pageContentLoader = Children => {
       }
 
       if(isExternal && externalPath) {
-        return window.location.href = externalPath
+        window.location.href = externalPath
+        return
       }
 
       if(!sitePageId) {
@@ -80,7 +81,9 @@ const pageContentLoader = Children => {
       content: PropTypes.string
     }),
     fetchPage: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    isExternal: PropTypes.bool,
+    externalPath: PropTypes.string
   }
   const mapStateToProps = (state, ownProps) => {
     const requestedSiteId = ownProps.location.state ? ownProps.location.state.sitePageId : null
@@ -101,8 +104,8 @@ const pageContentLoader = Children => {
       }
     }
     const sitePageId = requestedSiteId || (containingNavItem ? containingNavItem.sitePageId : null)
-    const isExternal = containingNavItem ? !!containingNavItem.isRedirect : false;
-    const externalPath = containingNavItem ? containingNavItem.externalPath : null;
+    const isExternal = containingNavItem ? !!containingNavItem.isRedirect : false
+    const externalPath = containingNavItem ? containingNavItem.externalPath : null
 
     return {
       sitePageId,

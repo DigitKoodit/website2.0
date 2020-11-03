@@ -14,6 +14,7 @@ import { findNavItemById, getNavItemsForChooser } from '../../selectors/navItemS
 import { findSitePageById } from '../../selectors/siteContentSelectors'
 import { INITIAL_ID } from '../../constants'
 import { isNewlyCreated, includesNewlyCreated, urlDisplayId } from '../../store/helpers'
+import { findPublicPages } from '../../selectors/pageSelectors'
 
 const rootPath = '/intra/cms/navigation'
 
@@ -267,7 +268,7 @@ const mapStateToProps = (state, ownProps) => ({
     sortByKeys: ['isPublished', 'showOnNavigation', 'title'],
     orders: ['desc', 'desc', 'asc']
   }),
-  pages: state.pages.records,
+  pages: findPublicPages(state),
   validationErrors: state.siteNavigation.error,
   closeEditor: () => ownProps.history.push(rootPath),
   openForEdit: activeItemId => ownProps.history.push(`${rootPath}/${activeItemId}`),

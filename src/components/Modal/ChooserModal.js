@@ -9,8 +9,14 @@ export class ChooserModal extends PureComponent {
     isOpen: false
   }
 
-  closeModal = () => this.setState({ isOpen: false })
-  openModal = () => this.setState({ isOpen: true })
+  closeModal = () => {
+    this.props.onClose && this.props.onClose()
+    this.setState({ isOpen: false })
+  }
+  openModal = () => {
+    this.props.onOpen && this.props.onOpen()
+    this.setState({ isOpen: true })
+  }
   handleSelect = item => {
     this.props.onSelect(item)
   }
@@ -24,7 +30,8 @@ export class ChooserModal extends PureComponent {
       selectedRenderer,
       placeholder = 'Ei valittu',
       nullable,
-      disabled
+      disabled,
+      isLoading
     } = this.props
     return (
       <>
@@ -36,6 +43,7 @@ export class ChooserModal extends PureComponent {
             <Media>
               <MediaContent>
                 <Title>{modalTitle}</Title>
+                {isLoading && 'Ladataan...'}
                 <VerticalList
                   items={dataSet}
                   listItemRenderer={item => (
@@ -74,7 +82,10 @@ export class ChooserModal extends PureComponent {
     onSelect: PropTypes.func.isRequired,
     selectedRenderer: PropTypes.func,
     nullable: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    onClose: PropTypes.func,
+    onOpen: PropTypes.func
   }
 }
 

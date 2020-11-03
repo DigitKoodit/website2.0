@@ -106,7 +106,6 @@ export class EnrollEventPage extends PureComponent {
     }
     const isFull = isEventFull(event, participants.length + spareParticipants.length)
     const eventErrorMessage = getPossibleEventError(this.props)
-    console.log(eventErrorMessage)
     return (
       <Base htmlTitle={`${event.name} - ${event.id} - Ilmoittaudu - Digit ry`} >
         <Column isSize={baseColumnSize}>

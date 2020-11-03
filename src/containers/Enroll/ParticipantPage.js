@@ -25,7 +25,7 @@ const ObjectFormatter = value => Object.entries(value)
   .filter(([key, value]) => !!value)
   .map(([key, value]) => `${key}, `)
 
-const compareArray = (oldArgs, newArgs) => console.log(oldArgs.length === newArgs.length) || oldArgs.length === newArgs.length
+const compareArray = (oldArgs, newArgs) => oldArgs.length === newArgs.length
 
 export class ParticipantPage extends PureComponent {
   state = {
@@ -37,7 +37,6 @@ export class ParticipantPage extends PureComponent {
   }
 
   parsePossibleColumns = enrolls => {
-    console.log(enrolls)
     const uniqFields = enrolls.reduce((accMap, enroll) => {
       Object.entries(enroll.values).forEach(([key, value]) =>
         accMap.set(key, isObject(value))
@@ -48,7 +47,6 @@ export class ParticipantPage extends PureComponent {
   }
 
   mapFieldsToColumnsSpecs = memoize(enrollFields => {
-    console.log(enrollFields)
     return mapToDataGrid([
       { name: 'id', title: 'ID', width: 60, editingEnabled: false },
       ...enrollFields.map(([key, isObject]) => ({

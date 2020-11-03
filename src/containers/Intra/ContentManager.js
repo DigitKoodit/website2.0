@@ -66,9 +66,9 @@ class ContentManager extends PureComponent {
                 onChange={handleInputChange}
                 validationErrors={validationErrors} />
             </EditorField>
-            <EditorField label='Julkinen'>
+            <EditorField label='Piilotettu' tooltipMessage='Ei valittavissa yläpalkkiin. Näkyy kuitenkin jos jo valittu'>
               <EditorCheckbox
-                field='isVisible'
+                field='isHidden'
                 model={item}
                 onChange={handleInputChange}
                 validationErrors={validationErrors} />
@@ -162,6 +162,9 @@ const ListItem = ({ item, onItemClick }) => (
   <li key={item.id} onClick={() => onItemClick(item.id)}>
     <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''}>
       {item.title}
+      {' '}
+      {item.isHidden && (
+        <i className='fa fa-eye-slash has-text-grey-light' aria-hidden='true' title='Piilotettu' />)}
     </MenuLink>
   </li>
 )
