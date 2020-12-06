@@ -16,7 +16,7 @@ const DesktopEvents = ({ days }) => (
     <hr />
     <Columns>
       {days.map(day => (
-        <Column className='pt-0' key={day.date}>
+        <Column className='pt-0' isSize='1/3' key={day.date}>
           {day.eventsSingleDay.map(renderSingleDayEvent)}
         </Column>
       ))}
