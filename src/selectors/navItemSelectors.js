@@ -21,5 +21,5 @@ export const getNavItemsForChooser = createCachedSelector(
   getNavItemFromArguments,
   (state, navItemId) => parseId(navItemId),
   (navItems, navItemId) =>
-    navItems.filter(navItem => navItem.id !== navItemId && !navItem.parentId)
+    navItems.filter(navItem => navItem.id !== navItemId) // TODO: prevent loops
 )((state, navItemId) => navItemId)

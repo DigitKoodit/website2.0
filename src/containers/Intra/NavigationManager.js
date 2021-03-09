@@ -230,7 +230,7 @@ const NavItemList = ({ items, originalItems, onItemClick }) => items.length > 0 
       <ListItem
         key={item.id}
         item={item}
-        items={originalItems.filter(subItem => subItem.parentId === item.id)}
+        items={originalItems}
         onItemClick={onItemClick}
       />
     )} />
@@ -241,6 +241,7 @@ const ListItem = ({ item, items, onItemClick }) => {
       ? ''
       : 'fa fa-eye-slash'
     : 'fa fa-ban'
+  const subItems = items.filter(subItem => subItem.parentId === item.id)
   return (
     <li key={item.id}>
       <MenuLink className={isNewlyCreated(item) ? 'has-background-info has-text-white-bis' : ''} onClick={() => onItemClick(item.id)} >
@@ -248,7 +249,7 @@ const ListItem = ({ item, items, onItemClick }) => {
       </MenuLink>
       {items.length > 0 && (
         <NavItemList
-          items={items}
+          items={subItems}
           originalItems={items}
           onItemClick={onItemClick} />
       )}

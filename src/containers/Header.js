@@ -5,11 +5,10 @@ import find from 'lodash/find'
 import SiteNavbar from './SiteNavbar'
 import SiteNavbarItem from '../components/SiteNavbarItem'
 import { connect } from 'react-redux'
-import { NavbarBrand, Image } from 'bloomer'
+import { NavbarBrand, Image, NavbarBurger} from 'bloomer'
 import brandLogo from '../public/images/logo.svg'
 // import prideLogo from '../public/images/digit_pride.png'
 import { siteNavigationActions } from '../actions'
-import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
 import useToggle from '../hooks/useToggle'
 
 const Header = ({ fetchNavigation, navItems }) => {
