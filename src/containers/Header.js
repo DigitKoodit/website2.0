@@ -6,8 +6,8 @@ import SiteNavbar from './SiteNavbar'
 import SiteNavbarItem from '../components/SiteNavbarItem'
 import { connect } from 'react-redux'
 import { NavbarBrand, Image } from 'bloomer'
-import brandLogo from '../public/images/logo.svg'
-// import prideLogo from '../public/images/digit_pride.png'
+//import brandLogo from '../public/images/logo.svg'
+import prideLogo from '../public/images/digit_pride.png'
 import { siteNavigationActions } from '../actions'
 import { NavbarBurger } from '../../node_modules/bloomer/lib/components/Navbar/NavbarBurger'
 import useToggle from '../hooks/useToggle'
@@ -78,7 +78,7 @@ Header.propTypes = {
 const renderBrand = (onBurgerClick, isActive) =>
   <NavbarBrand className='pr-1 p-3' >
     <Link to='/' className='mr-2'>
-      <Image isSize='32x32' src={brandLogo} alt='Digit ry' />
+      <Image isSize='32x32' src={prideLogo} alt='Digit ry' />
     </Link>
     <span className='is-size-7 is-hidden-desktop-only'>Turun yliopiston tietotekniikan opiskelijoiden kilta.<br />Teekkariperinteitä jo vuodesta 1999.</span>
     <NavbarBurger isActive={isActive} onClick={onBurgerClick} />
